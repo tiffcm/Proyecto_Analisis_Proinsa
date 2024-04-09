@@ -1,0 +1,544 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{23CC24ED-C7AD-499C-99EF-79221B6B050C}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Proinsa_Gestion_Personal</RootNamespace>
+    <AssemblyName>Proinsa_Gestion_Personal</AssemblyName>
+    <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort>44369</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.2.0.1\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.9\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.9\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.9\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.9\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.9\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.9\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ActividadesController.cs" />
+    <Compile Include="Controllers\AnunciosController.cs" />
+    <Compile Include="Controllers\AprobacionesController.cs" />
+    <Compile Include="Controllers\CapacitacionesController.cs" />
+    <Compile Include="Controllers\DocumentosController.cs" />
+    <Compile Include="Controllers\EncuestasController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InicioController.cs" />
+    <Compile Include="Controllers\NominasController.cs" />
+    <Compile Include="Controllers\ReportesController.cs" />
+    <Compile Include="Controllers\SolicitudesController.cs" />
+    <Compile Include="Controllers\UsuariosController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-grid.css" />
+    <Content Include="Content\bootstrap-grid.min.css" />
+    <Content Include="Content\bootstrap-grid.rtl.css" />
+    <Content Include="Content\bootstrap-grid.rtl.min.css" />
+    <Content Include="Content\bootstrap-reboot.css" />
+    <Content Include="Content\bootstrap-reboot.min.css" />
+    <Content Include="Content\bootstrap-reboot.rtl.css" />
+    <Content Include="Content\bootstrap-reboot.rtl.min.css" />
+    <Content Include="Content\bootstrap-utilities.css" />
+    <Content Include="Content\bootstrap-utilities.min.css" />
+    <Content Include="Content\bootstrap-utilities.rtl.css" />
+    <Content Include="Content\bootstrap-utilities.rtl.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap.rtl.css" />
+    <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Estilos\css\app-creative-dark-rtl.min.css" />
+    <Content Include="Estilos\css\app-creative-dark.css" />
+    <Content Include="Estilos\css\app-creative-dark.min.css" />
+    <Content Include="Estilos\css\app-creative-rtl.min.css" />
+    <Content Include="Estilos\css\app-creative.css" />
+    <Content Include="Estilos\css\app-creative.min.css" />
+    <Content Include="Estilos\css\app-dark-rtl.min.css" />
+    <Content Include="Estilos\css\app-dark.css" />
+    <Content Include="Estilos\css\app-dark.min-respaldo.css" />
+    <Content Include="Estilos\css\app-dark.min.css" />
+    <Content Include="Estilos\css\app-modern-dark-rtl.min.css" />
+    <Content Include="Estilos\css\app-modern-dark.css" />
+    <Content Include="Estilos\css\app-modern-dark.min.css" />
+    <Content Include="Estilos\css\app-modern-rtl.min.css" />
+    <Content Include="Estilos\css\app-modern.css" />
+    <Content Include="Estilos\css\app-modern.min.css" />
+    <Content Include="Estilos\css\app-rtl.min.css" />
+    <Content Include="Estilos\css\app.css" />
+    <Content Include="Estilos\css\app.min.css" />
+    <Content Include="Estilos\css\icons-rtl.min.css" />
+    <Content Include="Estilos\css\icons.css" />
+    <Content Include="Estilos\css\icons.min.css" />
+    <Content Include="Estilos\css\jquery.toast.min.css" />
+    <Content Include="Estilos\css\vendor\32px.png" />
+    <Content Include="Estilos\css\vendor\britecharts.min.css" />
+    <Content Include="Estilos\css\vendor\buttons.bootstrap5.css" />
+    <Content Include="Estilos\css\vendor\dataTables.bootstrap5.css" />
+    <Content Include="Estilos\css\vendor\frappe-gantt.css" />
+    <Content Include="Estilos\css\vendor\fullcalendar.min.css" />
+    <Content Include="Estilos\css\vendor\jquery-jvectormap-1.2.2.css" />
+    <Content Include="Estilos\css\vendor\jstree.min.css" />
+    <Content Include="Estilos\css\vendor\quill.bubble.css" />
+    <Content Include="Estilos\css\vendor\quill.core.css" />
+    <Content Include="Estilos\css\vendor\quill.snow.css" />
+    <Content Include="Estilos\css\vendor\responsive.bootstrap5.css" />
+    <Content Include="Estilos\css\vendor\select.bootstrap5.css" />
+    <Content Include="Estilos\css\vendor\simplemde.min.css" />
+    <Content Include="Estilos\css\vendor\throbber.gif" />
+    <Content Include="Estilos\fonts\dripicons-v2.svg" />
+    <Content Include="Estilos\fonts\Nunito-Bold.svg" />
+    <Content Include="Estilos\fonts\Nunito-Light.svg" />
+    <Content Include="Estilos\fonts\Nunito-Regular.svg" />
+    <Content Include="Estilos\fonts\Nunito-SemiBold.svg" />
+    <Content Include="Estilos\fonts\unicons.svg" />
+    <Content Include="Estilos\images\attached-files\img-1.jpg" />
+    <Content Include="Estilos\images\attached-files\img-2.jpg" />
+    <Content Include="Estilos\images\attached-files\img-3.jpg" />
+    <Content Include="Estilos\images\barcode.png" />
+    <Content Include="Estilos\images\bg-auth.jpg" />
+    <Content Include="Estilos\images\bg-auth2.jpg" />
+    <Content Include="Estilos\images\bg-pattern-dark.png" />
+    <Content Include="Estilos\images\bg-pattern-light.svg" />
+    <Content Include="Estilos\images\bg-pattern.png" />
+    <Content Include="Estilos\images\brands\bitbucket.png" />
+    <Content Include="Estilos\images\brands\dribbble.png" />
+    <Content Include="Estilos\images\brands\dropbox.png" />
+    <Content Include="Estilos\images\brands\g-suite.png" />
+    <Content Include="Estilos\images\brands\github.png" />
+    <Content Include="Estilos\images\brands\slack.png" />
+    <Content Include="Estilos\images\email-campaign.svg" />
+    <Content Include="Estilos\images\favicon.ico" />
+    <Content Include="Estilos\images\features-1.svg" />
+    <Content Include="Estilos\images\features-2.svg" />
+    <Content Include="Estilos\images\file-searching.svg" />
+    <Content Include="Estilos\images\flags\french.jpg" />
+    <Content Include="Estilos\images\flags\germany.jpg" />
+    <Content Include="Estilos\images\flags\italy.jpg" />
+    <Content Include="Estilos\images\flags\portugal.jpg" />
+    <Content Include="Estilos\images\flags\russia.jpg" />
+    <Content Include="Estilos\images\flags\spain.jpg" />
+    <Content Include="Estilos\images\flags\us.jpg" />
+    <Content Include="Estilos\images\help-icon.svg" />
+    <Content Include="Estilos\images\ico-instagram.png" />
+    <Content Include="Estilos\images\ico-messenger.png" />
+    <Content Include="Estilos\images\layouts\layout-1.png" />
+    <Content Include="Estilos\images\layouts\layout-2.png" />
+    <Content Include="Estilos\images\layouts\layout-3.png" />
+    <Content Include="Estilos\images\layouts\layout-4.png" />
+    <Content Include="Estilos\images\layouts\layout-5.png" />
+    <Content Include="Estilos\images\layouts\layout-6.png" />
+    <Content Include="Estilos\images\logo-about.png" />
+    <Content Include="Estilos\images\logo-dark.png" />
+    <Content Include="Estilos\images\logo-light.png" />
+    <Content Include="Estilos\images\logo.png" />
+    <Content Include="Estilos\images\Logo_Nuevo.png" />
+    <Content Include="Estilos\images\Logo_Proinsa.png" />
+    <Content Include="Estilos\images\logo_sm.png" />
+    <Content Include="Estilos\images\logo_sm_dark.png" />
+    <Content Include="Estilos\images\mail_sent.svg" />
+    <Content Include="Estilos\images\maintenance.svg" />
+    <Content Include="Estilos\images\payments\amazon.png" />
+    <Content Include="Estilos\images\payments\american-express.png" />
+    <Content Include="Estilos\images\payments\btc.png" />
+    <Content Include="Estilos\images\payments\citi.png" />
+    <Content Include="Estilos\images\payments\cod.png" />
+    <Content Include="Estilos\images\payments\discover.png" />
+    <Content Include="Estilos\images\payments\master.png" />
+    <Content Include="Estilos\images\payments\payoneer.png" />
+    <Content Include="Estilos\images\payments\paypal.png" />
+    <Content Include="Estilos\images\payments\stripe.png" />
+    <Content Include="Estilos\images\payments\visa.png" />
+    <Content Include="Estilos\images\products\product-1.jpg" />
+    <Content Include="Estilos\images\products\product-2.jpg" />
+    <Content Include="Estilos\images\products\product-3.jpg" />
+    <Content Include="Estilos\images\products\product-4.jpg" />
+    <Content Include="Estilos\images\products\product-5.jpg" />
+    <Content Include="Estilos\images\products\product-6.jpg" />
+    <Content Include="Estilos\images\projects\project-1.jpg" />
+    <Content Include="Estilos\images\projects\project-2.jpg" />
+    <Content Include="Estilos\images\projects\project-3.jpg" />
+    <Content Include="Estilos\images\projects\project-4.jpg" />
+    <Content Include="Estilos\images\report.svg" />
+    <Content Include="Estilos\images\small\small-1.jpg" />
+    <Content Include="Estilos\images\small\small-2.jpg" />
+    <Content Include="Estilos\images\small\small-3.jpg" />
+    <Content Include="Estilos\images\small\small-4.jpg" />
+    <Content Include="Estilos\images\startman.svg" />
+    <Content Include="Estilos\images\startup.svg" />
+    <Content Include="Estilos\images\users\avatar-1.jpg" />
+    <Content Include="Estilos\images\users\avatar-10.jpg" />
+    <Content Include="Estilos\images\users\avatar-2.jpg" />
+    <Content Include="Estilos\images\users\avatar-3.jpg" />
+    <Content Include="Estilos\images\users\avatar-4.jpg" />
+    <Content Include="Estilos\images\users\avatar-5.jpg" />
+    <Content Include="Estilos\images\users\avatar-6.jpg" />
+    <Content Include="Estilos\images\users\avatar-7.jpg" />
+    <Content Include="Estilos\images\users\avatar-8.jpg" />
+    <Content Include="Estilos\images\users\avatar-9.jpg" />
+    <Content Include="Estilos\images\waves.png" />
+    <Content Include="Estilos\js\app.js" />
+    <Content Include="Estilos\js\app.min.js" />
+    <Content Include="Estilos\js\jquery.toast.min.js" />
+    <Content Include="Estilos\js\moment.min.js" />
+    <Content Include="Estilos\js\pages\demo.apex-area.js" />
+    <Content Include="Estilos\js\pages\demo.apex-bar.js" />
+    <Content Include="Estilos\js\pages\demo.apex-bubble.js" />
+    <Content Include="Estilos\js\pages\demo.apex-candlestick.js" />
+    <Content Include="Estilos\js\pages\demo.apex-column.js" />
+    <Content Include="Estilos\js\pages\demo.apex-heatmap.js" />
+    <Content Include="Estilos\js\pages\demo.apex-line.js" />
+    <Content Include="Estilos\js\pages\demo.apex-mixed.js" />
+    <Content Include="Estilos\js\pages\demo.apex-pie.js" />
+    <Content Include="Estilos\js\pages\demo.apex-radar.js" />
+    <Content Include="Estilos\js\pages\demo.apex-radialbar.js" />
+    <Content Include="Estilos\js\pages\demo.apex-scatter.js" />
+    <Content Include="Estilos\js\pages\demo.apex-sparklines.js" />
+    <Content Include="Estilos\js\pages\demo.britechart.js" />
+    <Content Include="Estilos\js\pages\demo.calendar.js" />
+    <Content Include="Estilos\js\pages\demo.chartjs.js" />
+    <Content Include="Estilos\js\pages\demo.customers.js" />
+    <Content Include="Estilos\js\pages\demo.dashboard-analytics.js" />
+    <Content Include="Estilos\js\pages\demo.dashboard-crm.js" />
+    <Content Include="Estilos\js\pages\demo.dashboard-projects.js" />
+    <Content Include="Estilos\js\pages\demo.dashboard.js" />
+    <Content Include="Estilos\js\pages\demo.datatable-init.js" />
+    <Content Include="Estilos\js\pages\demo.form-wizard.js" />
+    <Content Include="Estilos\js\pages\demo.google-maps.js" />
+    <Content Include="Estilos\js\pages\demo.inbox.js" />
+    <Content Include="Estilos\js\pages\demo.jstree.js" />
+    <Content Include="Estilos\js\pages\demo.materialdesignicons.js" />
+    <Content Include="Estilos\js\pages\demo.products.js" />
+    <Content Include="Estilos\js\pages\demo.profile.js" />
+    <Content Include="Estilos\js\pages\demo.project-detail.js" />
+    <Content Include="Estilos\js\pages\demo.project-gantt.js" />
+    <Content Include="Estilos\js\pages\demo.quilljs.js" />
+    <Content Include="Estilos\js\pages\demo.sellers.js" />
+    <Content Include="Estilos\js\pages\demo.simplemde.js" />
+    <Content Include="Estilos\js\pages\demo.sparkline.js" />
+    <Content Include="Estilos\js\pages\demo.tasks.js" />
+    <Content Include="Estilos\js\pages\demo.timepicker.js" />
+    <Content Include="Estilos\js\pages\demo.toastr.js" />
+    <Content Include="Estilos\js\pages\demo.typehead.js" />
+    <Content Include="Estilos\js\pages\demo.vector-maps.js" />
+    <Content Include="Estilos\js\pages\demo.widgets.js" />
+    <Content Include="Estilos\js\ui\component.chat.js" />
+    <Content Include="Estilos\js\ui\component.dragula.js" />
+    <Content Include="Estilos\js\ui\component.fileupload.js" />
+    <Content Include="Estilos\js\ui\component.range-slider.js" />
+    <Content Include="Estilos\js\ui\component.rating.js" />
+    <Content Include="Estilos\js\ui\component.scrollbar.js" />
+    <Content Include="Estilos\js\ui\component.todo.js" />
+    <Content Include="Estilos\js\vendor.js" />
+    <Content Include="Estilos\js\vendor.min.js" />
+    <Content Include="Estilos\js\vendor\apexcharts.min.js" />
+    <Content Include="Estilos\js\vendor\bootstrap-datepicker.min.js" />
+    <Content Include="Estilos\js\vendor\britecharts.min.js" />
+    <Content Include="Estilos\js\vendor\buttons.bootstrap5.min.js" />
+    <Content Include="Estilos\js\vendor\buttons.flash.min.js" />
+    <Content Include="Estilos\js\vendor\buttons.html5.min.js" />
+    <Content Include="Estilos\js\vendor\buttons.print.min.js" />
+    <Content Include="Estilos\js\vendor\Chart.bundle.min.js" />
+    <Content Include="Estilos\js\vendor\d3.min.js" />
+    <Content Include="Estilos\js\vendor\dataTables.bootstrap5.js" />
+    <Content Include="Estilos\js\vendor\dataTables.buttons.min.js" />
+    <Content Include="Estilos\js\vendor\dataTables.checkboxes.min.js" />
+    <Content Include="Estilos\js\vendor\dataTables.keyTable.min.js" />
+    <Content Include="Estilos\js\vendor\dataTables.responsive.min.js" />
+    <Content Include="Estilos\js\vendor\dataTables.select.min.js" />
+    <Content Include="Estilos\js\vendor\dragula.min.js" />
+    <Content Include="Estilos\js\vendor\dropzone.min.js" />
+    <Content Include="Estilos\js\vendor\frappe-gantt.min.js" />
+    <Content Include="Estilos\js\vendor\fullcalendar.min.js" />
+    <Content Include="Estilos\js\vendor\gmaps.min.js" />
+    <Content Include="Estilos\js\vendor\handlebars.min.js" />
+    <Content Include="Estilos\js\vendor\ion.rangeSlider.min.js" />
+    <Content Include="Estilos\js\vendor\jquery-jvectormap-1.2.2.min.js" />
+    <Content Include="Estilos\js\vendor\jquery-jvectormap-au-mill-en.js" />
+    <Content Include="Estilos\js\vendor\jquery-jvectormap-ca-lcc-en.js" />
+    <Content Include="Estilos\js\vendor\jquery-jvectormap-es-merc.js" />
+    <Content Include="Estilos\js\vendor\jquery-jvectormap-es-mill.js" />
+    <Content Include="Estilos\js\vendor\jquery-jvectormap-europe-mill-en.js" />
+    <Content Include="Estilos\js\vendor\jquery-jvectormap-fr-merc-en.js" />
+    <Content Include="Estilos\js\vendor\jquery-jvectormap-in-mill-en.js" />
+    <Content Include="Estilos\js\vendor\jquery-jvectormap-uk-mill-en.js" />
+    <Content Include="Estilos\js\vendor\jquery-jvectormap-us-il-chicago-mill-en.js" />
+    <Content Include="Estilos\js\vendor\jquery-jvectormap-us-merc-en.js" />
+    <Content Include="Estilos\js\vendor\jquery-jvectormap-world-mill-en.js" />
+    <Content Include="Estilos\js\vendor\jquery-ui.min.js" />
+    <Content Include="Estilos\js\vendor\jquery.dataTables.min.js" />
+    <Content Include="Estilos\js\vendor\jquery.rateit.min.js" />
+    <Content Include="Estilos\js\vendor\jquery.sparkline.min.js" />
+    <Content Include="Estilos\js\vendor\jstree.min.js" />
+    <Content Include="Estilos\js\vendor\quill.min.js" />
+    <Content Include="Estilos\js\vendor\responsive.bootstrap5.min.js" />
+    <Content Include="Estilos\js\vendor\simplemde.min.js" />
+    <Content Include="Estilos\js\vendor\typeahead.bundle.min.js" />
+    <Content Include="Estilos\Styles\coloris.min.css" />
+    <Content Include="Estilos\Styles\style.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Scripts\bootstrap.bundle.js" />
+    <Content Include="Scripts\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\bootstrap.esm.js" />
+    <Content Include="Scripts\bootstrap.esm.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Estilos\css\app-creative-dark-rtl.min.css.map" />
+    <Content Include="Estilos\css\app-creative-dark.min.css.map" />
+    <Content Include="Estilos\css\app-creative-rtl.min.css.map" />
+    <Content Include="Estilos\css\app-creative.min.css.map" />
+    <Content Include="Estilos\css\app-dark-rtl.min.css.map" />
+    <Content Include="Estilos\css\app-dark.min.css.map" />
+    <Content Include="Estilos\css\app-modern-dark-rtl.min.css.map" />
+    <Content Include="Estilos\css\app-modern-dark.min.css.map" />
+    <Content Include="Estilos\css\app-modern-rtl.min.css.map" />
+    <Content Include="Estilos\css\app-modern.min.css.map" />
+    <Content Include="Estilos\css\app-rtl.min.css.map" />
+    <Content Include="Estilos\css\app.min.css.map" />
+    <Content Include="Estilos\css\icons-rtl.min.css.map" />
+    <Content Include="Estilos\css\icons.min.css.map" />
+    <Content Include="Estilos\data\vendor\ajax_demo_children.json" />
+    <Content Include="Estilos\fonts\dripicons-v2.eot" />
+    <Content Include="Estilos\fonts\dripicons-v2.ttf" />
+    <Content Include="Estilos\fonts\dripicons-v2.woff" />
+    <Content Include="Estilos\fonts\materialdesignicons-webfont.eot" />
+    <Content Include="Estilos\fonts\materialdesignicons-webfont.ttf" />
+    <Content Include="Estilos\fonts\materialdesignicons-webfont.woff" />
+    <Content Include="Estilos\fonts\materialdesignicons-webfont.woff2" />
+    <Content Include="Estilos\fonts\Nunito-Bold.eot" />
+    <Content Include="Estilos\fonts\Nunito-Bold.ttf" />
+    <Content Include="Estilos\fonts\Nunito-Bold.woff" />
+    <Content Include="Estilos\fonts\Nunito-Light.eot" />
+    <Content Include="Estilos\fonts\Nunito-Light.ttf" />
+    <Content Include="Estilos\fonts\Nunito-Light.woff" />
+    <Content Include="Estilos\fonts\Nunito-Light.woff2" />
+    <Content Include="Estilos\fonts\Nunito-Regular.eot" />
+    <Content Include="Estilos\fonts\Nunito-Regular.ttf" />
+    <Content Include="Estilos\fonts\Nunito-Regular.woff" />
+    <Content Include="Estilos\fonts\Nunito-SemiBold.eot" />
+    <Content Include="Estilos\fonts\Nunito-SemiBold.ttf" />
+    <Content Include="Estilos\fonts\Nunito-SemiBold.woff" />
+    <Content Include="Estilos\fonts\unicons.eot" />
+    <Content Include="Estilos\fonts\unicons.ttf" />
+    <Content Include="Estilos\fonts\unicons.woff" />
+    <Content Include="Estilos\fonts\unicons.woff2" />
+    <Content Include="Estilos\js\app.min.js.map" />
+    <Content Include="Estilos\js\vendor.min.js.map" />
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\_Layout_Inicio.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Models\" />
+    <Folder Include="Views\Actividades\" />
+    <Folder Include="Views\Anuncios\" />
+    <Folder Include="Views\Aprobaciones\" />
+    <Folder Include="Views\Capacitaciones\" />
+    <Folder Include="Views\Documentos\" />
+    <Folder Include="Views\Encuestas\" />
+    <Folder Include="Views\Inicio\" />
+    <Folder Include="Views\Nominas\" />
+    <Folder Include="Views\Reportes\" />
+    <Folder Include="Views\Solicitudes\" />
+    <Folder Include="Views\Usuarios\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap.rtl.min.css.map" />
+    <Content Include="Content\bootstrap.rtl.css.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-utilities.rtl.min.css.map" />
+    <Content Include="Content\bootstrap-utilities.rtl.css.map" />
+    <Content Include="Content\bootstrap-utilities.min.css.map" />
+    <Content Include="Content\bootstrap-utilities.css.map" />
+    <Content Include="Content\bootstrap-reboot.rtl.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.rtl.css.map" />
+    <Content Include="Content\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.css.map" />
+    <Content Include="Content\bootstrap-grid.rtl.min.css.map" />
+    <Content Include="Content\bootstrap-grid.rtl.css.map" />
+    <Content Include="Content\bootstrap-grid.min.css.map" />
+    <Content Include="Content\bootstrap-grid.css.map" />
+    <None Include="packages.config" />
+    <Content Include="Scripts\bootstrap.min.js.map" />
+    <Content Include="Scripts\bootstrap.js.map" />
+    <Content Include="Scripts\bootstrap.esm.min.js.map" />
+    <Content Include="Scripts\bootstrap.esm.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>58130</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>https://localhost:44369/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>
