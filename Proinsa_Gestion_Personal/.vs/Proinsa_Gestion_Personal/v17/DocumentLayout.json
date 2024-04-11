@@ -5,10 +5,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{23CC24ED-C7AD-499C-99EF-79221B6B050C}|Proinsa_Gestion_Personal\\Proinsa_Gestion_Personal.csproj|a:\\proinsa\\proyecto_analisis_proinsa\\proinsa_gestion_personal\\proinsa_gestion_personal\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{23CC24ED-C7AD-499C-99EF-79221B6B050C}|Proinsa_Gestion_Personal\\Proinsa_Gestion_Personal.csproj|solutionrelative:proinsa_gestion_personal\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{23CC24ED-C7AD-499C-99EF-79221B6B050C}|Proinsa_Gestion_Personal\\Proinsa_Gestion_Personal.csproj|a:\\proinsa\\proyecto_analisis_proinsa\\proinsa_gestion_personal\\proinsa_gestion_personal\\estilos\\js\\app.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{23CC24ED-C7AD-499C-99EF-79221B6B050C}|Proinsa_Gestion_Personal\\Proinsa_Gestion_Personal.csproj|solutionrelative:proinsa_gestion_personal\\estilos\\js\\app.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -42,26 +38,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "app.js",
-              "DocumentMoniker": "A:\\Proinsa\\Proyecto_Analisis_Proinsa\\Proinsa_Gestion_Personal\\Proinsa_Gestion_Personal\\Estilos\\js\\app.js",
-              "RelativeDocumentMoniker": "Proinsa_Gestion_Personal\\Estilos\\js\\app.js",
-              "ToolTip": "A:\\Proinsa\\Proyecto_Analisis_Proinsa\\Proinsa_Gestion_Personal\\Proinsa_Gestion_Personal\\Estilos\\js\\app.js",
-              "RelativeToolTip": "Proinsa_Gestion_Personal\\Estilos\\js\\app.js",
-              "ViewState": "AQIAAAYFAAAAAAAAAAAAABQFAAAqAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2024-04-09T02:44:21.359Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "A:\\Proinsa\\Proyecto_Analisis_Proinsa\\Proinsa_Gestion_Personal\\Proinsa_Gestion_Personal\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "Proinsa_Gestion_Personal\\Views\\Shared\\_Layout.cshtml",
               "ToolTip": "A:\\Proinsa\\Proyecto_Analisis_Proinsa\\Proinsa_Gestion_Personal\\Proinsa_Gestion_Personal\\Views\\Shared\\_Layout.cshtml",
               "RelativeToolTip": "Proinsa_Gestion_Personal\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsCAABLAAAA",
+              "ViewState": "AQIAAOYBAAAAAAAAAAAAAAwCAAAdAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-04-09T01:32:18.319Z",
               "EditorCaption": ""
