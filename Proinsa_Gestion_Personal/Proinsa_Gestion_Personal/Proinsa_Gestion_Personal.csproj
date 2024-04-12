@@ -177,6 +177,7 @@
     <Content Include="Estilos\css\icons.css" />
     <Content Include="Estilos\css\icons.min.css" />
     <Content Include="Estilos\css\jquery.toast.min.css" />
+    <Content Include="Estilos\css\login.css" />
     <Content Include="Estilos\css\vendor\32px.png" />
     <Content Include="Estilos\css\vendor\britecharts.min.css" />
     <Content Include="Estilos\css\vendor\buttons.bootstrap5.css" />
@@ -328,6 +329,7 @@
     <Content Include="Estilos\js\pages\demo.typehead.js" />
     <Content Include="Estilos\js\pages\demo.vector-maps.js" />
     <Content Include="Estilos\js\pages\demo.widgets.js" />
+    <Content Include="Estilos\js\pruebas.js" />
     <Content Include="Estilos\js\ui\component.chat.js" />
     <Content Include="Estilos\js\ui\component.dragula.js" />
     <Content Include="Estilos\js\ui\component.fileupload.js" />
@@ -460,6 +462,11 @@
     <Content Include="Views\Shared\_Layout_Inicio.cshtml" />
     <Content Include="Views\Nominas\Ingresos.cshtml" />
     <Content Include="Views\Nominas\Deducciones.cshtml" />
+    <Content Include="Views\Inicio\IniciarSesion.cshtml" />
+    <Content Include="Views\Usuarios\MiCuenta.cshtml" />
+    <Content Include="Views\Usuarios\RegistrarUsuario.cshtml" />
+    <Content Include="Views\Usuarios\AdministrarUsuarios.cshtml" />
+    <Content Include="Views\Inicio\RecuperarContrasenna.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -470,10 +477,8 @@
     <Folder Include="Views\Capacitaciones\" />
     <Folder Include="Views\Documentos\" />
     <Folder Include="Views\Encuestas\" />
-    <Folder Include="Views\Inicio\" />
     <Folder Include="Views\Reportes\" />
     <Folder Include="Views\Solicitudes\" />
-    <Folder Include="Views\Usuarios\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
