@@ -8,8 +8,20 @@ namespace Proinsa_Gestion_Personal.Controllers
 {
     public class EncuestasController : Controller
     {
-        // GET: Encuestas
-        public ActionResult Index()
+        [HttpGet]
+        public ActionResult CrearEncuesta()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult LlenarEncuesta()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult InformeEncuesta()
         {
             return View();
         }

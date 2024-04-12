@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "CrearEncuesta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Navegacion {
+
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Gestión de Personal</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Encuesta</a></li>
+                        <li class="breadcrumb-item active">Crear Encuesta</li>
+                    </ol>
+                </div>
+                <h4 class="page-title">Crear Encuesta</h4>
+            </div>
+        </div>
+    </div>
+}
+
+<h1>Bienvenido a nuestra guía sobre cómo crear una encuesta y extraer el iframe en HTML:</h1>
+
+<h2>1. Crear una Encuesta:</h2>
+<p>Para comenzar, puedes utilizar herramientas en línea como Google Forms. Ve a la página de Google Forms haciendo clic en este <a href="https://docs.google.com/forms/u/0/?tgif=d&ec=asw-forms-hero-goto" target="_blank">enlace</a> y asegúrate de haber iniciado sesión en tu cuenta de Google. Una vez allí, sigue estos pasos:</p>
+<ol>
+    <li>Haz clic en el botón "+ Crear" para comenzar una nueva encuesta.</li>
+    <li>Selecciona el tipo de pregunta que deseas agregar, como opción múltiple, casilla de verificación, respuesta corta, etc.</li>
+    <li>Escribe tu pregunta y configura las opciones de respuesta según sea necesario.</li>
+    <li>Continúa agregando todas las preguntas que desees incluir en tu encuesta.</li>
+    <li>Personaliza el diseño y las opciones de envío según tus preferencias.</li>
+    <li>Finalmente, haz clic en "Enviar" para guardar tu encuesta y obtener el enlace o el código iframe para incrustarla en tu sitio web.</li>
+</ol>
+
+<h2>2. Extraer el Iframe en HTML:</h2>
+<p>Después de crear tu encuesta en Google Forms y haberla guardado, puedes obtener el código iframe para insertarla en tu página web. Sigue estos pasos para extraer el iframe:</p>
+<ol>
+    <li>Abre tu encuesta en Google Forms.</li>
+    <li>Haz clic en el botón de menú (tres puntos verticales) en la esquina superior derecha de la pantalla de la encuesta.</li>
+    <li>Selecciona la opción "Incrustar" en el menú desplegable.</li>
+    <li>Se abrirá una ventana emergente con el código HTML para incrustar tu encuesta. Copia el código iframe proporcionado.</li>
+</ol>
+
+<h2>3. Pegar el iframe en el siguiente campo:</h2>
+<p>Puedes obtener el iframe para insertarlo en la página web para que los colaboradores puedan completarla</p>
+<ol>
+    <li>Ahora, dirígete al código HTML de tu página web donde deseas insertar la encuesta.</li>
+    <li>Pega el código iframe que copiaste dentro de las etiquetas &lt;iframe&gt;&lt;/iframe&gt; en la caja de texto siguiente.</li>
+</ol>
+<form>
+    <div class="mb-12">
+        <label for="formGroupExampleInput" class="form-label">Example label</label>
+        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input placeholder">
+    </div>
+    <br />
+    <div class="col-12">
+        <button id="exitoso" type="submit" class="btn btn-primary">Guardar enlace</button>
+    </div>
+</form>

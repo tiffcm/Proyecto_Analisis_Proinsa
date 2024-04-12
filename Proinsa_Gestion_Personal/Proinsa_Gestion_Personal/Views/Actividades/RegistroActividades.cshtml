@@ -1,0 +1,75 @@
+﻿
+@{
+    ViewBag.Title = "RegistroActividades";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Navegacion {
+
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Gestión de Personal</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Actividades</a></li>
+                        <li class="breadcrumb-item active">Registrar Actividades</li>
+                    </ol>
+                </div>
+                <h4 class="page-title">Registrar Actividades</h4>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="row g-3">
+    <form class="row g-3">
+        <div class="col-6">
+            <label for="inputId" class="form-label">Identificación</label>
+            <input type="text" class="form-control" placeholder="Identificación" aria-label="First name" readonly>
+        </div>
+        <div class="col-6">
+            <label for="inputName" class="form-label">Nombre</label>
+            <input type="text" class="form-control" placeholder="Nombre Completo" aria-label="First name" readonly>
+        </div>
+        <div class="col-3">
+            <label for="inputPhone" class="form-label">Teléfono</label>
+            <input type="text" class="form-control" id="inputPhone" placeholder="Apartment, studio, or floor" readonly>
+        </div>
+        <div class="col-9">
+            <label for="inputCargo" class="form-label">Cargo</label>
+            <select class="form-select" aria-label="Cargo">
+                <option selected>Seleccione el cargo</option>
+                <option value="1">Cargo 1</option>
+                <option value="2">Cargo 2</option>
+                <option value="3">Cargo 3</option>
+            </select>
+        </div>
+        <div class="col-6">
+            <label for="inputDepartamento" class="form-label">Departamento</label>
+            <select class="form-select" aria-label="Departamento">
+                <option selected>Seleccione el departamento</option>
+                <option value="1">Departamento 1</option>
+                <option value="2">Departamento 1</option>
+                <option value="3">Departamento 1</option>
+            </select>
+        </div>
+        <div class="col-6">
+            <label for="inputHorario" class="form-label">Horario</label>
+            <select class="form-select" aria-label="Horario">
+                <option selected>Seleccione el horario</option>
+                <option value="1">Diurno</option>
+                <option value="2">Intermedio</option>
+                <option value="3">Tarde</option>
+                <option value="4">Noche</option>
+            </select>
+        </div>
+        <div class="mb-12">
+            <label for="formGroupExampleInput" class="form-label">Example label</label>
+            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input placeholder">
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Registrar usuario</button>
+        </div>
+    </form>
+</div>
