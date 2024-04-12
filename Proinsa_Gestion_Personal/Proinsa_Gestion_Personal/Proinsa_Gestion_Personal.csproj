@@ -460,6 +460,9 @@
     <Content Include="Views\Shared\_Layout_Inicio.cshtml" />
     <Content Include="Views\Nominas\Ingresos.cshtml" />
     <Content Include="Views\Nominas\Deducciones.cshtml" />
+    <Content Include="Views\Nominas\GestionIngresos.cshtml" />
+    <Content Include="Views\Nominas\GestionDeducciones.cshtml" />
+    <Content Include="Views\Nominas\Configuracion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

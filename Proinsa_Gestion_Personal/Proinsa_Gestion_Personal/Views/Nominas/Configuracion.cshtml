@@ -1,0 +1,94 @@
+﻿
+@{
+    ViewBag.Title = "Configuracion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Navegacion {
+
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Gestión de Personal</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Nómina</a></li>
+                        <li class="breadcrumb-item active">Configuración</li>
+                    </ol>
+                </div>
+                <h4 class="page-title">Configuración</h4>
+            </div>
+        </div>
+    </div>
+
+
+}
+
+
+<h4 class="page-title">Configuración Parametros de Nómina</h4>
+
+
+<div class="card-body">
+
+
+
+
+        <div class="col-lg-6">
+
+            <div class="mb-3">
+                <label for="simpleinput" class="form-label">ID</label>
+                <input type="number" id="simpleinput" class="form-control" readonly value="1">
+            </div>
+
+            <div class="mb-3">
+                <label for="simpleinput" class="form-label">Descripción</label>
+                <input type="text" id="simpleinput" class="form-control" value="Nómina-Abril 2024">
+            </div>
+
+
+            <div class="mb-3">
+                <label for="simpleinput" class="form-label">Periodo</label>
+                <input type="text" id="simpleinput" class="form-control" value="04-2024" readonly>
+            </div>
+
+            <div class="mb-3">
+                <label for="simpleinput" class="form-label">Fecha Cálculo</label>
+                <input type="date" id="simpleinput" class="form-control" value="2024-04-29" readonly>
+            </div>
+
+            <div class="mb-3">
+                <label for="simpleinput" class="form-label">Fecha Pago</label>
+                <input type="date" id="simpleinput" class="form-control" value="2024-04-30" readonly>
+            </div>
+
+            <div class="mb-3">
+                <label for="simpleinput" class="form-label">Observaciones</label>
+                <input type="text" id="simpleinput" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label for="simpleinput" class="form-label">Revisiones</label>
+                <input type="number" id="simpleinput" value="1" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label for="simpleinput" class="form-label">Tipo Nómina</label>
+                <select class="form-select" id="example-select">
+                    <option>Mensual</option>
+                   
+                </select>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary">Procesar</button>
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+

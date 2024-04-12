@@ -20,7 +20,24 @@ namespace Proinsa_Gestion_Personal.Controllers
             return View();
         }
 
+
+        public ActionResult GestionIngresos()
+        {
+            return View();
+        }
+
         public ActionResult Deducciones()
+        {
+            return View();
+        }
+
+
+        public ActionResult GestionDeducciones()
+        {
+            return View();
+        }
+
+        public ActionResult Configuracion()
         {
             return View();
         }
