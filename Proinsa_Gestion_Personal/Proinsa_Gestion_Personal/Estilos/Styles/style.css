@@ -622,7 +622,7 @@ input[type = file]::-webkit-file-upload-button {
 }
 
 input[type="file"] {
-    display: none;
+    display: block;
 }
 
 .custom-file-upload {

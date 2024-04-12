@@ -12,7 +12,7 @@
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Gestión de Personal</a></li>
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Usuario</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">-Nombre de usuario-</a></li>
                         <li class="breadcrumb-item active">Mi cuenta</li>
                     </ol>
                 </div>
@@ -21,3 +21,39 @@
         </div>
     </div>
 }
+
+<div class="row g-3">
+    <form class="row g-3">
+        <div class="col-6">
+            <label for="inputId" class="form-label">Identificación</label>
+            <input type="text" class="form-control" placeholder="Identificación" aria-label="First name" readonly>
+        </div>
+        <div class="col-6">
+            <label for="inputName" class="form-label">Nombre</label>
+            <input type="text" class="form-control" placeholder="Nombre Completo" aria-label="First name" readonly>
+        </div>
+        <div class="col-md-6">
+            <label for="inputEmail4" class="form-label">Correo Electrónico</label>
+            <input type="email" class="form-control" id="inputEmail4" readonly>
+        </div>
+        <div class="col-md-6">
+            <label for="inputPassword4" class="form-label">Contraseña</label>
+            <input type="password" class="form-control" id="inputPassword4">
+        </div>
+        <div class="col-12">
+            <label for="inputAddress" class="form-label">Dirección 1</label>
+            <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+        </div>
+        <div class="col-3">
+            <label for="inputPhone" class="form-label">Teléfono</label>
+            <input type="text" class="form-control" id="inputPhone" placeholder="Apartment, studio, or floor">
+        </div>
+        <div class="col-9">
+            <label for="formFoto" class="form-label">Elija una foto</label>
+            <input class="form-control-file" type="file" id="formFoto">
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Actualizar información</button>
+        </div>
+    </form>
+</div>
