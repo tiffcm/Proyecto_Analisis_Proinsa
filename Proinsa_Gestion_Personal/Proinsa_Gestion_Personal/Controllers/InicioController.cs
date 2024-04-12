@@ -8,10 +8,17 @@ namespace Proinsa_Gestion_Personal.Controllers
 {
     public class InicioController : Controller
     {
-        // GET: Inicio
-        public ActionResult Index()
+        [HttpGet]
+        public ActionResult IniciarSesion()
         {
             return View();
         }
+
+        [HttpGet]
+        public ActionResult RecuperarContrasenna()
+        {
+            return View();
+        }
+
     }
 }
