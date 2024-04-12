@@ -462,11 +462,15 @@
     <Content Include="Views\Shared\_Layout_Inicio.cshtml" />
     <Content Include="Views\Nominas\Ingresos.cshtml" />
     <Content Include="Views\Nominas\Deducciones.cshtml" />
+    <Content Include="Views\Nominas\GestionIngresos.cshtml" />
+    <Content Include="Views\Nominas\GestionDeducciones.cshtml" />
+    <Content Include="Views\Nominas\Configuracion.cshtml" />
     <Content Include="Views\Inicio\IniciarSesion.cshtml" />
     <Content Include="Views\Usuarios\MiCuenta.cshtml" />
     <Content Include="Views\Usuarios\RegistrarUsuario.cshtml" />
     <Content Include="Views\Usuarios\AdministrarUsuarios.cshtml" />
     <Content Include="Views\Inicio\RecuperarContrasenna.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
