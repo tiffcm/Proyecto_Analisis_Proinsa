@@ -8,8 +8,14 @@ namespace Proinsa_Gestion_Personal.Controllers
 {
     public class ActividadesController : Controller
     {
-        // GET: Actividades
-        public ActionResult Index()
+        [HttpGet]
+        public ActionResult Horarios()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult RegistroActividades()
         {
             return View();
         }

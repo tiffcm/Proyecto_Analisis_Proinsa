@@ -13,3 +13,11 @@ function micuenta() {
 function recuperarPass() {
     window.location.href = '/Inicio/RecuperarContrasenna';
 }
+
+function cambioHorario() {
+    window.location.href = '/Actividades/Horarios';
+}
+
+function nuevaEncuesta() {
+    window.location.href = '/Encuestas/LlenarEncuesta';
+}

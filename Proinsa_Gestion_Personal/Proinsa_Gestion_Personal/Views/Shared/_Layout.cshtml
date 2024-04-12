@@ -33,31 +33,39 @@
             </a>
 
             <ul class="list-unstyled topbar-menu float-end mb-0">
+
                 <li class="dropdown notification-list topbar-dropdown">
                     <a class="nav-link nav_Lenguaje dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                        <img src="~/Estilos/images/flags/us.jpg" alt="user-image" class="me-0 me-sm-1" height="12">
-                        <span class="align-middle d-none d-sm-inline-block">English</span> <i class="mdi mdi-chevron-down d-none d-sm-inline-block align-middle"></i>
+                        <span class="position-relative">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16">
+                                <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901" />
+                            </svg>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                99+
+                                <span class="visually-hidden">unread messages</span>
+                            </span>
+                        </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated topbar-dropdown-menu">
 
                         <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <img src="~/Estilos/images/flags/germany.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle">German</span>
+                        <a href="javascript:void(0);" class="dropdown-item notify-item" onclick="cambioHorario()">
+                           <p>Hay una nueva solicitud de cambio de horario</p>
+                        </a>
+
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item" onclick="nuevaEncuesta()">
+                            <p>Hay una nueva encuesta disponible</p>
                         </a>
 
                         <!-- item-->
                         <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <img src="~/Estilos/images/flags/italy.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle">Italian</span>
+                            <p>Acá estará una notificación del usuario</p>
                         </a>
 
                         <!-- item-->
                         <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <img src="~/Estilos/images/flags/spain.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle">Spanish</span>
-                        </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <img src="~/Estilos/images/flags/russia.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle">Russian</span>
+                            <p>Acá estará una notificación del usuario</p>
                         </a>
 
                     </div>
@@ -155,28 +163,10 @@
                             <div class="collapse" id="sidebarActividades">
                                 <ul class="side-nav-second-level">
                                     <li>
-                                        <a href="apps-ecommerce-products.html">Products</a>
+                                        <a href="@Url.Action("Horarios","Actividades")">Horario del personal</a>
                                     </li>
                                     <li>
-                                        <a href="apps-ecommerce-products-details.html">Products Details</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-orders.html">Orders</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-orders-details.html">Order Details</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-customers.html">Customers</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-shopping-cart.html">Shopping Cart</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-checkout.html">Checkout</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-sellers.html">Sellers</a>
+                                        <a href="@Url.Action("RegistroActividades","Actividades")">Registrar Actividades</a>
                                     </li>
                                 </ul>
                             </div>
@@ -303,28 +293,13 @@
                             <div class="collapse" id="sidebarEncuestas">
                                 <ul class="side-nav-second-level">
                                     <li>
-                                        <a href="apps-ecommerce-products.html">Products</a>
+                                        <a href="@Url.Action("CrearEncuesta","Encuestas")">Crear Encuesta</a>
                                     </li>
                                     <li>
-                                        <a href="apps-ecommerce-products-details.html">Products Details</a>
+                                        <a href="@Url.Action("LlenarEncuesta","Encuestas")">Llenar encuesta</a>
                                     </li>
                                     <li>
-                                        <a href="apps-ecommerce-orders.html">Orders</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-orders-details.html">Order Details</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-customers.html">Customers</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-shopping-cart.html">Shopping Cart</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-checkout.html">Checkout</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-sellers.html">Sellers</a>
+                                        <a href="@Url.Action("InformeEncuesta","Encuestas")">Informe</a>
                                     </li>
                                 </ul>
                             </div>
