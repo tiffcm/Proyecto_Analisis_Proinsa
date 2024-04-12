@@ -458,6 +458,8 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_Layout_Inicio.cshtml" />
+    <Content Include="Views\Nominas\Ingresos.cshtml" />
+    <Content Include="Views\Nominas\Deducciones.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -469,7 +471,6 @@
     <Folder Include="Views\Documentos\" />
     <Folder Include="Views\Encuestas\" />
     <Folder Include="Views\Inicio\" />
-    <Folder Include="Views\Nominas\" />
     <Folder Include="Views\Reportes\" />
     <Folder Include="Views\Solicitudes\" />
     <Folder Include="Views\Usuarios\" />

@@ -13,5 +13,16 @@ namespace Proinsa_Gestion_Personal.Controllers
         {
             return View();
         }
+
+
+        public ActionResult Ingresos()
+        {
+            return View();
+        }
+
+        public ActionResult Deducciones()
+        {
+            return View();
+        }
     }
 }

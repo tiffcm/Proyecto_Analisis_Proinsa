@@ -335,36 +335,19 @@
 
                         <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarNomina" aria-expanded="false" aria-controls="sidebarNomina" class="side-nav-link">
-                                <i class="uil-store"></i>
+                                <i class="mdi mdi-book-edit-outline"></i>
                                 <span> Nomina </span>
                                 <span class="menu-arrow"></span>
                             </a>
                             <div class="collapse" id="sidebarNomina">
                                 <ul class="side-nav-second-level">
                                     <li>
-                                        <a href="apps-ecommerce-products.html">Products</a>
+                                        <a href="@Url.Action("Ingresos","Nominas")">Ingresos</a>
                                     </li>
                                     <li>
-                                        <a href="apps-ecommerce-products-details.html">Products Details</a>
+                                        <a href="@Url.Action("Deducciones","Nominas")">Deducciones</a>
                                     </li>
-                                    <li>
-                                        <a href="apps-ecommerce-orders.html">Orders</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-orders-details.html">Order Details</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-customers.html">Customers</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-shopping-cart.html">Shopping Cart</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-checkout.html">Checkout</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-sellers.html">Sellers</a>
-                                    </li>
+                                  
                                 </ul>
                             </div>
                         </li>
@@ -490,20 +473,7 @@
             <!-- Start Content-->
             <div class="content-page">
                 <!-- start page title -->
-                <div class="row">
-                    <div class="col-12">
-                        <div class="page-title-box">
-                            <div class="page-title-right">
-                                <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
-                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
-                                    <li class="breadcrumb-item active">Form Elements</li>
-                                </ol>
-                            </div>
-                            <h4 class="page-title">Form Elements</h4>
-                        </div>
-                    </div>
-                </div>
+                @RenderSection("Navegacion", required: false)
                 <!-- end page title -->
 
                 <div class="row">
