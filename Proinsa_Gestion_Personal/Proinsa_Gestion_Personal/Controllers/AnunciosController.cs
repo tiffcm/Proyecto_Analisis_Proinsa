@@ -8,8 +8,25 @@ namespace Proinsa_Gestion_Personal.Controllers
 {
     public class AnunciosController : Controller
     {
-        // GET: Anuncios
-        public ActionResult Index()
+        
+        public ActionResult Anuncios()
+        {
+            return View();
+        }
+
+
+        public ActionResult Registro()
+        {
+            return View();
+        }
+
+
+        public ActionResult DetalleEvento()
+        {
+            return View();
+        }
+
+        public ActionResult Mensajes()
         {
             return View();
         }

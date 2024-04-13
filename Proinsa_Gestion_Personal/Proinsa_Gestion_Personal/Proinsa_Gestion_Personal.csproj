@@ -477,11 +477,14 @@
     <Content Include="Views\Encuestas\InformeEncuesta.cshtml" />
     <Content Include="Views\Nominas\Calculo.cshtml" />
     <Content Include="Views\Nominas\NominaMensual.cshtml" />
+    <Content Include="Views\Anuncios\Anuncios.cshtml" />
+    <Content Include="Views\Anuncios\Registro.cshtml" />
+    <Content Include="Views\Anuncios\DetalleEvento.cshtml" />
+    <Content Include="Views\Anuncios\Mensajes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Anuncios\" />
     <Folder Include="Views\Aprobaciones\" />
     <Folder Include="Views\Capacitaciones\" />
     <Folder Include="Views\Documentos\" />

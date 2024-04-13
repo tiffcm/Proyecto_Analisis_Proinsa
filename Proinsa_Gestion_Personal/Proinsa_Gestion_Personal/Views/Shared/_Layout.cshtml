@@ -25,10 +25,10 @@
             <!-- LOGO -->
             <a href="#" class="topnav-logo">
                 <span class="topnav-logo-lg">
-                    <img src="~/Estilos/images/Logo_Nuevo.png" height="60"/>
+                    <img src="~/Estilos/images/Logo_Nuevo.png" height="60" />
                 </span>
                 <span class="topnav-logo-sm">
-                    <img src="~/Estilos/images/Logo_Nuevo.png" height="30"/>
+                    <img src="~/Estilos/images/Logo_Nuevo.png" height="30" />
                 </span>
             </a>
 
@@ -41,7 +41,7 @@
                                 <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901" />
                             </svg>
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                99+
+                                4+
                                 <span class="visually-hidden">unread messages</span>
                             </span>
                         </span>
@@ -50,7 +50,7 @@
 
                         <!-- item-->
                         <a href="javascript:void(0);" class="dropdown-item notify-item" onclick="cambioHorario()">
-                           <p>Hay una nueva solicitud de cambio de horario</p>
+                            <p>Hay una nueva solicitud de cambio de horario</p>
                         </a>
 
                         <!-- item-->
@@ -60,12 +60,12 @@
 
                         <!-- item-->
                         <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <p>Acá estará una notificación del usuario</p>
+                            <p>Cumpleaños Esmeralda Araya</p>
                         </a>
 
                         <!-- item-->
                         <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <p>Acá estará una notificación del usuario</p>
+                            <p>Capacitación RFID</p>
                         </a>
 
                     </div>
@@ -78,8 +78,8 @@
                             <img src="~/Estilos/images/users/avatar-1.jpg" alt="user-image" class="rounded-circle">
                         </span>
                         <span>
-                            <span class="account-user-name">Dominic Keller</span>
-                            <span class="account-position">Founder</span>
+                            <span class="account-user-name">E.Aguilar</span>
+                            <span class="account-position">Administrador</span>
                         </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated topbar-dropdown-menu profile-dropdown">
@@ -123,7 +123,7 @@
             <div class="leftside-menu leftside-menu-detached" style="background: #313A46 !important;">
 
                 <div class="leftbar-user" style="color:white;">
-                    <h1>Título de módulo</h1>
+                    <h1>Gestión de Personal</h1>
                 </div>
 
                 <div id="leftside-menu-container" data-simplebar>
@@ -131,7 +131,7 @@
                     <!--- Sidemenu -->
                     <ul class="side-nav">
 
-                        <li class="side-nav-title side-nav-item">Navigation</li>
+                        <li class="side-nav-title side-nav-item">Navegación</li>
 
                         <li class="side-nav-item">
                             <div class="collapse" id="sidebarDashboards">
@@ -178,36 +178,20 @@
 
                         <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarAnuncios" aria-expanded="false" aria-controls="sidebarAnuncios" class="side-nav-link">
-                                <i class="uil-store"></i>
+                                <i class=" mdi mdi-newspaper-variant-outline"></i>
                                 <span> Anuncios </span>
                                 <span class="menu-arrow"></span>
                             </a>
                             <div class="collapse" id="sidebarAnuncios">
                                 <ul class="side-nav-second-level">
                                     <li>
-                                        <a href="apps-ecommerce-products.html">Products</a>
+                                        <a href="@Url.Action("Anuncios","Anuncios")">Anuncios</a>
                                     </li>
+
                                     <li>
-                                        <a href="apps-ecommerce-products-details.html">Products Details</a>
+                                        <a href="@Url.Action("Mensajes","Anuncios")">Mensajes</a>
                                     </li>
-                                    <li>
-                                        <a href="apps-ecommerce-orders.html">Orders</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-orders-details.html">Order Details</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-customers.html">Customers</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-shopping-cart.html">Shopping Cart</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-checkout.html">Checkout</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-sellers.html">Sellers</a>
-                                    </li>
+
                                 </ul>
                             </div>
                         </li>
@@ -496,6 +480,24 @@
         </div>
         <!-- END wrapper -->
     </div>
+
+
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <script>document.write(new Date().getFullYear())</script> © Gestion de Personal
+                </div>
+                <div class="col-md-6">
+                    <div class="text-md-end footer-links d-none d-md-block">
+                        <a href="javascript: void(0);">Acerca De</a>
+                        <a href="javascript: void(0);">Soporte</a>
+                        <a href="javascript: void(0);">Contáctenos</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <!-- ============================================================== -->
     <!-- End Page content -->
