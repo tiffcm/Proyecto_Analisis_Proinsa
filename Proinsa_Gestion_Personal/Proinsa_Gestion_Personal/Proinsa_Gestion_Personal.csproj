@@ -475,6 +475,8 @@
     <Content Include="Views\Encuestas\CrearEncuesta.cshtml" />
     <Content Include="Views\Encuestas\LlenarEncuesta.cshtml" />
     <Content Include="Views\Encuestas\InformeEncuesta.cshtml" />
+    <Content Include="Views\Nominas\Calculo.cshtml" />
+    <Content Include="Views\Nominas\NominaMensual.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

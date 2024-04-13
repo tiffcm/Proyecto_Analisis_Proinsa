@@ -41,5 +41,16 @@ namespace Proinsa_Gestion_Personal.Controllers
         {
             return View();
         }
+
+
+        public ActionResult Calculo()
+        {
+            return View();
+        }
+
+        public ActionResult NominaMensual()
+        {
+            return View();
+        }
     }
 }
