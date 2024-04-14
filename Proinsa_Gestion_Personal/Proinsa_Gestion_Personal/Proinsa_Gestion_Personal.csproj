@@ -481,15 +481,27 @@
     <Content Include="Views\Anuncios\Registro.cshtml" />
     <Content Include="Views\Anuncios\DetalleEvento.cshtml" />
     <Content Include="Views\Anuncios\Mensajes.cshtml" />
+    <Content Include="Views\Actividades\GestionDocumentos.cshtml" />
+    <Content Include="Views\Actividades\Documentoplano.cshtml" />
+    <Content Include="Views\Actividades\DocumentoUsuario.cshtml" />
+    <Content Include="Views\Solicitudes\Vacaciones.cshtml" />
+    <Content Include="Views\Solicitudes\Constancias.cshtml" />
+    <Content Include="Views\Solicitudes\CambiosHorario.cshtml" />
+    <Content Include="Views\Solicitudes\Permisos.cshtml" />
+    <Content Include="Views\Solicitudes\InformacionPersonal.cshtml" />
+    <Content Include="Views\Solicitudes\ReporteSolicitudAntiguedad.cshtml" />
+    <Content Include="Views\Solicitudes\HistorialSolicitudes.cshtml" />
+    <Content Include="Views\Documentos\DocusPropios.cshtml" />
+    <Content Include="Views\Documentos\DocusPlanos.cshtml" />
+    <Content Include="Views\Actividades\Aprobaciones.cshtml" />
+    <Content Include="Views\Actividades\AproVacaciones.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Aprobaciones\" />
     <Folder Include="Views\Capacitaciones\" />
-    <Folder Include="Views\Documentos\" />
     <Folder Include="Views\Reportes\" />
-    <Folder Include="Views\Solicitudes\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

@@ -8,8 +8,44 @@ namespace Proinsa_Gestion_Personal.Controllers
 {
     public class SolicitudesController : Controller
     {
-        // GET: Solicitudes
-        public ActionResult Index()
+        [HttpGet]
+        public ActionResult Vacaciones()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult Constancias()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult CambiosHorario()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult Permisos()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult InformacionPersonal()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult ReporteSolicitudAntiguedad()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult HistorialSolicitudes()
         {
             return View();
         }

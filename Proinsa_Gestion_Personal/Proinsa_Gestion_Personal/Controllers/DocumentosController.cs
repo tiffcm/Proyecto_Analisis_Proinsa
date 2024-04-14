@@ -8,8 +8,14 @@ namespace Proinsa_Gestion_Personal.Controllers
 {
     public class DocumentosController : Controller
     {
-        // GET: Documentos
-        public ActionResult Index()
+        [HttpGet]
+        public ActionResult DocusPlanos()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult DocusPropios()
         {
             return View();
         }
