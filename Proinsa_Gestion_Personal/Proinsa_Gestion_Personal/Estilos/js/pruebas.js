@@ -21,3 +21,8 @@ function cambioHorario() {
 function nuevaEncuesta() {
     window.location.href = '/Encuestas/LlenarEncuesta';
 }
+function documentos() {
+    window.location.href = '/Documentos/DocusPropios';
+}
+
+

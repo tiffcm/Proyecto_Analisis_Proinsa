@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "GestionDocumentos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Navegacion {
+
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Gestión de Personal</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Actividades</a></li>
+                        <li class="breadcrumb-item active"><a href="javascript: void(0);" onclick="Gestiondocumentos()">Documentacion</a></li>
+                        <li class="breadcrumb-item active">Documentos Usuario</li>
+                    </ol>
+                </div>
+                <h4 class="page-title">Gestion de documentos - Documento a usuario</h4>
+            </div>
+        </div>
+    </div>
+}
+
+
+<div class="container">
+    <form class="row g-3">
+        <div class="col-3">
+            <label for="exampleFormControlInput1" class="form-label">Correo electronico</label>
+            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="nombre@ejemplo.com">
+            <br />
+            <button class="btn btn-primary" type="button">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Buscar
+            </button>
+        </div>
+
+        <div class="mb-3">
+            <label for="formFile" class="form-label">Elegir archivo</label>
+            <input class="form-control" type="file" id="formFile">
+        </div>
+        <div class="col-6">
+            <button type="submit" class="btn btn-primary">Subir</button>
+        </div>
+    </form>
+</div>

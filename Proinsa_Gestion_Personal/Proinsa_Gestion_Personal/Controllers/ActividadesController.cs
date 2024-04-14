@@ -19,5 +19,33 @@ namespace Proinsa_Gestion_Personal.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public ActionResult GestionDocumentos()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult DocumentoUsuario()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult Documentoplano()
+        {
+            return View();
+        }
+
+        public ActionResult Aprobaciones()
+        {
+            return View();
+        }
+
+        public ActionResult AproVacaciones()
+        {
+            return View();
+        }
     }
 }

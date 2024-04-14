@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "Aprobaciones";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Navegacion {
+
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Gestión de Personal</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Actividades</a></li>
+                        <li class="breadcrumb-item active">Aprobaciones</li>
+                    </ol>
+                </div>
+                <h4 class="page-title">Gestion de aprobaciones</h4>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="container">
+    <br /><br />
+    <ul class="list-group">
+
+        <li class="list-group-item col-12 h4">
+            Solicitud 1 - cambio horario<br>
+            <label>Fecha de creacion: </label>
+            <label>15/5/2023</label>
+            <br>
+            <label>Descripcion: </label>
+            <br/><br />
+            <div class="col-9">
+                <a class="btn btn-primary" href="@Url.Action("Horarios","Actividades")" role="button">Ir a solicitud</a>
+            </div>
+        </li>
+
+
+        <li class="list-group-item col-12 h4">
+            Solicitud 2 - vacaciones <br>
+            <label>Fecha de creacion: </label>
+            <label>2/9/2023</label>
+            <br>
+            <label>Descripcion: </label>
+            <br /><br />
+            <div class="col-9">
+                <a class="btn btn-primary" href="@Url.Action("AproVacaciones","Actividades")" role="button">Ir a solicitud</a>
+            </div>
+        </li>
+
+
+        <li class="list-group-item col-12 h4">
+            Solicitud 3 - Cambio informacion personal<br>
+            <label>Fecha: </label>
+            <label>20/6/2023</label>
+            <br>
+            <label>Descripcion: </label>
+            <br /><br />
+            <div class="col-9">
+                <a class="btn btn-primary" href="" role="button">Ir a solicitud</a>
+            </div>
+        </li>
+
+    </ul>
+</div>

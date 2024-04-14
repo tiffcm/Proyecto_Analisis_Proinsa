@@ -1,0 +1,77 @@
+﻿@{
+    ViewBag.Title = "Solicitudes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Navegacion {
+    
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Solicitudes</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Informacion personal</a></li>
+                    </ol>
+                </div>
+                <h4 class="page-title">Solicitud de cambios de informacion personal</h4>
+            </div>
+        </div>
+    </div>
+}
+
+
+<div class="container">
+    <form class="row g-3">
+        <div class="col-12">
+            <label for="inputcambio" class="form-label">Que desea cambiar:</label>
+            <select class="form-select" aria-label="Cambio">
+                <option selected>Seleccione: </option>
+                <option value="1">Nombre</option>
+                <option value="2">Telefono</option>
+                <option value="3">Correo electronico</option>
+            </select>
+        </div>
+
+        <div class="col-12">
+            <label class="form-label">Valor de la informacion por cambiar:</label>
+            <input type="text" class="form-control" placeholder="Escribir dato nuevo" aria-label="valorcambio" />
+        </div>
+
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">Detalle de la solicitud: </label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="formFile" class="form-label">Elegir archivo de respaldo (opcional):</label>
+            <input class="form-control" type="file" id="formFile">
+        </div>
+        <div class="col-6">
+            <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#solicitar">Solicitar</button>
+        </div>
+    </form>
+
+    <div class="modal fade" id="solicitar">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Solicitud enviada con exito!</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    Se le notificara al administrador. Esté antento al buzon de notificaciones!
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

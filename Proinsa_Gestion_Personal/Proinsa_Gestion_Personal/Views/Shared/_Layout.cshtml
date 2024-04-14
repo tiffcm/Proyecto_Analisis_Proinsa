@@ -11,10 +11,17 @@
     <!-- App css -->
     <link href="~/Estilos/css/icons.css" rel="stylesheet" />
     <link href="~/Estilos/css/app.css" rel="stylesheet" />
-    <link href="~/Estilos/css/app-dark.css" rel="stylesheet" id="dark-style"/>
+    <link href="~/Estilos/css/app-dark.css" rel="stylesheet" id="dark-style" />
 
     <!-- Here custom css -->
     <link href="~/Estilos/Styles/style.css" rel="stylesheet" />
+
+    <!-- DATE RANGE PICKER -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
 </head>
 <body id="master_page_body" class="loading body_master_page" data-layout="detached"
       data-layout-config='{"layoutBoxed":false, "leftSidebarCondensed":false, "leftSidebarScrollable":false,"darkMode":false, "showRightSidebarOnStart": true}'>
@@ -59,6 +66,13 @@
                         </a>
 
                         <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item" onclick="documentos()">
+                            <p>Nuevo documento en lista</p>
+                        </a>
+
+                     
+
+                        <!-- item-->
                         <a href="javascript:void(0);" class="dropdown-item notify-item">
                             <p>Cumpleaños Esmeralda Araya</p>
                         </a>
@@ -67,6 +81,7 @@
                         <a href="javascript:void(0);" class="dropdown-item notify-item">
                             <p>Capacitación RFID</p>
                         </a>
+
 
                     </div>
                 </li>
@@ -168,6 +183,12 @@
                                     <li>
                                         <a href="@Url.Action("RegistroActividades","Actividades")">Registrar Actividades</a>
                                     </li>
+                                    <li>
+                                        <a href="@Url.Action("GestionDocumentos","Actividades")">Gestion de Documentos</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Aprobaciones","Actividades")">Aprobaciones</a>
+                                    </li>
                                 </ul>
                             </div>
                         </li>
@@ -205,29 +226,12 @@
                             <div class="collapse" id="sidebarDocumentos">
                                 <ul class="side-nav-second-level">
                                     <li>
-                                        <a href="apps-ecommerce-products.html">Products</a>
+                                        <a href="@Url.Action("DocusPlanos","Documentos")">Planos</a>
                                     </li>
                                     <li>
-                                        <a href="apps-ecommerce-products-details.html">Products Details</a>
+                                        <a href="@Url.Action("DocusPropios","Documentos")">Propios</a>
                                     </li>
-                                    <li>
-                                        <a href="apps-ecommerce-orders.html">Orders</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-orders-details.html">Order Details</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-customers.html">Customers</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-shopping-cart.html">Shopping Cart</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-checkout.html">Checkout</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-sellers.html">Sellers</a>
-                                    </li>
+                                  
                                 </ul>
                             </div>
                         </li>
@@ -323,42 +327,42 @@
                                 </ul>
                             </div>
                         </li>
-
-                        <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarAprobaciones" aria-expanded="false" aria-controls="sidebarAprobaciones" class="side-nav-link">
-                                <i class="uil-store"></i>
-                                <span> Aprobaciones </span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarAprobaciones">
-                                <ul class="side-nav-second-level">
-                                    <li>
-                                        <a href="apps-ecommerce-products.html">Products</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-products-details.html">Products Details</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-orders.html">Orders</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-orders-details.html">Order Details</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-customers.html">Customers</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-shopping-cart.html">Shopping Cart</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-checkout.html">Checkout</a>
-                                    </li>
-                                    <li>
-                                        <a href="apps-ecommerce-sellers.html">Sellers</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
+                        <!--
+    <li class="side-nav-item">
+        <a data-bs-toggle="collapse" href="#sidebarAprobaciones" aria-expanded="false" aria-controls="sidebarAprobaciones" class="side-nav-link">
+            <i class="uil-store"></i>
+            <span> Aprobaciones </span>
+            <span class="menu-arrow"></span>
+        </a>
+        <div class="collapse" id="sidebarAprobaciones">
+            <ul class="side-nav-second-level">
+                <li>
+                    <a href="apps-ecommerce-products.html">Products</a>
+                </li>
+                <li>
+                    <a href="apps-ecommerce-products-details.html">Products Details</a>
+                </li>
+                <li>
+                    <a href="apps-ecommerce-orders.html">Orders</a>
+                </li>
+                <li>
+                    <a href="apps-ecommerce-orders-details.html">Order Details</a>
+                </li>
+                <li>
+                    <a href="apps-ecommerce-customers.html">Customers</a>
+                </li>
+                <li>
+                    <a href="apps-ecommerce-shopping-cart.html">Shopping Cart</a>
+                </li>
+                <li>
+                    <a href="apps-ecommerce-checkout.html">Checkout</a>
+                </li>
+                <li>
+                    <a href="apps-ecommerce-sellers.html">Sellers</a>
+                </li>
+            </ul>
+        </div>
+    </li> -->
 
                         <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarSolicitudes" aria-expanded="false" aria-controls="sidebarSolicitudes" class="side-nav-link">
@@ -369,29 +373,27 @@
                             <div class="collapse" id="sidebarSolicitudes">
                                 <ul class="side-nav-second-level">
                                     <li>
-                                        <a href="apps-ecommerce-products.html">Products</a>
+                                        <a href="@Url.Action("Vacaciones","Solicitudes")">Vacaciones</a>
                                     </li>
                                     <li>
-                                        <a href="apps-ecommerce-products-details.html">Products Details</a>
+                                        <a href="@Url.Action("Constancias","Solicitudes")">Constancias salariales</a>
                                     </li>
                                     <li>
-                                        <a href="apps-ecommerce-orders.html">Orders</a>
+                                        <a href="@Url.Action("CambiosHorario","Solicitudes")">Cambios de horario</a>
                                     </li>
                                     <li>
-                                        <a href="apps-ecommerce-orders-details.html">Order Details</a>
+                                        <a href="@Url.Action("Permisos","Solicitudes")">Permisos especiales</a>
                                     </li>
                                     <li>
-                                        <a href="apps-ecommerce-customers.html">Customers</a>
+                                        <a href="@Url.Action("InformacionPersonal","Solicitudes")">Cambio informacion personal</a>
                                     </li>
                                     <li>
-                                        <a href="apps-ecommerce-shopping-cart.html">Shopping Cart</a>
+                                        <a href="@Url.Action("ReporteSolicitudAntiguedad","Solicitudes")">Reporte antiguedad</a>
                                     </li>
                                     <li>
-                                        <a href="apps-ecommerce-checkout.html">Checkout</a>
+                                        <a href="@Url.Action("HistorialSolicitudes","Solicitudes")">Historial de solicitudes</a>
                                     </li>
-                                    <li>
-                                        <a href="apps-ecommerce-sellers.html">Sellers</a>
-                                    </li>
+
                                 </ul>
                             </div>
                         </li>

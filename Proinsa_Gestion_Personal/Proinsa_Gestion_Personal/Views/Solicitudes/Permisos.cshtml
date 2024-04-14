@@ -1,0 +1,89 @@
+﻿@{
+    ViewBag.Title = "Solicitudes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Navegacion {
+    
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Solicitudes</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Vacaciones</a></li>
+                    </ol>
+                </div>
+                <h4 class="page-title">Solicitud de permisos especiales</h4>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="container">
+    <form class="row g-3">
+        <div class="mb-3">
+            <label class="form-label">Descripción para el permiso especial: </label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>
+        <div class="col-12">
+            <label class="form-label">Fecha por solicitar:</label>
+            <input type="text" name="datefilter" value="" />
+
+            <script type="text/javascript">
+                $(function () {
+
+                    $('input[name="datefilter"]').daterangepicker({
+                        autoUpdateInput: false,
+                        locale: {
+                            cancelLabel: 'Clear'
+                        }
+                    });
+
+                    $('input[name="datefilter"]').on('apply.daterangepicker', function (ev, picker) {
+                        $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+                    });
+
+                    $('input[name="datefilter"]').on('cancel.daterangepicker', function (ev, picker) {
+                        $(this).val('');
+                    });
+
+                });
+            </script>
+        </div>
+        <div class="mb-3">
+            <label for="formFile" class="form-label">Elegir archivo de respaldo (opcional):</label>
+            <input class="form-control" type="file" id="formFile">
+        </div>
+        <div class="col-6">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#solicitar">Solicitar</button>
+        </div>
+
+    </form>
+
+    <div class="modal fade" id="solicitar">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Solicitud enviada con exito!</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    Se le notificara al administrador. Esté antento al buzon de notificaciones!
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
