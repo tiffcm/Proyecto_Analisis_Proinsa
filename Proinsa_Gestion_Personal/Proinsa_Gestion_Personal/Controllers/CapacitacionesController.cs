@@ -13,5 +13,25 @@ namespace Proinsa_Gestion_Personal.Controllers
         {
             return View();
         }
+
+        public ActionResult AgregarCapacitacion()
+        {
+            return View();
+        }
+
+        public ActionResult ModificarCapacitacion()
+        {
+            return View();
+        }
+
+        public ActionResult DetallarCapacitacion()
+        {
+            return View();
+        }
+
+        public ActionResult EliminarCapacitacion()
+        {
+            return View();
+        }
     }
 }
