@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Modulo de capacitación y desarrollo</h2>
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Capacitaciones</h4>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+        <!-- Barra de búsqueda -->
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Buscar empleado" aria-label="Buscar empleado" aria-describedby="btnBuscar">
+            <button class="btn btn-primary" type="button" id="btnBuscar">Buscar</button>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <!-- Lista de empleados disponibles -->
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Empleado 1
+
+                <form action="/Capacitaciones/AgregarCapacitacion" method="post">
+                    <button type="submit" class="btn btn-primary">Asignar curso</button>
+                </form>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Empleado 2
+
+                <form action="/Capacitaciones/AgregarCapacitacion" method="post">
+                    <button type="submit" class="btn btn-primary">Asignar curso</button>
+                </form>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Empleado 3
+
+                <form action="/Capacitaciones/AgregarCapacitacion" method="post">
+                    <button type="button" class="btn btn-primary">Asignar curso</button>
+                </form>
+            </li>
+            <!-- Agrega más empleados -->
+        </ul>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-12">
+        <!-- Botón para ir al inicio -->
+        <a href="/" class="btn btn-secondary">Ir al Inicio</a>
+    </div>
+</div>
+

@@ -13,5 +13,24 @@ namespace Proinsa_Gestion_Personal.Controllers
         {
             return View();
         }
+
+        public ActionResult AgregarReporte()
+        {
+            return View();
+        }
+        public ActionResult ModificarReporte()
+        {
+            return View();
+        }
+
+        public ActionResult DetallarReporte()
+        {
+            return View();
+        }
+
+        public ActionResult EliminarReporte()
+        {
+            return View();
+        }
     }
 }

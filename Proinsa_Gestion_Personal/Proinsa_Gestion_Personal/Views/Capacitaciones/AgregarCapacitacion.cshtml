@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewBag.Title = "AgregarCapacitacion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Navegacion {
+
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Gestion de personal</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Capacitaciones</a></li>
+                    </ol>
+                </div>
+                <h4 class="page-title">Agregar Capacitación</h4>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Agregar Nuevo Curso</h4>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+        <!-- Formulario para agregar un nuevo curso -->
+        <form>
+            <div class="mb-3">
+                <label for="inputNombreCurso" class="form-label">Nombre del Curso</label>
+                <input type="text" class="form-control" id="inputNombreCurso" placeholder="Nombre del Curso">
+            </div>
+            <div class="mb-3">
+                <label for="inputUrlCurso" class="form-label">URL del Curso (opcional)</label>
+                <input type="url" class="form-control" id="inputUrlCurso" placeholder="URL del Curso">
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label for="inputFechaInicio" class="form-label">Fecha de Inicio</label>
+                    <input type="date" class="form-control" id="inputFechaInicio">
+                </div>
+                <div class="col-6">
+                    <label for="inputFechaFin" class="form-label">Fecha de Fin</label>
+                    <input type="date" class="form-control" id="inputFechaFin">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="inputHorasTotales" class="form-label">Cantidad de Horas Totales</label>
+                <input type="number" class="form-control" id="inputHorasTotales" placeholder="Cantidad de Horas Totales">
+            </div>
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="checkCertificado">
+                <label class="form-check-label" for="checkCertificado">
+                    ¿Obtendrá un Certificado de Finalización?
+                </label>
+            </div>
+            <button type="button" class="btn btn-primary">Agregar Curso</button>
+        </form>
+    </div>
+</div>
+

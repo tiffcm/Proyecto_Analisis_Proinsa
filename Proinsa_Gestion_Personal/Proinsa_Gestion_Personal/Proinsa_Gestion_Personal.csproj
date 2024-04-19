@@ -495,13 +495,21 @@
     <Content Include="Views\Documentos\DocusPlanos.cshtml" />
     <Content Include="Views\Actividades\Aprobaciones.cshtml" />
     <Content Include="Views\Actividades\AproVacaciones.cshtml" />
+    <Content Include="Views\Capacitaciones\Index.cshtml" />
+    <Content Include="Views\Capacitaciones\AgregarCapacitacion.cshtml" />
+    <Content Include="Views\Capacitaciones\ModificarCapacitacion.cshtml" />
+    <Content Include="Views\Capacitaciones\DetallarCapacitacion.cshtml" />
+    <Content Include="Views\Capacitaciones\EliminarCapacitacion.cshtml" />
+    <Content Include="Views\Reportes\Index.cshtml" />
+    <Content Include="Views\Reportes\AgregarReporte.cshtml" />
+    <Content Include="Views\Reportes\ModificarReporte.cshtml" />
+    <Content Include="Views\Reportes\DetallarReporte.cshtml" />
+    <Content Include="Views\Reportes\EliminarReporte.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Aprobaciones\" />
-    <Folder Include="Views\Capacitaciones\" />
-    <Folder Include="Views\Reportes\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
