@@ -1,455 +1,424 @@
 ﻿<!DOCTYPE html>
-<html>
+<html
+  lang="en"
+  class="light-style layout-menu-fixed"
+  dir="ltr"
+  data-theme="theme-default"
+  data-assets-path="../assets/"
+  data-template="vertical-menu-template-free"
+      >
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
-    <!-- App favicon -->
-    <link rel="shortcut icon" src="~/Estilos/images/favicon.ico" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <!-- App css -->
-    <link href="~/Estilos/css/icons.css" rel="stylesheet" />
-    <link href="~/Estilos/css/app.css" rel="stylesheet" />
-    <link href="~/Estilos/css/app-dark.css" rel="stylesheet" id="dark-style" />
+    <title>Inicio - Analytics | Proinsa - Bootstrap 5 HTML Admin Template - Pro</title>
 
-    <!-- Here custom css -->
-    <link href="~/Estilos/Styles/style.css" rel="stylesheet" />
+    <meta name="description" content="" />
 
-    <!-- DATE RANGE PICKER -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <!-- Acá tiene que ir el logo de la empresa -->
+    <link rel="icon" type="image/x-icon" href="~/Estilos/assets/img/favicon/favicon.ico" />
 
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+          rel="stylesheet" />
+
+    <!-- Icons. Uncomment required icon fonts -->    
+    <link rel="stylesheet" href="~/Estilos/assets/vendor/fonts/boxicons.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Core CSS -->    
+    <link rel="stylesheet" href="~/Estilos/assets/vendor/css/core.css" class="template-customizer-core-css" />    
+    <link rel="stylesheet" href="~/Estilos/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="~/Estilos/assets/css/demo.css" />
+
+    <!-- Vendors CSS -->    
+    <link rel="stylesheet" href="~/Estilos/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />    
+    <link rel="stylesheet" href="~/Estilos/assets/vendor/libs/apex-charts/apex-charts.css" />
+
+    <!-- Page CSS -->
+    <!-- Helpers -->    
+    <script src="~/Estilos/assets/vendor/js/helpers.js"></script> 
+    <script src="~/Estilos/assets/js/config.js"></script>
 </head>
-<body id="master_page_body" class="loading body_master_page" data-layout="detached"
-      data-layout-config='{"layoutBoxed":false, "leftSidebarCondensed":false, "leftSidebarScrollable":false,"darkMode":false, "showRightSidebarOnStart": true}'>
-    <div>
-        <!-- Topbar Start -->
-        <div class="navbar-custom topnav-navbar topnav-navbar-dark">
-
-            <!-- LOGO -->
-            <a href="#" class="topnav-logo">
-                <span class="topnav-logo-lg">
-                    <img src="~/Estilos/images/Logo_Nuevo.png" height="60" />
-                </span>
-                <span class="topnav-logo-sm">
-                    <img src="~/Estilos/images/Logo_Nuevo.png" height="30" />
-                </span>
-            </a>
-
-            <ul class="list-unstyled topbar-menu float-end mb-0">
-
-                <li class="dropdown notification-list topbar-dropdown">
-                    <a class="nav-link nav_Lenguaje dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                        <span class="position-relative">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16">
-                                <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901" />
-                            </svg>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                4+
-                                <span class="visually-hidden">unread messages</span>
-                            </span>
+<body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            <!-- Menu -->
+            <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+                <div class="app-brand demo" style="display: grid; place-items: center;">
+                    <a href="index.html" class="app-brand-link">
+                        <span class="app-brand-logo demo">
+                            <img src="~/Estilos/assets/img/empresa/Logo_Sin_Letras.png" style="width:58px; height:58px;"/>
                         </span>
+                        <span class="app-brand-text demo menu-text fw-bolder ms-2">Proinsa</span>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated topbar-dropdown-menu">
 
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item" onclick="cambioHorario()">
-                            <p>Hay una nueva solicitud de cambio de horario</p>
+                    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+                        <i class="bx bx-chevron-left bx-sm align-middle"></i>
+                    </a>
+                </div>
+
+                <div class="menu-inner-shadow"></div>
+
+                <ul class="menu-inner py-1">
+                    <!-- Inicio -->
+                    <li class="menu-item active">
+                        <a href="@Url.Action("Index","Home")" class="menu-link">
+                            <i class="bi bi-house-fill me-3" style="font-size: 1.5rem;"></i>
+                            <div data-i18n="Analytics">Inicio</div>
                         </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item" onclick="nuevaEncuesta()">
-                            <p>Hay una nueva encuesta disponible</p>
+                    </li>
+                    <!-- Título: Horarios y actividades diarias -->
+                    <li class="menu-header small text-uppercase">
+                        <span class="menu-header-text">Horarios y actividades diarias</span>
+                    </li>
+                    <!-- Horarios -->
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="bi bi-calendar3 me-3"></i>
+                            <div data-i18n="Account Settings">Horario del personal</div>
                         </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item" onclick="documentos()">
-                            <p>Nuevo documento en lista</p>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="@Url.Action("Horarios","Actividades")" class="menu-link">
+                                    <div data-i18n="Account">Cambios de horario</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="@Url.Action("Horarios","Actividades")" class="menu-link">
+                                    <div data-i18n="Notifications">Ver horario asignado</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="@Url.Action("CambiosHorario","Solicitudes")" class="menu-link">
+                                    <div data-i18n="Connections">Solicitud de cambio de horario</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- Actividades de los empleados -->
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="bi bi-person-workspace me-3"></i>
+                            <div data-i18n="Account Settings">Actividades diarias</div>
                         </a>
-
-                     
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <p>Cumpleaños Esmeralda Araya</p>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="@Url.Action("RegistroActividades","Actividades")" class="menu-link">
+                                    <div data-i18n="Account">Registrar una actividad</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="@Url.Action("RegistroActividades","Actividades")" class="menu-link">
+                                    <div data-i18n="Notifications">Editar una actividad</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="@Url.Action("RegistroActividades","Actividades")" class="menu-link">
+                                    <div data-i18n="Connections">Ver historial de actividades</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!--Título: Documentos y anuncios -->
+                    <li class="menu-header small text-uppercase"><span class="menu-header-text">Documentos y anuncios</span></li>
+                    <!-- Anuncios -->
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="bi bi-megaphone me-3"></i>
+                            <div data-i18n="Misc">Anuncios</div>
                         </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <p>Capacitación RFID</p>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="@Url.Action("Registro","Anuncios")" class="menu-link">
+                                    <div data-i18n="Error">Crear un anuncio o mensaje</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="@Url.Action("Anuncios","Anuncios")" class="menu-link">
+                                    <div data-i18n="Under Maintenance">Ver anuncios o mensajes</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- Gestión de documentos -->
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="bi bi-files-alt me-3"></i>
+                            <div data-i18n="Misc">Gestión de documentos</div>
                         </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <!-- La idea es hacer un espacio para crear un documento "plano" o propio 
+                                     QUITAR COMENTARIO UNA VEZ SOLUCIONADO -->
+                                <a href="pages-misc-error.html" class="menu-link">
+                                    <div data-i18n="Error">Crear un documento</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <!-- La idea es hacer un espacio para ver los documentos creados 
+                                     QUITAR COMENTARIO UNA VEZ SOLUCIONADO-->
+                                <a href="pages-misc-under-maintenance.html" class="menu-link">
+                                    <div data-i18n="Under Maintenance">Ver mis documentos</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- Título: Desarrollo del personal -->
+                    <li class="menu-header small text-uppercase"><span class="menu-header-text">Desarrollo personal</span></li>
+                    <!-- Capacitaciones -->
+                    <li class="menu-item">
+                        <a href="@Url.Action("Index","Capacitaciones")" class="menu-link">
+                            <i class="bi bi-person-arms-up me-3"></i>
+                            <div data-i18n="Basic">Capacitaciones</div>
+                        </a>
+                    </li>
+                    <!-- Encuestas REVISAR SI ES NECESARIO SINO SE ELIMINA LA OPCIÓN -->
+                    <li class="menu-item">
+                        <a href="javascript:void(0)" class="menu-link menu-toggle">
+                            <i class="bi bi-graph-up me-3"></i>
+                            <div data-i18n="Extended UI">Encuestas</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="@Url.Action("CrearEncuesta","Encuestas")" class="menu-link">
+                                    <div data-i18n="Perfect Scrollbar">Crear encuesta</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="@Url.Action("LlenarEncuesta","Encuestas")" class="menu-link">
+                                    <div data-i18n="Perfect Scrollbar">Completar encuesta</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="@Url.Action("InformeEncuesta","Encuestas")" class="menu-link">
+                                    <div data-i18n="Text Divider">Informe</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- Solicitudes -->
+                    <li class="menu-item">
+                        <a href="javascript:void(0)" class="menu-link menu-toggle">
+                            <i class="bi bi-person-fill-add me-3"></i>
+                            <div data-i18n="Extended UI">Solicitudes</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <!-- Por ser varias solicitudes, es mejor crear una opción donde haya un 
+                                     Dropdown para seleccionar el tipo de solicitud y no crear varias iguales -->
+                                <a href="extended-ui-perfect-scrollbar.html" class="menu-link">
+                                    <div data-i18n="Perfect Scrollbar">Crear una solicitud</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="@Url.Action("HistorialSolicitudes","Solicitudes")" class="menu-link">
+                                    <div data-i18n="Perfect Scrollbar">Historial de solicitudes</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- Título: Administrativo -->
+                    <li class="menu-header small text-uppercase"><span class="menu-header-text">Administrativo</span></li>
+                    <!-- Aprobaciones -->
+                    <li class="menu-item">
+                        <a href="cards-basic.html" class="menu-link">
+                            <i class="bi bi-exclamation-square-fill me-3"></i>
+                            <div data-i18n="Basic">Aprobaciones</div>
+                        </a>
+                    </li>
+                    <!-- Nómina -->
+                    <li class="menu-item">
+                        <a href="javascript:void(0)" class="menu-link menu-toggle">
+                            <i class="bi bi-wallet2 me-3"></i>
+                            <div data-i18n="Extended UI">Nómina</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="@Url.Action("Configuracion","Nominas")" class="menu-link">
+                                    <div data-i18n="Perfect Scrollbar">Configuración</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="@Url.Action("Calculo","Nominas")" class="menu-link">
+                                    <div data-i18n="Perfect Scrollbar">Cálculo</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="@Url.Action("NominaMensual","Nominas")" class="menu-link">
+                                    <div data-i18n="Perfect Scrollbar">Boleta de pago</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- Reportes -->
+                    <li class="menu-item">
+                        <a href="@Url.Action("Index","Reportes")" class="menu-link">
+                            <i class="bi bi-file-pdf me-3"></i>
+                            <div data-i18n="Basic">Reportes</div>
+                        </a>
+                    </li>
+                    <!-- Administrar cuentas -->
+                    <li class="menu-item">
+                        <a href="javascript:void(0)" class="menu-link menu-toggle">
+                            <i class="bi bi-person-fill-gear me-3"></i>
+                            <div data-i18n="Extended UI">Administrar cuentas</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="@Url.Action("AdministrarUsuarios", "Usuarios")" class="menu-link">
+                                    <div data-i18n="Perfect Scrollbar">Usuarios</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="@Url.Action("RegistrarUsuario","Usuarios")" class="menu-link">
+                                    <div data-i18n="Perfect Scrollbar">Mantenimiento de usuarios</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+            <!-- / Menu -->
+            <!-- Layout container -->
+            <div class="layout-page">
+                <!-- Navbar -->
 
-
+                <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+                     id="layout-navbar">
+                    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+                        <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                            <i class="bx bx-menu bx-sm"></i>
+                        </a>
                     </div>
-                </li>
 
-                <li class="dropdown notification-list">
-                    <a class="nav-link dropdown-toggle nav-user arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false"
-                       aria-expanded="false">
-                        <span class="account-user-avatar">
-                            <img src="~/Estilos/images/users/avatar-1.jpg" alt="user-image" class="rounded-circle">
-                        </span>
-                        <span>
-                            <span class="account-user-name">E.Aguilar</span>
-                            <span class="account-position">Administrador</span>
-                        </span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated topbar-dropdown-menu profile-dropdown">
-                        <!-- item-->
-                        <div class=" dropdown-header noti-title">
-                            <h6 class="text-overflow m-0">Welcome</h6>
+                    <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+                        <!-- Search -->
+                        <div class="navbar-nav align-items-center">
+                            <div class="nav-item d-flex align-items-center">
+                                <i class="bx bx-search fs-4 lh-0"></i>
+                                <input type="text"
+                                       class="form-control border-0 shadow-none"
+                                       placeholder="Search..."
+                                       aria-label="Search..." />
+                            </div>
                         </div>
+                        <!-- /Search -->
 
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item" onclick="micuenta()">
-                            <i class="mdi mdi-account-circle me-1"></i>
-                            <span>My Account</span>
-                        </a>
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <i class="mdi mdi-lifebuoy me-1"></i>
-                            <span>Support</span>
-                        </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item" onclick="Login()">
-                            <i class="mdi mdi-logout me-1"></i>
-                            <span>Logout</span>
-                        </a>
+                        <ul class="navbar-nav flex-row align-items-center ms-auto">
+                            <!-- Place this tag where you want the button to render. -->
+                            <li class="nav-item lh-1 me-3">
+                                <a class="github-button"
+                                   href="https://github.com/themeselection/sneat-html-admin-template-free"
+                                   data-icon="octicon-star"
+                                   data-size="large"
+                                   data-show-count="true"
+                                   aria-label="Star themeselection/sneat-html-admin-template-free on GitHub">Star</a>
+                            </li>
+                            <!-- User -->
+                            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                                    <div class="avatar avatar-online">                                        
+                                        <img src="~/Estilos/assets/img/avatars/1.png" class="w-px-40 h-auto rounded-circle" />
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <a class="dropdown-item" href="#">
+                                            <div class="d-flex">
+                                                <div class="flex-shrink-0 me-3">
+                                                    <div class="avatar avatar-online">                                                        
+                                                        <img src="~/Estilos/assets/img/avatars/1.png" class="w-px-40 h-auto rounded-circle" />
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <span class="fw-semibold d-block">Nombre de usuario</span>
+                                                    <small class="text-muted">Rol Usuario</small>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="dropdown-divider"></div>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="@Url.Action("MiCuenta","Usuarios")">
+                                            <i class="bi bi-person me-2" style="font-size: 1.2rem;"></i>
+                                            <span class="align-middle">Mi cuenta</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">
+                                            <i class="bi bi-gear me-2" style="font-size: 1.2rem;"></i>
+                                            <span class="align-middle">Soporte</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">
+                                            <span class="d-flex align-items-center align-middle">
+                                                <i class="bi bi-card-checklist me-2" style="font-size: 1.2rem;"></i>
+                                                <span class="flex-grow-1 align-middle">Notificaciones</span>
+                                                <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="dropdown-divider"></div>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="auth-login-basic.html">
+                                            <i class="bi bi-box-arrow-in-left me-2" style="font-size: 1.4rem;"></i>
+                                            <span class="align-middle">Cerrar sesión</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!--/ User -->
+                        </ul>
                     </div>
-                </li>
+                </nav>
 
-            </ul>
-        </div>
-        <!-- end Topbar -->
-    </div>
-    <!-- ============================================================== -->
-    <!-- Start Page Content here -->
-    <!-- ============================================================== -->
-
-    <div class="container-fluid">
-        <!-- Begin page -->
-        <div class="wrapper">
-
-            <!-- ========== Left Sidebar Start ========== -->
-            <div class="leftside-menu leftside-menu-detached" style="background: #313A46 !important;">
-
-                <div class="leftbar-user" style="color:white;">
-                    <h1>Gestión de Personal</h1>
-                </div>
-
-                <div id="leftside-menu-container" data-simplebar>
-
-                    <!--- Sidemenu -->
-                    <ul class="side-nav">
-
-                        <li class="side-nav-title side-nav-item">Navegación</li>
-
-                        <li class="side-nav-item">
-                            <div class="collapse" id="sidebarDashboards">
-                                <ul class="side-nav-second-level">
-                                    <li>
-                                        <a href="dashboard-analytics.html">Analytics</a>
-                                    </li>
-                                    <li>
-                                        <a href="dashboard-crm.html">CRM</a>
-                                    </li>
-                                    <li>
-                                        <a href="index.html">Ecommerce</a>
-                                    </li>
-                                    <li>
-                                        <a href="dashboard-projects.html">Projects</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="side-nav-title side-nav-item">Primer Nivel</li>
-
-                        <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarActividades" aria-expanded="false" aria-controls="sidebarActividades" class="side-nav-link">
-                                <i class="uil-store"></i>
-                                <span> Actividades </span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarActividades">
-                                <ul class="side-nav-second-level">
-                                    <li>
-                                        <a href="@Url.Action("Horarios","Actividades")">Horario del personal</a>
-                                    </li>
-                                    <li>
-                                        <a href="@Url.Action("RegistroActividades","Actividades")">Registrar Actividades</a>
-                                    </li>
-                                    <li>
-                                        <a href="@Url.Action("GestionDocumentos","Actividades")">Gestion de Documentos</a>
-                                    </li>
-                                    <li>
-                                        <a href="@Url.Action("Aprobaciones","Actividades")">Aprobaciones</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-
-                        <li class="side-nav-title side-nav-item">Segundo Nivel</li>
-
-
-                        <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarAnuncios" aria-expanded="false" aria-controls="sidebarAnuncios" class="side-nav-link">
-                                <i class=" mdi mdi-newspaper-variant-outline"></i>
-                                <span> Anuncios </span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarAnuncios">
-                                <ul class="side-nav-second-level">
-                                    <li>
-                                        <a href="@Url.Action("Anuncios","Anuncios")">Anuncios</a>
-                                    </li>
-
-                                    <li>
-                                        <a href="@Url.Action("Mensajes","Anuncios")">Mensajes</a>
-                                    </li>
-
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarDocumentos" aria-expanded="false" aria-controls="sidebarDocumentos" class="side-nav-link">
-                                <i class="uil-store"></i>
-                                <span> Documentos </span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarDocumentos">
-                                <ul class="side-nav-second-level">
-                                    <li>
-                                        <a href="@Url.Action("DocusPlanos","Documentos")">Planos</a>
-                                    </li>
-                                    <li>
-                                        <a href="@Url.Action("DocusPropios","Documentos")">Propios</a>
-                                    </li>
-
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="side-nav-item">
-                            <a href="@Url.Action("Index","Capacitaciones")" aria-expanded="false" aria-controls="sidebarCapacitaciones" class="side-nav-link">
-                                <i class="uil-store"></i>
-                                <span> Capacitaciones </span>
-                            </a>
-
-                        </li>
-
-                        <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarEncuestas" aria-expanded="false" aria-controls="sidebarEncuestas" class="side-nav-link">
-                                <i class="uil-store"></i>
-                                <span> Encuestas </span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarEncuestas">
-                                <ul class="side-nav-second-level">
-                                    <li>
-                                        <a href="@Url.Action("CrearEncuesta","Encuestas")">Crear Encuesta</a>
-                                    </li>
-                                    <li>
-                                        <a href="@Url.Action("LlenarEncuesta","Encuestas")">Llenar encuesta</a>
-                                    </li>
-                                    <li>
-                                        <a href="@Url.Action("InformeEncuesta","Encuestas")">Informe</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="side-nav-title side-nav-item">Tercer Nivel</li>
-
-
-                        <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarNomina" aria-expanded="false" aria-controls="sidebarNomina" class="side-nav-link">
-                                <i class="mdi mdi-book-edit-outline"></i>
-                                <span> Nomina </span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarNomina">
-                                <ul class="side-nav-second-level">
-
-                                    <li>
-                                        <a href="@Url.Action("Configuracion","Nominas")">Configuración</a>
-                                    </li>
-
-                                    <li>
-                                        <a href="@Url.Action("Ingresos","Nominas")">Ingresos</a>
-                                    </li>
-                                    <li>
-                                        <a href="@Url.Action("Deducciones","Nominas")">Deducciones</a>
-                                    </li>
-
-                                    <li>
-                                        <a href="@Url.Action("Calculo","Nominas")">Cálculo</a>
-                                    </li>
-
-                                    <li>
-                                        <a href="@Url.Action("NominaMensual","Nominas")">Boleta de Pago</a>
-                                    </li>
-
-                                </ul>
-                            </div>
-                        </li>
-                        <!--
-    <li class="side-nav-item">
-        <a data-bs-toggle="collapse" href="#sidebarAprobaciones" aria-expanded="false" aria-controls="sidebarAprobaciones" class="side-nav-link">
-            <i class="uil-store"></i>
-            <span> Aprobaciones </span>
-            <span class="menu-arrow"></span>
-        </a>
-        <div class="collapse" id="sidebarAprobaciones">
-            <ul class="side-nav-second-level">
-                <li>
-                    <a href="apps-ecommerce-products.html">Products</a>
-                </li>
-                <li>
-                    <a href="apps-ecommerce-products-details.html">Products Details</a>
-                </li>
-                <li>
-                    <a href="apps-ecommerce-orders.html">Orders</a>
-                </li>
-                <li>
-                    <a href="apps-ecommerce-orders-details.html">Order Details</a>
-                </li>
-                <li>
-                    <a href="apps-ecommerce-customers.html">Customers</a>
-                </li>
-                <li>
-                    <a href="apps-ecommerce-shopping-cart.html">Shopping Cart</a>
-                </li>
-                <li>
-                    <a href="apps-ecommerce-checkout.html">Checkout</a>
-                </li>
-                <li>
-                    <a href="apps-ecommerce-sellers.html">Sellers</a>
-                </li>
-            </ul>
-        </div>
-    </li> -->
-
-                        <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarSolicitudes" aria-expanded="false" aria-controls="sidebarSolicitudes" class="side-nav-link">
-                                <i class="uil-store"></i>
-                                <span> Solicitudes </span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarSolicitudes">
-                                <ul class="side-nav-second-level">
-                                    <li>
-                                        <a href="@Url.Action("Vacaciones","Solicitudes")">Vacaciones</a>
-                                    </li>
-                                    <li>
-                                        <a href="@Url.Action("Constancias","Solicitudes")">Constancias salariales</a>
-                                    </li>
-                                    <li>
-                                        <a href="@Url.Action("CambiosHorario","Solicitudes")">Cambios de horario</a>
-                                    </li>
-                                    <li>
-                                        <a href="@Url.Action("Permisos","Solicitudes")">Permisos especiales</a>
-                                    </li>
-                                    <li>
-                                        <a href="@Url.Action("InformacionPersonal","Solicitudes")">Cambio informacion personal</a>
-                                    </li>
-                                    <li>
-                                        <a href="@Url.Action("ReporteSolicitudAntiguedad","Solicitudes")">Reporte antiguedad</a>
-                                    </li>
-                                    <li>
-                                        <a href="@Url.Action("HistorialSolicitudes","Solicitudes")">Historial de solicitudes</a>
-                                    </li>
-
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="side-nav-item">
-                            <a href="@Url.Action("Index", "Reportes")" aria-expanded="false" aria-controls="sidebarReportes" class="side-nav-link">
-                                <i class="uil-store"></i>
-                                <span> Reportes </span>
-                            </a>
-                        </li>
-
-                        <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarAdministrarUsuarios" aria-expanded="false" aria-controls="sidebarAdministrarUsuarios" class="side-nav-link">
-                                <i class="uil-store"></i>
-                                <span> Administrar Cuentas </span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarAdministrarUsuarios">
-                                <ul class="side-nav-second-level">
-                                    <li>
-                                        <a href="@Url.Action("AdministrarUsuarios","Usuarios")">Usuarios</a>
-                                    </li>
-                                    <li>
-                                        <a href="@Url.Action("RegistrarUsuario","Usuarios")">Registrar Usuarios</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-
-                    <!-- End Sidebar -->
-
-                    <div class="clearfix"></div>
-
-                </div>
-                <!-- Sidebar -left -->
-
-            </div>
-            <!-- Left Sidebar End -->
-            <!-- Start Content-->
-            <div class="content-page">
-                <!-- start page title -->
-                @RenderSection("Navegacion", required: false)
-                <!-- end page title -->
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                @RenderBody()
-                            </div> <!-- end card-body -->
-                        </div> <!-- end card -->
-                    </div><!-- end col -->
-                </div><!-- end row -->
-
-            </div> <!-- container -->
-        </div>
-        <!-- END wrapper -->
-    </div>
-
-
-    <footer class="footer">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-6">
-                    <script>document.write(new Date().getFullYear())</script> © Gestion de Personal
-                </div>
-                <div class="col-md-6">
-                    <div class="text-md-end footer-links d-none d-md-block">
-                        <a href="javascript: void(0);">Acerca De</a>
-                        <a href="javascript: void(0);">Soporte</a>
-                        <a href="javascript: void(0);">Contáctenos</a>
+                <!-- / Navbar -->
+                <!-- Content wrapper -->
+                <div class="content-wrapper">
+                    <!-- Content -->
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        @RenderBody()
                     </div>
+                    <!-- Footer -->
+                    <footer class="content-footer footer bg-footer-theme">
+                        <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+                            <div class="mb-2 mb-md-0">
+                                Copyright
+                            </div>
+                        </div>
+                    </footer>
+                    <!-- / Footer -->
+                    <!-- / Layout page -->
                 </div>
             </div>
         </div>
-    </footer>
+    </div>
+    <!-- / Layout wrapper -->
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->    
+    <script src="~/Estilos/assets/vendor/libs/jquery/jquery.js"></script>    
+    <script src="~/Estilos/assets/vendor/libs/popper/popper.js"></script>    
+    <script src="~/Estilos/assets/vendor/js/bootstrap.js"></script>    
+    <script src="~/Estilos/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>    
+    <script src="~/Estilos/assets/vendor/js/menu.js"></script>
+    <!-- endbuild -->
+    <!-- Vendors JS -->    
+    <script src="~/Estilos/assets/vendor/libs/apex-charts/apexcharts.js"></script>
 
-    <!-- ============================================================== -->
-    <!-- End Page content -->
-    <!-- ============================================================== -->
-    <!-- bundle -->
-    <script src="~/Estilos/js/vendor.min.js"></script>
-    <script src="~/Estilos/js/app.js"></script>
-    <script src="~/Estilos/js/pruebas.js"></script>
+    <!-- Main JS -->    
+    <script src="~/Estilos/assets/js/main.js"></script>
+
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
 </body>
 </html>
