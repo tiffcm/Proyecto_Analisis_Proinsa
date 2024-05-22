@@ -1,19 +1,19 @@
 ﻿
 @{
-    ViewBag.Title = "RegistrarUsuario";
+    ViewBag.Title = "MantenimientoUsuario";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Administrativo / Administrar cuentas / </span>Registrar usuarios </h4>
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Administrativo / Administrar cuentas / Usuarios /</span> Mantenimiento de usuarios</h4>
 
 <div class="card mb-4">
-    <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Registro información de un usuario</h5>
+    <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Actualizar información de un usuario</h5>
     <div class="card-body">
         <div class="row gx-3 gy-2 align-items-center">
             <div class="col-6">
                 <div class="mb-4">
                     <label for="inputId" class="form-label">Identificación</label>
-                    <input type="text" class="form-control" placeholder="Identificación" aria-label="First name">
+                    <input type="text" class="form-control" placeholder="Identificación" aria-label="First name" readonly>
                 </div>
             </div>
             <div class="col-6">
@@ -27,13 +27,13 @@
             <div class="col-md-6">
                 <div class="mb-4">
                     <label for="inputEmail4" class="form-label">Correo Electrónico</label>
-                    <input type="email" class="form-control" id="inputEmail4">
+                    <input type="email" class="form-control" id="inputEmail4" readonly>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="mb-4">
                     <label for="inputPassword4" class="form-label">Contraseña Temporal</label>
-                    <input type="password" class="form-control" id="inputPassword4">
+                    <input type="password" class="form-control" id="inputPassword4" readonly>
                 </div>
             </div>
         </div>
@@ -41,7 +41,7 @@
             <div class="col-12">
                 <div class="mb-4">
                     <label for="inputAddress" class="form-label">Dirección 1</label>
-                    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" readonly>
                 </div>
             </div>
         </div>
@@ -49,7 +49,7 @@
             <div class="col-3">
                 <div class="mb-4">
                     <label for="inputPhone" class="form-label">Teléfono</label>
-                    <input type="text" class="form-control" id="inputPhone" placeholder="Ingrese número de teléfono">
+                    <input type="text" class="form-control" id="inputPhone" placeholder="Apartment, studio, or floor" readonly>
                 </div>
             </div>
             <div class="col-3">
@@ -128,7 +128,7 @@
         </div>
         <div style="display:grid; place-items:center;">
             <div class="mt-4">
-                <button type="button" class="btn btn-primary" id="liveToastBtn">Registrar usuario</button>
+                <button type="button" class="btn btn-primary" id="liveToastBtn">Actualizar usuario</button>
             </div>
         </div>
     </div>
@@ -143,7 +143,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
         <div class="toast-body">
-            El usuario se registró correctamente
+            El usuario se actualizó correctamente
         </div>
     </div>
 </div>

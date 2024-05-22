@@ -8,8 +8,12 @@ namespace Proinsa_Gestion_Personal.Controllers
 {
     public class AprobacionesController : Controller
     {
-        // GET: Aprobaciones
-        public ActionResult Index()
+        public ActionResult Aprobaciones()
+        {
+            return View();
+        }
+
+        public ActionResult AproVacaciones()
         {
             return View();
         }

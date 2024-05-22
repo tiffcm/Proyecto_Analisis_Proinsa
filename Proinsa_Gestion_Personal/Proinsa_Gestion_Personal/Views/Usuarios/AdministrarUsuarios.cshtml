@@ -6,97 +6,71 @@
 
 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Horarios y actividades / Horario del personal /</span> Cambios de horario</h4>
 
-<div class="card mb-4">
-    <h5 class="card-header">Prueba por si quieren usar este fondo blanco</h5>
+<!-- Content wrapper -->
+<div class="content-wrapper">
+    <!-- Content -->
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <!-- Basic Bootstrap Table -->
+        <div class="card">
+            <h5 class="card-header">Usuarios registrados</h5>
+            <div class="table-responsive text-nowrap">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nombre completo</th>
+                            <th>Rol</th>
+                            <th>Departamento</th>
+                            <th>Puesto</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                        <tr>
+                            <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>Allan Rojas Alvarado</strong></td>
+                            <td>Administrador</td>
+                            <td>Administración</td>
+                            <td>CEO</td>
+                            <td><span class="badge bg-label-success me-1">Activo</span></td>
+                            <td>
+                                <a href="@Url.Action("MantenimientoUsuario","Usuarios")">Ver</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>Wilson Arias López</strong></td>
+                            <td>Empleado</td>
+                            <td>Development</td>
+                            <td>Developer</td>
+                            <td><span class="badge bg-label-primary me-1">Inactivo</span></td>
+                            <td>
+                                <a href="@Url.Action("MantenimientoUsuario","Usuarios")">Ver</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>Tifanny Camacho</strong></td>
+                            <td>Empleado</td>
+                            <td>Development</td>
+                            <td>Development Manager</td>
+                            <td><span class="badge bg-label-success me-1">Activo</span></td>
+                            <td>
+                                <a href="@Url.Action("MantenimientoUsuario","Usuarios")">Ver</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>Brandon Ruiz Miranda</strong></td>
+                            <td>Empleado</td>
+                            <td>Development</td>
+                            <td>Developer</td>
+                            <td><span class="badge bg-label-primary me-1">Inactivo</span></td>
+                            <td>
+                                <a href="@Url.Action("MantenimientoUsuario","Usuarios")">Ver</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!--/ Basic Bootstrap Table -->
+    </div>
 </div>
-
-<div class="container-fluid">
-    <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>
-</div>
-<div class="row g-3">
-    <form class="row g-3">
-        <div class="col-6">
-            <label for="inputId" class="form-label">Identificación</label>
-            <input type="text" class="form-control" placeholder="Identificación" aria-label="First name">
-        </div>
-        <div class="col-6">
-            <label for="inputName" class="form-label">Nombre</label>
-            <input type="text" class="form-control" placeholder="Nombre Completo" aria-label="First name">
-        </div>
-        <div class="col-md-6">
-            <label for="inputEmail4" class="form-label">Correo Electrónico</label>
-            <input type="email" class="form-control" id="inputEmail4">
-        </div>
-        <div class="col-md-6">
-            <label for="inputPassword4" class="form-label">Contraseña Temporal</label>
-            <input type="password" class="form-control" id="inputPassword4">
-        </div>
-        <div class="col-12">
-            <label for="inputAddress" class="form-label">Dirección 1</label>
-            <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-        </div>
-        <div class="col-3">
-            <label for="inputPhone" class="form-label">Teléfono</label>
-            <input type="text" class="form-control" id="inputPhone" placeholder="Apartment, studio, or floor">
-        </div>
-        <div class="col-3">
-            <label for="inputSalary" class="form-label">Ingrese el salario</label>
-            <input type="text" class="form-control" id="inputSalary">
-        </div>
-        <div class="col-3">
-            <label for="formFoto" class="form-label">Elija una foto</label>
-            <input class="form-control-file" type="file" id="formFoto">
-        </div>
-        <div class="col-6">
-            <label for="formCargo" class="form-label">Cargo</label>
-            <select class="form-select" aria-label="Cargo">
-                <option selected>Seleccione el cargo</option>
-                <option value="1">Cargo 1</option>
-                <option value="2">Cargo 2</option>
-                <option value="3">Cargo 3</option>
-            </select>
-        </div>
-        <div class="col-6">
-            <label for="formDepartamento" class="form-label">Departamento</label>
-            <select class="form-select" aria-label="Departamento">
-                <option selected>Seleccione el departamento</option>
-                <option value="1">Departamento 1</option>
-                <option value="2">Departamento 1</option>
-                <option value="3">Departamento 1</option>
-            </select>
-        </div>
-        <div class="col-3">
-            <label for="formEstado" class="form-label">Estado del empleado</label>
-            <select class="form-select" aria-label="Estado actual">
-                <option selected>Seleccione el estado</option>
-                <option value="1">Activo</option>
-                <option value="2">Inactivo</option>
-            </select>
-        </div>
-        <div class="col-3">
-            <label for="formRol" class="form-label">Rol</label>
-            <select class="form-select" aria-label="Rol">
-                <option selected>Seleccione el rol</option>
-                <option value="1">Administrador</option>
-                <option value="2">Jefe de área</option>
-                <option value="3">Empleado</option>
-            </select>
-        </div>
-        <div class="col-3">
-            <label for="formHorario" class="form-label">Horario asignado</label>
-            <select class="form-select" aria-label="Horario">
-                <option selected>Seleccione el horario</option>
-                <option value="1">Diurno</option>
-                <option value="2">Intermedio</option>
-                <option value="3">Tarde</option>
-                <option value="4">Noche</option>
-            </select>
-        </div>
-        <div class="col-12">
-            <button id="exitoso" type="submit" class="btn btn-primary">Actualizar usuario</button>
-        </div>
-    </form>
-</div>
+<!-- Content wrapper -->
