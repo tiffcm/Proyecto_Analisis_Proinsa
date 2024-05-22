@@ -4,55 +4,39 @@
     Layout = "~/Views/Shared/_Layout_Inicio.cshtml";
 }
 
-<!-- Login 9 - Bootstrap Brain Component -->
-<div class="login_container">
-    <div class="login_align">
-        <section class="bg-primary py-3 py-md-5 py-xl-8">
-            <div class="container">
-                <div class="row gy-4 align-items-center">
-                    <div class="col-12 col-md-6 col-xl-5-recuperar">
-                        <div class="card border-0 rounded-4">
-                            <div class="card-body p-3 p-md-4 p-xl-5">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="mb-4">
-                                            <div class="img_pos">
-                                                <img class="mb-4 img_pos img_logo_recuperar" loading="lazy" src="~/Estilos/images/Logo_Nuevo.png" alt="Proinsa Logo" />
-                                            </div>                                            
-                                            <h3 style="text-align:center;">Recuperar Contraseña</h3>
-                                        </div>
-                                    </div>
-                                </div>
-                                @using (Html.BeginForm("IniciarSesion", "Inicio"))
-                                {
-                                    <div class="row gy-3 overflow-hidden">
-                                        <div class="col-12">
-                                            <div class="form-floating mb-3">
-                                                <input type="email" class="form-control" name="email" id="email" placeholder="name@example.com" required>
-                                                <label for="email" class="form-label">Correo electrónico</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="d-grid">
-                                                <input type="submit" id="btn-inicio" name="btn-inicio" class="btn btn-primary btn-lg" value="Recuperar Correo" onclick="Login()">
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center mt-4">
-                                            <a href="#!" onclick="Login()">Volver al login</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+<div class="container-xxl">
+    <div class="authentication-wrapper authentication-basic container-p-y">
+        <div class="authentication-inner">
+            <!-- Register -->
+            <div class="card">
+                <div class="card-body">
+                    <!-- Logo -->
+                    <div class="app-brand justify-content-center">
+                        <a href="index.html" class="app-brand-link gap-2">
+                            <span class="app-brand-logo demo">
+                                <img src="~/Estilos/assets/img/empresa/Logo_Sin_Letras.png" />
+                            </span>
+                            <span class="app-brand-text demo text-body fw-bolder">Proinsa</span>
+                        </a>
                     </div>
+                    <!-- /Logo -->
+                    <div style="display: grid; place-items: center;">
+                        <h4 class="mb-2">Recuperar Acceso</h4>
+                        <p class="mb-4">Por favor, el correo registrado</p>
+                    </div>
+                    <form id="formAuthentication" class="mb-3" action="index.html" method="POST">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Correo electrónico</label>
+                            <input type="text" class="form-control" id="email" name="email" placeholder="Ingrese su correo" autofocus="">
+                        </div>
+                        <div class="mb-3">
+                            <button class="btn btn-primary d-grid w-100" type="button" onclick="IniciarSesion()">Iniciar Sesión</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-        </section>
+            <!-- /Register -->
+        </div>
     </div>
 </div>
-
-<script src="~/Estilos/js/pruebas.js"></script>
+<script src="~/Estilos/js/enlacesTemporales.js"></script>

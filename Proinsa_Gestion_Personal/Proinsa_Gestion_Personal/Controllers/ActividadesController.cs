@@ -21,29 +21,13 @@ namespace Proinsa_Gestion_Personal.Controllers
         }
 
         [HttpGet]
-        public ActionResult GestionDocumentos()
+        public ActionResult EditarActividades()
         {
             return View();
         }
 
         [HttpGet]
-        public ActionResult DocumentoUsuario()
-        {
-            return View();
-        }
-
-        [HttpGet]
-        public ActionResult Documentoplano()
-        {
-            return View();
-        }
-
-        public ActionResult Aprobaciones()
-        {
-            return View();
-        }
-
-        public ActionResult AproVacaciones()
+        public ActionResult HistorialActividades()
         {
             return View();
         }

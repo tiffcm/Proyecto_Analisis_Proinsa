@@ -21,7 +21,13 @@ namespace Proinsa_Gestion_Personal.Controllers
         }
 
         [HttpGet]
-        public ActionResult AdministrarUsuarios() 
+        public ActionResult AdministrarUsuarios()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult MantenimientoUsuario()
         {
             return View();
         }
