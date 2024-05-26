@@ -1,0 +1,166 @@
+﻿
+@{
+    ViewBag.Title = "MantenimientoUsuario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Administrativo / Administrar cuentas / Usuarios /</span> Mantenimiento de usuarios</h4>
+
+<div class="card mb-4">
+    <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Actualizar información de un usuario</h5>
+    <div class="card-body">
+        <div class="row gx-3 gy-2 align-items-center">
+            <div class="col-6">
+                <div class="mb-4">
+                    <label for="inputId" class="form-label">Identificación</label>
+                    <input type="text" class="form-control" placeholder="Identificación" aria-label="First name" readonly>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="mb-4">
+                    <label for="inputName" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" placeholder="Nombre Completo" aria-label="First name" readonly>
+                </div>
+            </div>
+        </div>
+        <div class="row gx-3 gy-2 align-items-center">
+            <div class="col-md-6">
+                <div class="mb-4">
+                    <label for="inputEmail4" class="form-label">Correo Electrónico</label>
+                    <input type="email" class="form-control" id="inputEmail4" readonly>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-4">
+                    <label for="inputPassword4" class="form-label">Contraseña Temporal</label>
+                    <input type="password" class="form-control" id="inputPassword4" readonly>
+                </div>
+            </div>
+        </div>
+        <div class="row gx-3 gy-2 align-items-center">
+            <div class="col-12">
+                <div class="mb-4">
+                    <label for="inputAddress" class="form-label">Dirección 1</label>
+                    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" readonly>
+                </div>
+            </div>
+        </div>
+        <div class="row gx-3 gy-2 align-items-center">
+            <div class="col-3">
+                <div class="mb-4">
+                    <label for="inputPhone" class="form-label">Teléfono</label>
+                    <input type="text" class="form-control" id="inputPhone" placeholder="Apartment, studio, or floor" readonly>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="mb-4">
+                    <label for="inputSalary" class="form-label">Ingrese el salario</label>
+                    <input type="text" class="form-control" id="inputSalary">
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="mb-4">
+                    <label for="formFoto" class="form-label">Elija una foto</label>
+                    <div class="input-group">
+                        <input type="file" class="form-control" id="inputGroupFile02" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row gx-3 gy-2 align-items-center">
+            <div class="col-6">
+                <div class="mb-4">
+                    <label for="formCargo" class="form-label">Cargo</label>
+                    <select class="form-select" aria-label="Cargo">
+                        <option selected>Seleccione el cargo</option>
+                        <option value="1">Cargo 1</option>
+                        <option value="2">Cargo 2</option>
+                        <option value="3">Cargo 3</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="mb-4">
+                    <label for="formDepartamento" class="form-label">Departamento</label>
+                    <select class="form-select" aria-label="Departamento">
+                        <option selected>Seleccione el departamento</option>
+                        <option value="1">Departamento 1</option>
+                        <option value="2">Departamento 1</option>
+                        <option value="3">Departamento 1</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row gx-3 gy-2 align-items-center">
+            <div class="col-3">
+                <div class="mb-4">
+                    <label for="formEstado" class="form-label">Estado del empleado</label>
+                    <select class="form-select" aria-label="Estado actual">
+                        <option selected>Seleccione el estado</option>
+                        <option value="1">Activo</option>
+                        <option value="2">Inactivo</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="mb-4">
+                    <label for="formRol" class="form-label">Rol</label>
+                    <select class="form-select" aria-label="Rol">
+                        <option selected>Seleccione el rol</option>
+                        <option value="1">Administrador</option>
+                        <option value="2">Jefe de área</option>
+                        <option value="3">Empleado</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="mb-4">
+                    <label for="formHorario" class="form-label">Horario asignado</label>
+                    <select class="form-select" aria-label="Horario">
+                        <option selected>Seleccione el horario</option>
+                        <option value="1">Diurno</option>
+                        <option value="2">Intermedio</option>
+                        <option value="3">Tarde</option>
+                        <option value="4">Noche</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div style="display:grid; place-items:center;">
+            <div class="mt-4">
+                <button type="button" class="btn btn-primary" id="liveToastBtn">Actualizar usuario</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div class="bs-toast toast fade hide bg-success" id="liveToast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <i class="bi bi-bell me-3"></i>
+            <div class="me-auto fw-semibold">Notificación</div>
+            <small>Hace un segundo</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            El usuario se actualizó correctamente
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.5/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        var toastTrigger = document.getElementById('liveToastBtn');
+        var toastLiveExample = document.getElementById('liveToast');
+
+        if (toastTrigger) {
+            toastTrigger.addEventListener('click', function () {
+                var toast = new bootstrap.Toast(toastLiveExample);
+                toast.show();
+            });
+        }
+    });
+</script>

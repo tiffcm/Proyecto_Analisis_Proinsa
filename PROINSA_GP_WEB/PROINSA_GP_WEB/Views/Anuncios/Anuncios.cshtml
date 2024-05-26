@@ -1,0 +1,127 @@
+﻿
+@{
+    ViewBag.Title = "Anuncios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Horarios y actividades / Horario del personal /</span> Cambios de horario</h4>
+
+<div class="card mb-4">
+    <h5 class="card-header">Prueba por si quieren usar este fondo blanco</h5>
+</div>
+
+<div class="row mb-2">
+    <div class="col-sm-4">
+        <a href="@Url.Action("Registro","Anuncios")" class="btn btn-danger mb-2"><i class="mdi mdi-plus-circle me-2"></i> Añadir anuncios</a>
+    </div>
+    <div class="col-sm-8">
+        <div class="text-sm-end">
+            <button type="button" class="btn btn-success mb-2 me-1"><i class="mdi mdi-cog"></i></button>
+
+        </div>
+    </div><!-- end col-->
+</div>
+
+<div class="table-responsive">
+    <table class="table table-centered table-striped dt-responsive nowrap w-100" id="products-datatable">
+        <thead>
+            <tr>
+                <th style="width: 20px;">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="customCheck1">
+                        <label class="form-check-label" for="customCheck1">&nbsp;</label>
+                    </div>
+                </th>
+                <th>Empleado</th>
+                <th>Email</th>
+                <th>Nombre</th>
+                <th>Fecha de Creación</th>
+                <th style="width: 75px;">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="customCheck2">
+                        <label class="form-check-label" for="customCheck2">&nbsp;</label>
+                    </div>
+                </td>
+                <td class="table-user">
+                    <img src="~/Estilos/images/users/avatar-1.jpg" alt="table-user" class="me-2 rounded-circle">
+                    <a href="" class="text-body fw-semibold">E.aguilar</a>
+                </td>
+
+                <td>
+                    eaguilar@proinsalat.com
+                </td>
+                <td>
+                    Capacitación curso de .Net 8
+                </td>
+                <td>
+                    03/03/2024
+                </td>
+                <td>
+                    <a href="@Url.Action("DetalleEvento","Anuncios")" class="action-icon"> <i class="mdi dripicons-preview"></i></a>
+
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="customCheck2">
+                        <label class="form-check-label" for="customCheck2">&nbsp;</label>
+                    </div>
+                </td>
+                <td class="table-user">
+                    <img src="~/Estilos/images/users/avatar-2.jpg" alt="table-user" class="me-2 rounded-circle">
+                    <a href="javascript:void(0);" class="text-body fw-semibold">A.Rojas</a>
+                </td>
+
+                <td>
+                    arojas@proinsalat.com
+                </td>
+                <td>
+                    Invitación Evento Blue-Star
+                </td>
+                <td>
+                    03/02/2024
+                </td>
+
+
+                <td>
+                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi dripicons-preview"></i></a>
+
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="customCheck2">
+                        <label class="form-check-label" for="customCheck2">&nbsp;</label>
+                    </div>
+                </td>
+                <td class="table-user">
+                    <img src="~/Estilos/images/users/avatar-9.jpg" alt="table-user" class="me-2 rounded-circle">
+                    <a href="javascript:void(0);" class="text-body fw-semibold">J.Villalobos</a>
+                </td>
+
+                <td>
+                    jvillalobos@proinsalat.com
+                </td>
+                <td>
+                    Cambio de Horario para los viernes: Salida 4:30 pm
+                </td>
+                <td>
+                    03/01/2024
+                </td>
+                <td>
+                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi dripicons-preview"></i></a>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

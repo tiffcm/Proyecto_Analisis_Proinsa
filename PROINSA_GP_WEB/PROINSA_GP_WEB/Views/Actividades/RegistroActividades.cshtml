@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewBag.Title = "RegistroActividades";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Horarios y actividades / Actividades diarias /</span> Registrar una actividad</h4>
+
+<div class="card mb-4">
+    <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Registrar la actividad del día de hoy</h5>
+    <div class="card-body">
+        <div class="row gx-3 gy-2 align-items-center">
+            <div class="col-md-4">
+                <div class="mb-4">
+                    <label for="exampleFormControlInput1" class="form-label">Nombre del empleado</label>
+                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Nombre del empleado"
+                           readonly />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="mb-4">
+                    <label for="exampleFormControlReadOnlyInput1" class="form-label">Departamento</label>
+                    <input class="form-control" type="text" id="exampleFormControlReadOnlyInput1" placeholder="Departamento"
+                           readonly />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="mb-4">
+                    <label for="exampleFormControlInput1" class="form-label">Puesto que desempeña</label>
+                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Nombre del puesto"
+                           readonly />
+                </div>
+            </div>
+        </div>
+        <div class="row gx-3 gy-2 align-items-center">
+            <div class="col-md-4">
+                <div class="mb-4">
+                    <label for="ListaHorarios" class="form-label">Horario actual</label>
+                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Mostrar horario actual"
+                           readonly />
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="mb-4">
+                    <label for="html5-datetime-local-input" class="col-md-2 col-form-label">Datetime</label>
+                    <div class="col-md-12">
+                        <input class="form-control"
+                               type="datetime-local"
+                               value="2021-06-18T12:30:00"
+                               id="html5-datetime-local-input" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <label for="Justificacion" class="form-label">Agregar las actividades diaras</label>
+            <textarea class="form-control" id="Justificacion" rows="3"></textarea>
+        </div>
+        <div class="mt-4" style="display:grid; place-items:center;">
+            <button type="button" class="btn btn-primary" id="liveToastBtn">
+                <span><i class="bi bi-bell" style="font-size:18px;"></i></span>&nbsp; Enviar
+            </button>
+        </div>
+    </div>
+</div>
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div class="bs-toast toast fade hide bg-success" id="liveToast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <i class="bi bi-bell me-3"></i>
+            <div class="me-auto fw-semibold">Notificación</div>
+            <small>Hace un segundo</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Se agregó la actividad diaria con éxito
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.5/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        var toastTrigger = document.getElementById('liveToastBtn');
+        var toastLiveExample = document.getElementById('liveToast');
+
+        if (toastTrigger) {
+            toastTrigger.addEventListener('click', function () {
+                var toast = new bootstrap.Toast(toastLiveExample);
+                toast.show();
+            });
+        }
+    });
+</script>

@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "Aprobaciones";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Horarios y actividades / Horario del personal /</span> Cambios de horario</h4>
+
+<div class="card mb-4">
+    <h5 class="card-header">Prueba por si quieren usar este fondo blanco</h5>
+</div>
+
+<div class="container">
+    <br /><br />
+    <ul class="list-group">
+
+        <li class="list-group-item col-12 h4">
+            Solicitud 1 - cambio horario<br>
+            <label>Fecha de creacion: </label>
+            <label>15/5/2023</label>
+            <br>
+            <label>Descripcion: </label>
+            <br /><br />
+            <div class="col-9">
+                <a class="btn btn-primary" href="@Url.Action("Horarios","Actividades")" role="button">Ir a solicitud</a>
+            </div>
+        </li>
+
+
+        <li class="list-group-item col-12 h4">
+            Solicitud 2 - vacaciones <br>
+            <label>Fecha de creacion: </label>
+            <label>2/9/2023</label>
+            <br>
+            <label>Descripcion: </label>
+            <br /><br />
+            <div class="col-9">
+                <a class="btn btn-primary" href="@Url.Action("AproVacaciones","Actividades")" role="button">Ir a solicitud</a>
+            </div>
+        </li>
+
+
+        <li class="list-group-item col-12 h4">
+            Solicitud 3 - Cambio informacion personal<br>
+            <label>Fecha: </label>
+            <label>20/6/2023</label>
+            <br>
+            <label>Descripcion: </label>
+            <br /><br />
+            <div class="col-9">
+                <a class="btn btn-primary" href="" role="button">Ir a solicitud</a>
+            </div>
+        </li>
+
+    </ul>
+</div>

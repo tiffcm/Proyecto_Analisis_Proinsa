@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "GestionDocumentos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Horarios y actividades / Horario del personal /</span> Cambios de horario</h4>
+
+<div class="card mb-4">
+    <h5 class="card-header">Prueba por si quieren usar este fondo blanco</h5>
+</div>
+
+<div class="row g-3">
+    <form class="row g-3">
+        <div class="col-9">
+            <a class="btn btn-primary" href="@Url.Action("Documentoplano","Actividades")" role="button">Subir documento plano</a>
+        </div>
+        <div class="col-9">
+            <a class="btn btn-primary" href="@Url.Action("DocumentoUsuario","Actividades")" role="button">Subir documento a usuario</a>
+        </div>
+    </form>
+</div>
