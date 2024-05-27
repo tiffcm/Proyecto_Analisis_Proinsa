@@ -33,5 +33,10 @@ namespace PROINSA_GP_WEB.Controllers
         {
             return View();
         }
+
+        public IActionResult GestionMisDocumentos()
+        {
+            return View();
+        }
     }
 }
