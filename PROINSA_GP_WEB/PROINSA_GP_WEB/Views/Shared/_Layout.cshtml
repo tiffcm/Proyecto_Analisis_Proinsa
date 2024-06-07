@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+
+
+<!DOCTYPE html>
 <html lang="en"
       class="light-style layout-menu-fixed"
       dir="ltr"
@@ -344,8 +348,11 @@
                                         <img src="~/assets/img/avatars/1.png" class="w-px-40 h-auto rounded-circle" />
                                     </div>
                                 </a>
+
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li>
+                                        @if (SignInManager.IsSignedIn(User))
+                                        {
                                         <a class="dropdown-item" href="#">
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 me-3">
@@ -354,11 +361,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
-                                                    <span class="fw-semibold d-block">Nombre de usuario</span>
+                                                        <span class="fw-semibold d-block">@User.Identity!.Name</span>
                                                     <small class="text-muted">Rol Usuario</small>
                                                 </div>
                                             </div>
                                         </a>
+                                        }
                                     </li>
                                     <li>
                                         <div class="dropdown-divider"></div>
@@ -388,10 +396,13 @@
                                         <div class="dropdown-divider"></div>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="@Url.Action("IniciarSesion","Inicio")">
-                                            <i class="bi bi-box-arrow-in-left me-2" style="font-size: 1.4rem;"></i>
-                                            <span class="align-middle">Cerrar sesión</span>
-                                        </a>
+
+                                        <form asp-action="Logout" asp-controller="Inicio" method="post" class="d-inline">
+                                            <button type="submit" class="dropdown-item">
+                                                <i class="bi bi-box-arrow-in-left me-2" style="font-size: 1.4rem;"></i>
+                                                <span class="align-middle">Cerrar sesión</span>
+                                            </button>
+                                        </form>
                                     </li>
                                 </ul>
                             </li>
