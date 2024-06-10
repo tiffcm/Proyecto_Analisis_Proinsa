@@ -1,6 +1,6 @@
-﻿namespace PROINSA_GP_API.Entidad
+﻿namespace PROINSA_GP_WEB.Entidad
 {
-    //Falta arreglar, solo traer la información que se necesita.
+    //Falta arreglar, solo traer los datos que se necesitan, no los datos de la tabla
     public class Empleado
     {
         public long ID_EMPLEADO { get; set; }
@@ -28,7 +28,8 @@
 
         public string CODIGO { get; set; }
         public string? MENSAJE { get; set; }
-        public Object? DATO { get; set; }
+        public Empleado? DATO { get; set; }
         public List<Empleado>? DATOS { get; set; }
     }
 }
+

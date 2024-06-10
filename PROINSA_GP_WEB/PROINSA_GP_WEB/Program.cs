@@ -2,11 +2,14 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PROINSA_GP_WEB.Models;
+using PROINSA_GP_WEB.Servicios;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpClient();
+builder.Services.AddSingleton<IEmpleadoModel, EmpleadoModel>();
 
 // para autenticación con   AZURE
 
@@ -29,7 +32,6 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(opciones =>
                .AddEntityFrameworkStores<ApplicationDbContext>()
                .AddDefaultTokenProviders();
 
-
 builder.Services.PostConfigure<CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme,
     opciones =>
     {
@@ -37,16 +39,7 @@ builder.Services.PostConfigure<CookieAuthenticationOptions>(IdentityConstants.Ap
         opciones.AccessDeniedPath = "/usuarios/login";
     });
 
-
-
-
-
-
 var app = builder.Build();
-
-
-
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
