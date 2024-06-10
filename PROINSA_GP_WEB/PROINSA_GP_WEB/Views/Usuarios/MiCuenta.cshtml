@@ -1,4 +1,5 @@
-﻿
+﻿<!--Se declara la entidad del Modelo-->
+@model PROINSA_GP_WEB.Entidad.Empleado
 @{
     ViewBag.Title = "MiCuenta";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,7 +12,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card mb-4">
-                    <h5 class="card-header">Profile Details</h5>
+                    <h5 class="card-header">Detalles del perfil</h5>
                     <!-- Account -->
                     <div class="card-body">
                         <div class="d-flex align-items-start align-items-sm-center gap-4">
@@ -29,28 +30,24 @@
                     </div>
                     <hr class="my-0" />
                     <div class="card-body">
-                        <form id="formAccountSettings" method="POST" onsubmit="return false">
+                        <!-- Se utiliza Razor para almacenar la información de una forma más sencilla -->
+                        @using (Html.BeginForm("MiCuenta", "Usuarios", FormMethod.Post)){
                             <div class="row">
-                                <div class="mb-3 col-md-6">
-                                    <label for="firstName" class="form-label">Nombre</label>
-                                    <input class="form-control" type="text" id="firstName" name="firstName" value="John"
-                                           autofocus readonly />
+                                <div class="mb-3 col-md-12">
+                                    @Html.Label("Nombre del usuario")
+                                    @Html.TextBoxFor(m => m.NOMBRECOMPLETO, new { @class = "form-control", @readonly = "true" })
                                 </div>
-                                <div class="mb-3 col-md-6">
-                                    <label for="lastName" class="form-label">Apellido</label>
-                                    <input class="form-control" type="text" name="lastName" id="lastName" value="Doe"  readonly/>
+                            </div>
+                            <div class="row">
+                                <div class="mb-3 col-md-4">
+                                    @Html.Label("Correo Electrónico")
+                                    @Html.TextBoxFor(m => m.CORREO, new { @class = "form-control", @readonly = "true" })
                                 </div>
-                                <div class="mb-3 col-md-6">
-                                    <label for="email" class="form-label">E-mail</label>
-                                    <input class="form-control" type="text" id="email" name="email" value="john.doe@example.com"
-                                           placeholder="john.doe@example.com" readonly/>
+                                <div class="mb-3 col-md-4">
+                                    @Html.Label("Puesto")
+                                    @Html.TextBoxFor(m => m.NOMBRE_CARGO, new { @class = "form-control", @readonly = "true" })
                                 </div>
-                                <div class="mb-3 col-md-6">
-                                    <label for="organization" class="form-label">Puesto</label>
-                                    <input type="text" class="form-control" id="organization" name="organization"
-                                           value="ThemeSelection" readonly/>
-                                </div>
-                                <div class="mb-3 col-md-6">
+                                <div class="mb-3 col-md-4">
                                     <label class="form-label" for="phoneNumber">Número de teléfono</label>
                                     <div class="input-group input-group-merge">
                                         <span class="input-group-text">CRC (+506)</span>
@@ -58,20 +55,18 @@
                                                placeholder="2025 5501" />
                                     </div>
                                 </div>
-                                <div class="mb-3 col-md-6">
-                                    <label for="address" class="form-label">Dirección</label>
-                                    <input type="text" class="form-control" id="address" name="address" placeholder="Address" />
-                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="mb-3 col-md-12">
                                     <label for="state" class="form-label">Dirección exacta</label>
                                     <input class="form-control" type="text" id="state" name="state" placeholder="La Uruca" />
                                 </div>
                             </div>
-                            <div class="mt-2">
-                                <button type="submit" class="btn btn-primary me-2">Save changes</button>
+                            <div class="mt-2" style="display:grid; place-items:center;">
+                                <button type="submit" class="btn btn-primary mb-4">Save changes</button>
                                 <button type="reset" class="btn btn-outline-secondary">Cancel</button>
                             </div>
-                        </form>
+                        }
                     </div>
                     <!-- /Account -->
                 </div>
