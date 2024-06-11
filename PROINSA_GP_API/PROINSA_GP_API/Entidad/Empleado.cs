@@ -15,6 +15,7 @@
         public string? CORREO { get; set; }
         public long? HORARIOLABORAL_ID { get; set; }
         public string? NOMBRE_DEPARTAMENTO { get; set; }
+        public string? NOMBREROL {get; set;}
     }
     public class EmpleadoRespuesta
     {
