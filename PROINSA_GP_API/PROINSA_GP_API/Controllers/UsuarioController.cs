@@ -21,7 +21,7 @@ namespace PROINSA_GP_API.Controllers
         }
         //Hay arreglarlo, no está funcional
         [HttpPut][Route("ActualizarDatosUsuario")]
-        public async Task<IActionResult> ActualizarDatosUsuario ( Empleado entidad )
+        public async Task<IActionResult> ActualizarDatosUsuario(Empleado entidad)
         {
             Respuesta respuesta = new Respuesta();
 
@@ -55,7 +55,7 @@ namespace PROINSA_GP_API.Controllers
          * 
          **/
         [HttpGet][Route("ConsultarEmpleado")]
-        public async Task<IActionResult> ConsultarEmpleado (long ID_EMPLEADO)
+        public async Task<IActionResult> ConsultarEmpleado(long ID_EMPLEADO)
         {
             EmpleadoRespuesta respuesta = new EmpleadoRespuesta();
 
@@ -82,7 +82,7 @@ namespace PROINSA_GP_API.Controllers
             catch (Exception)
             {
                 respuesta.CODIGO = "0";
-                respuesta.MENSAJE = "Error";                
+                respuesta.MENSAJE = "Error";
             }
             return Ok(respuesta);
         }

@@ -29,4 +29,17 @@ namespace PROINSA_GP_WEB.Models
             }
         }
     }
+    /*
+    public void ActualizarUsuario(ActualizarUsuario AcU, IFormFile FOTO)
+    {
+            using (httpClient)
+            {
+                string url = "";
+                JsonContent body = JsonContent.Create(AcU);
+                var resp = httpClient.PutAsJsonAsync(url, body).Result;
+            }
+    }
+
+    */
+   
 }
