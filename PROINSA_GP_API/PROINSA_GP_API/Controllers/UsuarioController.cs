@@ -88,15 +88,50 @@ namespace PROINSA_GP_API.Controllers
         }
 
         [HttpGet]
-        [Route("ConsultarUsuario")]
-        public async Task<IActionResult> ConsultarUsuario(long ID_EMPLEADO)
+        [Route("ObtenerDatosEmpleado")]
+        public async Task<IActionResult> ObtenerDatosEmpleado(string CORREO)
+        {
+            EmpleadoRespuesta respuesta = new EmpleadoRespuesta();
+
+            try
+            {
+                using (var contexto = _dbConnection.CreateConnection())
+                {
+                    var request = (await contexto.QueryAsync("ObtenerDatosEmpleado",
+                       new { CORREO },
+                       commandType: System.Data.CommandType.StoredProcedure)).FirstOrDefault();
+                    if (request != null)
+                    {
+                        respuesta.CODIGO = "00";
+                        respuesta.MENSAJE = "OK";
+                        respuesta.DATO = request;
+                    }
+                    else
+                    {
+                        respuesta.CODIGO = "0";
+                        respuesta.MENSAJE = "La información del empleado no se encuentra registrada";
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                respuesta.CODIGO = "0";
+                respuesta.MENSAJE = "Error";
+            }
+            return Ok(respuesta);
+        }
+        
+        // Verificar si es get o post
+        [HttpGet]
+        [Route("ConsultarUsuarioAdministrador")]
+        public async Task<IActionResult> ConsultarUsuarioAdministrador(long ID_EMPLEADO)
 
         {
             EmpleadoRespuesta respuesta = new EmpleadoRespuesta();
 
             using (var contexto = _dbConnection.CreateConnection())
             {
-                var empleado = (await contexto.QueryAsync("ConsultarUsuario", new { ID_EMPLEADO }, commandType: System.Data.CommandType.StoredProcedure)).FirstOrDefault();
+                var empleado = (await contexto.QueryAsync("ConsultarUsuarioAdministrador", new { ID_EMPLEADO }, commandType: System.Data.CommandType.StoredProcedure)).FirstOrDefault();
 
                 if (empleado != null)
                 {
@@ -118,8 +153,8 @@ namespace PROINSA_GP_API.Controllers
         }
 
         [HttpPut]
-        [Route("ActualizarUsuario")]
-        public async Task<IActionResult> ActualizarUsuario(DatosUsuario AcU, IFormFile FOTO)
+        [Route("ActualizarUsuarioAdministrador")]
+        public async Task<IActionResult> ActualizarUsuarioAdministrador(DatosUsuario AcU, IFormFile FOTO)
 
         {
             Respuesta respuesta = new Respuesta();
@@ -144,7 +179,7 @@ namespace PROINSA_GP_API.Controllers
                     }
                 }
 
-                var request = await contexto.ExecuteAsync("ActualizarDatosUsuario",
+                var request = await contexto.ExecuteAsync("ActualizarUsuarioAdministrador",
                    new { AcU.IDENTIFICACION, AcU.NOMBRECOMPLETO, AcU.CORREO, AcU.TEMPORAL, AcU.DIRECCION, AcU.TELEFONO, AcU.SALARIO, AcU.FOTO, AcU.NOMBRE_CARGO, AcU.NOMBRE_DEPARTAMENTO, AcU.ESTADO, AcU.NOMBRE_ROL, AcU.NOMBREHL },
                    commandType: System.Data.CommandType.StoredProcedure);
                 if (request > 0)
@@ -164,6 +199,5 @@ namespace PROINSA_GP_API.Controllers
             }
 
         }
-
     }
 }

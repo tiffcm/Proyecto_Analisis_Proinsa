@@ -362,7 +362,10 @@
                                                 </div>
                                                 <div class="flex-grow-1">
                                                         <span class="fw-semibold d-block">@User.Identity!.Name</span>
-                                                    <small class="text-muted">Rol Usuario</small>
+                                                        @if (ViewBag.Rol != null)
+                                                        {
+                                                            <small class="text-muted">@ViewBag.Rol</small>
+                                                        }                                                        
                                                 </div>
                                             </div>
                                         </a>

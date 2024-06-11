@@ -1,20 +1,24 @@
 using Microsoft.AspNetCore.Mvc;
 using PROINSA_GP_WEB.Models;
+using PROINSA_GP_WEB.Servicios;
 using System.Diagnostics;
 
 namespace PROINSA_GP_WEB.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController(IEmpleadoModel _iEmpleadoModel) : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
 
         public IActionResult Index()
         {
+            var correoEmpleado = User.Identity!.Name;
+            if (correoEmpleado != null)
+            {
+                var respuesta = _iEmpleadoModel.ObtenerDatosEmpleado(correoEmpleado);
+                if (respuesta != null)
+                {
+                    ViewBag.Rol = respuesta.DATO.NOMBREROL;                   
+                }
+            }            
             return View();
         }
 
