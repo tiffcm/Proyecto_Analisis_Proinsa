@@ -21,7 +21,10 @@ namespace PROINSA_GP_WEB.Controllers
              * 
              * Se pasa la información a la Vista MiCuenta en caso de ser positivo
              **/
-            var respuesta = _iEmpleadoModel.ConsultarEmpleado();
+            var correoEmpleado = User.Identity!.Name;
+            var idEmpleado = _iEmpleadoModel.ObtenerDatosEmpleado(correoEmpleado);
+
+            var respuesta = _iEmpleadoModel.ConsultarEmpleado(idEmpleado.DATO.ID_EMPLEADO);
             if (respuesta?.CODIGO == "00") 
             {
                 return View(respuesta?.DATO);

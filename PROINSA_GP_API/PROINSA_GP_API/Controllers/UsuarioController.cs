@@ -83,5 +83,39 @@ namespace PROINSA_GP_API.Controllers
             }
             return Ok(respuesta);
         }
+
+        [HttpGet]
+        [Route("ObtenerDatosEmpleado")]
+        public async Task<IActionResult> ObtenerDatosEmpleado(string CORREO)
+        {
+            EmpleadoRespuesta respuesta = new EmpleadoRespuesta();
+
+            try
+            {
+                using (var contexto = _dbConnection.CreateConnection())
+                {
+                    var request = (await contexto.QueryAsync("ObtenerDatosEmpleado",
+                       new { CORREO },
+                       commandType: System.Data.CommandType.StoredProcedure)).FirstOrDefault();
+                    if (request != null)
+                    {
+                        respuesta.CODIGO = "00";
+                        respuesta.MENSAJE = "OK";
+                        respuesta.DATO = request;
+                    }
+                    else
+                    {
+                        respuesta.CODIGO = "0";
+                        respuesta.MENSAJE = "La información del empleado no se encuentra registrada";
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                respuesta.CODIGO = "0";
+                respuesta.MENSAJE = "Error";
+            }
+            return Ok(respuesta);
+        }
     }
 }
