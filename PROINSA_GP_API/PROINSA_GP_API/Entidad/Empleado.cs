@@ -1,4 +1,6 @@
-﻿namespace PROINSA_GP_API.Entidad
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PROINSA_GP_API.Entidad
 {
     //Falta arreglar, solo traer la información que se necesita.
     public class Empleado
@@ -32,4 +34,30 @@
         public Object? DATO { get; set; }
         public List<Empleado>? DATOS { get; set; }
     }
+
+    /////////////////
+    ///
+    public class DatosUsuario
+    {
+        public long ID_EMPLEADO { get; set; }
+        [Required]
+        public int? IDENTIFICACION { get; set; }
+        public string? NOMBRECOMPLETO { get; set; }
+        [Required]
+        [EmailAddress]
+        public string? CORREO { get; set; }
+        public string? TEMPORAL { get; set; }
+        public string? DIRECCION { get; set; }
+        public string? TELEFONO { get; set; }
+        public string? SALARIO { get; set; }
+        public string? FOTO { get; set; }
+        public string? NOMBRE_CARGO { get; set; }
+        public string? NOMBRE_DEPARTAMENTO { get; set; }
+        public string? ESTADO { get; set; }
+        [Required]
+        public string? NOMBRE_ROL { get; set; }
+        public string? NOMBREHL { get; set; }
+
+    }
+
 }
