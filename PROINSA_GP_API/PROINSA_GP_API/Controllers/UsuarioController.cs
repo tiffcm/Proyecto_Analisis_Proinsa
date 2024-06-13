@@ -55,7 +55,7 @@ namespace PROINSA_GP_API.Controllers
          * 
          **/
         [HttpGet][Route("ConsultarEmpleado")]
-        public async Task<IActionResult> ConsultarEmpleado(long ID_EMPLEADO)
+        public async Task<IActionResult> ConsultarEmpleado(string correo)
         {
             EmpleadoRespuesta respuesta = new EmpleadoRespuesta();
 
@@ -64,7 +64,7 @@ namespace PROINSA_GP_API.Controllers
                 using (var contexto = _dbConnection.CreateConnection())
                 {
                     var request = (await contexto.QueryAsync("ConsultarEmpleado",
-                       new { ID_EMPLEADO },
+                       new { correo },
                        commandType: System.Data.CommandType.StoredProcedure)).FirstOrDefault();
                     if (request != null)
                     {

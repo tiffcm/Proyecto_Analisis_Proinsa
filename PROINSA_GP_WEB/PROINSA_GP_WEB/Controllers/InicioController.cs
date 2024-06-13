@@ -82,14 +82,23 @@ namespace PROINSA_GP_WEB.Controllers
 
             var resultadoLoginExterno = await signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
 
+            string email = "";
+
+
+            var usuario = new IdentityUser() { Email = email, UserName = email };
+
+
             // Ya la cuenta existe
             if (resultadoLoginExterno.Succeeded)
             {
+                
+                
                 return RedirectToAction("Index", "Home");
-            
+               
+
             }
 
-            string email = "";
+           
 
             if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
             {
@@ -101,7 +110,7 @@ namespace PROINSA_GP_WEB.Controllers
                 return RedirectToAction("login", routeValues: new { mensaje });
             }
 
-            var usuario = new IdentityUser() { Email = email, UserName = email };
+            
 
             var resultadoCrearUsuario = await userManager.CreateAsync(usuario);
             if (!resultadoCrearUsuario.Succeeded)
@@ -115,6 +124,7 @@ namespace PROINSA_GP_WEB.Controllers
             if (resultadoAgregarLogin.Succeeded)
             {
                 await signInManager.SignInAsync(usuario, isPersistent: false, info.LoginProvider);
+               
                 return RedirectToAction("Index", "Home");
             }
 

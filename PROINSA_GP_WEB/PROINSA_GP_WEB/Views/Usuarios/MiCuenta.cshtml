@@ -48,18 +48,19 @@
                                     @Html.TextBoxFor(m => m.NOMBRE_CARGO, new { @class = "form-control", @readonly = "true" })
                                 </div>
                                 <div class="mb-3 col-md-4">
-                                    <label class="form-label" for="phoneNumber">Número de teléfono</label>
-                                    <div class="input-group input-group-merge">
-                                        <span class="input-group-text">CRC (+506)</span>
-                                        <input type="text" id="phoneNumber" name="phoneNumber" class="form-control"
-                                               placeholder="2025 5501" />
-                                    </div>
+                                  
+                                   @Html.Label("Telefono")
+                                   @Html.TextBoxFor(m => m.TELEFONO, new { @class = "form-control", @readonly = "true" })
+                                   
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="mb-3 col-md-12">
-                                    <label for="state" class="form-label">Dirección exacta</label>
-                                    <input class="form-control" type="text" id="state" name="state" placeholder="La Uruca" />
+                                    <div class="mb-3 col-md-4">
+                                        @Html.Label("Dirección")
+                                        @Html.TextBoxFor(m => m.DIRRECION, new { @class = "form-control", @readonly = "true" })
+
+                                    </div>
                                 </div>
                             </div>
                             <div class="mt-2" style="display:grid; place-items:center;">

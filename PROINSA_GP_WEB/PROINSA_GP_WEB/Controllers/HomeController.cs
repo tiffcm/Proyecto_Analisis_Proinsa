@@ -10,18 +10,19 @@ namespace PROINSA_GP_WEB.Controllers
 
         public IActionResult Index()
         {
-            var correoEmpleado = User.Identity!.Name;
+            var correoEmpleado = User.Identity?.Name;
             if (correoEmpleado != null)
             {
                 var respuesta = _iEmpleadoModel.ObtenerDatosEmpleado(correoEmpleado);
                 if (respuesta != null)
                 {
-                    ViewBag.Rol = respuesta.DATO.NOMBREROL;                   
+                    ViewBag.Rol = respuesta.DATO.NOMBREROL;
+                    HttpContext.Session.SetString("correo", correoEmpleado);
+                    HttpContext.Session.SetString("rol", respuesta.DATO.NOMBREROL);
                 }
-            }            
+            }
             return View();
         }
-
         public IActionResult Privacy()
         {
             return View();
@@ -32,5 +33,14 @@ namespace PROINSA_GP_WEB.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public IActionResult GetSession()
+        {
+            var value = HttpContext.Session.GetString("correo");
+            ViewBag.SessionValue = value;
+            return View();
+        }
+
+
     }
 }

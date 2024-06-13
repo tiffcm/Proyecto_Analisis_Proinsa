@@ -5,7 +5,7 @@ namespace PROINSA_GP_WEB.Servicios
     // Interfaz de empleadoModel para exponer la mínima información a la red
     public interface IEmpleadoModel
     {
-        public EmpleadoRespuesta? ConsultarEmpleado(long ID_EMPLEADO);
+        public EmpleadoRespuesta? ConsultarEmpleado(string CORREO);
         public EmpleadoRespuesta? ObtenerDatosEmpleado(string CORREO);
     }
 }

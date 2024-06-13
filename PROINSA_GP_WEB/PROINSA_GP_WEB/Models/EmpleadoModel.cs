@@ -13,9 +13,9 @@ namespace PROINSA_GP_WEB.Models
          * Dependiendo de la respuesta que se obtenga se lee el archivo JSON que retorna el 
          * API
          **/
-        public EmpleadoRespuesta? ConsultarEmpleado(long ID_EMPLEADO)
+        public EmpleadoRespuesta? ConsultarEmpleado(string correo)
         {            
-            string url = "https://localhost:7220/api/Usuario/ConsultarEmpleado?ID_EMPLEADO="+ ID_EMPLEADO;           
+            string url = "https://localhost:7220/api/Usuario/ConsultarEmpleado?correo=" + correo;           
             var solicitud = _httpClient.GetAsync(url).Result;
 
             if (solicitud.IsSuccessStatusCode)

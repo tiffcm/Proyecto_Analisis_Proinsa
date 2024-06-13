@@ -351,8 +351,8 @@
 
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li>
-                                        @if (SignInManager.IsSignedIn(User))
-                                        {
+                                        
+                                        
                                         <a class="dropdown-item" href="#">
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 me-3">
@@ -361,15 +361,22 @@
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
+
+
                                                         <span class="fw-semibold d-block">@User.Identity!.Name</span>
-                                                        @if (ViewBag.Rol != null)
-                                                        {
-                                                            <small class="text-muted">@ViewBag.Rol</small>
-                                                        }                                                        
+
+                                                    @{
+                                                        var rol = Context.Session.GetString("rol");
+                                                    }
+                                                    @if (!string.IsNullOrEmpty(rol))
+                                                    {
+                                                        @rol
+                                                    }
+                                                      
                                                 </div>
                                             </div>
                                         </a>
-                                        }
+                                        
                                     </li>
                                     <li>
                                         <div class="dropdown-divider"></div>

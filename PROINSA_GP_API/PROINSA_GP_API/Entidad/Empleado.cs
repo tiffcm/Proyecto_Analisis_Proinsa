@@ -18,6 +18,8 @@ namespace PROINSA_GP_API.Entidad
         public long? HORARIOLABORAL_ID { get; set; }
         public string? NOMBRE_DEPARTAMENTO { get; set; }
         public string? NOMBREROL {get; set;}
+
+        
     }
     public class EmpleadoRespuesta
     {
