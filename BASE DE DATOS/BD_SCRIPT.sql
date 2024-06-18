@@ -1036,3 +1036,944 @@ BEGIN
 	 
 	  WHERE C.CORREO=@CORREO
 END
+
+----CAMBIOS 17 DE JUNIO-----
+
+  ALTER TABLE APROBACIONSOLICITUD ALTER COLUMN FECHA_APROBACIONSOLICITUD datetime null
+  go
+
+  CREATE FUNCTION [dbo].[CalcularDias] (
+    @INICIO DATE,
+    @FIN DATE
+)
+RETURNS INT
+AS
+BEGIN
+    DECLARE @BusinessDays INT;
+
+    WITH FECHASRANGO AS (
+        SELECT @INICIO AS DateValue
+        UNION ALL
+        SELECT DATEADD(DAY, 1, DateValue)
+        FROM FECHASRANGO 
+        WHERE DateValue < @FIN
+    )
+    SELECT @BusinessDays = COUNT(*)
+    FROM FECHASRANGO 
+    WHERE DateValue >= @INICIO AND DateValue <= @FIN -- Dentro del rango de fechas
+        AND DATEPART(WEEKDAY, DateValue) NOT IN (1, 7); -- Excluye domingos (1) y sábados (7)
+
+    RETURN @BusinessDays;
+END;
+go
+
+create PROCEDURE [dbo].[RegistrarSolicitud]
+  @FECHA_INICIO datetime,
+  @FECHA_FINAL datetime,
+  @COMENTARIO varchar(max),
+  @DETALLE varchar(max),
+  @SOLICITANTE_ID bigint,
+  @TIPOSOLICITUD_ID bigint
+AS
+BEGIN
+
+  BEGIN TRY
+  DECLARE @ID_SOLICITUD BIGINT
+
+  IF (@TIPOSOLICITUD_ID IN (1, 2, 5))
+  BEGIN
+  DECLARE @DIAS INT
+  DECLARE @SALDO_DISPONIBLE BIGINT
+SET @DIAS=[dbo].[CalcularDias](@FECHA_INICIO,@FECHA_FINAL);
+SET @SALDO_DISPONIBLE=( SELECT SALDO_VACACIONES FROM EMPLEADO WHERE ID_EMPLEADO=@SOLICITANTE_ID)
+
+IF(@SALDO_DISPONIBLE>=@DIAS)
+BEGIN
+    -- Insert the new solicitud record
+    INSERT INTO SOLICITUD (
+        FECHA_SOLICITUD,
+        FECHA_INICIO,
+        FECHA_FINAL,
+        COMENTARIO,
+        DIAS,
+        DETALLE,
+        ESTADO_SOLICITUD,
+        SOLICITANTE_ID,
+        TIPOSOLICITUD_ID
+    ) VALUES (
+        GETDATE(),
+        @FECHA_INICIO,
+        @FECHA_FINAL,
+        @COMENTARIO,
+        @DIAS,
+        @DETALLE,
+        'P',
+        @SOLICITANTE_ID,
+        @TIPOSOLICITUD_ID
+    );
+  END
+  SET @ID_SOLICITUD=SCOPE_IDENTITY()
+  exec [dbo].[RegistrarAprobaciones] @ID_SOLICITUD
+  END
+  ELSE
+  BEGIN
+ 
+    PRINT 'El tipo de solicitud ';
+  END
+END TRY
+BEGIN CATCH
+  INSERT INTO [dbo].[DB_ERRORES]
+           ([UserName]
+           ,[ErrorNumber]
+           ,[ErrorState]
+           ,[ErrorSeverity]
+           ,[ErrorLine]
+           ,[ErrorProcedure]
+           ,[ErrorMessage]
+           ,[ErrorDateTime])
+
+    VALUES
+  (SUSER_SNAME(),
+   ERROR_NUMBER(),
+   ERROR_STATE(),
+   ERROR_SEVERITY(),
+   ERROR_LINE(),
+   ERROR_PROCEDURE(),
+   ERROR_MESSAGE(),
+   GETDATE());
+END CATCH;
+END
+go
+
+create PROCEDURE [dbo].[NotificacionSolicitud]
+
+@id_solicitud VARCHAR(50)
+AS
+BEGIN TRY
+	SET NOCOUNT ON;	
+
+	DECLARE	@Titule NVARCHAR(MAX),
+			@Head NVARCHAR(MAX),
+		    @Body NVARCHAR(MAX),
+	        @MENSAJE_SOLICITUD NVARCHAR(MAX),
+			@tipo_solicitud  VARCHAR(MAX),
+			@Email_Usuario VARCHAR(MAX),
+			@Descripcion_movimiento VARCHAR(MAX),
+			@fecha_solicitud VARCHAR(MAX),
+			@responsable_solicitud VARCHAR(MAX),
+			@comentario_movimiento VARCHAR(MAX),
+			@usuario_creador_solicitud VARCHAR(MAX),
+			@Email_Usuario_aprobar VARCHAR(MAX),
+			@footer VARCHAR(MAX)		
+
+	DECLARE @Resultado INT,
+			
+			@TablePermiso   nvarchar(max),
+			@TableAprobacion nvarchar(max),
+		    @EncabezadoAprobacion  nvarchar(max),
+			@INICIO_CORREO NVARCHAR(MAX),
+		    @Encabezado_Correo NVARCHAR(MAX),
+			@Alerta_Solicitud NVARCHAR(MAX),
+			@Alerta_Aprobacion NVARCHAR(MAX),
+			@MENSAJE_APROBACION  NVARCHAR(MAX),
+			@APROBACION  NVARCHAR(MAX)
+			
+	
+	
+
+	SET @tipo_solicitud = (select tipo.NOMBRE_TIPO_SOLICITUD  from SOLICITUD soli
+  inner join TIPOSOLICITUD tipo
+  on soli.TIPOSOLICITUD_ID=tipo.ID_TIPOSOLICITUD
+  where soli.ID_SOLICITUD=6)
+	
+	
+	SET @fecha_solicitud = ( select  FECHA_SOLICITUD from SOLICITUD
+   where ID_SOLICITUD= @id_solicitud )
+	
+    SET @Email_Usuario = ( select co.CORREO from SOLICITUD soli
+   inner join empleado emple on emple.ID_EMPLEADO=soli.SOLICITANTE_ID
+   inner join CORREO  co on co.ID_CORREO=emple.CORREO_ID
+   where soli.ID_SOLICITUD=@id_solicitud)
+	SET @responsable_solicitud = ( select emple.NOMBRECOMPLETO from SOLICITUD soli
+   inner join empleado emple on emple.ID_EMPLEADO=soli.SOLICITANTE_ID
+   where soli.ID_SOLICITUD=@id_solicitud)
+
+   set @Email_Usuario_aprobar=(select  co.CORREO from APROBACIONSOLICITUD apsoli
+
+inner join EMPLEADO emple on apsoli.ENCARGADO_APROBACION_ID=emple.ID_EMPLEADO
+inner join CORREO co on co.ID_CORREO=emple.CORREO_ID
+
+where apsoli.SOLICITUD_ID=@id_solicitud and apsoli.SECUENCIA=1)
+	
+	
+	
+	SET @INICIO_CORREO = 
+		'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+		<html xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office" style="width:100%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;padding:0;Margin:0">
+
+		<head>
+			<meta charset="UTF-8">
+			<meta content="width=device-width, initial-scale=1" name="viewport">
+			<meta name="x-apple-disable-message-reformatting">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge">
+			<meta content="telephone=no" name="format-detection">
+			<title>AMS</title>
+
+			<style type="text/css">
+				#outlook a {
+					padding: 0;
+				}
+        
+				.ExternalClass {
+					width: 100%;
+				}
+        
+				.ExternalClass,
+				.ExternalClass p,
+				.ExternalClass span,
+				.ExternalClass font,
+				.ExternalClass td,
+				.ExternalClass div {
+					line-height: 100%;
+				}
+        
+				.es-button {
+					mso-style-priority: 100!important;
+					text-decoration: none!important;
+				}
+        
+				a[x-apple-data-detectors] {
+					color: inherit!important;
+					text-decoration: none!important;
+					font-size: inherit!important;
+					font-family: inherit!important;
+					font-weight: inherit!important;
+					line-height: inherit!important;
+				}
+        
+				.es-desk-hidden {
+					display: none;
+					float: left;
+					overflow: hidden;
+					width: 0;
+					max-height: 0;
+					line-height: 0;
+					mso-hide: all;
+				}
+        
+				[data-ogsb] .es-button {
+					border-width: 0!important;
+					padding: 10px 20px 10px 20px!important;
+				}
+        
+				@media only screen and (max-width:600px) {
+					p,
+					ul li,
+					ol li,
+					a {
+						line-height: 150%!important
+					}
+					h1,
+					h2,
+					h3,
+					h1 a,
+					h2 a,
+					h3 a {
+						line-height: 120%!important
+					}
+					h1 {
+						font-size: 30px!important;
+						text-align: center
+					}
+					h2 {
+						font-size: 26px!important;
+						text-align: center
+					}
+					h3 {
+						font-size: 20px!important;
+						text-align: center
+					}
+					.es-header-body h1 a,
+					.es-content-body h1 a,
+					.es-footer-body h1 a {
+						font-size: 30px!important
+					}
+					.es-header-body h2 a,
+					.es-content-body h2 a,
+					.es-footer-body h2 a {
+						font-size: 26px!important
+					}
+					.es-header-body h3 a,
+					.es-content-body h3 a,
+					.es-footer-body h3 a {
+						font-size: 20px!important
+					}
+					.es-menu td a {
+						font-size: 16px!important
+					}
+					.es-header-body p,
+					.es-header-body ul li,
+					.es-header-body ol li,
+					.es-header-body a {
+						font-size: 16px!important
+					}
+					.es-content-body p,
+					.es-content-body ul li,
+					.es-content-body ol li,
+					.es-content-body a {
+						font-size: 16px!important
+					}
+					.es-footer-body p,
+					.es-footer-body ul li,
+					.es-footer-body ol li,
+					.es-footer-body a {
+						font-size: 16px!important
+					}
+					.es-infoblock p,
+					.es-infoblock ul li,
+					.es-infoblock ol li,
+					.es-infoblock a {
+						font-size: 12px!important
+					}
+					*[class="gmail-fix"] {
+						display: none!important
+					}
+					.es-m-txt-c,
+					.es-m-txt-c h1,
+					.es-m-txt-c h2,
+					.es-m-txt-c h3 {
+						text-align: center!important
+					}
+					.es-m-txt-r,
+					.es-m-txt-r h1,
+					.es-m-txt-r h2,
+					.es-m-txt-r h3 {
+						text-align: right!important
+					}
+					.es-m-txt-l,
+					.es-m-txt-l h1,
+					.es-m-txt-l h2,
+					.es-m-txt-l h3 {
+						text-align: left!important
+					}
+					.es-m-txt-r img,
+					.es-m-txt-c img,
+					.es-m-txt-l img {
+						display: inline!important
+					}
+					.es-button-border {
+						display: block!important
+					}
+					a.es-button,
+					button.es-button {
+						font-size: 20px!important;
+						display: block!important;
+						border-width: 10px 0px 10px 0px!important
+					}
+					.es-btn-fw {
+						border-width: 10px 0px!important;
+						text-align: center!important
+					}
+					.es-adaptive table,
+					.es-btn-fw,
+					.es-btn-fw-brdr,
+					.es-left,
+					.es-right {
+						width: 100%!important
+					}
+					.es-content table,
+					.es-header table,
+					.es-footer table,
+					.es-content,
+					.es-footer,
+					.es-header {
+						width: 100%!important;
+						max-width: 600px!important
+					}
+					.es-adapt-td {
+						display: block!important;
+						width: 100%!important
+					}
+					.adapt-img {
+						width: 100%!important;
+						height: auto!important
+					}
+					.es-m-p0 {
+						padding: 0px!important
+					}
+					.es-m-p0r {
+						padding-right: 0px!important
+					}
+					.es-m-p0l {
+						padding-left: 0px!important
+					}
+					.es-m-p0t {
+						padding-top: 0px!important
+					}
+					.es-m-p0b {
+						padding-bottom: 0!important
+					}
+					.es-m-p20b {
+						padding-bottom: 20px!important
+					}
+					.es-mobile-hidden,
+					.es-hidden {
+						display: none!important
+					}
+					tr.es-desk-hidden,
+					td.es-desk-hidden,
+					table.es-desk-hidden {
+						width: auto!important;
+						overflow: visible!important;
+						float: none!important;
+						max-height: inherit!important;
+						line-height: inherit!important
+					}
+					tr.es-desk-hidden {
+						display: table-row!important
+					}
+					table.es-desk-hidden {
+						display: table!important
+					}
+					td.es-desk-menu-hidden {
+						display: table-cell!important
+					}
+					.es-menu td {
+						width: 1%!important
+					}
+					table.es-table-not-adapt,
+					.esd-block-html table {
+						width: auto!important
+					}
+					table.es-social {
+						display: inline-block!important
+					}
+					table.es-social td {
+						display: inline-block!important
+					}
+					.es-desk-hidden {
+						display: table-row!important;
+						width: auto!important;
+						overflow: visible!important;
+						max-height: inherit!important
+					}
+					.h-auto {
+						height: auto!important
+					}
+				}
+			</style>
+		</head>
+
+		<body style="width:100%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;font-family:arial, ''helvetica neue'', helvetica, sans-serif;padding:0;Margin:0">
+			<div class="es-wrapper-color" style="background-color:#E4E5E7">
+				<table class="es-wrapper" width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;padding:0;Margin:0;width:100%;height:100%;background-repeat:repeat;background-position:center top;background-color:#E4E5E7">
+					<tr style="border-collapse:collapse">
+						<td valign="top" style="padding:0;Margin:0">
+							<table class="es-header" cellspacing="0" cellpadding="0" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%;background-color:transparent;background-repeat:repeat;background-position:center top">
+								<tr style="border-collapse:collapse">
+									<td align="center" style="padding:0;Margin:0">
+										<table class="es-header-body" cellspacing="0" cellpadding="0" align="center" bgcolor="#094293" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#094293;width:600px">
+											<tr style="border-collapse:collapse">
+												<td align="left" style="padding:0;Margin:0;padding-top:20px;padding-left:20px;padding-right:20px">
+													<table class="es-left" cellspacing="0" cellpadding="0" align="left" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left">
+														<tr style="border-collapse:collapse">
+															<td class="es-m-p0r es-m-p20b" valign="top" align="center" style="padding:0;Margin:0;width:178px">
+																
+															</td>
+														</tr>
+													</table>
+													<table cellspacing="0" cellpadding="0" align="right" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+														<tr style="border-collapse:collapse">
+															<td align="left" style="padding:0;Margin:0;width:362px">
+																<table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+																	<tr style="border-collapse:collapse">
+																		<td class="es-m-txt-c" align="right" style="padding:0;Margin:0;padding-top:15px;padding-bottom:20px">
+																			<p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, ''helvetica neue'', helvetica, sans-serif;line-height:21px;color:#FFFFFF;font-size:14px">'+@fecha_solicitud+'</p>
+																		</td>
+																	</tr>
+																</table>
+															</td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+											<tr style="border-collapse:collapse">
+												<td align="left" style="padding:0;Margin:0">
+													<table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+														<tr style="border-collapse:collapse">
+															<td valign="top" align="center" style="padding:0;Margin:0;width:600px">
+																
+															</td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>'
+
+	SET @Alerta_Solicitud = 
+		'<table class="es-content" cellspacing="0" cellpadding="0" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%">
+			<tr style="border-collapse:collapse">
+				<td align="center" style="padding:0;Margin:0">
+					<table class="es-content-body" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#ededed;width:600px" cellspacing="0" cellpadding="0" bgcolor="#ededed" align="center">
+						<tr style="border-collapse:collapse">
+							<td align="left" style="padding:0;Margin:0">
+								<table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+									<tr style="border-collapse:collapse">
+										<td valign="top" align="center" style="padding:0;Margin:0;width:600px">
+											<table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+												<tr style="border-collapse:collapse">
+													<td align="center" style="padding:0;Margin:0;padding-top:20px;padding-left:40px;padding-right:40px">
+														<h1 style="Margin:0;line-height:31px;mso-line-height-rule:exactly;font-family:tahoma, verdana, segoe, sans-serif;font-size:26px;font-style:normal;font-weight:normal;color:#333333">Detalles Solicitud</h1>
+														<p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, ''helvetica neue'', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px"><br></p>
+													</td>
+												</tr>
+												
+												
+												
+											</table>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr style="border-collapse:collapse">
+							<td align="left" style="padding:0;Margin:0">
+								<table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+									<tr style="border-collapse:collapse">
+										<td valign="top" align="center" style="padding:0;Margin:0;width:600px">
+											
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>'
+
+	SET @Encabezado_Correo = 
+				'<table class="es-content" cellspacing="0" cellpadding="0" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%">
+					<tr style="border-collapse:collapse">
+						<td align="center" style="padding:0;Margin:0">
+							<table class="es-content-body" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#ffffff;width:600px" cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center">
+								<tr style="border-collapse:collapse">
+									<td align="left" style="padding:0;Margin:0;padding-top:15px;padding-left:20px;padding-right:20px">
+										<table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+											<tr style="border-collapse:collapse">
+												<td valign="top" align="center" style="padding:0;Margin:0;width:560px">
+													
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+								<tr style="border-collapse:collapse">
+									<td align="left" style="Margin:0;padding-top:20px;padding-left:20px;padding-right:20px;padding-bottom:25px">
+										<table cellspacing="0" cellpadding="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+											<tr style="border-collapse:collapse">
+												<td align="left" style="padding:0;Margin:0;width:560px">
+													<table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+														
+														<tr style="border-collapse:collapse">
+															<td align="left" class="h-auto" height="30" style="padding:0;Margin:0">
+																<p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, ''helvetica neue'', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px"><strong>Número de solicitud: </strong> '+ @id_solicitud +'</p>
+															</td>
+														</tr>
+														<tr style="border-collapse:collapse">
+															<td align="left" class="h-auto" height="30" style="padding:0;Margin:0">
+																<p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, ''helvetica neue'', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px"><strong>Fecha solicitud : </strong> '+ @fecha_solicitud +'</p>
+															</td>
+														</tr>
+														<tr style="border-collapse:collapse">
+															<td align="left" class="h-auto" height="30" style="padding:0;Margin:0">
+																<p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, ''helvetica neue'', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px"><strong>Responsable de la solicitud: </strong> '+@responsable_solicitud+'</p>
+															</td>
+														</tr>
+
+													</table>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+								<tr style="border-collapse:collapse">
+									<td style="padding:0;Margin:0;background-color:#ededed" bgcolor="#ededed" align="left">
+										<table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+											<tr style="border-collapse:collapse">
+												<td valign="top" align="center" style="padding:0;Margin:0;width:600px">
+													
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+				<table class="es-content" cellspacing="0" cellpadding="0" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%">
+					<tr style="border-collapse:collapse">
+						<td align="center" style="padding:0;Margin:0">
+							<table class="es-content-body" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#ededed;width:600px" cellspacing="0" cellpadding="0" bgcolor="#ededed" align="center">
+								<tr style="border-collapse:collapse">
+									<td align="left" style="Margin:0;padding-top:20px;padding-bottom:20px;padding-left:40px;padding-right:40px">
+										<table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+											<tr style="border-collapse:collapse">
+												<td align="left" style="padding:0;Margin:0;width:520px">
+													<table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+														<tr style="border-collapse:collapse">
+															<td class="h-auto" align="center" height="30" style="padding:0;Margin:0">
+																<h3 style="Margin:0;line-height:24px;mso-line-height-rule:exactly;font-family:tahoma, verdana, segoe, sans-serif;font-size:20px;font-style:normal;font-weight:normal;color:#333333">Datos del Permiso:</h3>
+															</td>
+														</tr>
+														<tr style="border-collapse:collapse">
+															<td style="padding:0;Margin:0">
+																<table style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+																	<tr style="border-collapse:collapse">
+																		<th></th>
+																	</tr>
+																</table>
+															</td>
+														</tr>
+														<tr style="border-collapse:collapse">
+															<td align="center" style="padding:0;Margin:0;padding-top:10px;padding-bottom:10px">
+																<table border="1" align="center" cellspacing="1" cellpadding="3" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;height:70px;width:500px" class="es-table">
+																	<thead>
+																		<tr style="border-collapse:collapse">
+																			<th style="font-size:12px;text-align:center" scope="col">Permiso</th>
+																			<th style="font-size:12px;text-align:center" scope="col">Fecha Inicio</th>
+					  													    <th style="font-size:12px;text-align:center" scope="col">Fecha Final</th>
+																			<th style="font-size:12px;text-align:center" scope="col">Dias</th>
+																			<th style="font-size:12px;text-align:center" scope="col">Tipo Permiso</th>
+																			<th style="font-size:12px;text-align:center" scope="col">Comentario</th>
+																		</tr>
+																	</thead>
+																	<tr style="border-collapse:collapse">' 
+	
+	
+
+	
+
+	SET @TablePermiso = 
+	(	 select soli.ID_SOLICITUD AS [TD]	,  CONVERT(VARCHAR, soli.FECHA_INICIO, 103) AS [TD]	, convert (VARCHAR,  soli.FECHA_FINAL, 103) AS [TD]	,
+   soli.DIAS AS [TD]	 ,  tipo.DESCRIPCION AS [TD]	 , soli.COMENTARIO AS [TD]	 from SOLICITUD soli
+  inner join TIPOSOLICITUD tipo
+  on soli.TIPOSOLICITUD_ID=tipo.ID_TIPOSOLICITUD
+  where soli.ID_SOLICITUD=@id_solicitud
+		FOR XML RAW('tr'), ELEMENTS) + ' 
+														</tr>
+													</table>
+												</td>
+											</tr>
+											<tr style="border-collapse:collapse">
+												<td class="h-auto" align="center" height="30" style="padding:0;Margin:0">
+													<h3 style="Margin:0;line-height:24px;mso-line-height-rule:exactly;font-family:tahoma, verdana, segoe, sans-serif;font-size:20px;font-style:normal;font-weight:normal;color:#333333"><br></h3>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>' 
+
+	
+											
+	SET @EncabezadoAprobacion = 
+	'<table class="es-content" cellspacing="0" cellpadding="0" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%">
+		<tr style="border-collapse:collapse">
+			<td align="center" style="padding:0;Margin:0">
+				<table class="es-content-body" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#ededed;width:600px" cellspacing="0" cellpadding="0" bgcolor="#ededed" align="center">
+					<tr style="border-collapse:collapse">
+						<td align="left" style="Margin:0;padding-top:20px;padding-bottom:20px;padding-left:40px;padding-right:40px">
+							<table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+								<tr style="border-collapse:collapse">
+									<td align="left" style="padding:0;Margin:0;width:520px">
+										<table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+											<tr style="border-collapse:collapse">
+												<td class="h-auto" align="center" height="30" style="padding:0;Margin:0">
+													<h3 style="Margin:0;line-height:24px;mso-line-height-rule:exactly;font-family:tahoma, verdana, segoe, sans-serif;font-size:20px;font-style:normal;font-weight:normal;color:#333333">Aprobaciones:</h3>
+												</td>
+											</tr>
+											<tr style="border-collapse:collapse">
+												<td style="padding:0;Margin:0">
+													<table style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+														<tr style="border-collapse:collapse">
+															<th></th>
+														</tr>
+													</table>
+												</td>
+											</tr>
+											<tr style="border-collapse:collapse">
+												<td align="center" style="padding:0;Margin:0;padding-top:10px;padding-bottom:10px">
+													<table border="1" align="center" cellspacing="1" cellpadding="3" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;height:70px;width:500px" class="es-table">
+														<thead>
+															<tr style="border-collapse:collapse">
+																<th style="font-size:12px;text-align:center;color:#000000" scope="col">Departamento</th>
+																<th style="font-size:12px;text-align:center;color:#000000" scope="col">Encargado</th>
+																<th style="font-size:12px;text-align:center;color:#000000" scope="col">Secuencia</th>
+																<th style="font-size:12px;text-align:center;color:#000000" scope="col">Estado</th>
+															</tr>
+														</thead>
+														<tr style="border-collapse:collapse">'
+
+	SET @TableAprobacion = 
+		(SELECT DEPAP.DESCRIPCION AS [TD] ,EMPLE.NOMBRECOMPLETO AS [TD], APSOLI.SECUENCIA AS [TD],   CASE APSOLI.RESPUESTA_SOLICITUD
+When 'P' Then 'PENDIENTE'
+When 'A' Then 'APROBADO'
+ELSE 'RECHAZADO' 
+END  AS [TD] FROM APROBACIONSOLICITUD APSOLI
+INNER JOIN EMPLEADO EMPLE ON APSOLI.ENCARGADO_APROBACION_ID=EMPLE.ID_EMPLEADO
+INNER JOIN DEPARTAMENTOSUPERVISOR DEPASUP ON DEPASUP.EMPLEADO_ID=EMPLE.ID_EMPLEADO
+INNER JOIN DEPARTAMENTO DEPAP ON DEPAP.ID_DEPARTAMENTO=DEPASUP.DEPARTAMENTO_ID
+
+WHERE APSOLI.SOLICITUD_ID=@id_solicitud																									   
+		FOR XML RAW('tr'), ELEMENTS) + '
+														</tr>
+													</table>
+												</td>
+											</tr>
+											<tr style="border-collapse:collapse">
+												<td class="h-auto" align="center" height="30" style="padding:0;Margin:0">
+													<h3 style="Margin:0;line-height:24px;mso-line-height-rule:exactly;font-family:tahoma, verdana, segoe, sans-serif;font-size:20px;font-style:normal;font-weight:normal;color:#333333"><br></h3>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>'
+
+
+	SET @APROBACION = '
+						<tr>
+                          <td>
+                            <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                              <tr>
+                                <td align="center" valign="top" style="padding:0;Margin:0;width:560px">
+                                  <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                                    <tr>
+                                      <td align="center" style="padding:0;Margin:0;padding-top:15px;padding-bottom:15px">
+                                        <span class="es-button-border" style="border-style:solid;color:#FFFFFF;border-color:#094293;background:#094293;border-width:4px;display:inline-block;border-radius:10px;width:auto">
+										  
+                                            Ingrese al módulo Gestión de Personal a consultar los detalles del registro del permiso
+											
+									    </span>
+									  </td>
+                                    </tr>
+                                  </table>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+					'
+
+	SET @footer = 
+		'<table class="es-content" cellspacing="0" cellpadding="0" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%">
+			<tr style="border-collapse:collapse">
+				<td align="center" style="padding:0;Margin:0">
+					<table class="es-content-body" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#ededed;width:600px" cellspacing="0" cellpadding="0" bgcolor="#ededed" align="center">
+						<tr style="border-collapse:collapse">
+							<td align="left" style="padding:0;Margin:0">
+								<table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+									<tr style="border-collapse:collapse">
+										<td valign="top" align="center" style="padding:0;Margin:0;width:600px">
+											
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<table cellpadding="0" cellspacing="0" class="es-footer" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%;background-color:transparent;background-repeat:repeat;background-position:center top">
+			<tr style="border-collapse:collapse">
+				<td align="center" style="padding:0;Margin:0">
+					<table class="es-footer-body" cellspacing="0" cellpadding="0" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:transparent;width:600px">
+						<tr style="border-collapse:collapse">
+							<td align="left" bgcolor="#094293" style="padding:0;Margin:0;padding-top:20px;padding-left:20px;padding-right:20px;background-color:#094293">
+								<table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+									<tr style="border-collapse:collapse">
+										<td valign="top" align="center" style="padding:0;Margin:0;width:560px">
+											<table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+												<tr style="border-collapse:collapse">
+												</tr>
+											</table>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</body>
+	</html> '
+
+
+	
+		SET  @MENSAJE_SOLICITUD =	@INICIO_CORREO			+ @Alerta_Solicitud			+ @Encabezado_Correo	+
+								   @TablePermiso 	+  @EncabezadoAprobacion	+ @TableAprobacion		+ @footer
+	
+	    SET  @MENSAJE_APROBACION=	@INICIO_CORREO			+ @Alerta_Solicitud			+ @Encabezado_Correo	+
+								   @TablePermiso 	+  @EncabezadoAprobacion	+ @TableAprobacion		+@APROBACION+ @footer
+ 
+	
+		IF @Email_Usuario <> ''
+			BEGIN
+				EXEC msdb.dbo.sp_send_dbmail
+					@profile_name = 'EnvioMail',
+					@recipients =  @Email_Usuario,
+					@subject = 'NOTIFICACION-REGISTRO DE PERMISO',
+					@body =  @MENSAJE_SOLICITUD,
+					@body_format = 'HTML';
+			END
+
+			IF @Email_Usuario <> ''
+			BEGIN
+				EXEC msdb.dbo.sp_send_dbmail
+					@profile_name = 'EnvioMail',
+					@recipients =  @Email_Usuario_aprobar,
+					@subject = 'REGISTRO DE PERMISO PARA APROBACION',
+					@body =  @MENSAJE_APROBACION,
+					@body_format = 'HTML';
+			END
+
+	select @responsable_solicitud
+	select @MENSAJE_SOLICITUD
+	select @Email_Usuario
+
+			SET @Resultado = 1
+END TRY
+BEGIN CATCH
+	
+  INSERT INTO [dbo].[DB_ERRORES]
+           ([UserName]
+           ,[ErrorNumber]
+           ,[ErrorState]
+           ,[ErrorSeverity]
+           ,[ErrorLine]
+           ,[ErrorProcedure]
+           ,[ErrorMessage]
+           ,[ErrorDateTime])
+
+    VALUES
+  (SUSER_SNAME(),
+   ERROR_NUMBER(),
+   ERROR_STATE(),
+   ERROR_SEVERITY(),
+   ERROR_LINE(),
+   ERROR_PROCEDURE(),
+   ERROR_MESSAGE(),
+   GETDATE());
+END CATCH
+
+go
+create PROCEDURE [dbo].[RegistrarAprobaciones] 
+    @ID_SOLICITUD bigint
+AS 
+BEGIN
+    -- Declaración de variables
+    DECLARE @ENCARGADO_APROBACION bigint;
+    DECLARE @SECUENCIA varchar(200);
+    DECLARE @RESPUESTA_SOLICITUD varchar(1) = 'P'; 
+
+    BEGIN TRY
+        -- Declaración del cursor
+        DECLARE cursorAprobaciones CURSOR FOR
+        SELECT d.SECUENCIA, e.EMPLEADO_ID
+        FROM [dbo].[SOLICITUD] a 
+        INNER JOIN [dbo].[EMPLEADO] b ON a.SOLICITANTE_ID = b.ID_EMPLEADO
+        INNER JOIN DEPARTAMENTO c ON c.ID_DEPARTAMENTO = b.DEPARTAMENTO_ID
+        INNER JOIN FLUJOAPROBACION d ON d.DEPARTAMENTO_APROBACION_ID = c.ID_DEPARTAMENTO
+        INNER JOIN [dbo].[DEPARTAMENTOSUPERVISOR] e ON e.DEPARTAMENTO_ID = d.DEPARTAMENTO_ID
+        WHERE a.ID_SOLICITUD = @ID_SOLICITUD;
+
+        -- Apertura del cursor
+        OPEN cursorAprobaciones;
+
+        -- Obtención del primer registro
+        FETCH NEXT FROM cursorAprobaciones INTO @SECUENCIA, @ENCARGADO_APROBACION;
+
+        -- Bucle para manejar los datos obtenidos del cursor
+        WHILE @@FETCH_STATUS = 0
+        BEGIN
+            -- Insertar datos en la tabla APROBACIONSOLICITUD
+            INSERT INTO APROBACIONSOLICITUD(
+               SECUENCIA,
+               RESPUESTA_SOLICITUD,
+               ENCARGADO_APROBACION_ID,
+               SOLICITUD_ID
+             
+            )
+            VALUES (
+               @SECUENCIA,
+               @RESPUESTA_SOLICITUD,
+               @ENCARGADO_APROBACION,
+               @ID_SOLICITUD
+        
+            );
+
+            -- Obtención del siguiente registro
+            FETCH NEXT FROM cursorAprobaciones INTO @SECUENCIA, @ENCARGADO_APROBACION;
+        END;
+
+        -- Cierre del cursor
+        CLOSE cursorAprobaciones;
+        DEALLOCATE cursorAprobaciones;
+
+		 exec [dbo].[NotificacionSolicitud]  @ID_SOLICITUD
+
+    END TRY
+    BEGIN CATCH
+        INSERT INTO [dbo].[DB_ERRORES]
+           ([UserName],
+            [ErrorNumber],
+            [ErrorState],
+            [ErrorSeverity],
+            [ErrorLine],
+            [ErrorProcedure],
+            [ErrorMessage],
+            [ErrorDateTime])
+        VALUES
+          (SUSER_SNAME(),
+           ERROR_NUMBER(),
+           ERROR_STATE(),
+           ERROR_SEVERITY(),
+           ERROR_LINE(),
+           ERROR_PROCEDURE(),
+           ERROR_MESSAGE(),
+           GETDATE());
+    END CATCH;
+END;
