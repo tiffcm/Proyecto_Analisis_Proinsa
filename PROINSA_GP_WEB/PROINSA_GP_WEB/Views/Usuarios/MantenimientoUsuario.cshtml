@@ -10,6 +10,14 @@
     <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Actualizar información de un usuario</h5>
     <div class="card-body">
         <div class="row gx-3 gy-2 align-items-center">
+            <div class="col-md-6">
+                <div class="mb-4">
+                    <label for="inputEmail4" class="form-label">Correo Electrónico</label>
+                    <input type="email" class="form-control" id="inputEmail4" readonly>
+                </div>
+            </div>
+        </div>
+        <div class="row gx-3 gy-2 align-items-center">
             <div class="col-6">
                 <div class="mb-4">
                     <label for="inputId" class="form-label">Identificación</label>
@@ -24,25 +32,13 @@
             </div>
         </div>
         <div class="row gx-3 gy-2 align-items-center">
-            <div class="col-md-6">
-                <div class="mb-4">
-                    <label for="inputEmail4" class="form-label">Correo Electrónico</label>
-                    <input type="email" class="form-control" id="inputEmail4" readonly>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="mb-4">
-                    <label for="inputPassword4" class="form-label">Contraseña Temporal</label>
-                    <input type="password" class="form-control" id="inputPassword4" readonly>
-                </div>
-            </div>
-        </div>
-        <div class="row gx-3 gy-2 align-items-center">
             <div class="col-12">
                 <div class="mb-4">
                     <label for="inputAddress" class="form-label">Dirección 1</label>
                     <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" readonly>
                 </div>
+            <div class="col-12">
+                <button type="button" class="btn btn-primary" id="">Administrar direcciones</button>
             </div>
         </div>
         <div class="row gx-3 gy-2 align-items-center">
@@ -65,6 +61,11 @@
                         <input type="file" class="form-control" id="inputGroupFile02" />
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="row gx-3 gy-2 align-items-center">
+            <div class="col-3">
+                <button type="button" class="btn btn-primary" id="">Administrar telefonos</button>
             </div>
         </div>
         <div class="row gx-3 gy-2 align-items-center">
@@ -125,7 +126,7 @@
                     </select>
                 </div>
             </div>
-        </div>
+
         <div style="display:grid; place-items:center;">
             <div class="mt-4">
                 <button type="button" class="btn btn-primary" id="liveToastBtn">Actualizar usuario</button>
