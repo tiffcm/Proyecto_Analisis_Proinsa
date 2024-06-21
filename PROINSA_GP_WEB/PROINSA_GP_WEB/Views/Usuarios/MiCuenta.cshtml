@@ -1,5 +1,5 @@
 ﻿<!--Se declara la entidad del Modelo-->
-@model PROINSA_GP_WEB.Entidad.Empleado
+@model PROINSA_GP_WEB.Entidad.Usuario
 @{
     ViewBag.Title = "MiCuenta";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -50,7 +50,7 @@
                                 <div class="mb-3 col-md-4">
                                   
                                    @Html.Label("Telefono")
-                                   @Html.TextBoxFor(m => m.TELEFONO, new { @class = "form-control", @readonly = "true" })
+                                   @* @Html.TextBoxFor(m => m.TELEFONO, new { @class = "form-control", @readonly = "true" }) *@
                                    
                                 </div>
                             </div>
@@ -58,7 +58,7 @@
                                 <div class="mb-3 col-md-12">
                                     <div class="mb-3 col-md-4">
                                         @Html.Label("Dirección")
-                                        @Html.TextBoxFor(m => m.DIRRECION, new { @class = "form-control", @readonly = "true" })
+                                        @* @Html.TextBoxFor(m => m.DIRRECION, new { @class = "form-control", @readonly = "true" }) *@
 
                                     </div>
                                 </div>

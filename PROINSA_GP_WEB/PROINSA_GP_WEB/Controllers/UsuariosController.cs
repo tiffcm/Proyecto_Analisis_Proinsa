@@ -7,7 +7,7 @@ using System.Security.Claims;
 
 namespace PROINSA_GP_WEB.Controllers
 {
-    public class UsuariosController (IEmpleadoModel _iEmpleadoModel) : Controller 
+    public class UsuariosController (IUsuarioModel _iUsuarioModel) : Controller 
     {
 
         [HttpGet]
@@ -24,11 +24,10 @@ namespace PROINSA_GP_WEB.Controllers
 
             var correoEmpleado = User.Identity!.Name;
             
-            var respuesta = _iEmpleadoModel.ConsultarEmpleado(correoEmpleado);
-            if (respuesta?.CODIGO == "00")
-            {
-                
-                return View(respuesta.DATO);
+            var respuesta = _iUsuarioModel.ConsultarDatosEmpleado(correoEmpleado);
+            if (respuesta?.CODIGO == 1)
+            {                
+                return View(respuesta.CONTENIDO);
             }
             else
             {

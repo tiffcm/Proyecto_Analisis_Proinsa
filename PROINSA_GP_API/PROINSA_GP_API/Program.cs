@@ -21,6 +21,9 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 }
 
+//Se agrega la captura de los errores.
+app.UseExceptionHandler("/api/Error/CatchException");
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
