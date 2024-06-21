@@ -33,9 +33,8 @@ namespace PROINSA_GP_API.Controllers
         /// <param name="correo">Correo del usuario recuperado con Identity</param>
         /// <returns>Devuele la respuesta de la acción</returns>
         [HttpGet][Route("ConsultarDatosEmpleado")]
-        public async Task<IActionResult> ConsultarDatosEmpleado(int num)
+        public async Task<IActionResult> ConsultarDatosEmpleado(string correo)
         {
-            var correo = "Practicante1@proinsalat.com";
             Respuesta respuesta = new Respuesta();
             using (var contexto = _dbConnection.CreateConnection())
             {
