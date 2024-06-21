@@ -1,4 +1,4 @@
-﻿namespace PROINSA_GP_API.Entidad
+﻿namespace PROINSA_GP_WEB.Entidad
 {
     /// <summary>
     /// Esta es la entidad que se encargará de traer la respuesta que devuelva

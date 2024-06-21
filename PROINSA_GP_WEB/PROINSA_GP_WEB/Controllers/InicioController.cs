@@ -70,35 +70,26 @@ namespace PROINSA_GP_WEB.Controllers
             if (remoteError != null)
             {
                 mensaje = $"Error from external provider: {remoteError}";
-                return RedirectToAction("Home/Index", routeValues: new { mensaje });
+                return RedirectToAction("Home/Principal", routeValues: new { mensaje });
             }
 
             var info = await signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
                 mensaje = "Error loading external login information.";
-                return RedirectToAction("login", routeValues: new { mensaje });
+                return RedirectToAction("IniciarSesion", "Inicio", routeValues: new { mensaje });
             }
 
             var resultadoLoginExterno = await signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
 
-            string email = "";
-
-
-            var usuario = new IdentityUser() { Email = email, UserName = email };
-
-
             // Ya la cuenta existe
             if (resultadoLoginExterno.Succeeded)
             {
-                
-                
-                return RedirectToAction("Index", "Home");
-               
-
+                return RedirectToAction("Principal", "Home");
             }
 
-           
+            string email = "";
+         
 
             if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
             {
@@ -107,16 +98,16 @@ namespace PROINSA_GP_WEB.Controllers
             else
             {
                 mensaje = "Error leyendo el email del usuario del proveedor.";
-                return RedirectToAction("login", routeValues: new { mensaje });
+                return RedirectToAction("IniciarSesion", "Inicio", routeValues: new { mensaje });
             }
 
-            
+            var usuario = new IdentityUser() { Email = email, UserName = email };
 
             var resultadoCrearUsuario = await userManager.CreateAsync(usuario);
             if (!resultadoCrearUsuario.Succeeded)
             {
                 mensaje = resultadoCrearUsuario.Errors.First().Description;
-                return RedirectToAction("login", routeValues: new { mensaje });
+                return RedirectToAction("IniciarSesion", "Inicio", routeValues: new { mensaje });
             }
 
             var resultadoAgregarLogin = await userManager.AddLoginAsync(usuario, info);
@@ -125,13 +116,12 @@ namespace PROINSA_GP_WEB.Controllers
             {
                 await signInManager.SignInAsync(usuario, isPersistent: false, info.LoginProvider);
                
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Principal", "Home");
             }
 
             mensaje = "Ha ocurrido un error agregando el login.";
-            return RedirectToAction("login", routeValues: new { mensaje });
+            return RedirectToAction("IniciarSesion", "Inicio", routeValues: new { mensaje });
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Logout()
