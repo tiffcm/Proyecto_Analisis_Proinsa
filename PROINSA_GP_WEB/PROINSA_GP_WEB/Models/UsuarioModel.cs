@@ -18,7 +18,7 @@ namespace PROINSA_GP_WEB.Models
         /// <returns>Regresa la información deserializada o vacía dependiendo del código</returns>
         public Respuesta? ConsultarDatosEmpleado(string correo)
         {            
-            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/ConsultarDatosEmpleado?correo=" +correo;
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/ConsultarDatosEmpleado?CORREO=" + correo;
             var solicitud = _httpClient.GetAsync(url).Result;
 
             if (solicitud.IsSuccessStatusCode)

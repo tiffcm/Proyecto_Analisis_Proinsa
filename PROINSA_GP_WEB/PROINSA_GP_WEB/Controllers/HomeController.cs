@@ -28,19 +28,12 @@ namespace PROINSA_GP_WEB.Controllers
             if (correoEmpleado != null)
             {
                 var respuesta = _iUsuarioModel.ConsultarDatosEmpleado(correoEmpleado);
-                if (respuesta != null)
+                if (respuesta!.CODIGO == 1)
                 {
-                   
-                    if (respuesta.CONTENIDO is JsonElement jsonElement)
-                    {
-                        var usuario = JsonSerializer.Deserialize<Usuario>(jsonElement.GetRawText());
-                        if (usuario != null)
-                        {
-                            var rolUsuario = usuario.NOMBREROL;
-                            ViewBag.Rol = rolUsuario;
-                            HttpContext.Session.SetString("rol", rolUsuario);
-                        }
-                    }
+                    var usuario = JsonSerializer.Deserialize<Usuario>((JsonElement)respuesta.CONTENIDO!);                    
+                    var rolUsuario = usuario!.NOMBREROL;
+                    ViewBag.Rol = usuario!.NOMBREROL;
+                    HttpContext.Session.SetString("Rol", rolUsuario!);
                 }
             }
             return View();

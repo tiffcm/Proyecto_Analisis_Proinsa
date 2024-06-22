@@ -16,7 +16,6 @@
         public string? CORREO { get; set; }
         public string? NOMBRE_DEPARTAMENTO { get; set; }
         public string? NOMBREROL { get; set; }
-
         public string? DIRRECION { get; set; }
     }
 }
