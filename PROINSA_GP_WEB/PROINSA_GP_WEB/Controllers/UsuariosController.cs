@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using PROINSA_GP_WEB.Entidad;
 using PROINSA_GP_WEB.Servicios;
 using System.Security.Claims;
+using System.Text.Json;
 
 namespace PROINSA_GP_WEB.Controllers
 {
@@ -21,21 +23,33 @@ namespace PROINSA_GP_WEB.Controllers
              * 
              * Se pasa la información a la Vista MiCuenta en caso de ser positivo
              **/
-
-            var correoEmpleado = User.Identity!.Name;
-            
-            var respuesta = _iUsuarioModel.ConsultarDatosEmpleado(correoEmpleado);
-            if (respuesta?.CODIGO == 1)
-            {                
-                return View(respuesta.CONTENIDO);
-            }
-            else
+            var correoEmpleado = User.Identity?.Name;
+            if (correoEmpleado != null)
             {
-                ViewBag.MjsPantalla = respuesta?.MENSAJE;
-                return View();
+                var respuesta = _iUsuarioModel.ConsultarDatosEmpleado(correoEmpleado);
+                if (respuesta?.CODIGO == 1)
+                {
+                    // Verifica si CONTENIDO es un JsonElement
+                    if (respuesta.CONTENIDO is JsonElement jsonElement)
+                    {
+                        // Deserializa el JsonElement a un objeto Usuario
+                        var usuario = JsonSerializer.Deserialize<Usuario>(jsonElement.GetRawText());
+                        if (usuario != null)
+                        {
+                            // Pasa el objeto Usuario a la vista
+                            return View(usuario);
+                        }
+                    }
+                }
+                else
+                {
+                    ViewBag.MjsPantalla = respuesta?.MENSAJE;
+                }
             }
-
+            return View();
         }
+
+    
 
         [HttpGet]
         public IActionResult RegistrarUsuario()

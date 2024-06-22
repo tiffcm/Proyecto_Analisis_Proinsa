@@ -1,5 +1,7 @@
-﻿using PROINSA_GP_WEB.Entidad;
+﻿using Microsoft.Extensions.Configuration;
+using PROINSA_GP_WEB.Entidad;
 using PROINSA_GP_WEB.Servicios;
+using System.Configuration;
 
 namespace PROINSA_GP_WEB.Models
 {
@@ -7,7 +9,7 @@ namespace PROINSA_GP_WEB.Models
     /// Este módulo se encarga de enviar las consultas a la base de datos.
     /// </summary>
     /// <param name="_httpClient">Inyección de dependencias</param>
-    public class UsuarioModel (HttpClient _httpClient) : IUsuarioModel
+    public class UsuarioModel (HttpClient _httpClient, IConfiguration iConfiguration) : IUsuarioModel
     {
         /// <summary>
         /// Se envía el correo del usuario para poder traer la información completa.
@@ -16,7 +18,7 @@ namespace PROINSA_GP_WEB.Models
         /// <returns>Regresa la información deserializada o vacía dependiendo del código</returns>
         public Respuesta? ConsultarDatosEmpleado(string correo)
         {            
-            string url = "https://localhost:44358/api/Usuario/ConsultarDatosEmpleado?correo=" + correo;           
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/ConsultarDatosEmpleado?correo=" +correo;
             var solicitud = _httpClient.GetAsync(url).Result;
 
             if (solicitud.IsSuccessStatusCode)

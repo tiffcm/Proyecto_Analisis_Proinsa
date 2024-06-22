@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PROINSA_GP_WEB.Entidad;
 using PROINSA_GP_WEB.Servicios;
+using System.Text.Json;
 
 namespace PROINSA_GP_WEB.Controllers
 {
@@ -29,10 +30,17 @@ namespace PROINSA_GP_WEB.Controllers
                 var respuesta = _iUsuarioModel.ConsultarDatosEmpleado(correoEmpleado);
                 if (respuesta != null)
                 {
-                    var usuario = (Usuario)respuesta.CONTENIDO;
-                    ViewBag.Rol = usuario.NOMBREROL;
-                    HttpContext.Session.SetString("correo", correoEmpleado);
-                    HttpContext.Session.SetString("rol", usuario.NOMBREROL);
+                   
+                    if (respuesta.CONTENIDO is JsonElement jsonElement)
+                    {
+                        var usuario = JsonSerializer.Deserialize<Usuario>(jsonElement.GetRawText());
+                        if (usuario != null)
+                        {
+                            var rolUsuario = usuario.NOMBREROL;
+                            ViewBag.Rol = rolUsuario;
+                            HttpContext.Session.SetString("rol", rolUsuario);
+                        }
+                    }
                 }
             }
             return View();
