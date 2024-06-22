@@ -361,12 +361,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
-
-
                                                         <span class="fw-semibold d-block">@User.Identity!.Name</span>
-
                                                     @{
-                                                        var rol = Context.Session.GetString("rol");
+                                                        var rol = Context.Session.GetString("Rol");
                                                     }
                                                     @if (!string.IsNullOrEmpty(rol))
                                                     {
@@ -406,7 +403,6 @@
                                         <div class="dropdown-divider"></div>
                                     </li>
                                     <li>
-
                                         <form asp-action="Logout" asp-controller="Inicio" method="post" class="d-inline">
                                             <button type="submit" class="dropdown-item">
                                                 <i class="bi bi-box-arrow-in-left me-2" style="font-size: 1.4rem;"></i>

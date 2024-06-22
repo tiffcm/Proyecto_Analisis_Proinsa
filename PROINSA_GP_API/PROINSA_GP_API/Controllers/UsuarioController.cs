@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using PROINSA_GP_API.DbConnection;
 using PROINSA_GP_API.Entidad;
 
@@ -8,38 +9,27 @@ namespace PROINSA_GP_API.Controllers
     /// <summary>
     /// Este controlador se encargará de administrar las solicitudes de los usuarios.
     /// </summary>
+    /// <param name="iConfiguration">Inyección de dependencia para manejo cadenas de conexión</param>
     /// <author>Brandon Ruiz Miranda</author>
     /// <version>1.4</version>
     [Route("api/[controller]")]
     [ApiController]
-    public class UsuarioController : ControllerBase
+    public class UsuarioController (IConfiguration iConfiguration) : ControllerBase
     {
-        private readonly IDbConnection _dbConnection;
-
         /// <summary>
-        /// Constructor para conectarse a la base de datos
-        /// </summary>
-        /// <param name="dbConnection">Guarda la cadena de conexión a la BD</param>
-        public UsuarioController(IDbConnection dbConnection)
-        {
-            _dbConnection = dbConnection;
-        }
-
-        /// <summary>
-        /// Esta acción se encargará de pasarle a la base de datos el correo para
-        /// poder hacer la consulta del rol y de los datos que el usuario necesita 
-        /// para el apartado de "Mi cuenta".
-        /// </summary>
-        /// <param name="correo">Correo del usuario recuperado con Identity</param>
+        /// Esta acción se encargará de pasarle a la base de datos el correo para poder hacer la consulta
+        /// del rol y de los datos que el usuario necesita para el apartado de "Mi cuenta".
+        /// </summary>        
+        /// <param name="CORREO">Correo del usuario recuperado con Identity</param>
         /// <returns>Devuele la respuesta de la acción</returns>
         [HttpGet][Route("ConsultarDatosEmpleado")]
-        public async Task<IActionResult> ConsultarDatosEmpleado(string correo)
+        public async Task<IActionResult> ConsultarDatosEmpleado(string CORREO)
         {
             Respuesta respuesta = new Respuesta();
-            using (var contexto = _dbConnection.CreateConnection())
+            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
                 var request = (await contexto.QueryAsync("ConsultarDatosEmpleado",
-                    new { correo },
+                    new { CORREO },
                     commandType: System.Data.CommandType.StoredProcedure)).FirstOrDefault();
                 if (request != null)
                 {
@@ -66,7 +56,7 @@ namespace PROINSA_GP_API.Controllers
         {
             Respuesta respuesta = new Respuesta();
 
-            using (var contexto = _dbConnection.CreateConnection())
+            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
                 var request = await contexto.ExecuteAsync("ActualizarDatosUsuario",
                    new { entidad.IDENTIFICACION, entidad.NOMBRECOMPLETO },
