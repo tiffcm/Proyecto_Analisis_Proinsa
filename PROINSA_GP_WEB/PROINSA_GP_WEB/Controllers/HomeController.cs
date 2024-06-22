@@ -37,8 +37,10 @@ namespace PROINSA_GP_WEB.Controllers
                         if (usuario != null)
                         {
                             var rolUsuario = usuario.NOMBREROL;
+                            var idUsuario = usuario.ID_EMPLEADO;
                             ViewBag.Rol = rolUsuario;
                             HttpContext.Session.SetString("rol", rolUsuario);
+                            HttpContext.Session.SetString("idusuario", idUsuario.ToString());
                         }
                     }
                 }

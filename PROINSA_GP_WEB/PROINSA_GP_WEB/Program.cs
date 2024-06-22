@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
 builder.Services.AddSingleton<IUsuarioModel, UsuarioModel>();
+builder.Services.AddSingleton<ISolicitudModel, SolicitudModel>();
 
 // Para autenticación con AZURE
 builder.Services.AddAuthentication().AddMicrosoftAccount(opciones =>
