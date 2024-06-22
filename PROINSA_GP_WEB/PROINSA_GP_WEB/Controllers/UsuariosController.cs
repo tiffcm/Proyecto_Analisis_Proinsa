@@ -1,10 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PROINSA_GP_WEB.Entidad;
 using PROINSA_GP_WEB.Servicios;
-using System.Security.Claims;
 using System.Text.Json;
 
 namespace PROINSA_GP_WEB.Controllers
@@ -27,19 +23,14 @@ namespace PROINSA_GP_WEB.Controllers
             if (correoEmpleado != null)
             {
                 var respuesta = _iUsuarioModel.ConsultarDatosEmpleado(correoEmpleado);
-                if (respuesta?.CODIGO == 1)
+                if (respuesta!.CODIGO == 1)
                 {
-                    // Verifica si CONTENIDO es un JsonElement
-                    if (respuesta.CONTENIDO is JsonElement jsonElement)
+                    var usuario = JsonSerializer.Deserialize<Usuario>((JsonElement)respuesta.CONTENIDO!);
+                    if (usuario != null)
                     {
-                        // Deserializa el JsonElement a un objeto Usuario
-                        var usuario = JsonSerializer.Deserialize<Usuario>(jsonElement.GetRawText());
-                        if (usuario != null)
-                        {
-                            // Pasa el objeto Usuario a la vista
-                            return View(usuario);
-                        }
-                    }
+                        // Pasa el objeto Usuario a la vista
+                        return View(usuario);
+                    }                    
                 }
                 else
                 {
@@ -48,8 +39,6 @@ namespace PROINSA_GP_WEB.Controllers
             }
             return View();
         }
-
-    
 
         [HttpGet]
         public IActionResult RegistrarUsuario()
