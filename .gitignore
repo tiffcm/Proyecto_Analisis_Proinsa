@@ -361,7 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-#appsetting - Fuera del gitignore
 appsettings.json
 PROINSA_GP_API/PROINSA_GP_API/appsettings.json
 PROINSA_GP_WEB/PROINSA_GP_WEB/appsettings.json

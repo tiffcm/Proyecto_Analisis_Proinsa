@@ -6,19 +6,19 @@ using System.Text.Json;
 namespace PROINSA_GP_WEB.Controllers
 {
     /// <summary>
-    /// Ese cÛdigo inicial lo que identifica es que cuando una persona cierra sesiÛn no 
-    /// permite que entre al sistema si no est· autenticado.En NET Core no es recomendable
+    /// Ese c√≥digo inicial lo que identifica es que cuando una persona cierra sesi√≥n no 
+    /// permite que entre al sistema si no est√° autenticado.En NET Core no es recomendable
     /// instanciar el modelo directamente porque es ineficiente y para ello es mejor usar 
-    /// interfaces por medio de una inyecciÛn de dependencias.
+    /// interfaces por medio de una inyecci√≥n de dependencias.
     /// </summary>
     /// <param name="_iUsuarioModel">Es para manejar interfaces en lugar del modelo directo</param>
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public class HomeController(IUsuarioModel _iUsuarioModel) : Controller
     {
         /// <summary>
-        /// Es la p·gina inicial al entrar a la aplicaciÛn, tambiÈn se envÌa el dato
+        /// Es la p√°gina inicial al entrar a la aplicaci√≥n, tambi√©n se env√≠a el dato
         /// del correo recuperado por Identity para traer los datos de el usuario que
-        /// iniciÛ sesiÛn.
+        /// inici√≥ sesi√≥n.
         /// </summary>
         /// <returns>Vista</returns>
         [HttpGet]
