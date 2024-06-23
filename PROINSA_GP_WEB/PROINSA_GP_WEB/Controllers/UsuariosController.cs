@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using P_WebMartes.Models;
 using PROINSA_GP_WEB.Entidad;
+using PROINSA_GP_WEB.Models;
 using PROINSA_GP_WEB.Servicios;
 using System.Text.Json;
 
@@ -7,8 +9,7 @@ namespace PROINSA_GP_WEB.Controllers
 {
     public class UsuariosController (IUsuarioModel _iUsuarioModel) : Controller 
     {
-
-        [HttpGet]
+        [Seguridad][HttpGet]
         public IActionResult MiCuenta()
         {
             /**
@@ -40,19 +41,13 @@ namespace PROINSA_GP_WEB.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult RegistrarUsuario()
-        {
-            return View();
-        }
-
-        [HttpGet]
+        [Administrador][Seguridad][HttpGet]
         public IActionResult AdministrarUsuarios()
         {
             return View();
         }
 
-        [HttpGet]
+        [Administrador][Seguridad][HttpGet]
         public IActionResult MantenimientoUsuario()
         {
             return View();

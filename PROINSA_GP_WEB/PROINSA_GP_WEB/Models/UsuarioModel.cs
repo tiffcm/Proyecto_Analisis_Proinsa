@@ -17,7 +17,7 @@ namespace PROINSA_GP_WEB.Models
         /// <param name="correo">Correo del usuario recuperado con Identity</param>
         /// <returns>Regresa la información deserializada o vacía dependiendo del código</returns>
         public Respuesta? ConsultarDatosEmpleado(string correo)
-        {            
+        {
             string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/ConsultarDatosEmpleado?CORREO=" + correo;
             var solicitud = _httpClient.GetAsync(url).Result;
 

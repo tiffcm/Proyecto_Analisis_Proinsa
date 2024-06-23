@@ -1,7 +1,7 @@
-﻿
-using Dapper;
+﻿using Dapper;
 using Microsoft.AspNetCore.Mvc;
-using PROINSA_GP_API.DbConnection;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using PROINSA_GP_API.Entidad;
 
 
@@ -9,16 +9,8 @@ namespace PROINSA_GP_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SolicitudController : ControllerBase
+    public class SolicitudController (IConfiguration iConfiguration) : ControllerBase
     {
-        private readonly IDbConnection _dbConnection;
-
-        public SolicitudController(IDbConnection dbConnection)
-        {
-            _dbConnection = dbConnection;
-        }
-
-
         [HttpGet]
         [Route("ConsultarTipoSolicitud")]
         public async Task<IActionResult> ConsultarTipoSolicitud()
@@ -27,7 +19,7 @@ namespace PROINSA_GP_API.Controllers
 
             try
             {
-                using (var contexto = _dbConnection.CreateConnection())
+                using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
                 {
                     var request = (await contexto.QueryAsync<Solicitud>("ObtenerTiposSolicitudes",
                        commandType: System.Data.CommandType.StoredProcedure)).ToList();
@@ -61,7 +53,7 @@ namespace PROINSA_GP_API.Controllers
 
             try
             {
-                using (var contexto = _dbConnection.CreateConnection())
+                using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
                 {
                     var parameters = new DynamicParameters();
                     parameters.Add("@FECHA_INICIO", solicitud.FECHA_INICIO);
