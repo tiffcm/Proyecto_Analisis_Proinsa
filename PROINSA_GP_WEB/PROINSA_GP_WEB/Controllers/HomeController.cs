@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PROINSA_GP_WEB.Entidad;
+using PROINSA_GP_WEB.Models;
 using PROINSA_GP_WEB.Servicios;
 using System.Text.Json;
 
@@ -21,7 +23,7 @@ namespace PROINSA_GP_WEB.Controllers
         /// inició sesión.
         /// </summary>
         /// <returns>Vista</returns>
-        [HttpGet]
+        [Seguridad][HttpGet]
         public IActionResult Principal()
         {
             var correoEmpleado = User.Identity?.Name;
@@ -32,8 +34,11 @@ namespace PROINSA_GP_WEB.Controllers
                 {
                     var usuario = JsonSerializer.Deserialize<Usuario>((JsonElement)respuesta.CONTENIDO!);                    
                     var rolUsuario = usuario!.NOMBREROL;
-                    ViewBag.Rol = usuario!.NOMBREROL;
-                    HttpContext.Session.SetString("Rol", rolUsuario!);
+                    var idRol = usuario!.IDROL;
+                    var nombreUsuario = usuario.NOMBRECOMPLETO;
+                    HttpContext.Session.SetString("RolUsuario", rolUsuario!);
+                    HttpContext.Session.SetInt32("IdRol", idRol!);
+                    HttpContext.Session.SetString("NombreUsuario", nombreUsuario!);
                 }
             }
             return View();

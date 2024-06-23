@@ -1,12 +1,8 @@
-using Microsoft.Data.SqlClient;
-using PROINSA_GP_API.DbConnection;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers().AddJsonOptions(opt => { opt.JsonSerializerOptions.PropertyNamingPolicy = null; });
-builder.Services.AddTransient<IDbConnection, SqlDbConnection>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

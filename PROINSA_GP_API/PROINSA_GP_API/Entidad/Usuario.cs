@@ -15,7 +15,9 @@
         public string? NOMBRE_CARGO { get; set; }
         public string? CORREO { get; set; }
         public string? NOMBRE_DEPARTAMENTO { get; set; }
+        public int IDROL { get; set; }
         public string? NOMBREROL { get; set; }
         public string? DIRRECION { get; set; }
+        public string? TELEFONO { get; set; }
     }
 }

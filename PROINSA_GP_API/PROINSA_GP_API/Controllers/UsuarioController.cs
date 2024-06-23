@@ -1,7 +1,6 @@
 ﻿using Dapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
-using PROINSA_GP_API.DbConnection;
 using PROINSA_GP_API.Entidad;
 
 namespace PROINSA_GP_API.Controllers
@@ -11,7 +10,7 @@ namespace PROINSA_GP_API.Controllers
     /// </summary>
     /// <param name="iConfiguration">Inyección de dependencia para manejo cadenas de conexión</param>
     /// <author>Brandon Ruiz Miranda</author>
-    /// <version>1.4</version>
+    /// <version>1.5</version>
     [Route("api/[controller]")]
     [ApiController]
     public class UsuarioController (IConfiguration iConfiguration) : ControllerBase
@@ -20,16 +19,16 @@ namespace PROINSA_GP_API.Controllers
         /// Esta acción se encargará de pasarle a la base de datos el correo para poder hacer la consulta
         /// del rol y de los datos que el usuario necesita para el apartado de "Mi cuenta".
         /// </summary>        
-        /// <param name="CORREO">Correo del usuario recuperado con Identity</param>
+        /// <param name="correo">Correo del usuario recuperado con Identity</param>
         /// <returns>Devuele la respuesta de la acción</returns>
         [HttpGet][Route("ConsultarDatosEmpleado")]
-        public async Task<IActionResult> ConsultarDatosEmpleado(string CORREO)
+        public async Task<IActionResult> ConsultarDatosEmpleado(string correo)
         {
             Respuesta respuesta = new Respuesta();
             using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
                 var request = (await contexto.QueryAsync("ConsultarDatosEmpleado",
-                    new { CORREO },
+                    new { correo },
                     commandType: System.Data.CommandType.StoredProcedure)).FirstOrDefault();
                 if (request != null)
                 {
