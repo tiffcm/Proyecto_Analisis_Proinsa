@@ -23,17 +23,19 @@
                     <div style="display: grid; place-items: center;">
                         <h2 class="mb-2">Iniciar Sesión</h2>
                         
-                    </div>
-                    
-
+                    </div>                    
                     @if (ViewData.Keys.Contains("mensaje"))
                     {
                         <div class="alert alert-danger" role="alert">
                             @ViewData["mensaje"]
                         </div>
                     }
-
-
+                    @if (ViewBag.MensajePantalla != null)
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @ViewBag.MensajePantalla
+                        </div>                        
+                    }
                     <form id="formAuthentication" class="mb-3" action="index.html" method="POST">
                         <div class="mb-3">
                             <h4><center>Creamos el futuro, hoy</center></h4>

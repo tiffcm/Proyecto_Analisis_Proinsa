@@ -8,5 +8,6 @@ namespace PROINSA_GP_WEB.Servicios
     public interface IUsuarioModel
     {
         Respuesta? ConsultarDatosEmpleado(string correo);
+        Respuesta? ActualizarDatosUsuario(Usuario entidad);
     }
 }

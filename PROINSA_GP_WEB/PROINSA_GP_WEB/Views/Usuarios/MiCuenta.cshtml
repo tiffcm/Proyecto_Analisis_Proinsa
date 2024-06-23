@@ -32,6 +32,7 @@
                     <div class="card-body">
                         <!-- Se utiliza Razor para almacenar la información de una forma más sencilla -->
                         @using (Html.BeginForm("MiCuenta", "Usuarios", FormMethod.Post)){
+                            @Html.TextBoxFor(m => m.ID_EMPLEADO, new{@hidden = "true"})
                             <div class="row">
                                 <div class="mb-3 col-md-12">
                                     @Html.Label("Nombre del usuario")
@@ -50,21 +51,18 @@
                                 <div class="mb-3 col-md-4">
                                   
                                    @Html.Label("Telefono")
-                                   @Html.TextBoxFor(m => m.TELEFONO, new { @class = "form-control", @readonly = "true" })
+                                   @Html.TextBoxFor(m => m.TELEFONO, new { @class = "form-control" })
                                    
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="mb-3 col-md-12">
-                                    <div class="mb-3 col-md-4">
-                                        @Html.Label("Dirección")
-                                        @Html.TextBoxFor(m => m.DIRRECION, new { @class = "form-control", @readonly = "true" })
-
-                                    </div>
+                                    @Html.Label("Dirección")
+                                    @Html.TextBoxFor(m => m.DIRRECION, new { @class = "form-control" })
                                 </div>
                             </div>
                             <div class="mt-2" style="display:grid; place-items:center;">
-                                <button type="submit" class="btn btn-primary mb-4">Save changes</button>
+                                <button type="submit" class="btn btn-primary mb-4">Guardar cambios</button>
                                 <button type="reset" class="btn btn-outline-secondary">Cancel</button>
                             </div>
                         }

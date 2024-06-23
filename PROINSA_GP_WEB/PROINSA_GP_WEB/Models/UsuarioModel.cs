@@ -21,13 +21,25 @@ namespace PROINSA_GP_WEB.Models
             string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/ConsultarDatosEmpleado?CORREO=" + correo;
             var solicitud = _httpClient.GetAsync(url).Result;
 
-            if (solicitud.IsSuccessStatusCode)
-                //Deserializa la información provieniente de la DB
+            if (solicitud.IsSuccessStatusCode)                
                 return solicitud.Content.ReadFromJsonAsync<Respuesta>().Result;            
-            else
-                //Como el API no obtuvo una respuesta exitoso se devuelve vacío
+            else                
                 return new Respuesta();
         }
+
+        //----------------------------------------------------------------------------------------------------
+
+        public Respuesta? ActualizarDatosUsuario(Usuario entidad)
+        {
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/ActualizarDatosUsuario";
+            JsonContent body = JsonContent.Create(entidad);
+            var solicitud = _httpClient.PostAsync(url, body).Result;
+            if (solicitud.IsSuccessStatusCode)
+                return solicitud.Content.ReadFromJsonAsync<Respuesta>().Result;
+            else
+                return new Respuesta();
+        }
+
 
         //public void ActualizarUsuario(ActualizarUsuario AcU, IFormFile FOTO)
         //{

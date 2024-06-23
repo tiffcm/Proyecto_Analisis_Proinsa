@@ -54,11 +54,10 @@ namespace PROINSA_GP_API.Controllers
         public async Task<IActionResult> ActualizarDatosUsuario(Usuario entidad)
         {
             Respuesta respuesta = new Respuesta();
-
             using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
                 var request = await contexto.ExecuteAsync("ActualizarDatosUsuario",
-                   new { entidad.IDENTIFICACION, entidad.NOMBRECOMPLETO },
+                   new { entidad.ID_EMPLEADO, entidad.TELEFONO, entidad.DIRRECION },
                    commandType: System.Data.CommandType.StoredProcedure);
                 if (request > 0)
                 {
@@ -70,7 +69,7 @@ namespace PROINSA_GP_API.Controllers
                 else
                 {
                     respuesta.CODIGO = 0;
-                    respuesta.MENSAJE = "La información del usuario ya se encuentra registrada";
+                    respuesta.MENSAJE = "Se presentó un inconveniente actualizando su información";
                     respuesta.CONTENIDO = false;
                     return Ok(respuesta);
                 }
