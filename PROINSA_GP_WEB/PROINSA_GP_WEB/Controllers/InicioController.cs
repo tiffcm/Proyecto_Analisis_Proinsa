@@ -11,6 +11,9 @@ using System.Text.Json;
 
 namespace PROINSA_GP_WEB.Controllers
 {
+    /// <summary>
+    /// Permite administrar variables de sesión de tipo long
+    /// </summary>
     public static class SessionExtensions
     {
         public static void SetLong(this ISession session, string key, long value)
@@ -24,6 +27,11 @@ namespace PROINSA_GP_WEB.Controllers
             return value != null ? long.Parse(value) : (long?)null;
         }
     }
+    /// <summary>
+    /// Lógica de inicio de sesión y validación de usuarios con Entra ID
+    /// </summary>
+    /// <author>Tiffany Camacho Monge, Brandon Ruiz Miranda</author>
+    /// <version>1.3</version>
     public class InicioController : Controller 
     {
         [HttpGet]

@@ -7,8 +7,19 @@ using System.Text.Json;
 
 namespace PROINSA_GP_WEB.Controllers
 {
+    /// <summary>
+    /// Maneja la información del empleado y el mantenimiento de usuarios
+    /// </summary>
+    /// <param name="_iUsuarioModel">s para manejar interfaces en lugar del modelo directo</param>
+    /// <version>1.3</version>
+    /// <author>Tiffany Camacho Monge, Brandon Ruiz Miranda</author>
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public class UsuariosController (IUsuarioModel _iUsuarioModel) : Controller 
     {
+        /// <summary>
+        /// Permite al usuario acceder a su información.
+        /// </summary>
+        /// <returns></returns>
         [Seguridad][HttpGet]
         public IActionResult MiCuenta()
         {
@@ -27,11 +38,17 @@ namespace PROINSA_GP_WEB.Controllers
             }
             return View();
         }
+
+        /// <summary>
+        /// Permite al usuario actualizar la información que es permitida según restricciones
+        /// </summary>
+        /// <param name="entidad">Información del usuario como un objeto</param>
+        /// <returns>Página principal en caso de éxito</returns>
         [Seguridad][HttpPost]
         public IActionResult MiCuenta(Usuario entidad)
         {
             var respuesta = _iUsuarioModel.ActualizarDatosUsuario(entidad);
-            return View();
+            return RedirectToAction("Principal","Home");
         }
 
         [Administrador][Seguridad][HttpGet]
