@@ -1,13 +1,30 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using Azure;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using PROINSA_GP_WEB.Entidad;
+using PROINSA_GP_WEB.Servicios;
 using System.Security.Claims;
+using System.Text.Json;
 
 namespace PROINSA_GP_WEB.Controllers
 {
-    public class InicioController : Controller
+    public static class SessionExtensions
+    {
+        public static void SetLong(this ISession session, string key, long value)
+        {
+            session.SetString(key, value.ToString());
+        }
+
+        public static long? GetLong(this ISession session, string key)
+        {
+            var value = session.GetString(key);
+            return value != null ? long.Parse(value) : (long?)null;
+        }
+    }
+    public class InicioController : Controller 
     {
         [HttpGet]
         public IActionResult IniciarSesion()
@@ -23,13 +40,16 @@ namespace PROINSA_GP_WEB.Controllers
 
         private readonly SignInManager<IdentityUser> signInManager;
         private readonly UserManager<IdentityUser> userManager;
+        private readonly IUsuarioModel iUsuarioModel;
 
         public InicioController(
             SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager)
+            UserManager<IdentityUser> userManager,
+            IUsuarioModel _iUsuarioModel)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
+            iUsuarioModel = _iUsuarioModel;
         }
 
 
@@ -85,6 +105,25 @@ namespace PROINSA_GP_WEB.Controllers
             // Ya la cuenta existe
             if (resultadoLoginExterno.Succeeded)
             {
+                var correoEmpleado = User.Identity?.Name;
+                if (correoEmpleado != null)
+                {
+                    var respuesta = iUsuarioModel.ConsultarDatosEmpleado(correoEmpleado);
+                    if (respuesta!.CODIGO == 1)
+                    {
+                        var datosUsuario = JsonSerializer.Deserialize<Usuario>((JsonElement)respuesta.CONTENIDO!);
+                                               
+                        HttpContext.Session.SetLong("IdUsuario", datosUsuario!.ID_EMPLEADO!);
+                        HttpContext.Session.SetString("NombreUsuario", datosUsuario!.NOMBRECOMPLETO!);
+                        HttpContext.Session.SetInt32("IdRol", datosUsuario!.IDROL!);
+                        HttpContext.Session.SetString("RolUsuario", datosUsuario!.NOMBREROL!);
+                    }
+                    else
+                    {
+                        ViewBag.MensajePantalla = respuesta.MENSAJE;
+                        return RedirectToAction("IniciarSesion","Inicio");
+                    }
+                }
                 return RedirectToAction("Principal", "Home");
             }
 
