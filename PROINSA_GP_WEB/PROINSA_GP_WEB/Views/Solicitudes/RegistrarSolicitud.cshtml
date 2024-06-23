@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "RegistrarSolicitud";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var idUsuario = ViewContext.HttpContext.Session.GetString("idusuario");
+ 
 }
 
 
@@ -15,12 +15,13 @@
 
 <div class="container">
      @using (Html.BeginForm("RegistrarSolicitud", "Solicitudes", FormMethod.Post)){
+            var idUsuario = ViewContext.HttpContext.Session.GetInt32("IdUsuario");
         <div class="col-12">
             <label class="form-label h2">Completar la siguiente informacion:</label>
         </div>
 
 
-        @Html.TextBoxFor(m => m.SOLICITANTE_ID, new { @class = "form-control", @type = "hidden", @value = idUsuario })
+        @Html.TextBoxFor(m => m.SOLICITANTE_ID, new { @class = "form-control", @type = "hidden", @value = 1})
         
         <div class="col-12">
                 @Html.Label("Fecha Inicio:")

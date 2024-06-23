@@ -9,6 +9,6 @@ namespace PROINSA_GP_WEB.Servicios
     /// </summary>
     public interface ISolicitudModel
     {
-        Respuesta RegistrarSolicitud(Solicitud ent);
+        Respuesta? RegistrarSolicitud(Solicitud ent);
     }
 }

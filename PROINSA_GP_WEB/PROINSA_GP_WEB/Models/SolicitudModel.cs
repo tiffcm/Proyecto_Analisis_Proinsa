@@ -6,22 +6,18 @@ using System.Net.Http;
 
 namespace PROINSA_GP_WEB.Models
 {
-    public class SolicitudModel(HttpClient httpClient, IConfiguration iConfiguration) : ISolicitudModel
+    public class SolicitudModel(HttpClient _httpClient, IConfiguration iConfiguration) : ISolicitudModel
     {
 
-        public Respuesta RegistrarSolicitud(Solicitud ent)
+        public Respuesta? RegistrarSolicitud(Solicitud entidad)
         {
-            using (httpClient)
-            {
-                string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Solicitud/RegistrarSolicitud";
-                JsonContent body = JsonContent.Create(ent);
-                var resp = httpClient.PostAsync(url, body).Result;
-
-                if (resp.IsSuccessStatusCode)
-                    return resp.Content.ReadFromJsonAsync<Respuesta>().Result!;
-                else
-                    return new Respuesta();
-            }
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Solicitud/RegistrarSolicitud";
+            JsonContent body = JsonContent.Create(entidad);
+            var solicitud = _httpClient.PostAsync(url, body).Result;
+            if (solicitud.IsSuccessStatusCode)
+                return solicitud.Content.ReadFromJsonAsync<Respuesta>().Result;
+            else
+                return new Respuesta();
         }
     }
 }
