@@ -10,7 +10,7 @@ namespace PROINSA_GP_API.Controllers
     /// </summary>
     /// <param name="iConfiguration">Inyección de dependencia para manejo cadenas de conexión</param>
     /// <author>Brandon Ruiz Miranda</author>
-    /// <version>1.5</version>
+    /// <version>1.6</version>
     [Route("api/[controller]")]
     [ApiController]
     public class UsuarioController (IConfiguration iConfiguration) : ControllerBase
@@ -47,17 +47,23 @@ namespace PROINSA_GP_API.Controllers
             }
         }
 
-        //------------------------------------------------------------------
-
-        //Hay arreglarlo, no está funcional
+        /// <summary>
+        /// Se encarga de enviar la información que se quiere actualizar en un paquete.
+        /// </summary>
+        /// <param name="entidad">Datos del usuario enviados como un objeto</param>
+        /// <returns>Confirmación de éxito o no en la actualización de la información</returns>
         [HttpPut][Route("ActualizarDatosUsuario")]
         public async Task<IActionResult> ActualizarDatosUsuario(Usuario entidad)
         {
             Respuesta respuesta = new Respuesta();
             using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
-                var request = await contexto.ExecuteAsync("ActualizarDatosUsuario",
-                   new { entidad.ID_EMPLEADO, entidad.TELEFONO, entidad.DIRRECION },
+                var parametros = new DynamicParameters();
+                parametros.Add("@ID_EMPLEADO", entidad.ID_EMPLEADO);
+                parametros.Add("@TELEFONO", entidad.TELEFONO);
+                parametros.Add("@DIRRECCION", entidad.DIRRECION);
+
+                var request = await contexto.ExecuteAsync("ActualizarDatosUsuario", parametros,
                    commandType: System.Data.CommandType.StoredProcedure);
                 if (request > 0)
                 {
@@ -75,7 +81,9 @@ namespace PROINSA_GP_API.Controllers
                 }
             }
         }
-        
+
+        //------------------------------------------------------------------
+
         //// Verificar si es get o post
         //[HttpGet]
         //[Route("ConsultarUsuarioAdministrador")]

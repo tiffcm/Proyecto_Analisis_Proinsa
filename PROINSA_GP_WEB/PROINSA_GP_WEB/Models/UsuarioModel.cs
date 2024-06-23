@@ -27,19 +27,23 @@ namespace PROINSA_GP_WEB.Models
                 return new Respuesta();
         }
 
-        //----------------------------------------------------------------------------------------------------
-
+        /// <summary>
+        /// Este procedimiento funciona para actualizar la información permitida para un solo usuario
+        /// </summary>
+        /// <param name="entidad">Se envía el objeto junto con los datos de ese usuario</param>
+        /// <returns>Confirmación de éxito de DB</returns>
         public Respuesta? ActualizarDatosUsuario(Usuario entidad)
         {
             string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/ActualizarDatosUsuario";
             JsonContent body = JsonContent.Create(entidad);
-            var solicitud = _httpClient.PostAsync(url, body).Result;
+            var solicitud = _httpClient.PutAsync(url, body).Result;
             if (solicitud.IsSuccessStatusCode)
                 return solicitud.Content.ReadFromJsonAsync<Respuesta>().Result;
             else
                 return new Respuesta();
         }
 
+        //----------------------------------------------------------------------------------------------------
 
         //public void ActualizarUsuario(ActualizarUsuario AcU, IFormFile FOTO)
         //{
