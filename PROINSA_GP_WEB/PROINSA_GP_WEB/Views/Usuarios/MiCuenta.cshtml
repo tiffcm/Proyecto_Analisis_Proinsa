@@ -28,7 +28,7 @@
                     <hr class="my-0" />
                     <div class="card-body">                        
                         @using (Html.BeginForm("MiCuenta", "Usuarios", FormMethod.Post)){
-                            @Html.TextBoxFor(m => m.ID_EMPLEADO, new{@hidden = "true"})
+                            @Html.HiddenFor(m => m.ID_EMPLEADO)
                             <div class="row">
                                 <div class="mb-3 col-md-12">
                                     @Html.Label("Nombre del usuario")
@@ -44,10 +44,21 @@
                                     @Html.Label("Puesto")
                                     @Html.TextBoxFor(m => m.NOMBRE_CARGO, new { @class = "form-control", @readonly = "true" })
                                 </div>
-                                <div class="mb-3 col-md-4">                                  
-                                   @Html.Label("Telefono")
-                                   @Html.TextBoxFor(m => m.TELEFONO, new { @class = "form-control" })                                   
-                                </div>
+                                @if (Model.TELEFONOS != null && Model.TELEFONOS.Any())
+                                {                                    
+                                    @for (int i = 0; i < Model.TELEFONOS.Count; i++)
+                                    {
+                                        <div class="mb-3 col-md-4">
+                                            @Html.HiddenFor(m => m.TELEFONOS![i].ID_TELEFONO, new { Name = $"TELEFONOS[{i}].ID_TELEFONO" })
+                                            @Html.Label("Telefono #" + (i+1))
+                                            @Html.TextBoxFor(m => m.TELEFONOS![i].TELEFONO, new { @class = "form-control", Name = $"TELEFONOS[{i}].TELEFONO" })
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <p>No hay teléfonos registrados.</p>
+                                }
                             </div>
                             <div class="row">
                                 <div class="mb-3 col-md-12">

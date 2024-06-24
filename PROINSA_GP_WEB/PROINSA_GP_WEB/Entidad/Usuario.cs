@@ -19,7 +19,12 @@
         public string? NOMBREROL { get; set; }
         public string? DIRRECION { get; set; }
         public string? TELEFONO { get; set; }
+        public List<Telefono>? TELEFONOS { get; set; }
+    }
+
+    public class Telefono
+    {
+        public long ID_TELEFONO { get; set; }
+        public string? TELEFONO { get; set; }
     }
 }
-
-

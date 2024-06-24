@@ -53,15 +53,22 @@ namespace PROINSA_GP_API.Controllers
         /// <param name="entidad">Datos del usuario enviados como un objeto</param>
         /// <returns>Confirmación de éxito o no en la actualización de la información</returns>
         [HttpPut][Route("ActualizarDatosUsuario")]
-        public async Task<IActionResult> ActualizarDatosUsuario(Usuario entidad)
+        public async Task<IActionResult> ActualizarDatosUsuario(Usuario usuario)
         {
             Respuesta respuesta = new Respuesta();
             using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
                 var parametros = new DynamicParameters();
-                parametros.Add("@ID_EMPLEADO", entidad.ID_EMPLEADO);
-                parametros.Add("@TELEFONO", entidad.TELEFONO);
-                parametros.Add("@DIRRECCION", entidad.DIRRECION);
+                parametros.Add("@ID_EMPLEADO", usuario.ID_EMPLEADO);
+                parametros.Add("@DIRRECCION", usuario.DIRRECION);
+                if (usuario.TELEFONOS != null && usuario.TELEFONOS.Any())
+                {
+                    for (int i = 0; i < usuario.TELEFONOS.Count; i++)
+                    {
+                        parametros.Add($"@ID_TELEFONO{i + 1}", usuario.TELEFONOS[i].ID_TELEFONO);
+                        parametros.Add($"@TELEFONO{i + 1}", usuario.TELEFONOS[i].TELEFONO);
+                    }
+                }
 
                 var request = await contexto.ExecuteAsync("ActualizarDatosUsuario", parametros,
                    commandType: System.Data.CommandType.StoredProcedure);
@@ -82,7 +89,43 @@ namespace PROINSA_GP_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Esta acción se encarga de traer todos los teléfonos que tiene registrados un empleado
+        /// utilizando para ello el Id.
+        /// </summary>        
+        /// <param name="idEmpleado">Id  del usuario recuperado de otro SP</param>
+        /// <returns>Devuele la respuesta de la acción</returns>
+        [HttpGet]
+        [Route("ObtenerTelefonosUsuario")]
+        public async Task<IActionResult> ObtenerTelefonosUsuario(long idEmpleado)
+        {
+            Respuesta respuesta = new Respuesta();
+            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+                var parametros = new DynamicParameters();
+                parametros.Add("@ID_EMPLEADO", idEmpleado);
+                var request = await contexto.QueryAsync<Telefono>("ObtenerTelefonosUsuario", parametros,
+                    commandType: System.Data.CommandType.StoredProcedure);
+                if (request != null)
+                {
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = request.ToList();
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CODIGO = 0;
+                    respuesta.MENSAJE = "La información del empleado no se encuentra registrada";
+                    respuesta.CONTENIDO = false;
+                    return Ok(respuesta);
+                }
+            }
+        }
+
         //------------------------------------------------------------------
+
+
 
         //// Verificar si es get o post
         //[HttpGet]
