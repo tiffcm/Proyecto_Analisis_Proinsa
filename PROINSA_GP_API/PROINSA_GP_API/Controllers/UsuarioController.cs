@@ -63,11 +63,22 @@ namespace PROINSA_GP_API.Controllers
                 parametros.Add("@DIRRECCION", usuario.DIRRECION);
                 if (usuario.TELEFONOS != null && usuario.TELEFONOS.Any())
                 {
-                    for (int i = 0; i < usuario.TELEFONOS.Count; i++)
+                    if (usuario.TELEFONOS.Count == 1)
                     {
-                        parametros.Add($"@ID_TELEFONO{i + 1}", usuario.TELEFONOS[i].ID_TELEFONO);
-                        parametros.Add($"@TELEFONO{i + 1}", usuario.TELEFONOS[i].TELEFONO);
+                        parametros.Add($"@ID_TELEFONO{1}", usuario.TELEFONOS[0].ID_TELEFONO);
+                        parametros.Add($"@TELEFONO{1}", usuario.TELEFONOS[0].TELEFONO);
+                        parametros.Add($"@ID_TELEFONO{2}", usuario.TELEFONOS[0].ID_TELEFONO);
+                        parametros.Add($"@TELEFONO{2}", usuario.TELEFONOS[0].TELEFONO);
                     }
+                    else
+                    {
+                        for (int i = 0; i < usuario.TELEFONOS.Count; i++)
+                        {
+                            parametros.Add($"@ID_TELEFONO{i + 1}", usuario.TELEFONOS[i].ID_TELEFONO);
+                            parametros.Add($"@TELEFONO{i + 1}", usuario.TELEFONOS[i].TELEFONO);
+                        }
+                    }
+
                 }
 
                 var request = await contexto.ExecuteAsync("ActualizarDatosUsuario", parametros,
