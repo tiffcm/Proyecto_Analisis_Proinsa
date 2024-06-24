@@ -1,7 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
-using PROINSA_GP_WEB.Entidad;
+﻿using PROINSA_GP_WEB.Entidad;
 using PROINSA_GP_WEB.Servicios;
-using System.Configuration;
+using System.Text.Json;
 
 namespace PROINSA_GP_WEB.Models
 {
@@ -18,7 +17,7 @@ namespace PROINSA_GP_WEB.Models
         /// <returns>Regresa la información deserializada o vacía dependiendo del código</returns>
         public Respuesta? ConsultarDatosEmpleado(string correo)
         {
-            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/ConsultarDatosEmpleado?CORREO=" + correo;
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/ConsultarDatosEmpleado?correo=" + correo;
             var solicitud = _httpClient.GetAsync(url).Result;
 
             if (solicitud.IsSuccessStatusCode)                
@@ -44,6 +43,19 @@ namespace PROINSA_GP_WEB.Models
         }
 
         //----------------------------------------------------------------------------------------------------
+
+        public Respuesta? ObtenerTelefonosUsuario(long? idEmpleado)
+        {
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/ObtenerTelefonosUsuario?idEmpleado=" + idEmpleado;
+            var solicitud = _httpClient.GetAsync(url).Result;
+
+            if (solicitud.IsSuccessStatusCode)
+            {
+                return solicitud.Content.ReadFromJsonAsync<Respuesta>().Result;
+            }
+            else
+                return new Respuesta();
+        }
 
         //public void ActualizarUsuario(ActualizarUsuario AcU, IFormFile FOTO)
         //{
