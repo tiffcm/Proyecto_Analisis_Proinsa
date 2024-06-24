@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using PROINSA_GP_API.Entidad;
+using System.Data;
 
 
 namespace PROINSA_GP_API.Controllers
@@ -15,7 +16,7 @@ namespace PROINSA_GP_API.Controllers
         [Route("ConsultarTipoSolicitud")]
         public async Task<IActionResult> ConsultarTipoSolicitud()
         {
-            SolicitudRespuesta respuesta = new SolicitudRespuesta();
+            Respuesta respuesta = new Respuesta();
 
             try
             {
@@ -26,63 +27,53 @@ namespace PROINSA_GP_API.Controllers
 
                     if (request != null && request.Count > 0)
                     {
-                        respuesta.CODIGO = "00";
+                        respuesta.CODIGO = 1;
                         respuesta.MENSAJE = "OK";
-                        respuesta.DATOS = request;
+                        respuesta.CONTENIDO = request;
                     }
                     else
                     {
-                        respuesta.CODIGO = "0";
+                        respuesta.CODIGO = 0;
                         respuesta.MENSAJE = "No hay registros";
                     }
                 }
             }
             catch (Exception)
             {
-                respuesta.CODIGO = "0";
+                respuesta.CODIGO = 0;
                 respuesta.MENSAJE = "Error";
             }
             return Ok(respuesta);
         }
 
+
         [HttpPost]
         [Route("RegistrarSolicitud")]
-        public async Task<IActionResult> RegistrarSolicitud([FromBody] Solicitud solicitud)
+        public async Task<IActionResult> RegistrarUsuario(Solicitud entidad)
         {
-            SolicitudRespuesta respuesta = new SolicitudRespuesta();
+            Respuesta respuesta = new Respuesta();
 
-            try
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
-                using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+                var result = await context.ExecuteAsync("RegistrarSolicitud", new { entidad.FECHA_INICIO, entidad.FECHA_FINAL, entidad.COMENTARIO, entidad.DETALLE, entidad.SOLICITANTE_ID ,entidad.TIPOSOLICITUD_ID }, commandType: CommandType.StoredProcedure);
+
+                if (result > 0)
                 {
-                    var parameters = new DynamicParameters();
-                    parameters.Add("@FECHA_INICIO", solicitud.FECHA_INICIO);
-                    parameters.Add("@FECHA_FINAL", solicitud.FECHA_FINAL);
-                    parameters.Add("@COMENTARIO", solicitud.COMENTARIO);
-                    parameters.Add("@DETALLE", solicitud.DETALLE);
-                    parameters.Add("@SOLICITANTE_ID", solicitud.SOLICITANTE_ID);
-                    parameters.Add("@TIPOSOLICITUD_ID", solicitud.TIPOSOLICITUD_ID);
-
-                    var result = await contexto.ExecuteAsync("RegistrarSolicitud", parameters, commandType: System.Data.CommandType.StoredProcedure);
-
-                    if (result > 0)
-                    {
-                        respuesta.CODIGO = "00";
-                        respuesta.MENSAJE = "Solicitud registrada exitosamente";
-                    }
-                    else
-                    {
-                        respuesta.CODIGO = "0";
-                        respuesta.MENSAJE = "No se pudo registrar la solicitud";
-                    }
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = true;
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CONTENIDO = 0;
+                    respuesta.MENSAJE = "La información del usuario ya se encuentra registrada";
+                    respuesta.CONTENIDO = false;
+                    return Ok(respuesta);
                 }
             }
-            catch (Exception ex)
-            {
-                respuesta.CODIGO = "0";
-                respuesta.MENSAJE = $"Error: {ex.Message}";
-            }
-            return Ok(respuesta);
         }
+
+
     }
 }
