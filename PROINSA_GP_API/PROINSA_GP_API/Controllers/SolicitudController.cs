@@ -49,7 +49,7 @@ namespace PROINSA_GP_API.Controllers
 
         [HttpPost]
         [Route("RegistrarSolicitud")]
-        public async Task<IActionResult> RegistrarUsuario(Solicitud entidad)
+        public async Task<IActionResult> RegistrarSolicitud(Solicitud entidad)
         {
             Respuesta respuesta = new Respuesta();
 

@@ -120,8 +120,8 @@ namespace PROINSA_GP_WEB.Controllers
                     if (respuesta!.CODIGO == 1)
                     {
                         var datosUsuario = JsonSerializer.Deserialize<Usuario>((JsonElement)respuesta.CONTENIDO!);
-                                               
-                        HttpContext.Session.SetLong("IdUsuario", datosUsuario!.ID_EMPLEADO!);
+
+                        HttpContext.Session.SetInt32("ID_EMPLEADO", (int)datosUsuario.ID_EMPLEADO);
                         HttpContext.Session.SetString("NombreUsuario", datosUsuario!.NOMBRECOMPLETO!);
                         HttpContext.Session.SetInt32("IdRol", datosUsuario!.IDROL!);
                         HttpContext.Session.SetString("RolUsuario", datosUsuario!.NOMBREROL!);
