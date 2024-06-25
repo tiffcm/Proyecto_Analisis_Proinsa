@@ -13,7 +13,8 @@
         <!-- Basic Bootstrap Table -->
         <div class="card">
             <h5 class="card-header">Usuarios registrados</h5>
-            @using (Html.BeginForm("MiCuenta", "Usuarios", FormMethod.Post)){
+            @using (Html.BeginForm("AdministrarUsuarios", "Usuarios", FormMethod.Post))
+            {
                 @if (Model.USUARIOS != null && Model.USUARIOS.Any())
                 {
                     <div class="table-responsive text-nowrap">

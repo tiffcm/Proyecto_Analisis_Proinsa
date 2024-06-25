@@ -140,14 +140,12 @@ namespace PROINSA_GP_API.Controllers
 
         [HttpGet]
         [Route("MostrarInfoVistaAdmin")]
-        public async Task<IActionResult> MostrarInfoVistaAdmin(long idEmpleado)
+        public async Task<IActionResult> MostrarInfoVistaAdmin()
         {
             Respuesta respuesta = new Respuesta();
             using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
-                var parametros = new DynamicParameters();
-                parametros.Add("@ID_EMPLEADO", idEmpleado);
-                var request = await contexto.QueryAsync("MostrarInfoVistaAdmin", parametros,
+              var request = await contexto.QueryAsync("MostrarInfoVistaAdmin",
                     commandType: System.Data.CommandType.StoredProcedure);
                 if (request != null)
                 {

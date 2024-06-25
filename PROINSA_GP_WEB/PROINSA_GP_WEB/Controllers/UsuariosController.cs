@@ -67,17 +67,13 @@ namespace PROINSA_GP_WEB.Controllers
         [HttpGet]
         public IActionResult AdministrarUsuarios()
         {
-            var IdEmpleado = User.Identity?.Name;
-            if (IdEmpleado != null)
-            {
-                long? IDEmpleado = HttpContext.Session.GetLong("IDUsuario");
-                var respuesta = _iUsuarioModel.MostrarInfoVistaAdmin(IDEmpleado);
+           var respuesta = _iUsuarioModel.MostrarInfoVistaAdmin();
                 if (respuesta!.CODIGO == 1)
                 {
-                    var usuario = JsonSerializer.Deserialize<Usuario>((JsonElement)respuesta.CONTENIDO!);
-
+                    var usuarios = JsonSerializer.Deserialize<List<Usuario>>((JsonElement)respuesta.CONTENIDO!);
+                    return View(usuarios);
                 }
-            }
+            
             return View();
         }
 

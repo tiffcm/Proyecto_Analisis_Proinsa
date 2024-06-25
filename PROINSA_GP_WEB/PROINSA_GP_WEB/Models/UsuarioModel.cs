@@ -57,9 +57,9 @@ namespace PROINSA_GP_WEB.Models
                 return new Respuesta();
         }
 
-        public Respuesta? MostrarInfoVistaAdmin(long? idEmpleado)
+        public Respuesta? MostrarInfoVistaAdmin()
         {
-            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/ObtenerTelefonosUsuario?idEmpleado=" + idEmpleado;
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/MostrarInfoVistaAdmin";
             var solicitud = _httpClient.GetAsync(url).Result;
 
             if (solicitud.IsSuccessStatusCode)
