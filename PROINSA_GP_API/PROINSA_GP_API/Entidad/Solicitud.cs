@@ -20,6 +20,8 @@
 
         public long TIPOSOLICITUD_ID { get; set; }
 
+        public long ID_HORARIOLABORAL { get; set; }
+
 
     }
 
