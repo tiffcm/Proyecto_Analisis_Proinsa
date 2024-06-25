@@ -8,7 +8,7 @@ namespace PROINSA_GP_WEB.Models
     /// Este módulo se encarga de enviar las consultas a la base de datos.
     /// </summary>
     /// <param name="_httpClient">Inyección de dependencias</param>
-    public class UsuarioModel (HttpClient _httpClient, IConfiguration iConfiguration) : IUsuarioModel
+    public class UsuarioModel(HttpClient _httpClient, IConfiguration iConfiguration) : IUsuarioModel
     {
         /// <summary>
         /// Se envía el correo del usuario para poder traer la información completa.
@@ -20,9 +20,9 @@ namespace PROINSA_GP_WEB.Models
             string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/ConsultarDatosEmpleado?correo=" + correo;
             var solicitud = _httpClient.GetAsync(url).Result;
 
-            if (solicitud.IsSuccessStatusCode)                
-                return solicitud.Content.ReadFromJsonAsync<Respuesta>().Result;            
-            else                
+            if (solicitud.IsSuccessStatusCode)
+                return solicitud.Content.ReadFromJsonAsync<Respuesta>().Result;
+            else
                 return new Respuesta();
         }
 
@@ -70,14 +70,28 @@ namespace PROINSA_GP_WEB.Models
                 return new Respuesta();
         }
 
-        //public void ActualizarUsuario(ActualizarUsuario AcU, IFormFile FOTO)
-        //{
-        //    using (httpClient)
-        //    {
-        //        string url = "";
-        //        JsonContent body = JsonContent.Create(AcU);
-        //        var resp = httpClient.PutAsJsonAsync(url, body).Result;
-        //    }
-        //}
+        public Respuesta? EditarDatosVistaAdmin(Usuario datos)
+        {
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/EditarDatosVistaAdmin";
+            JsonContent body = JsonContent.Create(datos);
+            var solicitud = _httpClient.PutAsync(url, body).Result;
+            if (solicitud.IsSuccessStatusCode)
+                return solicitud.Content.ReadFromJsonAsync<Respuesta>().Result;
+            else
+                return new Respuesta();
+        }
+
+        public Respuesta? MostrarEmpleadoVistaAdmin(long? idEmpleado)
+        {
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/MostrarEmpleadoVistaAdmin" + idEmpleado;
+            var solicitud = _httpClient.GetAsync(url).Result;
+
+            if (solicitud.IsSuccessStatusCode)
+            {
+                return solicitud.Content.ReadFromJsonAsync<Respuesta>().Result;
+            }
+            else
+                return new Respuesta();
+        }
     }
 }
