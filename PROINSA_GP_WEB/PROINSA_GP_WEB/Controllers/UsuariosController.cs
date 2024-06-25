@@ -58,11 +58,29 @@ namespace PROINSA_GP_WEB.Controllers
             return RedirectToAction("Principal","Home");
         }
 
-        [Administrador][Seguridad][HttpGet]
+        /// <summary>
+        /// Permite al administrador acceder a la lista de empleados.
+        /// </summary>
+        /// <returns></returns>
+        [Administrador]
+        [Seguridad]
+        [HttpGet]
         public IActionResult AdministrarUsuarios()
         {
+            var IdEmpleado = User.Identity?.Name;
+            if (IdEmpleado != null)
+            {
+                long? IDEmpleado = HttpContext.Session.GetLong("IDUsuario");
+                var respuesta = _iUsuarioModel.MostrarInfoVistaAdmin(IDEmpleado);
+                if (respuesta!.CODIGO == 1)
+                {
+                    var usuario = JsonSerializer.Deserialize<Usuario>((JsonElement)respuesta.CONTENIDO!);
+
+                }
+            }
             return View();
         }
+
 
         [Administrador][Seguridad][HttpGet]
         public IActionResult MantenimientoUsuario()

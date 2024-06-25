@@ -19,6 +19,8 @@
         public string? NOMBREROL { get; set; }
         public string? DIRRECION { get; set; }
         public string? TELEFONO { get; set; }
+        public string? ESTADO { get; set; }
+        public string? USER_ID { get; set; }
         public List<Telefono>? TELEFONOS { get; set; }
         public List<Usuario>? USUARIOS { get; set; }
 
