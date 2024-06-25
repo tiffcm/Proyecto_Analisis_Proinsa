@@ -1,4 +1,4 @@
-﻿
+﻿@model PROINSA_GP_WEB.Entidad.Usuario
 @{
     ViewBag.Title = "AdministrarUsuarios";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -13,62 +13,60 @@
         <!-- Basic Bootstrap Table -->
         <div class="card">
             <h5 class="card-header">Usuarios registrados</h5>
-            <div class="table-responsive text-nowrap">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Nombre completo</th>
-                            <th>Rol</th>
-                            <th>Departamento</th>
-                            <th>Puesto</th>
-                            <th>Estado</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-border-bottom-0">
-                        <tr>
-                            <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>Allan Rojas Alvarado</strong></td>
-                            <td>Administrador</td>
-                            <td>Administración</td>
-                            <td>CEO</td>
-                            <td><span class="badge bg-label-success me-1">Activo</span></td>
-                            <td>
-                                <a href="@Url.Action("MantenimientoUsuario","Usuarios")">Ver</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>Wilson Arias López</strong></td>
-                            <td>Empleado</td>
-                            <td>Development</td>
-                            <td>Developer</td>
-                            <td><span class="badge bg-label-primary me-1">Inactivo</span></td>
-                            <td>
-                                <a href="@Url.Action("MantenimientoUsuario","Usuarios")">Ver</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>Tifanny Camacho</strong></td>
-                            <td>Empleado</td>
-                            <td>Development</td>
-                            <td>Development Manager</td>
-                            <td><span class="badge bg-label-success me-1">Activo</span></td>
-                            <td>
-                                <a href="@Url.Action("MantenimientoUsuario","Usuarios")">Ver</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>Brandon Ruiz Miranda</strong></td>
-                            <td>Empleado</td>
-                            <td>Development</td>
-                            <td>Developer</td>
-                            <td><span class="badge bg-label-primary me-1">Inactivo</span></td>
-                            <td>
-                                <a href="@Url.Action("MantenimientoUsuario","Usuarios")">Ver</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            @using (Html.BeginForm("MiCuenta", "Usuarios", FormMethod.Post)){
+                @if (Model.USUARIOS != null && Model.USUARIOS.Any())
+                {
+                    <div class="table-responsive text-nowrap">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                        <th>Nombre completo</th>
+                                        <th>Rol</th>
+                                        <th>Departamento</th>
+                                        <th>Puesto</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-border-bottom-0">
+                               @for (int i = 0; i < Model.USUARIOS.Count; i++)
+                                {
+                                    <tr>
+                                
+                                            <td>
+                                                    @Html.DisplayFor(m => m.NOMBRECOMPLETO, new { @class = "form-control", @readonly = "true" })
+                                            </td>
+                                            <td>
+                                                    @Html.DisplayFor(m => m.NOMBREROL, new { @class = "form-control", @readonly = "true" })
+                                            </td>
+                                            <td>
+                                                    @Html.DisplayFor(m => m.NOMBRE_DEPARTAMENTO, new { @class = "form-control", @readonly = "true" })
+                                            </td>
+                                            <td>
+                                                    @Html.DisplayFor(m => m.NOMBRE_CARGO, new { @class = "form-control", @readonly = "true" })
+                                            </td>
+                                            <td>
+                                                    @Html.DisplayFor(m => m.ESTADO, new { @class = "form-control", @readonly = "true" })
+                                            </td>
+                                            <td>
+                                                    <a class="btn btn-primary" asp-action="Actualizar" asp-route-id="@Url.Action("MantenimientoUsuario","Usuarios")">Actualizar<i class="bi bi-pen"></i></a> |
+                                                    <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="" asp-action="Eliminar">Eliminar</a>
+
+                                                    <!-- CREAR UN MODAL PARA LA HORA DE ELIMINAR-->
+            
+                                             </td>
+                                  
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <p>No hay usuarios registrados aun</p>
+                }
+            }
         </div>
         <!--/ Basic Bootstrap Table -->
     </div>

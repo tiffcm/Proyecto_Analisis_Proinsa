@@ -136,7 +136,7 @@ namespace PROINSA_GP_API.Controllers
             {
                 var parametros = new DynamicParameters();
                 parametros.Add("@ID_EMPLEADO", idEmpleado);
-                var request = await contexto.QueryAsync<Telefono>("MostrarInfoVistaAdmin", parametros,
+                var request = await contexto.QueryAsync("MostrarInfoVistaAdmin", parametros,
                     commandType: System.Data.CommandType.StoredProcedure);
                 if (request != null)
                 {
@@ -156,7 +156,7 @@ namespace PROINSA_GP_API.Controllers
         }
 
         /// ACTUALIZAR 
-        [HttpPut][Route("EditarDatosVistaAdmin")]
+        /*[HttpPut][Route("EditarDatosVistaAdmin")]
         public async Task<IActionResult> EditarDatosVistaAdmin(Usuario usuario)
         {
             Respuesta respuesta = new Respuesta();
@@ -200,7 +200,7 @@ namespace PROINSA_GP_API.Controllers
                     return Ok(respuesta);
                 }
             }
-
+        */
             //------------------------------------------------------------------
 
 

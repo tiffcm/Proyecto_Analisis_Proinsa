@@ -57,6 +57,19 @@ namespace PROINSA_GP_WEB.Models
                 return new Respuesta();
         }
 
+        public Respuesta? MostrarInfoVistaAdmin(long? idEmpleado)
+        {
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/ObtenerTelefonosUsuario?idEmpleado=" + idEmpleado;
+            var solicitud = _httpClient.GetAsync(url).Result;
+
+            if (solicitud.IsSuccessStatusCode)
+            {
+                return solicitud.Content.ReadFromJsonAsync<Respuesta>().Result;
+            }
+            else
+                return new Respuesta();
+        }
+
         //public void ActualizarUsuario(ActualizarUsuario AcU, IFormFile FOTO)
         //{
         //    using (httpClient)
