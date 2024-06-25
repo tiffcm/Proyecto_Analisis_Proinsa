@@ -11,5 +11,6 @@ namespace PROINSA_GP_WEB.Servicios
         Respuesta? ConsultarDatosEmpleado(string correo);
         Respuesta? ActualizarDatosUsuario(Usuario entidad);
         Respuesta? ObtenerTelefonosUsuario(long? idEmpleado);
+        Respuesta? MostrarInfoVistaAdmin(long? idEmpleado);
     }
 }

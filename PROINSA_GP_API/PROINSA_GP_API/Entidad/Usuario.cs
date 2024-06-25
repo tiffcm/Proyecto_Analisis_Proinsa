@@ -20,6 +20,9 @@
         public string? DIRRECION { get; set; }
         public string? TELEFONO { get; set; }
         public List<Telefono>? TELEFONOS { get; set; }
+        public List<Usuario>? USUARIOS { get; set; }
+
+        
     }
 
     public class Telefono
