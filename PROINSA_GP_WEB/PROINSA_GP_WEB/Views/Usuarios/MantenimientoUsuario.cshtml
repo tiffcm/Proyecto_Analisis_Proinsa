@@ -1,4 +1,4 @@
-﻿
+﻿@model PROINSA_GP_WEB.Entidad.Usuario
 @{
     ViewBag.Title = "MantenimientoUsuario";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,132 +9,148 @@
 <div class="card mb-4">
     <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Actualizar información de un usuario</h5>
     <div class="card-body">
-        <div class="row gx-3 gy-2 align-items-center">
-            <div class="col-md-6">
-                <div class="mb-4">
-                    <label for="inputEmail4" class="form-label">Correo Electrónico</label>
-                    <input type="email" class="form-control" id="inputEmail4" readonly>
-                </div>
-            </div>
-        </div>
-        <div class="row gx-3 gy-2 align-items-center">
-            <div class="col-6">
-                <div class="mb-4">
-                    <label for="inputId" class="form-label">Identificación</label>
-                    <input type="text" class="form-control" placeholder="Identificación" aria-label="First name" readonly>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="mb-4">
-                    <label for="inputName" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" placeholder="Nombre Completo" aria-label="First name" readonly>
-                </div>
-            </div>
-        </div>
-        <div class="row gx-3 gy-2 align-items-center">
-            <div class="col-12">
-                <div class="mb-4">
-                    <label for="inputAddress" class="form-label">Dirección 1</label>
-                    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" readonly>
-                </div>
-            <div class="col-12">
-                <button type="button" class="btn btn-primary" id="">Administrar direcciones</button>
-            </div>
-        </div>
-        <div class="row gx-3 gy-2 align-items-center">
-            <div class="col-3">
-                <div class="mb-4">
-                    <label for="inputPhone" class="form-label">Teléfono</label>
-                    <input type="text" class="form-control" id="inputPhone" placeholder="Apartment, studio, or floor" readonly>
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="mb-4">
-                    <label for="inputSalary" class="form-label">Ingrese el salario</label>
-                    <input type="text" class="form-control" id="inputSalary">
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="mb-4">
-                    <label for="formFoto" class="form-label">Elija una foto</label>
-                    <div class="input-group">
-                        <input type="file" class="form-control" id="inputGroupFile02" />
+        @using (Html.BeginForm("MantenimientoUsuario", "Usuarios", FormMethod.Post))
+        { 
+            @Html.HiddenFor(m => m.ID_EMPLEADO)
+            <div class="row gx-3 gy-2 align-items-center">
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        @Html.Label("Correo Electrónico")
+                        @Html.TextBoxFor(m => m.CORREO, new { @class = "form-control", @readonly = "false" })
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row gx-3 gy-2 align-items-center">
-            <div class="col-3">
-                <button type="button" class="btn btn-primary" id="">Administrar telefonos</button>
-            </div>
-        </div>
-        <div class="row gx-3 gy-2 align-items-center">
-            <div class="col-6">
-                <div class="mb-4">
-                    <label for="formCargo" class="form-label">Cargo</label>
-                    <select class="form-select" aria-label="Cargo">
-                        <option selected>Seleccione el cargo</option>
-                        <option value="1">Cargo 1</option>
-                        <option value="2">Cargo 2</option>
-                        <option value="3">Cargo 3</option>
-                    </select>
+            <div class="row gx-3 gy-2 align-items-center">
+                <div class="col-6">
+                    <div class="mb-4">
+                        @Html.Label("Identificacion del usuario")
+                        @Html.TextBoxFor(m => m.IDENTIFICACION, new { @class = "form-control", @readonly = "false" })
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-4">
+                        @Html.Label("Nombre del usuario")
+                        @Html.TextBoxFor(m => m.NOMBRECOMPLETO, new { @class = "form-control", @readonly = "false" })
+                    </div>
                 </div>
             </div>
-            <div class="col-6">
-                <div class="mb-4">
-                    <label for="formDepartamento" class="form-label">Departamento</label>
-                    <select class="form-select" aria-label="Departamento">
-                        <option selected>Seleccione el departamento</option>
-                        <option value="1">Departamento 1</option>
-                        <option value="2">Departamento 1</option>
-                        <option value="3">Departamento 1</option>
-                    </select>
+            <div class="row gx-3 gy-2 align-items-center">
+                <div class="col-12">
+                    <div class="mb-4">
+                        @Html.Label("Dirección")
+                        @Html.TextBoxFor(m => m.DIRRECION, new { @class = "form-control" })
+                    </div>
+            </div>
+            <div class="row gx-3 gy-2 align-items-center">
+                <div class="col-3">
+                    <div class="mb-4">
+                            @if (Model.TELEFONOS != null && Model.TELEFONOS.Any())
+                            {
+                                @for (int i = 0; i < Model.TELEFONOS.Count; i++)
+                                {
+                                    <div class="mb-3 col-md-4">
+                                        @Html.HiddenFor(m => m.TELEFONOS![i].ID_TELEFONO, new { Name = $"TELEFONOS[{i}].ID_TELEFONO" })
+                                        @Html.Label("Telefono #" + (i + 1))
+                                        @Html.TextBoxFor(m => m.TELEFONOS![i].TELEFONO, new { @class = "form-control", Name = $"TELEFONOS[{i}].TELEFONO" })
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <p>No hay teléfonos registrados.</p>
+                            }
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="mb-4">
+                            @Html.Label("Salario")
+                            @Html.TextBoxFor(m => m.SALARIO, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-4">
+                            @Html.Label("Foto")
+                            @* @Html.TextBoxFor(m => m., new { @class = "form-control" }) *@
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row gx-3 gy-2 align-items-center">
-            <div class="col-3">
-                <div class="mb-4">
-                    <label for="formEstado" class="form-label">Estado del empleado</label>
-                    <select class="form-select" aria-label="Estado actual">
-                        <option selected>Seleccione el estado</option>
-                        <option value="1">Activo</option>
-                        <option value="2">Inactivo</option>
-                    </select>
+            
+            <div class="row gx-3 gy-2 align-items-center">
+                <div class="col-6">
+                    <div class="mb-4">
+                        @if (Model.CARGOS != null && Model.CARGOS.Any())
+                            {
+                                @for (int i = 0; i < Model.TELEFONOS.Count; i++)
+                                {
+                                    <div class="mb-3 col-md-4">
+                                        @Html.HiddenFor(m => m.CARGOS![i].ID_CARGO, new { Name = $"CARGOS[{i}].ID_CARGO" })
+                                        @Html.Label("Cargo")
+                                        @* @Html.DropDownList(m => m.CARGOS![i].NOMBRE_CARGO, new { @class = "form-control", Name = $"CARGOS[{i}].NOMBRE_CARGO", @readonly = "false" }) *@
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <p>No existen cargos a seleccionar.</p>
+                            }
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-4">
+                        <label for="formDepartamento" class="form-label">Departamento</label>
+                        <select class="form-select" aria-label="Departamento">
+                            <option selected>Seleccione el departamento</option>
+                            <option value="1">Departamento 1</option>
+                            <option value="2">Departamento 1</option>
+                            <option value="3">Departamento 1</option>
+                        </select>
+                    </div>
                 </div>
             </div>
-            <div class="col-3">
-                <div class="mb-4">
-                    <label for="formRol" class="form-label">Rol</label>
-                    <select class="form-select" aria-label="Rol">
-                        <option selected>Seleccione el rol</option>
-                        <option value="1">Administrador</option>
-                        <option value="2">Jefe de área</option>
-                        <option value="3">Empleado</option>
-                    </select>
+            <div class="row gx-3 gy-2 align-items-center">
+                <div class="col-3">
+                    <div class="mb-4">
+                        <label for="formEstado" class="form-label">Estado del empleado</label>
+                        <select class="form-select" aria-label="Estado actual">
+                            <option selected>Seleccione el estado</option>
+                            <option value="1">Activo</option>
+                            <option value="2">Inactivo</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="col-6">
-                <div class="mb-4">
-                    <label for="formHorario" class="form-label">Horario asignado</label>
-                    <select class="form-select" aria-label="Horario">
-                        <option selected>Seleccione el horario</option>
-                        <option value="1">Diurno</option>
-                        <option value="2">Intermedio</option>
-                        <option value="3">Tarde</option>
-                        <option value="4">Noche</option>
-                    </select>
+                <div class="col-3">
+                    <div class="mb-4">
+                        <label for="formRol" class="form-label">Rol</label>
+                        <select class="form-select" aria-label="Rol">
+                            <option selected>Seleccione el rol</option>
+                            <option value="1">Administrador</option>
+                            <option value="2">Jefe de área</option>
+                            <option value="3">Empleado</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
+                <div class="col-6">
+                    <div class="mb-4">
+                        <label for="formHorario" class="form-label">Horario asignado</label>
+                        <select class="form-select" aria-label="Horario">
+                            <option selected>Seleccione el horario</option>
+                            <option value="1">Diurno</option>
+                            <option value="2">Intermedio</option>
+                            <option value="3">Tarde</option>
+                            <option value="4">Noche</option>
+                        </select>
+                    </div>
+                </div>
 
-        <div style="display:grid; place-items:center;">
-            <div class="mt-4">
-                <button type="button" class="btn btn-primary" id="liveToastBtn">Actualizar usuario</button>
+            <div style="display:grid; place-items:center;">
+                <div class="mt-4">
+                    <button type="button" class="btn btn-primary" id="liveToastBtn">Actualizar usuario</button>
+                </div>
             </div>
-        </div>
+     
     </div>
 </div>
-
+}
 <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
     <div class="bs-toast toast fade hide bg-success" id="liveToast" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
@@ -165,3 +181,4 @@
         }
     });
 </script>
+      

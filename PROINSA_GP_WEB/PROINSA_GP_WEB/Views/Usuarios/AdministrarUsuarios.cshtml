@@ -1,4 +1,4 @@
-﻿@model PROINSA_GP_WEB.Entidad.Usuario
+﻿@model List<PROINSA_GP_WEB.Entidad.Usuario>
 @{
     ViewBag.Title = "AdministrarUsuarios";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -13,8 +13,9 @@
         <!-- Basic Bootstrap Table -->
         <div class="card">
             <h5 class="card-header">Usuarios registrados</h5>
-            @using (Html.BeginForm("MiCuenta", "Usuarios", FormMethod.Post)){
-                @if (Model.USUARIOS != null && Model.USUARIOS.Any())
+            @using (Html.BeginForm("AdministrarUsuarios", "Usuarios", FormMethod.Post))
+            {
+                @if (Model != null && Model.Any())
                 {
                     <div class="table-responsive text-nowrap">
                         <table class="table">
@@ -29,29 +30,30 @@
                                 </tr>
                             </thead>
                             <tbody class="table-border-bottom-0">
-                               @for (int i = 0; i < Model.USUARIOS.Count; i++)
+                               @for (int i = 0; i < Model.Count; i++)
                                 {
                                     <tr>
                                 
                                             <td>
-                                                    @Html.DisplayFor(m => m.NOMBRECOMPLETO, new { @class = "form-control", @readonly = "true" })
+                                                    @Html.DisplayFor(m => m[i].NOMBRECOMPLETO, new { @class = "form-control", @readonly = "true" })
                                             </td>
                                             <td>
-                                                    @Html.DisplayFor(m => m.NOMBREROL, new { @class = "form-control", @readonly = "true" })
+                                            @Html.DisplayFor(m => m[i].NOMBREROL, new { @class = "form-control", @readonly = "true" })
                                             </td>
                                             <td>
-                                                    @Html.DisplayFor(m => m.NOMBRE_DEPARTAMENTO, new { @class = "form-control", @readonly = "true" })
+                                            @Html.DisplayFor(m => m[i].NOMBRE_DEPARTAMENTO, new { @class = "form-control", @readonly = "true" })
                                             </td>
                                             <td>
-                                                    @Html.DisplayFor(m => m.NOMBRE_CARGO, new { @class = "form-control", @readonly = "true" })
+                                            @Html.DisplayFor(m => m[i].NOMBRE_CARGO, new { @class = "form-control", @readonly = "true" })
                                             </td>
                                             <td>
-                                                    @Html.DisplayFor(m => m.ESTADO, new { @class = "form-control", @readonly = "true" })
+                                            @Html.DisplayFor(m => m[i].ESTADO, new { @class = "form-control", @readonly = "true" })
                                             </td>
                                             <td>
-                                                    <a class="btn btn-primary" asp-action="Actualizar" asp-route-id="@Url.Action("MantenimientoUsuario","Usuarios")">Actualizar<i class="bi bi-pen"></i></a> |
-                                                    <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="" asp-action="Eliminar">Eliminar</a>
-
+                                                    <a class="btn btn-primary" asp-route-id="@Url.Action("MantenimientoUsuario","Usuarios")">Actualizar<i class="bi bi-pen"></i></a> |
+                                            
+                                                    <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="">Desactivar</a>
+                                           
                                                     <!-- CREAR UN MODAL PARA LA HORA DE ELIMINAR-->
             
                                              </td>
