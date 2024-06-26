@@ -26,7 +26,6 @@
         public List<Usuario>? USUARIOS { get; set; }
         public List<Cargo>? CARGOS { get; set; }
         public List<Departamento>? DEPARTAMENTOS { get; set; }
-        public List<HorarioLaboral>? HORARIOSLABORALES { get; set; }
         public long ID_CARGO { get; set; } //
         public string? NOMBRE_HL { get; set; }
     }
@@ -51,10 +50,4 @@
 
     }
 
-    public class HorarioLaboral
-    {
-        public long ID_HORARIOLABORAL { get; set; }
-        public string? NOMBRE_HL { get; set; }
-
-    }
 }
