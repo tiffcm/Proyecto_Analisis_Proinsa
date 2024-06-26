@@ -26,7 +26,7 @@ BEGIN
     SELECT @BusinessDays = COUNT(*)
     FROM FECHASRANGO 
     WHERE DateValue >= @INICIO AND DateValue <= @FIN -- Dentro del rango de fechas
-        AND DATEPART(WEEKDAY, DateValue) NOT IN (1, 7); -- Excluye domingos (1) y sábados (7)
+        AND DATEPART(WEEKDAY, DateValue) NOT IN (1, 7); -- Excluye domingos (1) y sï¿½bados (7)
 
     RETURN @BusinessDays;
 END;
@@ -771,7 +771,7 @@ CREATE   PROCEDURE [dbo].[ActualizarDatosUsuario]
 @DIRRECCION NVARCHAR (600)
 AS
 BEGIN	
-    -- Actualizar TELEFONO 1 si el ID y el teléfono no son nulos
+    -- Actualizar TELEFONO 1 si el ID y el telï¿½fono no son nulos
     IF @ID_TELEFONO1 IS NOT NULL AND @TELEFONO1 IS NOT NULL
     BEGIN
         UPDATE [dbo].[TELEFONO]
@@ -785,7 +785,7 @@ BEGIN
         );
     END;
 
-    -- Actualizar TELEFONO 2 si el ID y el teléfono no son nulos
+    -- Actualizar TELEFONO 2 si el ID y el telï¿½fono no son nulos
     IF @ID_TELEFONO2 IS NOT NULL AND @TELEFONO2 IS NOT NULL
     BEGIN
         UPDATE [dbo].[TELEFONO]
@@ -1279,7 +1279,7 @@ where apsoli.SOLICITUD_ID=@id_solicitud and apsoli.SECUENCIA=1)
 														
 														<tr style="border-collapse:collapse">
 															<td align="left" class="h-auto" height="30" style="padding:0;Margin:0">
-																<p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, ''helvetica neue'', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px"><strong>Número de solicitud: </strong> '+ @id_solicitud +'</p>
+																<p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, ''helvetica neue'', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px"><strong>Nï¿½mero de solicitud: </strong> '+ @id_solicitud +'</p>
 															</td>
 														</tr>
 														<tr style="border-collapse:collapse">
@@ -1468,7 +1468,7 @@ WHERE APSOLI.SOLICITUD_ID=@id_solicitud
                                       <td align="center" style="padding:0;Margin:0;padding-top:15px;padding-bottom:15px">
                                         <span class="es-button-border" style="border-style:solid;color:#FFFFFF;border-color:#094293;background:#094293;border-width:4px;display:inline-block;border-radius:10px;width:auto">
 										  
-                                            Ingrese al módulo Gestión de Personal a consultar los detalles del registro del permiso
+                                            Ingrese al mï¿½dulo Gestiï¿½n de Personal a consultar los detalles del registro del permiso
 											
 									    </span>
 									  </td>
@@ -1599,7 +1599,7 @@ BEGIN CATCH
 END CATCH
 
 GO
-/****** Object:  StoredProcedure [dbo].[ObtenerInformacionEmpleado]    Script Date: 22/6/2024 09:34:30 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[ObtenerInformacionEmpleado]    Script Date: 22/6/2024 09:34:30 p.ï¿½m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1676,13 +1676,13 @@ create PROCEDURE [dbo].[RegistrarAprobaciones]
     @ID_SOLICITUD bigint
 AS 
 BEGIN
-    -- Declaración de variables
+    -- Declaraciï¿½n de variables
     DECLARE @ENCARGADO_APROBACION bigint;
     DECLARE @SECUENCIA varchar(200);
     DECLARE @RESPUESTA_SOLICITUD varchar(1) = 'P'; 
 
     BEGIN TRY
-        -- Declaración del cursor
+        -- Declaraciï¿½n del cursor
         DECLARE cursorAprobaciones CURSOR FOR
         SELECT d.SECUENCIA, e.EMPLEADO_ID
         FROM [dbo].[SOLICITUD] a 
@@ -1695,7 +1695,7 @@ BEGIN
         -- Apertura del cursor
         OPEN cursorAprobaciones;
 
-        -- Obtención del primer registro
+        -- Obtenciï¿½n del primer registro
         FETCH NEXT FROM cursorAprobaciones INTO @SECUENCIA, @ENCARGADO_APROBACION;
 
         -- Bucle para manejar los datos obtenidos del cursor
@@ -1717,7 +1717,7 @@ BEGIN
         
             );
 
-            -- Obtención del siguiente registro
+            -- Obtenciï¿½n del siguiente registro
             FETCH NEXT FROM cursorAprobaciones INTO @SECUENCIA, @ENCARGADO_APROBACION;
         END;
 
@@ -1871,7 +1871,7 @@ BEGIN
          FROM EMPLEADODIRRECCION ed
          INNER JOIN DIRRECCION dir ON ed.DIRRECION_ID = dir.ID_DIRECCION
          WHERE ed.EMPLEADO_ID = e.ID_EMPLEADO) AS DIRECCIONES,
-        -- Concatenar teléfonos
+        -- Concatenar telï¿½fonos
         (SELECT STRING_AGG(t.TELEFONO, ', ')
          FROM EMPLEADOTELEFONO et
          INNER JOIN TELEFONO t ON et.TELEFONO_ID = t.ID_TELEFONO
@@ -1968,7 +1968,7 @@ BEGIN
     -- interfering with SELECT statements.
 IF EXISTS (SELECT 1 FROM [dbo].[EMPLEADO] WHERE [ID_EMPLEADO] = @ID_EMPLEADO)
     BEGIN
-        -- Actualizar la información del empleado
+        -- Actualizar la informaciï¿½n del empleado
         UPDATE [dbo].[EMPLEADO]
         SET 
             [IDENTIFICACION] = @IDENTIFICACION,
@@ -1982,7 +1982,7 @@ IF EXISTS (SELECT 1 FROM [dbo].[EMPLEADO] WHERE [ID_EMPLEADO] = @ID_EMPLEADO)
             [ESTADO] = @ESTADO
         WHERE [ID_EMPLEADO] = @ID_EMPLEADO;
 
-        -- Actualizar TELEFONO 1 si el ID y el teléfono no son nulos
+        -- Actualizar TELEFONO 1 si el ID y el telï¿½fono no son nulos
         IF @ID_TELEFONO1 IS NOT NULL AND @TELEFONO1 IS NOT NULL
         BEGIN
             UPDATE [dbo].[TELEFONO]
@@ -1996,7 +1996,7 @@ IF EXISTS (SELECT 1 FROM [dbo].[EMPLEADO] WHERE [ID_EMPLEADO] = @ID_EMPLEADO)
             );
         END;
 
-        -- Actualizar TELEFONO 2 si el ID y el teléfono no son nulos
+        -- Actualizar TELEFONO 2 si el ID y el telï¿½fono no son nulos
         IF @ID_TELEFONO2 IS NOT NULL AND @TELEFONO2 IS NOT NULL
         BEGIN
             UPDATE [dbo].[TELEFONO]
@@ -2024,7 +2024,7 @@ IF EXISTS (SELECT 1 FROM [dbo].[EMPLEADO] WHERE [ID_EMPLEADO] = @ID_EMPLEADO)
     END
     ELSE
     BEGIN
-        -- Si el empleado no existe, puede manejarse el error o insertar un nuevo registro según la lógica de negocio
+        -- Si el empleado no existe, puede manejarse el error o insertar un nuevo registro segï¿½n la lï¿½gica de negocio
         RAISERROR ('El empleado con ID %d no existe.', 16, 1, @ID_EMPLEADO);
     END
 END
@@ -2092,10 +2092,10 @@ BEGIN
 
     -- Insert statements for procedure here
 
-        -- Verificar si el teléfono existe
+        -- Verificar si el telï¿½fono existe
     IF EXISTS (SELECT 1 FROM [dbo].[TELEFONO] WHERE [ID_TELEFONO] = @ID_TELEFONO)
     BEGIN
-        -- Actualizar el teléfono
+        -- Actualizar el telï¿½fono
         UPDATE [dbo].[TELEFONO]
         SET 
             [TELEFONO] = @NUEVO_TELEFONO
@@ -2104,8 +2104,8 @@ BEGIN
     END
     ELSE
     BEGIN
-        -- Si el teléfono no existe, lanzar un error
-        RAISERROR ('El teléfono con ID %d no existe.', 16, 1, @ID_TELEFONO);
+        -- Si el telï¿½fono no existe, lanzar un error
+        RAISERROR ('El telï¿½fono con ID %d no existe.', 16, 1, @ID_TELEFONO);
     END
 END
 GO
@@ -2120,9 +2120,9 @@ GO
 -- =============================================
 -- Author:      Wilson Arias
 -- Create Date: 06/23/2024
--- Description: Añade nuevo telefono a empleado
+-- Description: Aï¿½ade nuevo telefono a empleado
 -- =============================================
-CREATE PROCEDURE AñadirTelefono
+CREATE PROCEDURE Aï¿½adirTelefono
 (
     -- Add the parameters for the stored procedure here
     @ID_EMPLEADO BIGINT,
@@ -2141,14 +2141,14 @@ BEGIN
     BEGIN TRY
         BEGIN TRANSACTION;
 
-        -- Insertar el nuevo teléfono en la tabla TELEFONO
+        -- Insertar el nuevo telï¿½fono en la tabla TELEFONO
         INSERT INTO [dbo].[TELEFONO] ([TELEFONO])
         VALUES (@NUEVO_TELEFONO);
 
-        -- Obtener el ID del teléfono recién insertado
+        -- Obtener el ID del telï¿½fono reciï¿½n insertado
         SET @ID_TELEFONO = SCOPE_IDENTITY();
 
-        -- Asociar el nuevo teléfono con el empleado en la tabla EMPLEADOTELEFONO
+        -- Asociar el nuevo telï¿½fono con el empleado en la tabla EMPLEADOTELEFONO
         INSERT INTO [dbo].[EMPLEADOTELEFONO] ([EMPLEADO_ID], [TELEFONO_ID])
         VALUES (@ID_EMPLEADO, @ID_TELEFONO);
 
@@ -2233,10 +2233,10 @@ BEGIN
 
     -- Insert statements for procedure here
 
-        -- Verificar si la dirección existe
+        -- Verificar si la direcciï¿½n existe
     IF EXISTS (SELECT 1 FROM [dbo].[DIRRECCION] WHERE [ID_DIRECCION] = @ID_DIRECCION)
     BEGIN
-        -- Actualizar la dirección
+        -- Actualizar la direcciï¿½n
         UPDATE [dbo].[DIRRECCION]
         SET 
             [DIRRECION] = @NUEVA_DIRECCION
@@ -2245,8 +2245,8 @@ BEGIN
     END
     ELSE
     BEGIN
-        -- Si la dirección no existe, lanzar un error
-        RAISERROR ('La dirección con ID %d no existe.', 16, 1, @ID_DIRECCION);
+        -- Si la direcciï¿½n no existe, lanzar un error
+        RAISERROR ('La direcciï¿½n con ID %d no existe.', 16, 1, @ID_DIRECCION);
     END
 END
 GO
@@ -2261,9 +2261,9 @@ GO
 -- =============================================
 -- Author:      Wilson Arias
 -- Create Date: 06/23/2024
--- Description: Añade nueva direccion a empleado.
+-- Description: Aï¿½ade nueva direccion a empleado.
 -- =============================================
-CREATE PROCEDURE AñadirDireccion
+CREATE PROCEDURE Aï¿½adirDireccion
 (
     -- Add the parameters for the stored procedure here
     @ID_EMPLEADO BIGINT,
@@ -2282,14 +2282,14 @@ BEGIN
     BEGIN TRY
         BEGIN TRANSACTION;
 
-        -- Insertar la nueva dirección en la tabla DIRRECCION
+        -- Insertar la nueva direcciï¿½n en la tabla DIRRECCION
         INSERT INTO [dbo].[DIRRECCION] ([DIRRECION])
         VALUES (@NUEVA_DIRECCION);
 
-        -- Obtener el ID de la dirección recién insertada
+        -- Obtener el ID de la direcciï¿½n reciï¿½n insertada
         SET @ID_DIRECCION = SCOPE_IDENTITY();
 
-        -- Asociar la nueva dirección con el empleado en la tabla EMPLEADODIRRECCION
+        -- Asociar la nueva direcciï¿½n con el empleado en la tabla EMPLEADODIRRECCION
         INSERT INTO [dbo].[EMPLEADODIRRECCION] ([EMPLEADO_ID], [DIRRECION_ID])
         VALUES (@ID_EMPLEADO, @ID_DIRECCION);
 
@@ -2778,7 +2778,7 @@ where apsoli.SOLICITUD_ID=@id_solicitud and apsoli.SECUENCIA=1)
 														
 														<tr style="border-collapse:collapse">
 															<td align="left" class="h-auto" height="30" style="padding:0;Margin:0">
-																<p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, ''helvetica neue'', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px"><strong>Número de solicitud: </strong> '+ @id_solicitud +'</p>
+																<p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, ''helvetica neue'', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px"><strong>Nï¿½mero de solicitud: </strong> '+ @id_solicitud +'</p>
 															</td>
 														</tr>
 														<tr style="border-collapse:collapse">
@@ -2976,7 +2976,7 @@ order by APSOLI.SECUENCIA ASC
                                       <td align="center" style="padding:0;Margin:0;padding-top:15px;padding-bottom:15px">
                                         <span class="es-button-border" style="border-style:solid;color:#FFFFFF;border-color:#094293;background:#094293;border-width:4px;display:inline-block;border-radius:10px;width:auto">
 										  
-                                            Ingrese al módulo Gestión de Personal a consultar los detalles del registro del permiso
+                                            Ingrese al mï¿½dulo Gestiï¿½n de Personal a consultar los detalles del registro del permiso
 											
 									    </span>
 									  </td>
@@ -3187,3 +3187,35 @@ INSERT INTO [dbo].[DB_ERRORES]
 END CATCH;
 
   END
+
+  go
+
+  create PROCEDURE ObtenerSolicitudesEmpleados 
+    @id_empleado BIGINT
+AS
+BEGIN
+    SELECT 
+        soli.FECHA_SOLICITUD,
+        emp.NOMBRECOMPLETO,
+        emp.IDENTIFICACION,
+        tiposoli.NOMBRE_TIPO_SOLICITUD,
+        CASE soli.ESTADO_SOLICITUD
+            WHEN 'P' THEN 'PENDIENTE'
+            WHEN 'A' THEN 'APROBADO'
+            WHEN 'R' THEN 'RECHAZADO'
+        END AS ESTADO
+    FROM 
+        SOLICITUD soli
+    INNER JOIN 
+        EMPLEADO emp ON emp.ID_EMPLEADO = soli.SOLICITANTE_ID
+    INNER JOIN 
+        TIPOSOLICITUD tiposoli ON tiposoli.ID_TIPOSOLICITUD = soli.TIPOSOLICITUD_ID
+
+		
+
+    WHERE 
+        emp.ID_EMPLEADO = @id_empleado
+
+		order by soli.FECHA_SOLICITUD desc
+		
+END;
