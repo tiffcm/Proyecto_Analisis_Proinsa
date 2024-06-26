@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using PROINSA_GP_WEB.Entidad;
 using PROINSA_GP_WEB.Servicios;
 using System.Configuration;
+using System.Data;
 namespace PROINSA_GP_WEB.Servicios
 {
     /// <summary>
@@ -13,6 +14,9 @@ namespace PROINSA_GP_WEB.Servicios
         Respuesta? RegistrarSolicitud(Solicitud ent);
 
         List<SelectListItem> ObtenerTipoSolicitud();
+
+
+        Task<DataTable>? ObtenerSolicitudesEmpleado(int idEmpleado);
 
 
     }

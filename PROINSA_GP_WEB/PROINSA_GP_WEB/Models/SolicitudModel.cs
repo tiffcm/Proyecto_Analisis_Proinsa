@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using PROINSA_GP_WEB.Entidad;
 using PROINSA_GP_WEB.Servicios;
 using System.Configuration;
+using System.Data;
 using System.Net.Http;
 using System.Text.Json;
 
@@ -47,6 +48,45 @@ namespace PROINSA_GP_WEB.Models
             }
             return new List<SelectListItem>();
         }
+
+
+
+        public async Task<DataTable> ObtenerSolicitudesEmpleado(int idEmpleado)
+        {
+            DataTable dataTable = new DataTable();
+
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Solicitud/ConsultarSolicitudesEmpleado?id_empleado=" + idEmpleado;
+            var response = _httpClient.GetAsync(url).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                var respuesta = response.Content.ReadFromJsonAsync<Respuesta>().Result;
+                if (respuesta.CODIGO == 1)
+                {
+                    var jsonElement = (JsonElement)respuesta.CONTENIDO;
+                    var solicitudes = JsonSerializer.Deserialize<List<Solicitud>>(jsonElement.GetRawText());
+
+                    if (solicitudes != null)
+                    {
+                        
+                        dataTable.Columns.Add("FECHA_SOLICITUD", typeof(string));
+                        dataTable.Columns.Add("DESCRIPCION", typeof(string));
+                        dataTable.Columns.Add("ESTADO", typeof(string));
+
+                        foreach (var solicitud in solicitudes)
+                        {
+                            DataRow row = dataTable.NewRow();
+                            row["FECHA_SOLICITUD"] = solicitud.FECHA_SOLICITUD; 
+                            row["DESCRIPCION"] = solicitud.NOMBRE_TIPO_SOLICITUD;
+                            row["ESTADO"] = solicitud.ESTADO;
+                            dataTable.Rows.Add(row);
+                        }
+                    }
+                }
+            }
+            return dataTable;
+        }
+
     }
 }
 

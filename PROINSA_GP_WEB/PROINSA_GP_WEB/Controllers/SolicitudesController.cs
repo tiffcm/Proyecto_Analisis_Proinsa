@@ -2,6 +2,7 @@
 using PROINSA_GP_WEB.Entidad;
 using PROINSA_GP_WEB.Models;
 using PROINSA_GP_WEB.Servicios;
+using System.Data;
 
 namespace PROINSA_GP_WEB.Controllers
 {
@@ -94,10 +95,20 @@ namespace PROINSA_GP_WEB.Controllers
         }
 
         [HttpGet]
-        public IActionResult HistorialSolicitudes()
+        public async Task<IActionResult> HistorialSolicitudes()
         {
-            return View();
+            var idEmpleadoSession = HttpContext.Session.GetInt32("ID_EMPLEADO");
+
+           
+            int idEmpleado = idEmpleadoSession ?? 0; 
+
+           
+            DataTable solicitudes = await iSolicitudModel.ObtenerSolicitudesEmpleado(idEmpleado); // Asegúrate de usar el método asincrónico
+
+           
+            return View(solicitudes);
         }
+
 
 
     }

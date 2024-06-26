@@ -75,5 +75,42 @@ namespace PROINSA_GP_API.Controllers
         }
 
 
+        [HttpGet]
+        [Route("ConsultarSolicitudesEmpleado")]
+        public async Task<IActionResult> ConsultarSolicitudesEmpleado(long id_empleado)
+        {
+            Respuesta respuesta = new Respuesta();
+
+            try
+            {
+                using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+                {
+                    var parameters = new DynamicParameters();
+                    parameters.Add("@id_empleado", id_empleado);
+
+                    var request = (await contexto.QueryAsync<Solicitud>("ObtenerSolicitudesEmpleados", parameters, commandType: System.Data.CommandType.StoredProcedure)).ToList();
+
+                    if (request != null && request.Count > 0)
+                    {
+                        respuesta.CODIGO = 1;
+                        respuesta.MENSAJE = "OK";
+                        respuesta.CONTENIDO = request;
+                    }
+                    else
+                    {
+                        respuesta.CODIGO = 0;
+                        respuesta.MENSAJE = "No hay registros";
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                respuesta.CODIGO = 0;
+                respuesta.MENSAJE = "Error";
+            }
+            return Ok(respuesta);
+        }
+
+
     }
 }

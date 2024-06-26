@@ -1,4 +1,7 @@
-﻿@{
+﻿@using System.Data
+
+@model System.Data.DataTable
+@{
     ViewBag.Title = "HistorialSolicitudes";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -6,67 +9,40 @@
 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Desarrollo personal / Solicitudes / </span> Historial solicitudes</h4>
 
 <div class="card mb-4">
-  
-<div class="container">
-    <div>
-        <label class="h3">Historial de solicitudes: </label>
-    </div>
-    <ul class="list-group">
-
-        <li class="list-group-item col-12 h4">
-            Solicitud 1<br>
-            <label>Fecha: </label>
-            <label>10/2/2023</label>
-            <br>
-            <label>Detalles: </label>
-            <br>
-            <label>Aprobado por: </label>
-        </li>
-
-
-        <li class="list-group-item col-12 h4">
-            Solicitud 2<br>
-            <label>Fecha: </label>
-            <label>2/5/2023</label>
-            <br>
-            <label>Detalles: </label>
-            <br>
-            <label>Aprobado por: </label>
-        </li>
-
-
-        <li class="list-group-item col-12 h4">
-            Solicitud 3<br>
-            <label>Fecha: </label>
-            <label>30/6/2023</label>
-            <br>
-            <label>Detalles: </label>
-            <br>
-            <label>Aprobado por: </label>
-        </li>
-
-
-        <li class="list-group-item col-12 h4">
-            Solicitud 4<br>
-            <label>Fecha: </label>
-            <label>1/7/2023</label>
-            <br>
-            <label>Detalles: </label>
-            <br>
-            <label>Aprobado por: </label>
-        </li>
-
-
-        <li class="list-group-item col-12 h4">
-            Solicitud 5<br>
-            <label>Fecha: </label>
-            <label>10/12/2023</label>
-            <br>
-            <label>Detalles: </label>
-            <br>
-            <label>Aprobado por: </label>
-        </li>
-
-    </ul>
+    <h5 class="card-header">Prueba por si quieren usar este fondo blanco</h5>
 </div>
+
+<div class="card-body">
+
+    <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Historial Solicitudes:</h5>
+
+
+    <div class="tab-content">
+        <div class="tab-pane show active" id="striped-rows-preview">
+            <div class="table-responsive-sm">
+                <table class="table table-striped table-centered mb-0">
+                    <thead>
+                        <tr>
+                            <th>FECHA SOLICITUD</th>
+                            <th>TIPO SOLICITUD</th>
+                            <th>ESTADO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (DataRow row in Model.Rows)
+                        {
+                            <tr>
+                                <td>@row["FECHA_SOLICITUD"]</td>
+                                <td>@row["DESCRIPCION"]</td>
+                                <td>@row["ESTADO"]</td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div> <!-- end table-responsive-->
+        </div> <!-- end preview-->
+
+
+    </div> <!-- end tab-content-->
 </div>
