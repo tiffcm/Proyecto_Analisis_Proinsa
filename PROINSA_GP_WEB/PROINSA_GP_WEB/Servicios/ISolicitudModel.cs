@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Configuration;
 using PROINSA_GP_WEB.Entidad;
 using PROINSA_GP_WEB.Servicios;
 using System.Configuration;
@@ -10,5 +11,9 @@ namespace PROINSA_GP_WEB.Servicios
     public interface ISolicitudModel
     {
         Respuesta? RegistrarSolicitud(Solicitud ent);
+
+        List<SelectListItem> ObtenerTipoSolicitud();
+
+
     }
 }

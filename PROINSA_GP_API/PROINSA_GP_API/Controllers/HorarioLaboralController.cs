@@ -1,20 +1,19 @@
 ﻿using Dapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
 using PROINSA_GP_API.Entidad;
 using System.Data;
-
 
 namespace PROINSA_GP_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SolicitudController (IConfiguration iConfiguration) : ControllerBase
+    public class HorarioLaboralController(IConfiguration iConfiguration) : ControllerBase
     {
+
         [HttpGet]
-        [Route("ConsultarTipoSolicitud")]
-        public async Task<IActionResult> ConsultarTipoSolicitud()
+        [Route("ConsultarHorarioDisponible")]
+        public async Task<IActionResult> ConsultarHorarioDisponible(long id_empleado)
         {
             Respuesta respuesta = new Respuesta();
 
@@ -22,8 +21,10 @@ namespace PROINSA_GP_API.Controllers
             {
                 using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
                 {
-                    var request = (await contexto.QueryAsync<Solicitud>("ObtenerTiposSolicitudes",
-                       commandType: System.Data.CommandType.StoredProcedure)).ToList();
+                    var parameters = new DynamicParameters();
+                    parameters.Add("@id_empleado", id_empleado);
+
+                    var request = (await contexto.QueryAsync<HorarioLaboral>("ObtenerHorariosDisponibles", parameters, commandType: System.Data.CommandType.StoredProcedure)).ToList();
 
                     if (request != null && request.Count > 0)
                     {
@@ -46,16 +47,16 @@ namespace PROINSA_GP_API.Controllers
             return Ok(respuesta);
         }
 
-
         [HttpPost]
-        [Route("RegistrarSolicitud")]
-        public async Task<IActionResult> RegistrarSolicitud(Solicitud entidad)
+        [Route("RegistrarSolicitudCambioHorario")]
+        public async Task<IActionResult> RegistrarSolicitudCambioHorario(Solicitud entidad)
         {
             Respuesta respuesta = new Respuesta();
 
             using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
-                var result = await context.ExecuteAsync("RegistrarSolicitud", new { entidad.FECHA_INICIO, entidad.FECHA_FINAL, entidad.COMENTARIO, entidad.DETALLE, entidad.SOLICITANTE_ID ,entidad.TIPOSOLICITUD_ID }, commandType: CommandType.StoredProcedure);
+                var result = await context.ExecuteAsync("RegistrarSolicitudCambioHorario", new { entidad.COMENTARIO, entidad.DETALLE, entidad.SOLICITANTE_ID,
+                entidad.ID_HORARIOLABORAL}, commandType: CommandType.StoredProcedure);
 
                 if (result > 0)
                 {
@@ -72,8 +73,13 @@ namespace PROINSA_GP_API.Controllers
                     return Ok(respuesta);
                 }
             }
+
+
+
+
         }
-
-
     }
 }
+
+
+

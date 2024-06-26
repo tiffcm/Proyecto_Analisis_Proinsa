@@ -1,15 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PROINSA_GP_WEB.Entidad;
+using PROINSA_GP_WEB.Models;
 using PROINSA_GP_WEB.Servicios;
 
 namespace PROINSA_GP_WEB.Controllers
 {
     public class SolicitudesController (ISolicitudModel iSolicitudModel): Controller
     {
+
+
+
         [HttpGet]
         public IActionResult RegistrarSolicitud()
         {
+            CargarTiposSolicitud();
+            ObtenerIdEmpleado();
             return View();
+
+           
+
+
         }
 
         [HttpPost]
@@ -22,6 +32,35 @@ namespace PROINSA_GP_WEB.Controllers
 
             ViewBag.msj = resp.MENSAJE;
             return View();
+        }
+
+
+        public ActionResult CargarTiposSolicitud()
+        {
+            var tipoSolicitudList = iSolicitudModel.ObtenerTipoSolicitud();
+            ViewBag.TipoSolicitudList = tipoSolicitudList;
+
+            var viewModel = new Solicitud
+            {
+                ID = 2 
+            };
+
+            return View(viewModel);
+        }
+
+
+        public ActionResult ObtenerIdEmpleado()
+        {
+            
+            var ID_EMPLEADO = HttpContext.Session.GetInt32("ID_EMPLEADO");
+
+            
+            var viewModel = new Solicitud
+            {
+                SOLICITANTE_ID = ID_EMPLEADO ?? 0 
+            };
+
+            return View(viewModel);
         }
 
         [HttpGet]
@@ -59,5 +98,7 @@ namespace PROINSA_GP_WEB.Controllers
         {
             return View();
         }
+
+
     }
 }

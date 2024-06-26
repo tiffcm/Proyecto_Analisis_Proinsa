@@ -3,6 +3,8 @@
 @{
     ViewBag.Title = "RegistrarSolicitud";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var idUsuario = Context.Session.GetString("IdUsuario");
  
 }
 
@@ -10,41 +12,68 @@
 
 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Desarrollo personal / Solicitudes / Crear una solicitud / </span> Vacaciones </h4>
 
+
+<div class="content-wrapper">
+<div class="container-xxl flex-grow-1 container-p-y">
+<div class="row">
+
+
 <div class="card mb-4">
+    <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Datos para la gestión del permiso:</h5>
+    <div class="card-body">
+    @using (Html.BeginForm("RegistrarSolicitud", "Solicitudes", FormMethod.Post)){
 
+      
 
-<div class="container">
-     @using (Html.BeginForm("RegistrarSolicitud", "Solicitudes", FormMethod.Post)){
-            var idUsuario = ViewContext.HttpContext.Session.GetInt32("IdUsuario");
-        <div class="col-12">
-            <label class="form-label h2">Completar la siguiente informacion:</label>
-        </div>
-
-
-        @Html.TextBoxFor(m => m.SOLICITANTE_ID, new { @class = "form-control", @type = "hidden", @value = 1})
         
-        <div class="col-12">
+            <div class="col-md-4">
+            <div class="mb-3">
                 @Html.Label("Fecha Inicio:")
                 @Html.TextBoxFor(m => m.FECHA_INICIO, new { @class = "form-control", @type = "date" })
         </div>
-        <div class="col-12">
+        </div>
+
+
+            <div class="col-md-4">
+            <div class="mb-3">
                 @Html.Label("Fecha Final:")
                 @Html.TextBoxFor(m => m.FECHA_FINAL, new { @class = "form-control", @type = "date" })
            
         </div>
+        </div>
 
-            <div class="col-12">
+            <div class="col-md-4">
+            <div class="mb-3">
                 @Html.Label("Comentario:")
                 @Html.TextAreaFor(m => m.COMENTARIO, new { @class = "form-control" })
 
             </div>
+            </div>
 
-            <div class="col-12">
+            <div class="col-md-4">
+            <div class="mb-3">
                 @Html.Label("Detalle:")
                 @Html.TextAreaFor(m => m.DETALLE, new { @class = "form-control" })
 
             </div>
+            </div>
 
+            <div class="col-md-4">
+            <div class="mb-3">
+                
+                @Html.TextBoxFor(m => m.SOLICITANTE_ID, new { @class = "form-control", @hidden = "true" })
+            </div>
+            </div>
+
+            <div class="col-md-4">
+            <div class="mb-3">
+                @Html.Label("Tipo de Permiso:")
+                @Html.DropDownListFor(m => m.TIPOSOLICITUD_ID, new SelectList(ViewBag.TipoSolicitudList, "Value", "Text"), new { @class = "form-control" })
+            </div>
+            </div>
+
+
+          
         <div class="col-3">
                 <button class="btn btn-primary" type="submit">Registrar</button>
         </div>
@@ -74,6 +103,12 @@
             </div>
         </div>
     </div>
+
 </div>
 
 </div>
+
+        </div>
+
+    </div>
+     </div>
