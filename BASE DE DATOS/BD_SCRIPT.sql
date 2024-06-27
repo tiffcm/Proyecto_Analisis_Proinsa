@@ -2122,7 +2122,7 @@ GO
 -- Create Date: 06/23/2024
 -- Description: A�ade nuevo telefono a empleado
 -- =============================================
-CREATE PROCEDURE A�adirTelefono
+CREATE PROCEDURE AnnadirTelefono
 (
     -- Add the parameters for the stored procedure here
     @ID_EMPLEADO BIGINT,
@@ -2263,7 +2263,7 @@ GO
 -- Create Date: 06/23/2024
 -- Description: A�ade nueva direccion a empleado.
 -- =============================================
-CREATE PROCEDURE A�adirDireccion
+CREATE PROCEDURE AnnadirDireccion
 (
     -- Add the parameters for the stored procedure here
     @ID_EMPLEADO BIGINT,
