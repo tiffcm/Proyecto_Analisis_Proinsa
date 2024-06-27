@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Horarios";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -10,55 +9,14 @@
     <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Cambios de horario del personal</h5>
     <div class="card-body">
         <div class="row gx-3 gy-2 align-items-center">
-            <div class="col-md-4">
-                <div class="mb-3">
-                    <label for="ListaEmpleados" class="form-label">Lista de empleados</label>
-                    <input class="form-control" list="ListaEmpleadosOptions" id="ListaEmpleados" placeholder="Buscar empleado..." />
-                    <datalist id="ListaEmpleadosOptions">
-                        <option value="Brandon Ruiz Miranda"></option>
-                        <option value="Tifanny Camacho"></option>
-                        <option value="Wilson Arias"></option>
-                        <option value="Mónica Durán"></option>
-                        <option value="Allan"></option>
-                        <option value="Brandon Ruiz Miranda"></option>
-                        <option value="Tifanny Camacho"></option>
-                        <option value="Wilson Arias"></option>
-                        <option value="Mónica Durán"></option>
-                        <option value="Allan"></option>
-                    </datalist>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Correo electrónico</label>
-                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="correo@correo.com"
-                           readonly />
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="mb-3">
-                    <label for="exampleFormControlReadOnlyInput1" class="form-label">Departamento</label>
-                    <input class="form-control" type="text" id="exampleFormControlReadOnlyInput1" placeholder="Departamento"
-                           readonly />
-                </div>
-            </div>
-        </div>
-        <div class="row gx-3 gy-2 align-items-center">
-            <div class="col-md-4">
-                <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Puesto que desempeña</label>
-                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Nombre del puesto"
-                           readonly />
-                </div>
-            </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="mb-3">
                     <label for="ListaHorarios" class="form-label">Horario actual</label>
                     <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Mostrar horario actual"
                            readonly />
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="mb-3">
                     <label for="ListaHorarios" class="form-label">Asignar nuevo horario</label>
                     <input class="form-control" list="ListaHorariosOptions" id="ListaHorarios" placeholder="" />
@@ -69,19 +27,22 @@
                     </datalist>
                 </div>
             </div>
-            <div class="mb-3 row">
-                <label for="html5-datetime-local-input" class="col-md-2 col-form-label">Fecha y Hora</label>
-                <div class="col-md-10">
-                    <input class="form-control"
-                           type="datetime-local"
-                           value="2021-06-18T12:30:00"
-                           id="html5-datetime-local-input" />
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    @Html.Label("Comentario:")
+                    <textarea class="form-control" id="Comentario" rows="3"></textarea>
+                    @* @Html.TextAreaFor(m => m.COMENTARIO, new { @class = "form-control" }) *@
                 </div>
             </div>
-        </div>
-        <div>
-            <label for="Justificacion" class="form-label">Justificación del cambio</label>
-            <textarea class="form-control" id="Justificacion" rows="3"></textarea>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    @Html.Label("Detalle:")
+                    <textarea class="form-control" id="Comentario" rows="3"></textarea>
+                    @* @Html.TextAreaFor(m => m.DETALLE, new { @class = "form-control" }) *@
+                </div>
+            </div>
         </div>
         <div class="mt-4" style="display:grid; place-items:center;">
             <button type="button" class="btn btn-primary" id="liveToastBtn">

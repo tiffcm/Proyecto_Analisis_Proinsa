@@ -43,6 +43,7 @@
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="~/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
     <link rel="stylesheet" href="~/assets/vendor/libs/apex-charts/apex-charts.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
 
     <!-- Page CSS -->
     <!-- Helpers -->
@@ -426,13 +427,15 @@
                         @RenderBody()
                     </div>
                     <!-- Footer -->
-                    <footer class="content-footer footer bg-footer-theme">
-                        <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
-                            <div class="mb-2 mb-md-0">
-                                &copy; @DateTime.Now.Year - Todos los derechos reservados
+                    <div style="display:grid; place-items:center;">
+                        <footer class="content-footer footer bg-footer-theme">
+                            <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+                                <div class="mb-2 mb-md-0">
+                                    &copy; @DateTime.Now.Year - Todos los derechos reservados
+                                </div>
                             </div>
-                        </div>
-                    </footer>
+                        </footer>
+                    </div>
                     <!-- / Footer -->
                     <!-- / Layout page -->
                 </div>

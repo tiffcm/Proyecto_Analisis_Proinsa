@@ -80,7 +80,6 @@ namespace PROINSA_GP_API.Controllers
                             parametros.Add($"@TELEFONO{i + 1}", usuario.TELEFONOS[i].TELEFONO);
                         }
                     }
-
                 }
 
                 var request = await contexto.ExecuteAsync("ActualizarDatosUsuario", parametros,
@@ -206,7 +205,6 @@ namespace PROINSA_GP_API.Controllers
                             parametros.Add($"@TELEFONO{i + 1}", usuario.TELEFONOS[i].TELEFONO);
                         }
                     }
-
                 }
 
                 var request = await contexto.ExecuteAsync("EditarDatosVistaAdmin", parametros,
@@ -237,8 +235,7 @@ namespace PROINSA_GP_API.Controllers
             {
                 var parametros = new DynamicParameters();
                 parametros.Add("@ID_EMPLEADO", idEmpleado);
-                var request = (await contexto.QueryAsync("MostrarEmpleadoVistaAdmin",
-                    parametros,
+                var request = (await contexto.QueryAsync("MostrarEmpleadoVistaAdmin", parametros,
                     commandType: System.Data.CommandType.StoredProcedure)).FirstOrDefault();
                 if (request != null)
                 {
@@ -269,7 +266,5 @@ namespace PROINSA_GP_API.Controllers
         [Route("ObtenerHorariosLaborales")] // Se debe crear procedimiento en SQL
         */
         //------------------------------------------------------------------
-
-
     }
-    }
+}
