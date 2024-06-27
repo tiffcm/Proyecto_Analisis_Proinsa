@@ -1,7 +1,5 @@
-﻿using Azure;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PROINSA_GP_WEB.Entidad;
@@ -11,22 +9,6 @@ using System.Text.Json;
 
 namespace PROINSA_GP_WEB.Controllers
 {
-    /// <summary>
-    /// Permite administrar variables de sesión de tipo long
-    /// </summary>
-    public static class SessionExtensions
-    {
-        public static void SetLong(this ISession session, string key, long value)
-        {
-            session.SetString(key, value.ToString());
-        }
-
-        public static long? GetLong(this ISession session, string key)
-        {
-            var value = session.GetString(key);
-            return value != null ? long.Parse(value) : (long?)null;
-        }
-    }
     /// <summary>
     /// Lógica de inicio de sesión y validación de usuarios con Entra ID
     /// </summary>

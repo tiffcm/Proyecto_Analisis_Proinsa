@@ -32,7 +32,7 @@ namespace PROINSA_GP_WEB.Controllers
                     var usuario = JsonSerializer.Deserialize<Usuario>((JsonElement)respuesta.CONTENIDO!);
                     if (usuario != null)
                     {
-                        long? IdEmpleado = HttpContext.Session.GetLong("IdUsuario");
+                        long? IdEmpleado = HttpContext.Session.GetInt32("ID_EMPLEADO");
                         var telefonosRespuesta = _iUsuarioModel.ObtenerTelefonosUsuario(IdEmpleado);
                         if (telefonosRespuesta != null)
                         {
