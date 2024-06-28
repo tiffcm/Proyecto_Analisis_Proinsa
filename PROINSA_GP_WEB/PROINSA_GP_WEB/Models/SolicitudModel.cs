@@ -23,6 +23,17 @@ namespace PROINSA_GP_WEB.Models
                 return new Respuesta();
         }
 
+        public Respuesta? RegistrarSolicitudCambioHorario(Solicitud entidad)
+        {
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "HorarioLaboral/RegistrarSolicitudCambioHorario";
+            JsonContent body = JsonContent.Create(entidad);
+            var solicitud = _httpClient.PostAsync(url, body).Result;
+            if (solicitud.IsSuccessStatusCode)
+                return solicitud.Content.ReadFromJsonAsync<Respuesta>().Result;
+            else
+                return new Respuesta();
+        }
+
 
         public List<SelectListItem>  ObtenerTipoSolicitud()
         {
@@ -32,9 +43,9 @@ namespace PROINSA_GP_WEB.Models
             if (response.IsSuccessStatusCode)
             {
                 var respuesta = response.Content.ReadFromJsonAsync<Respuesta>().Result;
-                if (respuesta.CODIGO == 1)
+                if (respuesta!.CODIGO == 1)
                 {
-                    var jsonElement = (JsonElement)respuesta.CONTENIDO;
+                    var jsonElement = (JsonElement)respuesta.CONTENIDO!;
                     var solicitudes = JsonSerializer.Deserialize<List<Solicitud>>(jsonElement.GetRawText());
                     if (solicitudes != null)
                     {
@@ -61,9 +72,9 @@ namespace PROINSA_GP_WEB.Models
             if (response.IsSuccessStatusCode)
             {
                 var respuesta = response.Content.ReadFromJsonAsync<Respuesta>().Result;
-                if (respuesta.CODIGO == 1)
+                if (respuesta!.CODIGO == 1)
                 {
-                    var jsonElement = (JsonElement)respuesta.CONTENIDO;
+                    var jsonElement = (JsonElement)respuesta.CONTENIDO!;
                     var solicitudes = JsonSerializer.Deserialize<List<Solicitud>>(jsonElement.GetRawText());
 
                     if (solicitudes != null)
@@ -85,6 +96,44 @@ namespace PROINSA_GP_WEB.Models
                 }
             }
             return dataTable;
+        }
+
+
+        public Respuesta? ObtenerHorarioEmpleado(string correo)
+        {
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/ObtenerHorarioLaboralEmpleado?correo=" + correo;
+            var solicitud = _httpClient.GetAsync(url).Result;
+
+            if (solicitud.IsSuccessStatusCode)
+                return solicitud.Content.ReadFromJsonAsync<Respuesta>().Result;
+            else
+                return new Respuesta();
+        }
+
+
+        public List<SelectListItem> ObtenerHorarioDisponibles(int idempleado)
+        {
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "HorarioLaboral/ConsultarHorarioDisponible?id_empleado=" + idempleado;
+            var response = _httpClient.GetAsync(url).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                var respuesta = response.Content.ReadFromJsonAsync<Respuesta>().Result;
+                if (respuesta!.CODIGO == 1)
+                {
+                    var jsonElement = (JsonElement)respuesta.CONTENIDO!;
+                    var solicitudes = JsonSerializer.Deserialize<List<HorarioLaboral>>(jsonElement.GetRawText());
+                    if (solicitudes != null)
+                    {
+                        return solicitudes.Select(t => new SelectListItem
+                        {
+                            Value = t.ID_HORARIOLABORAL.ToString(),
+                            Text = t.HORARIO
+                        }).ToList();
+                    }
+                }
+            }
+            return new List<SelectListItem>();
         }
 
     }

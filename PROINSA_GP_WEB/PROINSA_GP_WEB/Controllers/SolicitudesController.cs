@@ -3,6 +3,7 @@ using PROINSA_GP_WEB.Entidad;
 using PROINSA_GP_WEB.Models;
 using PROINSA_GP_WEB.Servicios;
 using System.Data;
+using System.Text.Json;
 
 namespace PROINSA_GP_WEB.Controllers
 {
@@ -49,6 +50,23 @@ namespace PROINSA_GP_WEB.Controllers
             return View(viewModel);
         }
 
+        public ActionResult CargarHorariosDisponibles()
+        {
+            var idEmpleadoSession = HttpContext.Session.GetInt32("ID_EMPLEADO");
+
+
+            int idEmpleado = idEmpleadoSession ?? 0;
+            var horarioDisponibleList = iSolicitudModel.ObtenerHorarioDisponibles(idEmpleado);
+            ViewBag.HorarioDisponibleList = horarioDisponibleList;
+
+            var viewModel = new Solicitud
+            {
+                ID = 2
+            };
+
+            return View(viewModel);
+        }
+
 
         public ActionResult ObtenerIdEmpleado()
         {
@@ -73,8 +91,45 @@ namespace PROINSA_GP_WEB.Controllers
         [HttpGet]
         public IActionResult CambiosHorario()
         {
+            ObtenerIdEmpleado();
+            CargarHorariosDisponibles();
+           
+            var correoEmpleado = User.Identity?.Name;
+            if (correoEmpleado != null)
+            {
+                var respuesta = iSolicitudModel.ObtenerHorarioEmpleado(correoEmpleado);
+                var horario = JsonSerializer.Deserialize<Solicitud>((JsonElement)respuesta!.CONTENIDO!);
+
+                var viewModel = new Solicitud
+                {
+                    HORARIO = horario!.HORARIO,
+                };
+
+              
+
+                return View(viewModel);
+            }
+
+            
+
+            return View(new Solicitud());
+
+        }
+
+
+        [HttpPost]
+        public IActionResult CambiosHorario(Solicitud ent)
+        {
+            var resp = iSolicitudModel.RegistrarSolicitudCambioHorario(ent);
+
+            if (resp!.CODIGO == 1)
+                return RedirectToAction("Index", "Home");
+
+            ViewBag.msj = resp.MENSAJE;
             return View();
         }
+
+
 
         [HttpGet]
         public IActionResult Permisos()
@@ -103,7 +158,7 @@ namespace PROINSA_GP_WEB.Controllers
             int idEmpleado = idEmpleadoSession ?? 0; 
 
            
-            DataTable solicitudes = await iSolicitudModel.ObtenerSolicitudesEmpleado(idEmpleado); // Asegúrate de usar el método asincrónico
+            DataTable solicitudes = await iSolicitudModel.ObtenerSolicitudesEmpleado(idEmpleado)!; 
 
            
             return View(solicitudes);

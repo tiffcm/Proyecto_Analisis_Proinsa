@@ -48,6 +48,7 @@ namespace PROINSA_GP_API.Controllers
             }
         }
 
+
         /// <summary>
         /// Se encarga de enviar la información que se quiere actualizar en un paquete.
         /// </summary>
@@ -261,10 +262,32 @@ namespace PROINSA_GP_API.Controllers
         [HttpGet]
         [Route("ObtenerDepartamentos")] // Se debe crear procedimiento en SQL
         */
-        /*
+
         [HttpGet]
-        [Route("ObtenerHorariosLaborales")] // Se debe crear procedimiento en SQL
-        */
-        //------------------------------------------------------------------
+        [Route("ObtenerHorarioLaboralEmpleado")]
+        public async Task<IActionResult> ObtenerHorarioLaboralEmpleado(string correo)
+        {
+            Respuesta respuesta = new Respuesta();
+            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+                var request = (await contexto.QueryAsync("ObtenerHorarioLaboralEmpleado",
+                    new { correo },
+                    commandType: System.Data.CommandType.StoredProcedure)).FirstOrDefault();
+                if (request != null)
+                {
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = request;
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CODIGO = 0;
+                    respuesta.MENSAJE = "La información del empleado no se encuentra registrada";
+                    respuesta.CONTENIDO = false;
+                    return Ok(respuesta);
+                }
+            }
+        }
     }
 }

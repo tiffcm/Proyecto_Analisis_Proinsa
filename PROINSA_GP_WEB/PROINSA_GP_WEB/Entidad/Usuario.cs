@@ -28,6 +28,10 @@
         public List<Departamento>? DEPARTAMENTOS { get; set; }
         public long ID_CARGO { get; set; } //
         public string? NOMBRE_HL { get; set; }
+
+
+        public int ID_HORARIOLABORAL { get; set; }
+        
     }
 
     public class Telefono

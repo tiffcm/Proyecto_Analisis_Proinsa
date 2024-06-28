@@ -1,4 +1,5 @@
-﻿using PROINSA_GP_WEB.Entidad;
+﻿using Microsoft.Extensions.Primitives;
+using PROINSA_GP_WEB.Entidad;
 
 namespace PROINSA_GP_WEB.Servicios
 {
@@ -14,5 +15,8 @@ namespace PROINSA_GP_WEB.Servicios
         Respuesta? MostrarInfoVistaAdmin();
         Respuesta? EditarDatosVistaAdmin(Usuario datos);
         Respuesta? MostrarEmpleadoVistaAdmin(long? idEmpleado);
+
+
+       
     }
 }

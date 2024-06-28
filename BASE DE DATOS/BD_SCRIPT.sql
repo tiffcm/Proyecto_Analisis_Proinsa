@@ -3219,3 +3219,15 @@ BEGIN
 		order by soli.FECHA_SOLICITUD desc
 		
 END;
+
+go
+
+create proc [dbo].[ObtenerHorarioLaboralEmpleado] 
+  @Correo varchar(256) 
+  as begin
+
+  select hl.ID_HORARIOLABORAL,   CONCAT(hl.DESCRIPCION, ' - ', CONVERT(varchar(5), hl.HORA_INGRESO, 108), ' hasta ', CONVERT(varchar(5), hl.HORA_SALIDA, 108)) AS HORARIO from empleado emple 
+  inner join HORARIOLABORAL hl on hl.ID_HORARIOLABORAL=emple.HORARIOLABORAL_ID
+  INNER JOIN CORREO CO ON CO.ID_CORREO=emple.CORREO_ID
+  where co.CORREO=@Correo
+  end

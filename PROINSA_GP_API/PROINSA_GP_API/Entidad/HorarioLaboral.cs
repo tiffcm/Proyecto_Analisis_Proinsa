@@ -4,6 +4,11 @@
     {
 
         public long ID_HORARIOLABORAL { get; set; }
-        public string? Horario { get; set; }
+
+       
+        public string? HORARIO { get; set; }
+
+        public int HORA_INGRESO { get; set; }
+        public string? HORA_SALIDA { get; set; }
     }
 }

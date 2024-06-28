@@ -31,5 +31,10 @@
 
 
         public string? ESTADO { get; set; }
+
+        public string? HORARIO { get; set; }
+
+        public long ID_HORARIOLABORAL { get; set; }
+        
     }
 }

@@ -1,57 +1,82 @@
-﻿@{
-    ViewBag.Title = "Solicitudes";
+﻿@model PROINSA_GP_WEB.Entidad.Solicitud
+
+@{
+    ViewBag.Title = "RegistrarSolicitud";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Desarrollo personal / Solicitudes / Crear una solicitud / </span> Cambios de horario</h4>
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Desarrollo personal / Solicitudes / Crear una solicitud / </span> Registrar permiso </h4>
 
-<div class="card mb-4">
+<div class="content-wrapper">
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="row">
+            <div class="card mb-4">
+                <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Datos para la gestión del permiso:</h5>
+                <div class="card-body">
+                    @using (Html.BeginForm("CambiosHorario", "Solicitudes", FormMethod.Post))
+                    {
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                @Html.TextBoxFor(m => m.SOLICITANTE_ID, new { @class = "form-control", @hidden = "true" })
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                @Html.Label("Horario Actual:")
+                                @Html.TextBoxFor(m => m.HORARIO, new { @class = "form-control", @type = "string" , @readonly = "true" })
+                            </div>
+                        </div>
 
-<div class="container">
-    <form class="row g-3">
-        <div class="mb-3">
-            <label for="exampleFormControlTextarea1" class="form-label">Razon para la solicitud de cambio de horario: </label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-        </div>
-        <div class="mb-3">
-            <label for="formFile" class="form-label">Documento que respalde dicha solicitud:</label>
-            <input class="form-control" type="file" id="formFile">
-        </div>
-        <div class="col-9">
-            <label for="inputHorario" class="form-label">Horario:</label>
-            <select class="form-select" aria-label="Horario">
-                <option selected>Seleccione el horario: </option>
-                <option value="1">Horario 1</option>
-                <option value="2">Horario 2</option>
-                <option value="3">Horario 3</option>
-            </select>
-        </div>
-        <div class="col-6">
-            <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#solicitar">Solicitar</button>
-        </div>
-    </form>
-    <div class="modal fade" id="solicitar">
-        <div class="modal-dialog">
-            <div class="modal-content">
 
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Solicitud enviada con exito!</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                @Html.Label("Horario Nuevo:")
+
+                                @Html.DropDownListFor(m => m.ID_HORARIOLABORAL, new SelectList(ViewBag.HorarioDisponibleList, "Value", "Text"), new { @class = "form-control" })
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    @Html.Label("Comentario:")
+                                    @Html.TextAreaFor(m => m.COMENTARIO, new { @class = "form-control" })
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    @Html.Label("Detalle:")
+                                    @Html.TextAreaFor(m => m.DETALLE, new { @class = "form-control" })
+
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display:grid; place-items:center;">
+                            <button class="btn btn-primary mt-4" style="width:300px" type="submit">Registrar</button>
+                        </div>
+                    }
+                    <div class="modal fade" id="ejemplo">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Solicitud enviada con exito!</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    Se le notificara al administrador. Esté antento al buzon de notificaciones!
+                                </div>
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    Se le notificara al administrador. Esté antento al buzon de notificaciones!
-                </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cerrar</button>
-                </div>
-
             </div>
         </div>
     </div>
-</div>
 </div>
