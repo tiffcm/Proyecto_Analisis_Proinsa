@@ -3355,9 +3355,9 @@ GO
 -- =============================================
 -- Author:      My Name
 -- Create Date: 06/28/2024
--- Description: Cambia el estado de un empleado a false (Inactivo).
+-- Description: Cambia el estado de un empleado a su estado contrario).
 -- =============================================
-CREATE PROCEDURE Des_activacionUsuario
+CREATE PROCEDURE CambiarEstadoUsuarioAdmin
 (
     -- Add the parameters for the stored procedure here
     @id_empleado bigint
@@ -3368,10 +3368,22 @@ BEGIN
     -- interfering with SELECT statements.
     SET NOCOUNT ON
 
+	Declare @estado_actual bit;
+
+	SET @estado_actual = (SELECT ESTADO FROM EMPLEADO WHERE ID_EMPLEADO = @id_empleado);
+
     -- Insert statements for procedure here
-    UPDATE EMPLEADO
-	SET
-		ESTADO = 'FALSE'
-	WHERE ID_EMPLEADO = @id_empleado;
+	IF @estado_actual = 0
+	BEGIN
+		UPDATE EMPLEADO
+		SET ESTADO = 1
+		WHERE ID_EMPLEADO = @id_empleado;
+	END
+	ELSE
+	BEGIN
+		UPDATE EMPLEADO
+		SET ESTADO = 0
+		WHERE ID_EMPLEADO = @id_empleado;
+	END
 END
 GO
