@@ -14,7 +14,7 @@
                 <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Datos para la gestión del permiso:</h5>
                 <div class="card-body">
                     @using (Html.BeginForm("CambiosHorario", "Solicitudes", FormMethod.Post))
-                    {
+                    {                        
                         <div class="col-md-4">
                             <div class="mb-3">
                                 @Html.TextBoxFor(m => m.SOLICITANTE_ID, new { @class = "form-control", @hidden = "true" })
@@ -23,11 +23,9 @@
                         <div class="col-md-12">
                             <div class="mb-3">
                                 @Html.Label("Horario Actual:")
-                                @Html.TextBoxFor(m => m.HORARIO, new { @class = "form-control", @type = "string" , @readonly = "true" })
+                                @Html.TextBoxFor(m => m.HORARIO, new { @class = "form-control", @type = "string", @readonly = "true" })
                             </div>
                         </div>
-
-
                         <div class="col-md-12">
                             <div class="mb-3">
                                 @Html.Label("Horario Nuevo:")
@@ -35,7 +33,7 @@
                                 @Html.DropDownListFor(m => m.ID_HORARIOLABORAL, new SelectList(ViewBag.HorarioDisponibleList, "Value", "Text"), new { @class = "form-control" })
                             </div>
                         </div>
-                        
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">

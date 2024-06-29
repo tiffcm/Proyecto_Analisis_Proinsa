@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PROINSA_GP_WEB.Entidad;
-using PROINSA_GP_WEB.Models;
 using PROINSA_GP_WEB.Servicios;
 using System.Data;
 using System.Text.Json;
@@ -9,19 +8,12 @@ namespace PROINSA_GP_WEB.Controllers
 {
     public class SolicitudesController (ISolicitudModel iSolicitudModel): Controller
     {
-
-
-
         [HttpGet]
         public IActionResult RegistrarSolicitud()
         {
             CargarTiposSolicitud();
             ObtenerIdEmpleado();
             return View();
-
-           
-
-
         }
 
         [HttpPost]
@@ -30,9 +22,14 @@ namespace PROINSA_GP_WEB.Controllers
             var resp = iSolicitudModel.RegistrarSolicitud(ent);
 
             if (resp.CODIGO == 1)
-                return RedirectToAction("Index", "Home");
-
-            ViewBag.msj = resp.MENSAJE;
+            {
+                return RedirectToAction("Principal", "Home");
+            }
+            else
+            {
+                ViewBag.msj = resp.MENSAJE;
+            }            
+            //Hay que controlar error en caso de no tener saldo de vacaciones
             return View();
         }
 
@@ -71,7 +68,7 @@ namespace PROINSA_GP_WEB.Controllers
         public ActionResult ObtenerIdEmpleado()
         {
             
-            var ID_EMPLEADO = HttpContext.Session.GetInt32("ID_EMPLEADO");
+            long? ID_EMPLEADO = HttpContext.Session.GetInt32("ID_EMPLEADO");
 
             
             var viewModel = new Solicitud
@@ -90,8 +87,7 @@ namespace PROINSA_GP_WEB.Controllers
 
         [HttpGet]
         public IActionResult CambiosHorario()
-        {
-            ObtenerIdEmpleado();
+        {            
             CargarHorariosDisponibles();
            
             var correoEmpleado = User.Identity?.Name;
@@ -99,23 +95,16 @@ namespace PROINSA_GP_WEB.Controllers
             {
                 var respuesta = iSolicitudModel.ObtenerHorarioEmpleado(correoEmpleado);
                 var horario = JsonSerializer.Deserialize<Solicitud>((JsonElement)respuesta!.CONTENIDO!);
-
+                long? ID_EMPLEADO = HttpContext.Session.GetInt32("ID_EMPLEADO");
                 var viewModel = new Solicitud
                 {
+                    SOLICITANTE_ID = ID_EMPLEADO,
                     HORARIO = horario!.HORARIO,
-                };
-
-              
-
+                };                
                 return View(viewModel);
-            }
-
-            
-
+            }          
             return View(new Solicitud());
-
         }
-
 
         [HttpPost]
         public IActionResult CambiosHorario(Solicitud ent)
@@ -123,13 +112,12 @@ namespace PROINSA_GP_WEB.Controllers
             var resp = iSolicitudModel.RegistrarSolicitudCambioHorario(ent);
 
             if (resp!.CODIGO == 1)
-                return RedirectToAction("Index", "Home");
-
+            {
+                return RedirectToAction("Principal", "Home");
+            }               
             ViewBag.msj = resp.MENSAJE;
             return View();
         }
-
-
 
         [HttpGet]
         public IActionResult Permisos()
@@ -163,8 +151,5 @@ namespace PROINSA_GP_WEB.Controllers
            
             return View(solicitudes);
         }
-
-
-
     }
 }
