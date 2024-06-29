@@ -10,7 +10,7 @@
     <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Actualizar información de un usuario</h5>
     <div class="card-body">
         @using (Html.BeginForm("MantenimientoUsuario", "Usuarios", FormMethod.Post))
-        { 
+        {
             @Html.HiddenFor(m => m.ID_EMPLEADO)
             <div class="row gx-3 gy-2 align-items-center">
                 <div class="col-md-6">
@@ -40,54 +40,54 @@
                         @Html.Label("Dirección")
                         @Html.TextBoxFor(m => m.DIRRECION, new { @class = "form-control" })
                     </div>
-            </div>
-            @if (Model.TELEFONOS != null && Model.TELEFONOS.Any())
+                </div>
+                @if (Model.TELEFONOS != null && Model.TELEFONOS.Any())
                 {
-                                @for (int i = 0; i < Model.TELEFONOS.Count; i++)
-                                {
-                                    <div class="mb-3 col-md-4">
-                                        @Html.HiddenFor(m => m.TELEFONOS![i].ID_TELEFONO, new { Name = $"TELEFONOS[{i}].ID_TELEFONO" })
-                                        @Html.Label("Telefono #" + (i + 1))
-                                        @Html.TextBoxFor(m => m.TELEFONOS![i].TELEFONO, new { @class = "form-control", Name = $"TELEFONOS[{i}].TELEFONO" })
-                                    </div>
-                                }
-                 }
-                   else
-                       {
-                         <p>No hay teléfonos registrados.</p>
-                        }
+                    @for (int i = 0; i < Model.TELEFONOS.Count; i++)
+                    {
+                        <div class="mb-3 col-md-4">
+                            @Html.HiddenFor(m => m.TELEFONOS![i].ID_TELEFONO, new { Name = $"TELEFONOS[{i}].ID_TELEFONO" })
+                            @Html.Label("Telefono #" + (i + 1))
+                            @Html.TextBoxFor(m => m.TELEFONOS![i].TELEFONO, new { @class = "form-control", Name = $"TELEFONOS[{i}].TELEFONO" })
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p>No hay teléfonos registrados.</p>
+                }
                 <div class="col-3">
                     <div class="mb-4">
-                            @Html.Label("Salario")
-                            @Html.TextBoxFor(m => m.SALARIO, new { @class = "form-control" })
+                        @Html.Label("Salario")
+                        @Html.TextBoxFor(m => m.SALARIO, new { @class = "form-control" })
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="mb-4">
-                            @Html.Label("Foto")
-                            @* @Html.TextBoxFor(m => m., new { @class = "form-control" }) *@
+                        @Html.Label("Foto")
+                        @* @Html.TextBoxFor(m => m., new { @class = "form-control" }) *@
                     </div>
                 </div>
             </div>
-            
+
             <div class="row gx-3 gy-2 align-items-center">
                 <div class="col-6">
                     <div class="mb-4">
                         @if (Model.CARGOS != null && Model.CARGOS.Any())
+                        {
+                            @for (int i = 0; i < Model.TELEFONOS!.Count; i++)
                             {
-                                @for (int i = 0; i < Model.TELEFONOS.Count; i++)
-                                {
-                                    <div class="mb-3 col-md-4">
-                                        @Html.HiddenFor(m => m.CARGOS![i].ID_CARGO, new { Name = $"CARGOS[{i}].ID_CARGO" })
-                                        @Html.Label("Cargo")
-                                        @* @Html.DropDownList(m => m.CARGOS![i].NOMBRE_CARGO, new { @class = "form-control", Name = $"CARGOS[{i}].NOMBRE_CARGO", @readonly = "false" }) *@
-                                    </div>
-                                }
+                                <div class="mb-3 col-md-4">
+                                    @Html.HiddenFor(m => m.CARGOS![i].ID_CARGO, new { Name = $"CARGOS[{i}].ID_CARGO" })
+                                    @Html.Label("Cargo")
+                                    @* @Html.DropDownList(m => m.CARGOS![i].NOMBRE_CARGO, new { @class = "form-control", Name = $"CARGOS[{i}].NOMBRE_CARGO", @readonly = "false" }) *@
+                                </div>
                             }
-                            else
-                            {
-                                <p>No existen cargos a seleccionar.</p>
-                            }
+                        }
+                        else
+                        {
+                            <p>No existen cargos a seleccionar.</p>
+                        }
                     </div>
                 </div>
                 <div class="col-6">
@@ -137,15 +137,16 @@
                     </div>
                 </div>
 
-            <div style="display:grid; place-items:center;">
-                <div class="mt-4">
-                    <button type="button" class="btn btn-primary" id="liveToastBtn">Actualizar usuario</button>
+                <div style="display:grid; place-items:center;">
+                    <div class="mt-4">
+                        <button type="button" class="btn btn-primary" id="liveToastBtn">Actualizar usuario</button>
+                    </div>
                 </div>
+
             </div>
-     
+        }
     </div>
 </div>
-}
 <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
     <div class="bs-toast toast fade hide bg-success" id="liveToast" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
@@ -176,4 +177,3 @@
         }
     });
 </script>
-      

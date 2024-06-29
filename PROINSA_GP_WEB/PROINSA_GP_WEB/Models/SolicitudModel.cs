@@ -60,9 +60,7 @@ namespace PROINSA_GP_WEB.Models
             return new List<SelectListItem>();
         }
 
-
-
-        public async Task<DataTable> ObtenerSolicitudesEmpleado(int idEmpleado)
+        public DataTable ObtenerSolicitudesEmpleado(int idEmpleado)
         {
             DataTable dataTable = new DataTable();
 
@@ -79,7 +77,7 @@ namespace PROINSA_GP_WEB.Models
 
                     if (solicitudes != null)
                     {
-                        
+
                         dataTable.Columns.Add("FECHA_SOLICITUD", typeof(string));
                         dataTable.Columns.Add("DESCRIPCION", typeof(string));
                         dataTable.Columns.Add("ESTADO", typeof(string));
@@ -87,7 +85,7 @@ namespace PROINSA_GP_WEB.Models
                         foreach (var solicitud in solicitudes)
                         {
                             DataRow row = dataTable.NewRow();
-                            row["FECHA_SOLICITUD"] = solicitud.FECHA_SOLICITUD; 
+                            row["FECHA_SOLICITUD"] = solicitud.FECHA_SOLICITUD;
                             row["DESCRIPCION"] = solicitud.NOMBRE_TIPO_SOLICITUD;
                             row["ESTADO"] = solicitud.ESTADO;
                             dataTable.Rows.Add(row);

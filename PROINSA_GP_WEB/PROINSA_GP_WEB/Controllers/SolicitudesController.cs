@@ -21,7 +21,7 @@ namespace PROINSA_GP_WEB.Controllers
         {
             var resp = iSolicitudModel.RegistrarSolicitud(ent);
 
-            if (resp.CODIGO == 1)
+            if (resp!.CODIGO == 1)
             {
                 return RedirectToAction("Principal", "Home");
             }
@@ -138,17 +138,17 @@ namespace PROINSA_GP_WEB.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> HistorialSolicitudes()
+        public IActionResult HistorialSolicitudes()
         {
             var idEmpleadoSession = HttpContext.Session.GetInt32("ID_EMPLEADO");
 
-           
-            int idEmpleado = idEmpleadoSession ?? 0; 
 
-           
-            DataTable solicitudes = await iSolicitudModel.ObtenerSolicitudesEmpleado(idEmpleado)!; 
+            int idEmpleado = idEmpleadoSession ?? 0;
 
-           
+
+            DataTable solicitudes = iSolicitudModel.ObtenerSolicitudesEmpleado(idEmpleado)!;
+
+
             return View(solicitudes);
         }
     }

@@ -10,7 +10,7 @@ namespace PROINSA_GP_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SolicitudController (IConfiguration iConfiguration) : ControllerBase
+    public class SolicitudController(IConfiguration iConfiguration) : ControllerBase
     {
         [HttpGet]
         [Route("ConsultarTipoSolicitud")]
@@ -18,34 +18,26 @@ namespace PROINSA_GP_API.Controllers
         {
             Respuesta respuesta = new Respuesta();
 
-            try
+            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
-                using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
-                {
-                    var request = (await contexto.QueryAsync<Solicitud>("ObtenerTiposSolicitudes",
-                       commandType: System.Data.CommandType.StoredProcedure)).ToList();
+                var request = (await contexto.QueryAsync<Solicitud>("ObtenerTiposSolicitudes",
+                   commandType: System.Data.CommandType.StoredProcedure)).ToList();
 
-                    if (request != null && request.Count > 0)
-                    {
-                        respuesta.CODIGO = 1;
-                        respuesta.MENSAJE = "OK";
-                        respuesta.CONTENIDO = request;
-                    }
-                    else
-                    {
-                        respuesta.CODIGO = 0;
-                        respuesta.MENSAJE = "No hay registros";
-                    }
+                if (request != null && request.Count > 0)
+                {
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = request;
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CODIGO = 0;
+                    respuesta.MENSAJE = "No hay registros";
+                    return Ok(respuesta);
                 }
             }
-            catch (Exception)
-            {
-                respuesta.CODIGO = 0;
-                respuesta.MENSAJE = "Error";
-            }
-            return Ok(respuesta);
         }
-
 
         [HttpPost]
         [Route("RegistrarSolicitud")]
@@ -55,7 +47,7 @@ namespace PROINSA_GP_API.Controllers
 
             using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
-                var result = await context.ExecuteAsync("RegistrarSolicitud", new { entidad.FECHA_INICIO, entidad.FECHA_FINAL, entidad.COMENTARIO, entidad.DETALLE, entidad.SOLICITANTE_ID ,entidad.TIPOSOLICITUD_ID }, commandType: CommandType.StoredProcedure);
+                var result = await context.ExecuteAsync("RegistrarSolicitud", new { entidad.FECHA_INICIO, entidad.FECHA_FINAL, entidad.COMENTARIO, entidad.DETALLE, entidad.SOLICITANTE_ID, entidad.TIPOSOLICITUD_ID }, commandType: CommandType.StoredProcedure);
 
                 if (result > 0)
                 {
@@ -74,43 +66,33 @@ namespace PROINSA_GP_API.Controllers
             }
         }
 
-
         [HttpGet]
         [Route("ConsultarSolicitudesEmpleado")]
         public async Task<IActionResult> ConsultarSolicitudesEmpleado(long id_empleado)
         {
             Respuesta respuesta = new Respuesta();
 
-            try
+            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
-                using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+                var parameters = new DynamicParameters();
+                parameters.Add("@id_empleado", id_empleado);
+
+                var request = (await contexto.QueryAsync<Solicitud>("ObtenerSolicitudesEmpleados", parameters, commandType: System.Data.CommandType.StoredProcedure)).ToList();
+
+                if (request != null && request.Count > 0)
                 {
-                    var parameters = new DynamicParameters();
-                    parameters.Add("@id_empleado", id_empleado);
-
-                    var request = (await contexto.QueryAsync<Solicitud>("ObtenerSolicitudesEmpleados", parameters, commandType: System.Data.CommandType.StoredProcedure)).ToList();
-
-                    if (request != null && request.Count > 0)
-                    {
-                        respuesta.CODIGO = 1;
-                        respuesta.MENSAJE = "OK";
-                        respuesta.CONTENIDO = request;
-                    }
-                    else
-                    {
-                        respuesta.CODIGO = 0;
-                        respuesta.MENSAJE = "No hay registros";
-                    }
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = request;
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CODIGO = 0;
+                    respuesta.MENSAJE = "No hay registros";
+                    return Ok(respuesta);
                 }
             }
-            catch (Exception)
-            {
-                respuesta.CODIGO = 0;
-                respuesta.MENSAJE = "Error";
-            }
-            return Ok(respuesta);
         }
-
-
     }
 }

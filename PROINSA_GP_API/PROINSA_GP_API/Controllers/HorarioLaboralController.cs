@@ -17,34 +17,27 @@ namespace PROINSA_GP_API.Controllers
         {
             Respuesta respuesta = new Respuesta();
 
-            try
+            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
-                using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+                var parameters = new DynamicParameters();
+                parameters.Add("@id_empleado", id_empleado);
+
+                var request = (await contexto.QueryAsync<HorarioLaboral>("ObtenerHorariosDisponibles", parameters, commandType: System.Data.CommandType.StoredProcedure)).ToList();
+
+                if (request != null && request.Count > 0)
                 {
-                    var parameters = new DynamicParameters();
-                    parameters.Add("@id_empleado", id_empleado);
-
-                    var request = (await contexto.QueryAsync<HorarioLaboral>("ObtenerHorariosDisponibles", parameters, commandType: System.Data.CommandType.StoredProcedure)).ToList();
-
-                    if (request != null && request.Count > 0)
-                    {
-                        respuesta.CODIGO = 1;
-                        respuesta.MENSAJE = "OK";
-                        respuesta.CONTENIDO = request;
-                    }
-                    else
-                    {
-                        respuesta.CODIGO = 0;
-                        respuesta.MENSAJE = "No hay registros";
-                    }
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = request;
+                    return Ok(respuesta);
                 }
-            }
-            catch (Exception)
-            {
-                respuesta.CODIGO = 0;
-                respuesta.MENSAJE = "Error";
-            }
-            return Ok(respuesta);
+                else
+                {
+                    respuesta.CODIGO = 0;
+                    respuesta.MENSAJE = "No hay registros";
+                    return Ok(respuesta);
+                }
+            }            
         }
 
         [HttpPost]
@@ -55,8 +48,13 @@ namespace PROINSA_GP_API.Controllers
 
             using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
-                var result = await context.ExecuteAsync("RegistrarSolicitudCambioHorario", new { entidad.COMENTARIO, entidad.DETALLE, entidad.SOLICITANTE_ID,
-                entidad.ID_HORARIOLABORAL}, commandType: CommandType.StoredProcedure);
+                var result = await context.ExecuteAsync("RegistrarSolicitudCambioHorario", new
+                {
+                    entidad.COMENTARIO,
+                    entidad.DETALLE,
+                    entidad.SOLICITANTE_ID,
+                    entidad.ID_HORARIOLABORAL
+                }, commandType: CommandType.StoredProcedure);
 
                 if (result > 0)
                 {
@@ -73,13 +71,6 @@ namespace PROINSA_GP_API.Controllers
                     return Ok(respuesta);
                 }
             }
-
-
-
-
         }
     }
 }
-
-
-

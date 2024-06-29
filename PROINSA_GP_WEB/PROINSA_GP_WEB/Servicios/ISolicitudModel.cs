@@ -11,24 +11,13 @@ namespace PROINSA_GP_WEB.Servicios
     /// </summary>
     public interface ISolicitudModel
     {
-
         //Para registro solicitudes permiso, vacaciones.
         Respuesta? RegistrarSolicitud(Solicitud ent);
-
         List<SelectListItem> ObtenerTipoSolicitud();
-
-
-        Task<DataTable>? ObtenerSolicitudesEmpleado(int idEmpleado);
-
-
+        DataTable ObtenerSolicitudesEmpleado(int idEmpleado);
         Respuesta? ObtenerHorarioEmpleado(string correo);
-
-
         List<SelectListItem> ObtenerHorarioDisponibles(int idEmpleado);
-
         // para registro cambio de horario
         Respuesta? RegistrarSolicitudCambioHorario(Solicitud ent);
-
-
     }
 }

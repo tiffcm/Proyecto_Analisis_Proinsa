@@ -139,7 +139,6 @@ namespace PROINSA_GP_API.Controllers
         //---------------------
         /// ADMINISTRADOR
         /// VER LISTA DE USUARIOS
-
         [HttpGet] // funcional
         [Route("MostrarInfoVistaAdmin")]
         public async Task<IActionResult> MostrarInfoVistaAdmin()
