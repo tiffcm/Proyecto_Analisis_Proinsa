@@ -3231,3 +3231,116 @@ create proc [dbo].[ObtenerHorarioLaboralEmpleado]
   INNER JOIN CORREO CO ON CO.ID_CORREO=emple.CORREO_ID
   where co.CORREO=@Correo
   end
+
+  -- =======================================================
+-- Create Stored Procedure Template for Azure SQL Database
+-- =======================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:      Wilson Arias
+-- Create Date: 06/28/2024
+-- Description: Muestra todos los roles disponibles.
+-- =============================================
+CREATE PROCEDURE MostrarTodosRoles
+
+    -- Add the parameters for the stored procedure here
+
+AS
+BEGIN
+    -- SET NOCOUNT ON added to prevent extra result sets from
+    -- interfering with SELECT statements.
+    SET NOCOUNT ON
+
+    -- Insert statements for procedure here
+    SELECT Id, Name
+       FROM AspNetRoles;
+END
+GO
+
+-- =======================================================
+-- Create Stored Procedure Template for Azure SQL Database
+-- =======================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:      Wilson Arias
+-- Create Date: 06/28/2024
+-- Description: Muestra todos los departamentos en el sistema.
+-- =============================================
+CREATE PROCEDURE MostrarTodosDepartamentos
+
+    -- Add the parameters for the stored procedure here
+
+AS
+BEGIN
+    -- SET NOCOUNT ON added to prevent extra result sets from
+    -- interfering with SELECT statements.
+    SET NOCOUNT ON
+
+    -- Insert statements for procedure here
+    SELECT ID_DEPARTAMENTO, NOMBRE_DEPARTAMENTO
+       FROM DEPARTAMENTO;
+END
+GO
+
+-- =======================================================
+-- Create Stored Procedure Template for Azure SQL Database
+-- =======================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:      Wilson Arias
+-- Create Date: 06/28/2024
+-- Description: Muestra todos los horarios disponibles en el sistema.
+-- =============================================
+CREATE PROCEDURE MostrarTodosHorarios
+
+    -- Add the parameters for the stored procedure here
+
+AS
+BEGIN
+    -- SET NOCOUNT ON added to prevent extra result sets from
+    -- interfering with SELECT statements.
+    SET NOCOUNT ON
+
+    -- Insert statements for procedure here
+    SELECT ID_HORARIOLABORAL,
+			CONCAT(NOMBREHL, ' - ', CONVERT(varchar(5), HORA_INGRESO, 108), ' hasta ', CONVERT(varchar(5), HORA_SALIDA, 108)) AS Horario
+       FROM HORARIOLABORAL;
+END
+GO
+
+-- =======================================================
+-- Create Stored Procedure Template for Azure SQL Database
+-- =======================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:      Wilson Arias
+-- Create Date: 06/28/2024
+-- Description: Muestra todos los cargos del sistema.
+-- =============================================
+CREATE PROCEDURE MostrarTodosCargos
+
+    -- Add the parameters for the stored procedure here
+
+AS
+BEGIN
+    -- SET NOCOUNT ON added to prevent extra result sets from
+    -- interfering with SELECT statements.
+    SET NOCOUNT ON
+
+    -- Insert statements for procedure here
+    SELECT ID_CARGO, NOMBRE_CARGO
+       FROM CARGO;
+END
+GO
