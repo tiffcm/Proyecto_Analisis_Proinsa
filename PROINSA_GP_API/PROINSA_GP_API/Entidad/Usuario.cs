@@ -12,9 +12,9 @@
         public int? IDENTIFICACION { get; set; }
         public string? NOMBRECOMPLETO { get; set; }
         public string? FOTO { get; set; }
-        public string? NOMBRE_CARGO { get; set; }
+        public string? CARGO { get; set; }
         public string? CORREO { get; set; }
-        public string? NOMBRE_DEPARTAMENTO { get; set; }
+        public string? DEPARTAMENTO { get; set; }
         public int IDROL { get; set; }
         public string? NOMBREROL { get; set; }
         public string? DIRRECION { get; set; }
@@ -23,7 +23,7 @@
         public string? USER_ID { get; set; }
         public decimal? SALARIO { get; set; }
         public List<Telefono>? TELEFONOS { get; set; }
-        public List<Usuario>? USUARIOS { get; set; }
+       
         public List<Cargo>? CARGOS { get; set; }
         public List<Departamento>? DEPARTAMENTOS { get; set; }
         public long ID_CARGO { get; set; } //

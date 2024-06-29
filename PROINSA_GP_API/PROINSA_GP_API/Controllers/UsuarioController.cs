@@ -147,7 +147,7 @@ namespace PROINSA_GP_API.Controllers
             Respuesta respuesta = new Respuesta();
             using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
-                var request = await contexto.QueryAsync("MostrarInfoVistaAdmin",
+                var request = await contexto.QueryAsync("MostrarInfoVistaAdmin", new { },
                       commandType: System.Data.CommandType.StoredProcedure);
                 if (request != null)
                 {
@@ -182,11 +182,11 @@ namespace PROINSA_GP_API.Controllers
                 parametros.Add("@FOTO", usuario.FOTO);
                 parametros.Add("@CORREO", usuario.CORREO);
                 parametros.Add("@CARGO_ID", usuario.ID_CARGO); //  no es necesario de poner?
-                parametros.Add("@NOMBRE_CARGO", usuario.NOMBRE_CARGO); // no esta en el SQL
+                parametros.Add("@NOMBRE_CARGO", usuario.CARGO); // no esta en el SQL
                 parametros.Add("@HORARIOLABORAL_ID"); // misma opinion no creo sea necesario
                 parametros.Add("@NOMBREHL", usuario.NOMBRE_HL);
                 parametros.Add("@DEPARTAMENTO_ID"); // same
-                parametros.Add("@NOMBRE_DEPARTAMENTO", usuario.NOMBRE_DEPARTAMENTO);
+                parametros.Add("@NOMBRE_DEPARTAMENTO", usuario.DEPARTAMENTO);
                 parametros.Add("@ESTADO", usuario.ESTADO);
                 parametros.Add("@DIRRECCION", usuario.DIRRECION);
                 if (usuario.TELEFONOS != null && usuario.TELEFONOS.Any())

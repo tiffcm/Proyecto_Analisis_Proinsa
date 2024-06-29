@@ -70,24 +70,23 @@ namespace PROINSA_GP_WEB.Controllers
             var respuesta = _iUsuarioModel.MostrarInfoVistaAdmin();
                 if (respuesta!.CODIGO == 1)
                 {
-                    var usuarios = JsonSerializer.Deserialize<List<Usuario>>((JsonElement)respuesta.CONTENIDO!);
+                    var datos = JsonSerializer.Deserialize<List<Usuario>>((JsonElement)respuesta.CONTENIDO!);
 
-                if (usuarios!= null)
-                    {
+                    return View(datos);
                     
-                    return View(usuarios);
-                    }
                     
                 }
-            
-            return View();
+            return View(new List<Usuario>());
         }
 
 
         [Administrador][Seguridad][HttpGet]
         public IActionResult MantenimientoUsuario()
         {
+
             return View();
         }
+
+      
     }
 }

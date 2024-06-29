@@ -41,11 +41,8 @@
                         @Html.TextBoxFor(m => m.DIRRECION, new { @class = "form-control" })
                     </div>
             </div>
-            <div class="row gx-3 gy-2 align-items-center">
-                <div class="col-3">
-                    <div class="mb-4">
-                            @if (Model.TELEFONOS != null && Model.TELEFONOS.Any())
-                            {
+            @if (Model.TELEFONOS != null && Model.TELEFONOS.Any())
+                {
                                 @for (int i = 0; i < Model.TELEFONOS.Count; i++)
                                 {
                                     <div class="mb-3 col-md-4">
@@ -54,13 +51,11 @@
                                         @Html.TextBoxFor(m => m.TELEFONOS![i].TELEFONO, new { @class = "form-control", Name = $"TELEFONOS[{i}].TELEFONO" })
                                     </div>
                                 }
-                            }
-                            else
-                            {
-                                <p>No hay teléfonos registrados.</p>
-                            }
-                    </div>
-                </div>
+                 }
+                   else
+                       {
+                         <p>No hay teléfonos registrados.</p>
+                        }
                 <div class="col-3">
                     <div class="mb-4">
                             @Html.Label("Salario")

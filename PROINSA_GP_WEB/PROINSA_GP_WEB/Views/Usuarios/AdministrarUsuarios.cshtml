@@ -30,29 +30,29 @@
                                 </tr>
                             </thead>
                             <tbody class="table-border-bottom-0">
-                               @for (int i = 0; i < Model.Count; i++)
+                               @foreach (var item in Model)
                                 {
                                     <tr>
                                 
                                             <td>
-                                                    @Html.DisplayFor(m => m[i].NOMBRECOMPLETO, new { @class = "form-control", @readonly = "true" })
+                                                @item.NOMBRECOMPLETO
                                             </td>
                                             <td>
-                                            @Html.DisplayFor(m => m[i].NOMBREROL, new { @class = "form-control", @readonly = "true" })
+                                                @item.NOMBREROL
                                             </td>
                                             <td>
-                                            @Html.DisplayFor(m => m[i].NOMBRE_DEPARTAMENTO, new { @class = "form-control", @readonly = "true" })
+                                                @item.DEPARTAMENTO
                                             </td>
                                             <td>
-                                            @Html.DisplayFor(m => m[i].NOMBRE_CARGO, new { @class = "form-control", @readonly = "true" })
+                                                @item.CARGO
                                             </td>
                                             <td>
-                                            @Html.DisplayFor(m => m[i].ESTADO, new { @class = "form-control", @readonly = "true" })
+                                                @item.ESTADO
                                             </td>
                                             <td>
-                                                    <a class="btn btn-primary" asp-route-id="@Url.Action("MantenimientoUsuario","Usuarios")">Actualizar<i class="bi bi-pen"></i></a> |
-                                            
-                                                    <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="">Desactivar</a>
+                                            <a class="btn btn-outline-info" asp-action="MantenimientoUsuario" asp-route-id="@item.ID_EMPLEADO">Actualizar<i class="bi bi-pen"></i></a> |
+
+                                            <a class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="">Desactivar</a>
                                            
                                                     <!-- CREAR UN MODAL PARA LA HORA DE ELIMINAR-->
             

@@ -12,7 +12,7 @@ namespace P_WebMartes.Models
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             var session = context.HttpContext.Session;
-            if (session.GetString("IdRol") != "1")
+            if (session.GetInt32("IdRol") != 1)
             {
                 context.Result = new RedirectToRouteResult(new RouteValueDictionary
                 {
