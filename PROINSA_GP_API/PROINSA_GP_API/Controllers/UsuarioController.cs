@@ -228,7 +228,7 @@ namespace PROINSA_GP_API.Controllers
 
         [HttpGet] // funcional
         [Route("MostrarEmpleadoVistaAdmin")]
-        public async Task<IActionResult> MostrarEmpleadoVistaAdmin(long idEmpleado)
+        public async Task<IActionResult> MostrarEmpleadoVistaAdmin(long? idEmpleado)
         {
             Respuesta respuesta = new Respuesta();
             using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
@@ -254,15 +254,145 @@ namespace PROINSA_GP_API.Controllers
             }
         }
 
-        /*[HttpGet]
-        [Route("ObtenerCargos")] // Se debe crear procedimiento en SQL
-        */
-        /*
+		[HttpGet]
+        [Route("MostrarTodosCargos")] // Se debe crear procedimiento en SQL
+        public async Task<IActionResult> MostrarTodosCargos()
+        {
+            Respuesta respuesta = new Respuesta();
+            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+                var request = await contexto.QueryAsync("MostrarTodosCargos", new { },
+                      commandType: System.Data.CommandType.StoredProcedure);
+                if (request != null)
+                {
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = request.ToList();
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CODIGO = 0;
+                    respuesta.MENSAJE = "La información del empleado no se encuentra registrada";
+                    respuesta.CONTENIDO = false;
+                    return Ok(respuesta);
+                }
+            }
+        }
+		 
+		
+        [HttpPut]
+        [Route("CambiarEstadoUsuarioAdmin")] // Se debe crear procedimiento en SQL
+		public async Task<IActionResult> CambiarEstadoUsuarioAdmin(long IdEmpleado)
+		{
+			Respuesta respuesta = new Respuesta();
+			using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+			{
+				var parametros = new DynamicParameters();
+				parametros.Add("@ID_EMPLEADO", IdEmpleado);
+				var request = await contexto.ExecuteAsync("CambiarEstadoUsuarioAdmin", parametros,
+				   commandType: System.Data.CommandType.StoredProcedure);
+				if (request > 0)
+				{
+					respuesta.CODIGO = 1;
+					respuesta.MENSAJE = "OK";
+					respuesta.CONTENIDO = true;
+					return Ok(respuesta);
+				}
+				else
+				{
+					respuesta.CODIGO = 0;
+					respuesta.MENSAJE = "Se presentó un inconveniente actualizando su información";
+					respuesta.CONTENIDO = false;
+					return Ok(respuesta);
+				}
+			}
+		}
+        
+		
         [HttpGet]
-        [Route("ObtenerDepartamentos")] // Se debe crear procedimiento en SQL
-        */
+        [Route("MostrarTodosDepartamentos")] // Se debe crear procedimiento en SQL
+		public async Task<IActionResult> MostrarTodosDepartamentos()
+		{
+			Respuesta respuesta = new Respuesta();
+			using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+			{
+				var request = await contexto.QueryAsync("MostrarTodosDepartamentos", new { },
+					  commandType: System.Data.CommandType.StoredProcedure);
+				if (request != null)
+				{
+					respuesta.CODIGO = 1;
+					respuesta.MENSAJE = "OK";
+					respuesta.CONTENIDO = request.ToList();
+					return Ok(respuesta);
+				}
+				else
+				{
+					respuesta.CODIGO = 0;
+					respuesta.MENSAJE = "No hay departamentos";
+					respuesta.CONTENIDO = false;
+					return Ok(respuesta);
+				}
+			}
+		}
+
 
         [HttpGet]
+        [Route("MostrarTodosHorarios")] // Se debe crear procedimiento en SQL
+        public async Task<IActionResult> MostrarTodosHorarios()
+		{
+			Respuesta respuesta = new Respuesta();
+			using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+			{
+				var request = await contexto.QueryAsync("MostrarTodosHorarios", new { },
+					  commandType: System.Data.CommandType.StoredProcedure);
+				if (request != null)
+				{
+					respuesta.CODIGO = 1;
+					respuesta.MENSAJE = "OK";
+					respuesta.CONTENIDO = request.ToList();
+					return Ok(respuesta);
+				}
+				else
+				{
+					respuesta.CODIGO = 0;
+					respuesta.MENSAJE = "No hay horarios";
+					respuesta.CONTENIDO = false;
+					return Ok(respuesta);
+				}
+			}
+		}
+        
+		
+        [HttpGet]
+        [Route("MostrarTodosRoles")] // Se debe crear procedimiento en SQL
+        public async Task<IActionResult> MostrarTodosRoles()
+		{
+			Respuesta respuesta = new Respuesta();
+			using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+			{
+				var request = await contexto.QueryAsync("MostrarTodosRoles", new { },
+					  commandType: System.Data.CommandType.StoredProcedure);
+				if (request != null)
+				{
+					respuesta.CODIGO = 1;
+					respuesta.MENSAJE = "OK";
+					respuesta.CONTENIDO = request.ToList();
+					return Ok(respuesta);
+				}
+				else
+				{
+					respuesta.CODIGO = 0;
+					respuesta.MENSAJE = "No hay roles";
+					respuesta.CONTENIDO = false;
+					return Ok(respuesta);
+				}
+			}
+		}
+        
+        //++++++++
+
+		[HttpGet]
         [Route("ObtenerHorarioLaboralEmpleado")]
         public async Task<IActionResult> ObtenerHorarioLaboralEmpleado(string correo)
         {

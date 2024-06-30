@@ -1,76 +1,103 @@
 ﻿@model List<PROINSA_GP_WEB.Entidad.Usuario>
 @{
-    ViewBag.Title = "AdministrarUsuarios";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.Title = "AdministrarUsuarios";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Administrativo / Administrar cuentas /</span> Usuarios</h4>
 
 <!-- Content wrapper -->
 <div class="content-wrapper">
-    <!-- Content -->
-    <div class="container-xxl flex-grow-1 container-p-y">
-        <!-- Basic Bootstrap Table -->
-        <div class="card">
-            <h5 class="card-header">Usuarios registrados</h5>
-            @using (Html.BeginForm("AdministrarUsuarios", "Usuarios", FormMethod.Post))
-            {
-                @if (Model != null && Model.Any())
-                {
-                    <div class="table-responsive text-nowrap">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                        <th>Nombre completo</th>
-                                        <th>Rol</th>
-                                        <th>Departamento</th>
-                                        <th>Puesto</th>
-                                        <th>Estado</th>
-                                        <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody class="table-border-bottom-0">
-                               @foreach (var item in Model)
-                                {
-                                    <tr>
-                                
-                                            <td>
-                                                @item.NOMBRECOMPLETO
-                                            </td>
-                                            <td>
-                                                @item.NOMBREROL
-                                            </td>
-                                            <td>
-                                                @item.DEPARTAMENTO
-                                            </td>
-                                            <td>
-                                                @item.CARGO
-                                            </td>
-                                            <td>
-                                                @item.ESTADO
-                                            </td>
-                                            <td>
-                                            <a class="btn btn-outline-info" asp-action="MantenimientoUsuario" asp-route-id="@item.ID_EMPLEADO">Actualizar<i class="bi bi-pen"></i></a> |
+	<!-- Content -->
+	<div class="container-xxl flex-grow-1 container-p-y">
+		<!-- Basic Bootstrap Table -->
+		<div class="card">
+			<h5 class="card-header">Usuarios registrados</h5>
+			@using (Html.BeginForm("AdministrarUsuarios", "Usuarios", FormMethod.Post))
+			{
+				@if (Model != null && Model.Any())
+				{
+					<div class="table-responsive text-nowrap">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Nombre completo</th>
+									<th>Rol</th>
+									<th>Departamento</th>
+									<th>Puesto</th>
+									<th>Estado</th>
+									<th>Acciones</th>
+								</tr>
+							</thead>
+							<tbody class="table-border-bottom-0">
+								@foreach (var item in Model)
+								{
+									<tr>
 
-                                            <a class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="">Desactivar</a>
-                                           
-                                                    <!-- CREAR UN MODAL PARA LA HORA DE ELIMINAR-->
-            
-                                             </td>
-                                  
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                }
-                else
-                {
-                    <p>No hay usuarios registrados aun</p>
-                }
-            }
-        </div>
-        <!--/ Basic Bootstrap Table -->
-    </div>
+										<td>
+											@item.ID_EMPLEADO
+										</td>
+										<td>
+											@item.NOMBREROL
+										</td>
+										<td>
+											@item.DEPARTAMENTO
+										</td>
+										<td>
+											@item.CARGO
+										</td>
+										<td>
+											@item.ESTADO
+										</td>
+										<td>
+											<a class="btn btn-primary" asp-action="MantenimientoUsuario" asp-route-Id="@item.ID_EMPLEADO">Editar <i class="bi bi-pen"></i></a>
+											<a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalUsuario_@item.ID_EMPLEADO" asp-action="EliminarUsuario" asp-route-Id="@item.ID_EMPLEADO">Desactivar <i class="bi bi-trash3"></i></a>
+
+											<!-- Modal -->
+											<div class="modal fade" id="modalUsuario_@item.ID_EMPLEADO" tabindex="-1" aria-labelledby="modalUsuarioLabel_@item.ID_EMPLEADO" aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header">
+															<h1 class="modal-title fs-5" id="modalUsuarioLabel">Usuario</h1>
+															<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+														</div>
+														<div class="modal-body">
+															<h2>¿Desea eliminarla?</h2>
+															<form asp-controller="Usuarios" asp-action="CambiarEstadoUsuario" method="POST">
+																<div class="form-group">
+																	<!-- Campo oculto para enviar el ID de la usuario -->
+																	<input type="hidden" name="IdEmpleado" id="IdEmpleado" value="@item.ID_EMPLEADO" />
+																	<!-- Muestra el ID de la usuario en un elemento de texto (solo para visualización) -->
+																	<label>ID de la usuario:</label>
+																	<span>@item.ID_EMPLEADO</span>
+																</div>
+																<div class="form-group">
+																	<label>Nombre de la usuario</label>
+																	<span class="text-black">@item.NOMBRECOMPLETO</span>
+																</div>
+																<div class="modal-footer" style="justify-content:center">
+																	<input type="submit" value="Eliminar Usuario" class="btn btn-danger" />
+																</div>
+															</form>
+														</div>
+													</div>
+												</div>
+											</div>
+										</td>
+
+									</tr>
+								}
+							</tbody>
+						</table>
+					</div>
+				}
+				else
+				{
+					<p>No hay usuarios registrados aun</p>
+				}
+			}
+		</div>
+		<!--/ Basic Bootstrap Table -->
+	</div>
 </div>
 <!-- Content wrapper -->

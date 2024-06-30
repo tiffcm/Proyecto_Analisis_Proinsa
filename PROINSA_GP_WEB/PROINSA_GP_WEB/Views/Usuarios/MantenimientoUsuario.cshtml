@@ -8,39 +8,115 @@
 
 <div class="card mb-4">
     <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Actualizar información de un usuario</h5>
-    <div class="card-body">
+   <div class="card-body">
         @using (Html.BeginForm("MantenimientoUsuario", "Usuarios", FormMethod.Post))
         {
-            @Html.HiddenFor(m => m.ID_EMPLEADO)
-            <div class="row gx-3 gy-2 align-items-center">
-                <div class="col-md-6">
-                    <div class="mb-4">
-                        @Html.Label("Correo Electrónico")
-                        @Html.TextBoxFor(m => m.CORREO, new { @class = "form-control", @readonly = "false" })
-                    </div>
-                </div>
-            </div>
+            
+            @Html.HiddenFor(m => m.ID_EMPLEADO, WriteAttributeValue)
             <div class="row gx-3 gy-2 align-items-center">
                 <div class="col-6">
                     <div class="mb-4">
                         @Html.Label("Identificacion del usuario")
-                        @Html.TextBoxFor(m => m.IDENTIFICACION, new { @class = "form-control", @readonly = "false" })
+                        @Html.TextBoxFor(m => m.IDENTIFICACION, new { @class = "form-control"})
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-md-6">
                     <div class="mb-4">
-                        @Html.Label("Nombre del usuario")
-                        @Html.TextBoxFor(m => m.NOMBRECOMPLETO, new { @class = "form-control", @readonly = "false" })
+                        @Html.Label("ID empleado")
+                        @Html.TextBoxFor(m => m.ID_EMPLEADO, new { @class = "form-control", @readonly = "true" })
                     </div>
                 </div>
             </div>
+
             <div class="row gx-3 gy-2 align-items-center">
-                <div class="col-12">
+                <div class="col-6">
                     <div class="mb-4">
-                        @Html.Label("Dirección")
-                        @Html.TextBoxFor(m => m.DIRRECION, new { @class = "form-control" })
+                        @Html.Label("Nombre del usuario")
+                        @Html.TextBoxFor(m => m.NOMBRECOMPLETO, new { @class = "form-control"})
                     </div>
                 </div>
+                <div class="col-3">
+                    <div class="mb-4">
+                        @Html.Label("Salario")
+                        @Html.TextBoxFor(m => m.SALARIO, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row gx-3 gy-2 align-items-center">
+				<div class="col-6">
+					<div class="mb-4">
+						@Html.Label("Foto")
+						@* @Html.TextBoxFor(m => m., new { @class = "form-control" }) *@
+					</div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        @Html.Label("Correo Electrónico")
+                        @Html.TextBoxFor(m => m.CORREO, new { @class = "form-control"})
+                    </div>
+                </div>
+            </div>
+            <!-- Codigo CARGO -->
+            <div class="row gx-3 gy-2 align-items-center">
+                <div class="col-6">
+                    <div class="mb-4">
+                        @Html.Label("Cargo actual")
+                        @Html.TextBoxFor(m => m.CARGO, new { @class = "form-control", @readonly = "true" })
+                    </div>
+                </div>
+                 <div class="col-6">
+                    <div class="mb-4">
+                        @Html.Label("Cargos disponibles")
+                        @Html.DropDownListFor(m => m.ID_CARGO, new SelectList(ViewBag.CargoList, "Value", "Text"), new { @class = "form-control" })
+                    </div>
+                </div> 
+            </div>
+            <!-- Codigo HORARIO -->
+            <div class="row gx-3 gy-2 align-items-center">
+                <div class="col-6">
+                    <div class="mb-4">
+                        @Html.Label("Horario actual")
+                        @Html.TextBoxFor(m => m.NOMBRE_HL, new { @class = "form-control", @readonly = "true" })
+                    </div>
+                </div>
+                 <div class="col-6">
+                    <div class="mb-4">
+                        @Html.Label("Horarios disponibles")
+                        @Html.DropDownListFor(m => m.ID_HORARIOLABORAL, new SelectList(ViewBag.HorarioList, "Value", "Text"), new { @class = "form-control" })
+                    </div>
+                </div> 
+            </div>
+
+            <!-- Codigo DEPARTAMENTO -->
+            <div class="row gx-3 gy-2 align-items-center">
+                <div class="col-6">
+                    <div class="mb-4">
+                        @Html.Label("Departamento actual")
+                        @Html.TextBoxFor(m => m.DEPARTAMENTO, new { @class = "form-control", @readonly = "true" })
+                    </div>
+                </div>
+                 @* <div class="col-md-6">
+                    <div class="mb-4">
+                        @Html.Label("Departamentos disponibles")
+                        @Html.DropDownListFor(m => m.ID_DEPARTAMENTO, new SelectList(ViewBag.DepartamentoList, "Value", "Text"), new { @class = "form-control" })
+                    </div>
+                </div> *@ 
+            </div> 
+
+            <!-- Codigo DIRECCION -->
+            <div class="row gx-3 gy-2 align-items-center">
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        @Html.Label("Direccion")
+                        @Html.TextBoxFor(m => m.DIRRECION, new { @class = "form-control"})
+                    </div>
+                </div>
+            </div>
+
+            <!-- Codigo TELEFONOS -->
+
+            <div class="row gx-3 gy-2 align-items-center">
                 @if (Model.TELEFONOS != null && Model.TELEFONOS.Any())
                 {
                     @for (int i = 0; i < Model.TELEFONOS.Count; i++)
@@ -56,108 +132,69 @@
                 {
                     <p>No hay teléfonos registrados.</p>
                 }
-                <div class="col-3">
-                    <div class="mb-4">
-                        @Html.Label("Salario")
-                        @Html.TextBoxFor(m => m.SALARIO, new { @class = "form-control" })
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="mb-4">
-                        @Html.Label("Foto")
-                        @* @Html.TextBoxFor(m => m., new { @class = "form-control" }) *@
-                    </div>
-                </div>
             </div>
 
+            <!-- CODIGO ESTADO-->
+
             <div class="row gx-3 gy-2 align-items-center">
-                <div class="col-6">
+                <div class="col-md-6">
                     <div class="mb-4">
-                        @if (Model.CARGOS != null && Model.CARGOS.Any())
-                        {
-                            @for (int i = 0; i < Model.TELEFONOS!.Count; i++)
-                            {
-                                <div class="mb-3 col-md-4">
-                                    @Html.HiddenFor(m => m.CARGOS![i].ID_CARGO, new { Name = $"CARGOS[{i}].ID_CARGO" })
-                                    @Html.Label("Cargo")
-                                    @* @Html.DropDownList(m => m.CARGOS![i].NOMBRE_CARGO, new { @class = "form-control", Name = $"CARGOS[{i}].NOMBRE_CARGO", @readonly = "false" }) *@
-                                </div>
-                            }
-                        }
-                        else
-                        {
-                            <p>No existen cargos a seleccionar.</p>
-                        }
+                        @Html.Label("Estado")
+                        @Html.TextBoxFor(m => m.ESTADO, new { @class = "form-control"})
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-md-6">
                     <div class="mb-4">
-                        <label for="formDepartamento" class="form-label">Departamento</label>
-                        <select class="form-select" aria-label="Departamento">
-                            <option selected>Seleccione el departamento</option>
-                            <option value="1">Departamento 1</option>
-                            <option value="2">Departamento 1</option>
-                            <option value="3">Departamento 1</option>
-                        </select>
+                        @Html.Label("Estado actual")
+                        <select asp-for="ESTADO" asp-controller="Usuarios" asp-action="CambiarEstadoUsuario" class="form-control" method="POST" style="text-align: center;" required>
+                        <option value="true">Activo</option>
+                        <option value="false">Inactivo</option>
+                    </select>
                     </div>
                 </div>
+                <!--VER COMO HACER EL DROP LIST ACA--> 
+
             </div>
+
+            <!-- CODIGO ROL-->
+
             <div class="row gx-3 gy-2 align-items-center">
-                <div class="col-3">
+                <div class="col-md-6">
                     <div class="mb-4">
-                        <label for="formEstado" class="form-label">Estado del empleado</label>
-                        <select class="form-select" aria-label="Estado actual">
-                            <option selected>Seleccione el estado</option>
-                            <option value="1">Activo</option>
-                            <option value="2">Inactivo</option>
-                        </select>
+                        @Html.Label("Rol actual")
+                        @Html.TextBoxFor(m => m.NOMBREROL, new { @class = "form-control", @readonly = "true" })
                     </div>
                 </div>
-                <div class="col-3">
+                 <div class="col-6">
                     <div class="mb-4">
-                        <label for="formRol" class="form-label">Rol</label>
-                        <select class="form-select" aria-label="Rol">
-                            <option selected>Seleccione el rol</option>
-                            <option value="1">Administrador</option>
-                            <option value="2">Jefe de área</option>
-                            <option value="3">Empleado</option>
-                        </select>
+                        @Html.Label("Roles disponibles")
+                        @Html.DropDownListFor(m => m.IDROL, new SelectList(ViewBag.RolesList, "Value", "Text"), new { @class = "form-control" })
                     </div>
-                </div>
-                <div class="col-6">
-                    <div class="mb-4">
-                        <label for="formHorario" class="form-label">Horario asignado</label>
-                        <select class="form-select" aria-label="Horario">
-                            <option selected>Seleccione el horario</option>
-                            <option value="1">Diurno</option>
-                            <option value="2">Intermedio</option>
-                            <option value="3">Tarde</option>
-                            <option value="4">Noche</option>
-                        </select>
-                    </div>
-                </div>
+                </div> 
 
-                <div style="display:grid; place-items:center;">
-                    <div class="mt-4">
-                        <button type="button" class="btn btn-primary" id="liveToastBtn">Actualizar usuario</button>
+            </div> 
+
+            <!-- BOTTON ACTUALIZAR-->
+            <div style="display:grid; place-items:center;">
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary" id="liveToastBtn">Actualizar usuario</button>
+                </div>
+            </div>   
+
+            <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+                <div class="bs-toast toast fade hide bg-success" id="liveToast" role="alert" aria-live="assertive" aria-atomic="true">
+                     <div class="toast-header">
+                        <i class="bi bi-bell me-3"></i>
+                        <div class="me-auto fw-semibold">Notificación</div>
+                        <small>Hace un segundo</small>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                       </div>
+                    <div class="toast-body">
+                        El usuario se actualizó correctamente
                     </div>
                 </div>
-
             </div>
         }
-    </div>
-</div>
-<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-    <div class="bs-toast toast fade hide bg-success" id="liveToast" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header">
-            <i class="bi bi-bell me-3"></i>
-            <div class="me-auto fw-semibold">Notificación</div>
-            <small>Hace un segundo</small>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-        <div class="toast-body">
-            El usuario se actualizó correctamente
-        </div>
     </div>
 </div>
 
@@ -177,3 +214,4 @@
         }
     });
 </script>
+      
