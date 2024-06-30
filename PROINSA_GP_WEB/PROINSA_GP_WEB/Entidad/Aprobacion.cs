@@ -1,4 +1,4 @@
-﻿namespace PROINSA_GP_API.Entidad
+﻿namespace PROINSA_GP_WEB.Entidad
 {
     public class Aprobacion
     {
