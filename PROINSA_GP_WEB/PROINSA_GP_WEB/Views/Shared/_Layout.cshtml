@@ -83,23 +83,7 @@
                     <!-- Título: Horarios y actividades diarias -->
                     <li class="menu-header small text-uppercase">
                         <span class="menu-header-text">Horarios y actividades diarias</span>
-                    </li>
-                    <!-- Horarios -->
-                    <li class="menu-item">
-                        <a href="javascript:void(0);" class="menu-link menu-toggle">
-                            <i class="bi bi-calendar3 me-3"></i>
-                            <div data-i18n="Account Settings">Horario del personal</div>
-                        </a>
-                        <ul class="menu-sub">
-                            <li class="menu-item">
-                                <a href="@Url.Action("Horarios","Actividades")" class="menu-link">
-                                    <div data-i18n="Account">Cambios de horario</div>
-                                </a>
-                            </li>
-                           
-                          
-                        </ul>
-                    </li>
+                    </li>                    
                     <!-- Actividades de los empleados -->
                     <li class="menu-item">
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -204,21 +188,9 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="@Url.Action("InformacionPersonal","Solicitudes")" class="menu-link">
-                                            <i class="bi bi-exclamation-square-fill me-3"></i>
-                                            <div data-i18n="Basic">Cambios de información personal</div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="@Url.Action("Permisos","Solicitudes")" class="menu-link">
-                                            <i class="bi bi-exclamation-square-fill me-3"></i>
-                                            <div data-i18n="Basic">Permisos</div>
-                                        </a>
-                                    </li>
-                                    <li>
                                         <a href="@Url.Action("RegistrarSolicitud","Solicitudes")" class="menu-link">
                                             <i class="bi bi-exclamation-square-fill me-3"></i>
-                                            <div data-i18n="Basic">Vacaciones</div>
+                                            <div data-i18n="Basic">Registrar otras solicitudes</div>
                                         </a>
                                     </li>
                                     <li>
@@ -351,19 +323,17 @@
                             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                                     <div class="avatar avatar-online">
-                                        <img src="~/assets/img/avatars/1.png" class="w-px-40 h-auto rounded-circle" />
+                                        <i class="bi bi-person-circle w-px-40 h-auto rounded-circle" style="font-size:28px;"></i>                                        
                                     </div>
                                 </a>
 
                                 <ul class="dropdown-menu dropdown-menu-end">
-                                    <li>
-                                        
-                                        
+                                    <li>                                                                                
                                         <a class="dropdown-item" href="#">
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 me-3">
                                                     <div class="avatar avatar-online">
-                                                        <img src="~/assets/img/avatars/1.png" class="w-px-40 h-auto rounded-circle" />
+                                                        <i class="bi bi-person-circle w-px-40 h-auto rounded-circle" style="font-size:35px;"></i>
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">

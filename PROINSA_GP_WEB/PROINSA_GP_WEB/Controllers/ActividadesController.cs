@@ -5,12 +5,6 @@ namespace PROINSA_GP_WEB.Controllers
     public class ActividadesController : Controller
     {
         [HttpGet]
-        public IActionResult Horarios()
-        {
-            return View();
-        }
-
-        [HttpGet]
         public IActionResult RegistroActividades()
         {
             return View();
