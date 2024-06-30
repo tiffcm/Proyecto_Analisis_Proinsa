@@ -1,54 +1,107 @@
-﻿@{
+﻿@using System.Data
+@{
     ViewBag.Title = "Aprobaciones";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Aprobaciones /</span> Aprobaciones</h4>
 
-<div class="card mb-4">
-    
-<div class="container">
-    <br /><br />
-    <ul class="list-group">
-
-        <li class="list-group-item col-12 h4">
-            Solicitud 1 - cambio horario<br>
-            <label>Fecha de creacion: </label>
-            <label>15/5/2023</label>
-            <br>
-            <label>Descripcion: </label>
-            <br /><br />
-            <div class="col-9">
-                <a class="btn btn-primary" href="" role="button">Ir a solicitud</a>
+<div class="card-body">
+    <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Historial solicitudes pendientes de organizar:</h5>
+    <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+        <div class="row">
+            <div class="tab-content">
+                <div class="tab-pane show active" id="striped-rows-preview">
+                    <div class="table-responsive-sm">
+                        <table id="dataTable" class="table table-bordered dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
+                            <thead>
+                                <tr>
+                                    <th>ID SOLICITUD</th>
+                                    <th>FECHA SOLICITUD</th>
+                                    <th>IDENTIFICACION</th>
+                                    <th>SOLICITANTE</th>                                    
+                                    <th>TIPO PERMISO</th>
+                                    <th>RESPUESTA SOLICITUD</th>
+                                    <th>ACCIONES</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (DataRow row in Model.Rows)
+                                {
+                                    <tr>
+                                        <td>@row["ID_SOLICITUD"]</td>
+                                        <td>@row["FECHA_SOLICITUD"]</td>
+                                        <td>@row["IDENTIFICACION"]</td>
+                                        <td>@row["SOLICITANTE"]</td>
+                                        <td>@row["TIPOPERMISO"]</td>
+                                        <td>@row["RESPUESTASOLICITUD"]</td>
+                                        <td>
+                                            <button type="button"
+                                                    class="btn btn-primary"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modalCenter">
+                                                Launch modal
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-        </li>
-
-
-        <li class="list-group-item col-12 h4">
-            Solicitud 2 - vacaciones <br>
-            <label>Fecha de creacion: </label>
-            <label>2/9/2023</label>
-            <br>
-            <label>Descripcion: </label>
-            <br /><br />
-            <div class="col-9">
-                <a class="btn btn-primary" href="@Url.Action("AproVacaciones","Aprobaciones")" role="button">Ir a solicitud</a>
-            </div>
-        </li>
-
-
-        <li class="list-group-item col-12 h4">
-            Solicitud 3 - Cambio informacion personal<br>
-            <label>Fecha: </label>
-            <label>20/6/2023</label>
-            <br>
-            <label>Descripcion: </label>
-            <br /><br />
-            <div class="col-9">
-                <a class="btn btn-primary" href="" role="button">Ir a solicitud</a>
-            </div>
-        </li>
-
-    </ul>
+        </div>
+    </div>
 </div>
+<div class="col-lg-4 col-md-6">    
+    <div class="mt-3">        
+        <!-- Modal -->
+        <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalCenterTitle">Modal title</h5>
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col mb-3">
+                                <label for="nameWithTitle" class="form-label">Name</label>
+                                <input type="text"
+                                       id="nameWithTitle"
+                                       class="form-control"
+                                       placeholder="Enter Name" />
+                            </div>
+                        </div>
+                        <div class="row g-2">
+                            <div class="col mb-0">
+                                <label for="emailWithTitle" class="form-label">Email</label>
+                                <input type="text"
+                                       id="emailWithTitle"
+                                       class="form-control"
+                                       placeholder="xxxx@xxx.xx" />
+                            </div>
+                            <div class="col mb-0">
+                                <label for="dobWithTitle" class="form-label">DOB</label>
+                                <input type="text"
+                                       id="dobWithTitle"
+                                       class="form-control"
+                                       placeholder="DD / MM / YY" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<script src="~/js/datatable.js"></script>
