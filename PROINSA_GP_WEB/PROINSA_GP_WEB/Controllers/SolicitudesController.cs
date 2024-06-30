@@ -120,18 +120,6 @@ namespace PROINSA_GP_WEB.Controllers
         }
 
         [HttpGet]
-        public IActionResult Permisos()
-        {
-            return View();
-        }
-
-        [HttpGet]
-        public IActionResult InformacionPersonal()
-        {
-            return View();
-        }
-
-        [HttpGet]
         public IActionResult ReporteSolicitudAntiguedad()
         {
             return View();
