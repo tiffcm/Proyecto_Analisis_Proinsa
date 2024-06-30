@@ -51,7 +51,6 @@ namespace PROINSA_GP_WEB.Controllers
         {
             var idEmpleadoSession = HttpContext.Session.GetInt32("ID_EMPLEADO");
 
-
             int idEmpleado = idEmpleadoSession ?? 0;
             var horarioDisponibleList = iSolicitudModel.ObtenerHorarioDisponibles(idEmpleado);
             ViewBag.HorarioDisponibleList = horarioDisponibleList;
