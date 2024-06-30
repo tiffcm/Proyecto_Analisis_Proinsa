@@ -23,7 +23,7 @@
                         <div class="col-md-12">
                             <div class="mb-3">
                                 @Html.Label("Tipo de Permiso:")
-                                @Html.DropDownListFor(m => m.TIPOSOLICITUD_ID, new SelectList(ViewBag.TipoSolicitudList, "Value", "Text"), new { @class = "form-control" })
+                                @Html.DropDownListFor(m => m.TIPOSOLICITUD_ID, new SelectList(ViewBag.TipoSolicitudList, "Value", "Text"), "Por favor, elija el tipo de solicitud", new { @class = "form-control", @id = "tipoSolicitudSelect" })
                             </div>
                         </div>
                         <div class="row">
@@ -58,30 +58,46 @@
                             </div>
                         </div>
                         <div style="display:grid; place-items:center;">
-                            <button class="btn btn-primary mt-4" id="ejemplo" style="width:300px" type="submit">Registrar</button>
+                            <button class="btn btn-primary mt-4 toastBtn" style="width:300px" type="submit" id="submitButton">Registrar</button>
                         </div>
                     }
-                    <div class="modal fade" id="ejemplo">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <!-- Modal Header -->
-                                <div class="modal-header">
-                                    <h4 class="modal-title">Solicitud enviada con exito!</h4>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                </div>
-                                <!-- Modal body -->
-                                <div class="modal-body">
-                                    Se le notificara al administrador. Esté antento al buzon de notificaciones!
-                                </div>
-                                <!-- Modal footer -->
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cerrar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.5/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        var toastButtons = document.querySelectorAll('.toastBtn');
+        var selectElement = document.getElementById('tipoSolicitudSelect');
+        var submitButton = document.getElementById('submitButton');
+
+        // Manejar el cambio de selección en el DropDownList
+        selectElement.addEventListener('change', function () {
+            var selectedValue = parseInt(selectElement.value);
+            var toastId = '';
+
+            if (selectedValue === 1) {
+                toastId = 'btnVacaciones';
+            } else if (selectedValue === 2) {
+                toastId = 'btnPermiso';
+            } else if (selectedValue === 3) {
+                toastId = 'btnIncapacidad';
+            }
+
+            toastButtons.forEach(button => {
+                button.setAttribute('data-toast-id', toastId);
+            });
+        });
+        
+        toastButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                var toastId = this.getAttribute('data-toast-id');
+                localStorage.setItem('showToastId', toastId);
+                window.location.href = '/Home/Principal'; 
+            });
+        });
+    });
+</script>
