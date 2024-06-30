@@ -3,9 +3,11 @@
     public class Aprobacion
     {
         public long ID_SOLICITUD { get; set; }
+        public long ID_EMPLEADO { get; set; }
         public DateTime FECHA_SOLICITUD { get; set; }
         public string? SOLICITANTE { get; set; }
         public string? IDENTIFICACION { get; set; }
+        public string? RESPUESTA { get; set; }
         public string? TIPOPERMISO { get; set; }
         public string? HORARIO { get; set; }
         public int DIAS { get; set; }

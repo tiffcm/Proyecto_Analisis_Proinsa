@@ -100,5 +100,36 @@ namespace PROINSA_GP_API.Controllers
                 }
             }
         }
+        
+        [HttpPut]
+        [Route("ActualizarAprobacionFlujo")]
+        public async Task<IActionResult> ActualizarDatosUsuario(Aprobacion aprobacion)
+        {
+            Respuesta respuesta = new Respuesta();
+            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+                var parametros = new DynamicParameters();
+                parametros.Add("@id_solicitud", aprobacion.ID_SOLICITUD);
+                parametros.Add("@id_empleado", aprobacion.ID_EMPLEADO);
+                parametros.Add("@respuesta", aprobacion.RESPUESTA);
+                parametros.Add("@comentario", aprobacion.COMENTARIO);
+                var request = await contexto.ExecuteAsync("ActualizarFlujoAprobacion", parametros,
+                   commandType: System.Data.CommandType.StoredProcedure);
+                if (request > 0)
+                {
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = true;
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CODIGO = 0;
+                    respuesta.MENSAJE = "Se presentó un inconveniente actualizando su información";
+                    respuesta.CONTENIDO = false;
+                    return Ok(respuesta);
+                }
+            }
+        }
     }
 }
