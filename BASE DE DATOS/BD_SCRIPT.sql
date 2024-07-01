@@ -1222,6 +1222,7 @@ CREATE PROCEDURE [dbo].[EditarDatosVistaAdmin]
     @CARGO_ID BIGINT,
     @HORARIOLABORAL_ID BIGINT,
     @DEPARTAMENTO_ID BIGINT,
+	@ROL_ID BIGINT,
     @ESTADO BIT,
     @ID_TELEFONO1 BIGINT,
     @TELEFONO1 NVARCHAR(22),
@@ -1233,6 +1234,10 @@ AS
 BEGIN
     -- SET NOCOUNT ON added to prevent extra result sets from
     -- interfering with SELECT statements.
+	DECLARE @AspNetUserID_ACTUAL NVARCHAR(450);
+
+	SET @AspNetUserID_ACTUAL = (SELECT AspNetUsers_ID FROM EMPLEADO WHERE ID_EMPLEADO = @ID_EMPLEADO);
+
 IF EXISTS (SELECT 1 FROM [dbo].[EMPLEADO] WHERE [ID_EMPLEADO] = @ID_EMPLEADO)
     BEGIN
         -- Actualizar la informaci�n del empleado
@@ -1288,6 +1293,14 @@ IF EXISTS (SELECT 1 FROM [dbo].[EMPLEADO] WHERE [ID_EMPLEADO] = @ID_EMPLEADO)
                 WHERE ED.EMPLEADO_ID = @ID_EMPLEADO
             );
         END;
+
+		-- Actualizar ROL si @ROL_ID no es nulo
+		IF @ROL_ID IS NOT NULL
+		BEGIN
+			UPDATE [dbo].[AspNetUserRoles]
+			SET [RoleId] = @ROL_ID
+			WHERE UserId = @AspNetUserID_ACTUAL;
+		END;
     END
     ELSE
     BEGIN
