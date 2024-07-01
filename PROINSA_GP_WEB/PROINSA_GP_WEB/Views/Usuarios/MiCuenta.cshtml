@@ -27,7 +27,8 @@
                     </div>
                     <hr class="my-0" />
                     <div class="card-body">                        
-                        @using (Html.BeginForm("MiCuenta", "Usuarios", FormMethod.Post)){
+                        @using (Html.BeginForm("MiCuenta", "Usuarios", FormMethod.Post))
+                        {
                             @Html.HiddenFor(m => m.ID_EMPLEADO)
                             <div class="row">
                                 <div class="mb-3 col-md-12">

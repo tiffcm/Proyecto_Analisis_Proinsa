@@ -19,7 +19,7 @@
                                     <th>ID SOLICITUD</th>
                                     <th>FECHA SOLICITUD</th>
                                     <th>IDENTIFICACION</th>
-                                    <th>SOLICITANTE</th>                                    
+                                    <th>SOLICITANTE</th>
                                     <th>TIPO PERMISO</th>
                                     <th>RESPUESTA SOLICITUD</th>
                                     <th>ACCIONES</th>
@@ -36,11 +36,12 @@
                                         <td>@row["TIPOPERMISO"]</td>
                                         <td>@row["RESPUESTASOLICITUD"]</td>
                                         <td>
-                                            <button type="button"
-                                                    class="btn btn-primary"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#modalCenter">
-                                                Launch modal
+                                            <button type="button" class="btn btn-primary ver-solicitud"
+                                                    data-id="@row["ID_SOLICITUD"]"
+                                                    data-tipo="@row["TIPOPERMISO"]"
+                                                    data-identificacion="@row["IDENTIFICACION"]"
+                                                    data-nombre="@row["SOLICITANTE"]">
+                                                Ver solicitud
                                             </button>
                                         </td>
                                     </tr>
@@ -53,51 +54,420 @@
         </div>
     </div>
 </div>
-<div class="col-lg-4 col-md-6">    
-    <div class="mt-3">        
-        <!-- Modal -->
-        <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+
+<!-- MODAL PARA VACACIONES -->
+<div class="col-lg-4 col-md-6">
+    <div class="mt-3">
+        <div class="modal fade" id="modalVacaciones" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalCenterTitle">Modal title</h5>
-                        <button type="button"
-                                class="btn-close"
-                                data-bs-dismiss="modal"
-                                aria-label="Close"></button>
+                        <h5 class="modal-title" id="modalVacacionesTitle" style="text-transform: uppercase">Solicitud de Vacaciones</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="row">
-                            <div class="col mb-3">
-                                <label for="nameWithTitle" class="form-label">Name</label>
-                                <input type="text"
-                                       id="nameWithTitle"
-                                       class="form-control"
-                                       placeholder="Enter Name" />
+                        <div class="row g-2">
+                            <div class="col mb-2">
+                                <label for="IdSolicitud" class="form-label">ID de la solicitud</label>
+                                <input type="text" id="IdSolicitud1" class="form-control" placeholder="Id de la solicitud" readonly />
+                            </div>
+                            <div class="col mb-2">
+                                <label for="Identificacion" class="form-label">Cédula</label>
+                                <input type="text" id="Identificacion1" class="form-control" placeholder="Identificacion" readonly />
+                            </div>
+                        </div>
+                        <div class="row g-2">
+                            <div class="col mb-2">
+                                <label for="Nombre" class="form-label mt-3">Nombre del solicitante</label>
+                                <input type="text" id="Nombre1" class="form-control" placeholder="Nombre del solicitante" readonly />
+                            </div>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col mb-0">
+                                <label for="FechaInicial" class="form-label mt-3">Fecha inicial</label>
+                                <input type="text" id="FechaInicial1" class="form-control" placeholder="DD / MM / YY" readonly />
+                            </div>
+                            <div class="col mb-0">
+                                <label for="FechaFinal" class="form-label mt-3">Fecha final</label>
+                                <input type="text" id="FechaFinal1" class="form-control" placeholder="DD / MM / YY" readonly />
+                            </div>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col mb-0">
+                                <label for="TipoPermiso" class="form-label mt-3">Tipo de permiso</label>
+                                <input type="text" id="TipoPermiso1" class="form-control" placeholder="Tipo de permiso" readonly />
+                            </div>
+                            <div class="col mb-2">
+                                <label for="Dias1" class="form-label mt-3">Cantidad de días</label>
+                                <input type="text" id="Dias1" class="form-control" style="text-transform: uppercase" placeholder="Cantidad de Días" readonly />
+                            </div>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col mb-0">
+                                <div class="form-group mt-4">
+                                    <label for="Justificacion" style="text-transform: uppercase">Justificación</label>
+                                    <textarea class="form-control" id="Justificacion1" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align:center;">
+                        <button type="button" class="btn btn-success m-3" style="background-color: #7cc444" data-bs-dismiss="modal">Aprobar</button>
+                        <button type="button" class="btn btn-primary">Rechazar</button>
+                    </div>
+                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#dataTable2" aria-expanded="false" aria-controls="dataTable2">
+                        Flujo de aprobaciones
+                    </button>
+                    <!-- ACÁ SE TIENE QUE LLAMAR EL FLUJO DE APROBACIONES -->
+                    <div class="collapse" id="dataTable2">
+                        <div class="d-grid d-sm-flex p-3 border">
+                            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                <div class="row">
+                                    <div class="tab-content">
+                                        <div class="tab-pane show active" id="striped-rows-preview">
+                                            <div class="table-responsive-sm">
+                                                <table id="dataTable" class="table table-bordered dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>ID SOLICITUD</th>
+                                                            <th>FECHA SOLICITUD</th>
+                                                            <th>IDENTIFICACION</th>
+                                                            <th>SOLICITANTE</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (DataRow row in Model.Rows)
+                                                        {
+                                                            <tr>
+                                                                <td>@row["ID_SOLICITUD"]</td>
+                                                                <td>@row["FECHA_SOLICITUD"]</td>
+                                                                <td>@row["IDENTIFICACION"]</td>
+                                                                <td>@row["SOLICITANTE"]</td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL PARA CAMBIO DE HORARIO -->
+<div class="col-lg-4 col-md-6">
+    <div class="mt-3">
+        <div class="modal fade" id="modalHorario" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalHorarioTitle" style="text-transform: uppercase">Solicitud de cambio de horario</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row g-2">
+                            <div class="col mb-2">
+                                <label for="IdSolicitud" class="form-label">ID de la solicitud</label>
+                                <input type="text" id="IdSolicitud2" class="form-control" placeholder="Id de la solicitud" readonly />
+                            </div>
+                            <div class="col mb-2">
+                                <label for="Identificacion" class="form-label">Cédula</label>
+                                <input type="text" id="Identificacion2" class="form-control" placeholder="Identificacion" readonly />
+                            </div>
+                        </div>
+                        <div class="row g-2">
+                            <div class="col mb-2">
+                                <label for="Nombre" class="form-label mt-3">Nombre del solicitante</label>
+                                <input type="text" id="Nombre2" class="form-control" placeholder="Nombre del solicitante" readonly />
                             </div>
                         </div>
                         <div class="row g-2">
                             <div class="col mb-0">
-                                <label for="emailWithTitle" class="form-label">Email</label>
-                                <input type="text"
-                                       id="emailWithTitle"
-                                       class="form-control"
-                                       placeholder="xxxx@xxx.xx" />
+                                <label for="TipoPermiso" class="form-label mt-3">Tipo de permiso</label>
+                                <input type="text" id="TipoPermiso2" class="form-control" placeholder="Tipo de permiso" readonly />
+                            </div>
+                        </div>
+                        <div class="row g-2">
+                            <div class="col mb-0">
+                                <label for="FechaInicial" class="form-label mt-3">Horario Actual</label>
+                                <input type="text" id="FechaInicial2" style="text-transform: uppercase" class="form-control" placeholder="Actual" readonly />
                             </div>
                             <div class="col mb-0">
-                                <label for="dobWithTitle" class="form-label">DOB</label>
-                                <input type="text"
-                                       id="dobWithTitle"
-                                       class="form-control"
-                                       placeholder="DD / MM / YY" />
+                                <label for="FechaFinal" class="form-label mt-3">Horario Nuevo</label>
+                                <input type="text" id="FechaFinal2" style="text-transform: uppercase" class="form-control" placeholder="Nuevo" readonly />
+                            </div>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col mb-0">
+                                <div class="form-group mt-4">
+                                    <label for="Justificacion" style="text-transform: uppercase">Justificación</label>
+                                    <textarea class="form-control" id="Justificacion2" rows="3"></textarea>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                            Close
-                        </button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                    <div style="text-align:center;">
+                        <button type="button" class="btn btn-success m-3" style="background-color: #7cc444" data-bs-dismiss="modal">Aprobar</button>
+                        <button type="button" class="btn btn-primary">Rechazar</button>
+                    </div>
+                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#dataTable3" aria-expanded="false" aria-controls="dataTable2">
+                        Flujo de aprobaciones
+                    </button>
+                    <!-- ACÁ SE TIENE QUE LLAMAR EL FLUJO DE APROBACIONES -->
+                    <div class="collapse" id="dataTable3">
+                        <div class="d-grid d-sm-flex p-3 border">
+                            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                <div class="row">
+                                    <div class="tab-content">
+                                        <div class="tab-pane show active" id="striped-rows-preview">
+                                            <div class="table-responsive-sm">
+                                                <table id="dataTable" class="table table-bordered dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>ID SOLICITUD</th>
+                                                            <th>FECHA SOLICITUD</th>
+                                                            <th>IDENTIFICACION</th>
+                                                            <th>SOLICITANTE</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (DataRow row in Model.Rows)
+                                                        {
+                                                            <tr>
+                                                                <td>@row["ID_SOLICITUD"]</td>
+                                                                <td>@row["FECHA_SOLICITUD"]</td>
+                                                                <td>@row["IDENTIFICACION"]</td>
+                                                                <td>@row["SOLICITANTE"]</td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL PARA PERMISOS ESPCIALES -->
+<div class="col-lg-4 col-md-6">
+    <div class="mt-3">
+        <div class="modal fade" id="modalPermisoEspecial" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalPermisoEspecialTitle" style="text-transform: uppercase">Solicitud de permiso especial</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col mb-2">
+                                <label for="IdSolicitud" class="form-label">ID de la solicitud</label>
+                                <input type="text" id="IdSolicitud3" class="form-control" placeholder="Id de la solicitud" readonly />
+                            </div>
+                            <div class="col mb-2">
+                                <label for="Identificacion" class="form-label">Cédula</label>
+                                <input type="text" id="Identificacion3" class="form-control" placeholder="Identificacion" readonly />
+                            </div>
+                            <div class="col mb-2">
+                                <label for="Comprobante" class="form-label">Comprobante</label>
+                                <button type="button" style="background-color: #DD3333; height:40px; color:azure;" id="Comprobante3" class="form-control">
+                                    Descargar
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row g-2">
+                            <div class="col mb-2">
+                                <label for="Nombre" class="form-label mt-3">Nombre del solicitante</label>
+                                <input type="text" id="Nombre3" class="form-control" placeholder="Nombre del solicitante" readonly />
+                            </div>
+                        </div>
+                        <div class="row g-2">
+                            <div class="col mb-0">
+                                <label for="TipoPermiso" class="form-label mt-3">Tipo de permiso</label>
+                                <input type="text" id="TipoPermiso3" class="form-control" placeholder="Tipo de permiso" readonly />
+                            </div>
+                        </div>
+                        <div class="row g-2">
+                            <div class="col mb-0">
+                                <label for="FechaInicial" class="form-label mt-3">Fecha inicial</label>
+                                <input type="text" id="FechaInicial3" class="form-control" placeholder="DD / MM / YY" readonly />
+                            </div>
+                            <div class="col mb-0">
+                                <label for="FechaFinal" class="form-label mt-3">Fecha final</label>
+                                <input type="text" id="FechaFinal3" class="form-control" placeholder="DD / MM / YY" readonly />
+                            </div>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col mb-0">
+                                <div class="form-group mt-4">
+                                    <label for="Justificacion" style="text-transform: uppercase">Justificación</label>
+                                    <textarea class="form-control" id="Justificacion3" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align:center;">
+                        <button type="button" class="btn btn-success m-3" style="background-color: #7cc444" data-bs-dismiss="modal">Aprobar</button>
+                        <button type="button" class="btn btn-primary">Rechazar</button>
+                    </div>
+                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#dataTable4" aria-expanded="false" aria-controls="dataTable2">
+                        Flujo de aprobaciones
+                    </button>
+                    <!-- ACÁ SE TIENE QUE LLAMAR EL FLUJO DE APROBACIONES -->
+                    <div class="collapse" id="dataTable4">
+                        <div class="d-grid d-sm-flex p-3 border">
+                            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                <div class="row">
+                                    <div class="tab-content">
+                                        <div class="tab-pane show active" id="striped-rows-preview">
+                                            <div class="table-responsive-sm">
+                                                <table id="dataTable" class="table table-bordered dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>ID SOLICITUD</th>
+                                                            <th>FECHA SOLICITUD</th>
+                                                            <th>IDENTIFICACION</th>
+                                                            <th>SOLICITANTE</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (DataRow row in Model.Rows)
+                                                        {
+                                                            <tr>
+                                                                <td>@row["ID_SOLICITUD"]</td>
+                                                                <td>@row["FECHA_SOLICITUD"]</td>
+                                                                <td>@row["IDENTIFICACION"]</td>
+                                                                <td>@row["SOLICITANTE"]</td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL PARA INCAPACIDAD -->
+<div class="col-lg-4 col-md-6">
+    <div class="mt-3">
+        <div class="modal fade" id="modalIncapacidad" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalIncapacidadTitle" style="text-transform: uppercase">incapacidad</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row g-2">
+                            <div class="col mb-2">
+                                <label for="IdSolicitud" class="form-label">ID de la solicitud</label>
+                                <input type="text" id="IdSolicitud4" class="form-control" placeholder="Id de la solicitud" readonly />
+                            </div>
+                            <div class="col mb-2">
+                                <label for="Identificacion" class="form-label">Cédula</label>
+                                <input type="text" id="Identificacion4" class="form-control" placeholder="Identificacion" readonly />
+                            </div>
+                            <div class="col mb-2">
+                                <label for="Comprobante" class="form-label">Comprobante</label>
+                                <button type="button" style="background-color: #DD3333; height:40px; color:azure;" id="Comprobante4" class="form-control">
+                                    Descargar
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row g-2">
+                            <div class="col mb-2">
+                                <label for="Nombre" class="form-label mt-3">Nombre del solicitante</label>
+                                <input type="text" id="Nombre4" class="form-control" placeholder="Nombre del solicitante" readonly />
+                            </div>
+                        </div>
+                        <div>
+                            <div class="col mb-0">
+                                <label for="TipoPermiso" class="form-label mt-3">Tipo de permiso</label>
+                                <input type="text" id="TipoPermiso4" class="form-control" placeholder="Tipo de permiso" readonly />
+                            </div>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col mb-0">
+                                <label for="FechaInicial" class="form-label mt-3">Fecha inicial</label>
+                                <input type="text" id="FechaInicial4" class="form-control" placeholder="DD / MM / YY" readonly />
+                            </div>
+                            <div class="col mb-0">
+                                <label for="FechaFinal" class="form-label mt-3">Fecha final</label>
+                                <input type="text" id="FechaFinal4" class="form-control" placeholder="DD / MM / YY" readonly />
+                            </div>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col mb-0">
+                                <div class="form-group mt-4">
+                                    <label for="Justificacion">Justificación</label>
+                                    <textarea class="form-control" id="Justificacion4" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align:center;">
+                        <button type="button" class="btn btn-success m-3" style="background-color: #7cc444" data-bs-dismiss="modal">Aprobar</button>
+                        <button type="button" class="btn btn-primary">Rechazar</button>
+                    </div>
+                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#dataTable5" aria-expanded="false" aria-controls="dataTable2">
+                        Flujo de aprobaciones
+                    </button>
+                    <!-- ACÁ SE TIENE QUE LLAMAR EL FLUJO DE APROBACIONES -->
+                    <div class="collapse" id="dataTable5">
+                        <div class="d-grid d-sm-flex p-3 border">
+                            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                <div class="row">
+                                    <div class="tab-content">
+                                        <div class="tab-pane show active" id="striped-rows-preview">
+                                            <div class="table-responsive-sm">
+                                                <table id="dataTable" class="table table-bordered dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>ID SOLICITUD</th>
+                                                            <th>FECHA SOLICITUD</th>
+                                                            <th>IDENTIFICACION</th>
+                                                            <th>SOLICITANTE</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (DataRow row in Model.Rows)
+                                                        {
+                                                            <tr>
+                                                                <td>@row["ID_SOLICITUD"]</td>
+                                                                <td>@row["FECHA_SOLICITUD"]</td>
+                                                                <td>@row["IDENTIFICACION"]</td>
+                                                                <td>@row["SOLICITANTE"]</td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -105,3 +475,4 @@
     </div>
 </div>
 <script src="~/js/datatable.js"></script>
+<script src="~/js/modaldinamico.js"></script>
