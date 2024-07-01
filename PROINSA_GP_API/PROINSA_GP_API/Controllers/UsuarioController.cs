@@ -183,8 +183,7 @@ namespace PROINSA_GP_API.Controllers
                 parametros.Add("@CARGO_ID", usuario.ID_CARGO); 
                 parametros.Add("@HORARIOLABORAL_ID", usuario.ID_HORARIOLABORAL); 
                 parametros.Add("@DEPARTAMENTO_ID", usuario.ID_DEPARTAMENTO); 
-                parametros.Add("@ROL_ID", usuario.IDROL);
-				parametros.Add("@ESTADO", usuario.ESTADO); 
+                parametros.Add("@ROL_ID", usuario.IDROL); 
 				parametros.Add("@DIRRECCION", usuario.DIRRECION);
                 if (usuario.TELEFONOS != null && usuario.TELEFONOS.Any())
                 {
