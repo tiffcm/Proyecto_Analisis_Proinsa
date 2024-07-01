@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Primitives;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Primitives;
 using PROINSA_GP_WEB.Entidad;
 
 namespace PROINSA_GP_WEB.Servicios
@@ -13,10 +14,17 @@ namespace PROINSA_GP_WEB.Servicios
         Respuesta? ActualizarDatosUsuario(Usuario entidad);
         Respuesta? ObtenerTelefonosUsuario(long? idEmpleado);
         Respuesta? MostrarInfoVistaAdmin();
-        Respuesta? EditarDatosVistaAdmin(Usuario datos);
+        Respuesta? EditarDatosVistaAdmin(Usuario usuario);
         Respuesta? MostrarEmpleadoVistaAdmin(long? idEmpleado);
+        Respuesta? CambiarEstadoUsuarioAdmin(long? idEmpleado);
+        List<SelectListItem> MostrarTodosCargos();
+        List<SelectListItem> MostrarTodosHorarios();
+        List<SelectListItem> MostrarTodosRoles();
+        List<SelectListItem> MostrarTodosDepartamentos();
 
 
-       
+
+
+
     }
 }

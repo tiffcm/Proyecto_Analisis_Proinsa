@@ -1,4 +1,6 @@
-﻿using PROINSA_GP_WEB.Entidad;
+﻿using Azure;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using PROINSA_GP_WEB.Entidad;
 using PROINSA_GP_WEB.Servicios;
 using System.Text.Json;
 
@@ -70,10 +72,10 @@ namespace PROINSA_GP_WEB.Models
                 return new Respuesta();
         }
 
-        public Respuesta? EditarDatosVistaAdmin(Usuario datos)
+        public Respuesta? EditarDatosVistaAdmin(Usuario usuario)
         {
             string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/EditarDatosVistaAdmin";
-            JsonContent body = JsonContent.Create(datos);
+            JsonContent body = JsonContent.Create(usuario);
             var solicitud = _httpClient.PutAsync(url, body).Result;
             if (solicitud.IsSuccessStatusCode)
                 return solicitud.Content.ReadFromJsonAsync<Respuesta>().Result;
@@ -83,7 +85,7 @@ namespace PROINSA_GP_WEB.Models
 
         public Respuesta? MostrarEmpleadoVistaAdmin(long? idEmpleado)
         {
-            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/MostrarEmpleadoVistaAdmin" + idEmpleado;
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/MostrarEmpleadoVistaAdmin?idEmpleado=" + idEmpleado;
             var solicitud = _httpClient.GetAsync(url).Result;
 
             if (solicitud.IsSuccessStatusCode)
@@ -94,7 +96,120 @@ namespace PROINSA_GP_WEB.Models
                 return new Respuesta();
         }
 
+		public Respuesta? CambiarEstadoUsuarioAdmin(long? idEmpleado)
+        {
+			string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/CambiarEstadoUsuarioAdmin?idEmpleado=" + idEmpleado;
+			JsonContent body = JsonContent.Create(idEmpleado);
+			var solicitud = _httpClient.PutAsync(url, body).Result;
+			if (solicitud.IsSuccessStatusCode)
+				return solicitud.Content.ReadFromJsonAsync<Respuesta>().Result;
+			else
+				return new Respuesta();
 
-       
+		}
+
+        public List<SelectListItem> MostrarTodosCargos()
+        {
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/MostrarTodosCargos";
+            var resp = _httpClient.GetAsync(url).Result;
+
+            if (resp.IsSuccessStatusCode)
+            {
+                var respuesta = resp.Content.ReadFromJsonAsync<Respuesta>().Result;
+                if (respuesta!.CODIGO == 1)
+                {
+                    var jsonElement = (JsonElement)respuesta.CONTENIDO!;
+                    var CargoList = JsonSerializer.Deserialize<List<Cargo>>(jsonElement.GetRawText());
+                    if (CargoList != null)
+                    {
+                        return CargoList.Select(t => new SelectListItem
+                        {
+                            Value = t.ID_CARGO.ToString(),
+                            Text = t.CARGO
+                        }).ToList();
+                    }
+                }
+            }
+            return new List<SelectListItem>();
+        }
+        public List<SelectListItem> MostrarTodosHorarios()
+        {
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/MostrarTodosHorarios";
+            var resp = _httpClient.GetAsync(url).Result;
+
+            if (resp.IsSuccessStatusCode)
+            {
+                var respuesta = resp.Content.ReadFromJsonAsync<Respuesta>().Result;
+                if (respuesta!.CODIGO == 1)
+                {
+                    var jsonElement = (JsonElement)respuesta.CONTENIDO!;
+                    var HLList = JsonSerializer.Deserialize<List<Horario>>(jsonElement.GetRawText());
+                    if (HLList != null)
+                    {
+                        return HLList.Select(t => new SelectListItem
+                        {
+                            Value = t.ID_HORARIOLABORAL.ToString(),
+                            Text = t.NOMBRE_HL
+                        }).ToList();
+                    }
+                }
+            }
+            return new List<SelectListItem>();
+        }
+        public List<SelectListItem> MostrarTodosRoles()
+        {
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/MostrarTodosRoles";
+            var resp = _httpClient.GetAsync(url).Result;
+
+            if (resp.IsSuccessStatusCode)
+            {
+                var respuesta = resp.Content.ReadFromJsonAsync<Respuesta>().Result;
+                if (respuesta!.CODIGO == 1)
+                {
+                    var jsonElement = (JsonElement)respuesta.CONTENIDO!;
+                    var rolList = JsonSerializer.Deserialize<List<Rol>>(jsonElement.GetRawText());
+                    if (rolList != null)
+                    {
+                        return rolList.Select(t => new SelectListItem
+                        {
+                            Value = t.IDROL.ToString(),
+                            Text = t.NOMBREROL
+                        }).ToList();
+                    }
+                }
+            }
+            return new List<SelectListItem>();
+
+        }
+
+
+
+        public List<SelectListItem> MostrarTodosDepartamentos()
+        {
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/MostrarTodosDepartamentos";
+            var resp = _httpClient.GetAsync(url).Result;
+
+            if (resp.IsSuccessStatusCode)
+            {
+                var respuesta = resp.Content.ReadFromJsonAsync<Respuesta>().Result;
+                if (respuesta!.CODIGO == 1)
+                {
+                    var jsonElement = (JsonElement)respuesta.CONTENIDO!;
+                    var departamentoList = JsonSerializer.Deserialize<List<Departamento>>(jsonElement.GetRawText());
+                    if (departamentoList != null)
+                    {
+                        return departamentoList.Select(t => new SelectListItem
+                        {
+                            Value = t.ID_DEPARTAMENTO.ToString(),
+                            Text = t.DEPARTAMENTO
+                        }).ToList();
+                    }
+                }
+            }
+            return new List<SelectListItem>();
+
+        }
+
+
     }
 }
