@@ -50,8 +50,15 @@
 											@item.ESTADO
 										</td>
 										<td>
-											<a class="btn btn-primary" asp-action="MantenimientoUsuario" asp-route-Id="@item.ID_EMPLEADO">Editar <i class="bi bi-pen"></i></a>
-											<a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalUsuario_@item.ID_EMPLEADO" asp-action="EliminarUsuario" asp-route-Id="@item.ID_EMPLEADO">Desactivar <i class="bi bi-trash3"></i></a>
+											<a class="btn btn-primary" asp-action="MantenimientoUsuario" asp-route-IDEmpleado="@item.ID_EMPLEADO" name="IDEmpleado" id="IDEmpleado">Editar <i class="bi bi-pen"></i></a>
+											@if (item.ESTADO != "Activo")
+											{
+											<a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalUsuario_@item.ID_EMPLEADO" asp-action="CambiarEstadoUsuario" asp-route-Id="@item.ID_EMPLEADO">Activar</a>
+											} else
+											{
+											<a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalUsuario_@item.ID_EMPLEADO" asp-action="CambiarEstadoUsuario" asp-route-Id="@item.ID_EMPLEADO">Desactivar</a>
+											}
+											
 
 											<!-- Modal -->
 											<div class="modal fade" id="modalUsuario_@item.ID_EMPLEADO" tabindex="-1" aria-labelledby="modalUsuarioLabel_@item.ID_EMPLEADO" aria-hidden="true">
@@ -62,7 +69,7 @@
 															<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 														</div>
 														<div class="modal-body">
-															<h2>¿Desea eliminarla?</h2>
+															<h2>¿Desea cambiar el estado del usuario?</h2>
 															<form asp-controller="Usuarios" asp-action="CambiarEstadoUsuario" method="POST">
 																<div class="form-group">
 																	<!-- Campo oculto para enviar el ID de la usuario -->
@@ -76,7 +83,7 @@
 																	<span class="text-black">@item.NOMBRECOMPLETO</span>
 																</div>
 																<div class="modal-footer" style="justify-content:center">
-																	<input type="submit" value="Eliminar Usuario" class="btn btn-danger" />
+																	<input type="submit" value="Confirmar" class="btn btn-danger" />
 																</div>
 															</form>
 														</div>

@@ -90,12 +90,14 @@ namespace PROINSA_GP_WEB.Controllers
         }
 
         [Administrador][Seguridad][HttpGet]
-        public IActionResult MantenimientoUsuario(long? IDEmpleado)
+        public IActionResult MantenimientoUsuario(long IDEmpleado)
         {
             MantenimientoUsuarioListaCargos();
             MantenimientoUsuarioListaHorarios();
             MantenimientoUsuarioListaRoles();
             MantenimientoUsuarioListaDepartamentos();
+
+           
 
             if (IDEmpleado != null)
             {
@@ -121,7 +123,22 @@ namespace PROINSA_GP_WEB.Controllers
                 return NotFound();
         }
 
-        [Administrador][Seguridad][HttpPost]
+        [Administrador]
+        [Seguridad]
+        [HttpPost]
+        public IActionResult MantenimientoUsuario(Usuario usuario)
+        {
+			var respuesta = _iUsuarioModel.EditarDatosVistaAdmin(usuario);
+			return RedirectToAction("AdministrarUsuarios", "Usuarios");
+
+        }
+
+			/// <summary>
+			/// 
+			/// </summary>
+			/// <returns></returns>
+
+			[Administrador][Seguridad][HttpPost]
         public IActionResult MantenimientoUsuarioListaCargos()
         {
 
@@ -192,8 +209,7 @@ namespace PROINSA_GP_WEB.Controllers
 
             return View(viewModel);
         }
-
-
+        
 
     }
 }

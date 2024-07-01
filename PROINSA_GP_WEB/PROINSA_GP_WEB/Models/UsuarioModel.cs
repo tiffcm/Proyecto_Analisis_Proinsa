@@ -72,10 +72,10 @@ namespace PROINSA_GP_WEB.Models
                 return new Respuesta();
         }
 
-        public Respuesta? EditarDatosVistaAdmin(Usuario datos)
+        public Respuesta? EditarDatosVistaAdmin(Usuario usuario)
         {
             string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/EditarDatosVistaAdmin";
-            JsonContent body = JsonContent.Create(datos);
+            JsonContent body = JsonContent.Create(usuario);
             var solicitud = _httpClient.PutAsync(url, body).Result;
             if (solicitud.IsSuccessStatusCode)
                 return solicitud.Content.ReadFromJsonAsync<Respuesta>().Result;

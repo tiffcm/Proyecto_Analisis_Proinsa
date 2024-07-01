@@ -14,7 +14,7 @@ namespace PROINSA_GP_WEB.Servicios
         Respuesta? ActualizarDatosUsuario(Usuario entidad);
         Respuesta? ObtenerTelefonosUsuario(long? idEmpleado);
         Respuesta? MostrarInfoVistaAdmin();
-        Respuesta? EditarDatosVistaAdmin(Usuario datos);
+        Respuesta? EditarDatosVistaAdmin(Usuario usuario);
         Respuesta? MostrarEmpleadoVistaAdmin(long? idEmpleado);
         Respuesta? CambiarEstadoUsuarioAdmin(long? idEmpleado);
         List<SelectListItem> MostrarTodosCargos();

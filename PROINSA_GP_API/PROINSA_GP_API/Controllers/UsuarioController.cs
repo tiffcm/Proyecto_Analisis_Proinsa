@@ -180,14 +180,12 @@ namespace PROINSA_GP_API.Controllers
                 parametros.Add("@SALARIO", usuario.SALARIO);
                 parametros.Add("@FOTO", usuario.FOTO);
                 parametros.Add("@CORREO", usuario.CORREO);
-                parametros.Add("@CARGO_ID", usuario.ID_CARGO); //  no es necesario de poner?
-                parametros.Add("@NOMBRE_CARGO", usuario.CARGO); // no esta en el SQL
-                parametros.Add("@HORARIOLABORAL_ID"); // misma opinion no creo sea necesario
-                parametros.Add("@NOMBREHL", usuario.NOMBRE_HL);
-                parametros.Add("@DEPARTAMENTO_ID"); // same
-                parametros.Add("@NOMBRE_DEPARTAMENTO", usuario.DEPARTAMENTO);
-                parametros.Add("@ESTADO", usuario.ESTADO);
-                parametros.Add("@DIRRECCION", usuario.DIRRECION);
+                parametros.Add("@CARGO_ID", usuario.ID_CARGO); 
+                parametros.Add("@HORARIOLABORAL_ID", usuario.ID_HORARIOLABORAL); 
+                parametros.Add("@DEPARTAMENTO_ID", usuario.ID_DEPARTAMENTO); 
+                parametros.Add("@ROL_ID", usuario.IDROL);
+				parametros.Add("@ESTADO", usuario.ESTADO); 
+				parametros.Add("@DIRRECCION", usuario.DIRRECION);
                 if (usuario.TELEFONOS != null && usuario.TELEFONOS.Any())
                 {
                     if (usuario.TELEFONOS.Count == 1)
