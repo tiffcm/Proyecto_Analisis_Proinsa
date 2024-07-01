@@ -1389,7 +1389,7 @@ BEGIN
     END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[MostrarEmpleadoVistaAdmin]    Script Date: 6/29/2024 4:38:57 PM ******/
+/****** Object:  StoredProcedure [dbo].[MostrarEmpleadoVistaAdmin]    Script Date: 6/30/2024 10:22:10 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1415,24 +1415,20 @@ BEGIN
         e.FOTO,
         c.CORREO,
         ca.NOMBRE_CARGO AS CARGO,
-        hl.DESCRIPCION AS HORARIOLABORAL,
+        hl.DESCRIPCION AS NOMBRE_HL,
         d.NOMBRE_DEPARTAMENTO AS DEPARTAMENTO,
         -- Concatenar direcciones
-        (SELECT STRING_AGG(dir.DIRRECION, ', ')
+        (SELECT dir.DIRRECION
          FROM EMPLEADODIRRECCION ed
          INNER JOIN DIRRECCION dir ON ed.DIRRECION_ID = dir.ID_DIRECCION
-         WHERE ed.EMPLEADO_ID = e.ID_EMPLEADO) AS DIRECCIONES,
-        -- Concatenar tel�fonos
-        (SELECT STRING_AGG(t.TELEFONO, ', ')
-         FROM EMPLEADOTELEFONO et
-         INNER JOIN TELEFONO t ON et.TELEFONO_ID = t.ID_TELEFONO
-         WHERE et.EMPLEADO_ID = e.ID_EMPLEADO) AS TELEFONOS,
+         WHERE ed.EMPLEADO_ID = e.ID_EMPLEADO) AS DIRRECION,
+        
         CASE WHEN e.ESTADO = 1 THEN 'Activo' ELSE 'Inactivo' END AS ESTADO,
         -- Obtener el rol del usuario
-        (SELECT STRING_AGG(r.Name, ', ')
+        (SELECT r.Name
          FROM AspNetUserRoles ur
          INNER JOIN AspNetRoles r ON ur.RoleId = r.Id
-         WHERE ur.UserId = e.AspNetUsers_ID) AS ROL
+         WHERE ur.UserId = e.AspNetUsers_ID) AS NOMBREROL
     FROM EMPLEADO e
     LEFT JOIN CORREO c ON e.CORREO_ID = c.ID_CORREO
     LEFT JOIN CARGO ca ON e.CARGO_ID = ca.ID_CARGO
@@ -1478,7 +1474,7 @@ BEGIN
     LEFT JOIN DEPARTAMENTO d ON e.DEPARTAMENTO_ID = d.ID_DEPARTAMENTO
 END
 GO
-/****** Object:  StoredProcedure [dbo].[MostrarTodosCargos]    Script Date: 6/29/2024 4:38:57 PM ******/
+/****** Object:  StoredProcedure [dbo].[MostrarTodosCargos]    Script Date: 6/30/2024 10:42:23 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1499,7 +1495,7 @@ BEGIN
     SET NOCOUNT ON
 
     -- Insert statements for procedure here
-    SELECT ID_CARGO, NOMBRE_CARGO
+    SELECT ID_CARGO, NOMBRE_CARGO AS CARGO
        FROM CARGO;
 END
 GO
@@ -1524,7 +1520,7 @@ BEGIN
     SET NOCOUNT ON
 
     -- Insert statements for procedure here
-    SELECT ID_DEPARTAMENTO, NOMBRE_DEPARTAMENTO
+    SELECT ID_DEPARTAMENTO, NOMBRE_DEPARTAMENTO AS DEPARTAMENTO
        FROM DEPARTAMENTO;
 END
 GO
@@ -1550,7 +1546,7 @@ BEGIN
 
     -- Insert statements for procedure here
     SELECT ID_HORARIOLABORAL,
-			CONCAT(NOMBREHL, ' - ', CONVERT(varchar(5), HORA_INGRESO, 108), ' hasta ', CONVERT(varchar(5), HORA_SALIDA, 108)) AS Horario
+            CONCAT(NOMBREHL, ' - ', CONVERT(varchar(5), HORA_INGRESO, 108), ' hasta ', CONVERT(varchar(5), HORA_SALIDA, 108)) AS NOMBRE_HL
        FROM HORARIOLABORAL;
 END
 GO
@@ -1575,7 +1571,7 @@ BEGIN
     SET NOCOUNT ON
 
     -- Insert statements for procedure here
-    SELECT Id, Name
+    SELECT Id AS IDROL, Name AS NOMBREROL
        FROM AspNetRoles;
 END
 GO
