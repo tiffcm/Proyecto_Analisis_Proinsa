@@ -1465,7 +1465,7 @@ BEGIN
         (SELECT STRING_AGG(r.Name, ', ')
          FROM AspNetUserRoles ur
          INNER JOIN AspNetRoles r ON ur.RoleId = r.Id
-         WHERE ur.UserId = e.AspNetUsers_ID) AS ROL,
+         WHERE ur.UserId = e.AspNetUsers_ID) AS NOMBREROL,
 		 d.NOMBRE_DEPARTAMENTO AS DEPARTAMENTO,
          ca.NOMBRE_CARGO AS CARGO,
 		CASE WHEN e.ESTADO = 1 THEN 'Activo' ELSE 'Inactivo' END AS ESTADO
