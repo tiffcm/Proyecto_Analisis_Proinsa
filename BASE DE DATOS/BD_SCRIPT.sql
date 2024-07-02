@@ -1210,7 +1210,7 @@ GO
 -- Create Date: 06/22/2024
 -- Description: Modifica los datos desde la vista del administrador
 -- =============================================
-CREATE PROCEDURE [dbo].[EditarDatosVistaAdmin]
+ALTER PROCEDURE [dbo].[EditarDatosVistaAdmin]
 (
     -- Add the parameters for the stored procedure here
     @ID_EMPLEADO BIGINT,
@@ -1218,11 +1218,11 @@ CREATE PROCEDURE [dbo].[EditarDatosVistaAdmin]
     @NOMBRECOMPLETO VARCHAR(250),
     @SALARIO DECIMAL(10, 2),
     @FOTO VARCHAR(250),
-    @CORREO BIGINT,
+    @CORREO_ID NVARCHAR(255),
     @CARGO_ID BIGINT,
     @HORARIOLABORAL_ID BIGINT,
     @DEPARTAMENTO_ID BIGINT,
-	@ROL_ID BIGINT,
+    @ROL_ID BIGINT,
     @ID_TELEFONO1 BIGINT,
     @TELEFONO1 NVARCHAR(22),
     @ID_TELEFONO2 BIGINT,
@@ -1230,33 +1230,34 @@ CREATE PROCEDURE [dbo].[EditarDatosVistaAdmin]
     @DIRRECCION NVARCHAR(600)
 )
 AS
-BEGIN
+BEGIN 
     -- SET NOCOUNT ON added to prevent extra result sets from
     -- interfering with SELECT statements.
-	DECLARE @AspNetUserID_ACTUAL NVARCHAR(450);
+    DECLARE @AspNetUserID_ACTUAL NVARCHAR(450);
+	DECLARE @CORREOID Bigint;
+ 
+    SET @AspNetUserID_ACTUAL = (SELECT AspNetUsers_ID FROM EMPLEADO WHERE ID_EMPLEADO = @ID_EMPLEADO);
 
-	SET @AspNetUserID_ACTUAL = (SELECT AspNetUsers_ID FROM EMPLEADO WHERE ID_EMPLEADO = @ID_EMPLEADO);
-
-IF EXISTS (SELECT 1 FROM [dbo].[EMPLEADO] WHERE [ID_EMPLEADO] = @ID_EMPLEADO)
+    IF EXISTS (SELECT 1 FROM [dbo].[EMPLEADO] WHERE [ID_EMPLEADO] = @ID_EMPLEADO)
     BEGIN
-        -- Actualizar la informaci�n del empleado
+
+
         UPDATE [dbo].[EMPLEADO]
         SET 
-            [IDENTIFICACION] = @IDENTIFICACION,
-            [NOMBRECOMPLETO] = @NOMBRECOMPLETO,
-            [SALARIO] = @SALARIO,
-            [FOTO] = @FOTO,
-            [CORREO_ID] = @CORREO,
-            [CARGO_ID] = @CARGO_ID,
-            [HORARIOLABORAL_ID] = @HORARIOLABORAL_ID,
-            [DEPARTAMENTO_ID] = @DEPARTAMENTO_ID
+            [IDENTIFICACION] = COALESCE(@IDENTIFICACION, [IDENTIFICACION]),
+            [NOMBRECOMPLETO] = COALESCE(@NOMBRECOMPLETO, [NOMBRECOMPLETO]),
+            [SALARIO] = COALESCE(@SALARIO, [SALARIO]),
+            [FOTO] = COALESCE(@FOTO, [FOTO]),
+            [CORREO_ID] = COALESCE(@CORREO_ID, [CORREO_ID]),
+            [CARGO_ID] = COALESCE(@CARGO_ID, [CARGO_ID]),
+            [HORARIOLABORAL_ID] = COALESCE(@HORARIOLABORAL_ID, [HORARIOLABORAL_ID]),
+            [DEPARTAMENTO_ID] = COALESCE(@DEPARTAMENTO_ID, [DEPARTAMENTO_ID])
         WHERE [ID_EMPLEADO] = @ID_EMPLEADO;
-
-        -- Actualizar TELEFONO 1 si el ID y el tel�fono no son nulos
+ 
         IF @ID_TELEFONO1 IS NOT NULL AND @TELEFONO1 IS NOT NULL
         BEGIN
             UPDATE [dbo].[TELEFONO]
-            SET [TELEFONO] = @TELEFONO1
+            SET [TELEFONO] = COALESCE(@TELEFONO1, [TELEFONO])
             WHERE ID_TELEFONO = @ID_TELEFONO1
             AND EXISTS (
                 SELECT 1
@@ -1265,12 +1266,11 @@ IF EXISTS (SELECT 1 FROM [dbo].[EMPLEADO] WHERE [ID_EMPLEADO] = @ID_EMPLEADO)
                 AND ET.TELEFONO_ID = @ID_TELEFONO1
             );
         END;
-
-        -- Actualizar TELEFONO 2 si el ID y el tel�fono no son nulos
+ 
         IF @ID_TELEFONO2 IS NOT NULL AND @TELEFONO2 IS NOT NULL
         BEGIN
             UPDATE [dbo].[TELEFONO]
-            SET [TELEFONO] = @TELEFONO2
+            SET [TELEFONO] = COALESCE(@TELEFONO2, [TELEFONO])
             WHERE ID_TELEFONO = @ID_TELEFONO2
             AND EXISTS (
                 SELECT 1
@@ -1279,8 +1279,7 @@ IF EXISTS (SELECT 1 FROM [dbo].[EMPLEADO] WHERE [ID_EMPLEADO] = @ID_EMPLEADO)
                 AND ET.TELEFONO_ID = @ID_TELEFONO2
             );
         END;
-
-        -- Actualizar DIRECCION si @DIRRECCION no es nulo
+ 
         IF @DIRRECCION IS NOT NULL
         BEGIN
             UPDATE [dbo].[DIRRECCION]
@@ -1291,22 +1290,20 @@ IF EXISTS (SELECT 1 FROM [dbo].[EMPLEADO] WHERE [ID_EMPLEADO] = @ID_EMPLEADO)
                 WHERE ED.EMPLEADO_ID = @ID_EMPLEADO
             );
         END;
-
-		-- Actualizar ROL si @ROL_ID no es nulo
-		IF @ROL_ID IS NOT NULL
-		BEGIN
-			UPDATE [dbo].[AspNetUserRoles]
-			SET [RoleId] = @ROL_ID
-			WHERE UserId = @AspNetUserID_ACTUAL;
-		END;
+ 
+        IF @ROL_ID IS NOT NULL
+        BEGIN
+            UPDATE [dbo].[AspNetUserRoles]
+            SET [RoleId] = @ROL_ID
+            WHERE UserId = @AspNetUserID_ACTUAL;
+        END;
     END
     ELSE
     BEGIN
-        -- Si el empleado no existe, puede manejarse el error o insertar un nuevo registro seg�n la l�gica de negocio
         RAISERROR ('El empleado con ID %d no existe.', 16, 1, @ID_EMPLEADO);
     END
-END
-GO
+ 
+end
 /****** Object:  StoredProcedure [dbo].[ModificarDireccion]    Script Date: 6/29/2024 4:38:57 PM ******/
 SET ANSI_NULLS ON
 GO
@@ -1389,6 +1386,7 @@ BEGIN
     END
 END
 GO
+
 /****** Object:  StoredProcedure [dbo].[MostrarEmpleadoVistaAdmin]    Script Date: 6/30/2024 10:22:10 PM ******/
 SET ANSI_NULLS ON
 GO
@@ -1399,7 +1397,7 @@ GO
 -- Create Date: 06/22/2024
 -- Description: Muestra los datos de empleado especifico usando el ID para un administrador
 -- =============================================
-CREATE PROCEDURE [dbo].[MostrarEmpleadoVistaAdmin]
+CREATE OR ALTER PROCEDURE [dbo].[MostrarEmpleadoVistaAdmin]
 (
     @ID_EMPLEADO bigint
 )
@@ -1415,8 +1413,11 @@ BEGIN
         e.FOTO,
         c.CORREO,
         ca.NOMBRE_CARGO AS CARGO,
+		ca.ID_CARGO,
         hl.DESCRIPCION AS NOMBRE_HL,
+		hl.ID_HORARIOLABORAL,
         d.NOMBRE_DEPARTAMENTO AS DEPARTAMENTO,
+		d.ID_DEPARTAMENTO,
         -- Concatenar direcciones
         (SELECT dir.DIRRECION
          FROM EMPLEADODIRRECCION ed
@@ -1429,6 +1430,7 @@ BEGIN
          FROM AspNetUserRoles ur
          INNER JOIN AspNetRoles r ON ur.RoleId = r.Id
          WHERE ur.UserId = e.AspNetUsers_ID) AS NOMBREROL
+		 
     FROM EMPLEADO e
     LEFT JOIN CORREO c ON e.CORREO_ID = c.ID_CORREO
     LEFT JOIN CARGO ca ON e.CARGO_ID = ca.ID_CARGO
@@ -1437,6 +1439,7 @@ BEGIN
     WHERE e.ID_EMPLEADO = @ID_EMPLEADO;
 END
 GO
+
 /****** Object:  StoredProcedure [dbo].[MostrarInfoVistaAdmin]    Script Date: 6/29/2024 4:38:57 PM ******/
 SET ANSI_NULLS ON
 GO

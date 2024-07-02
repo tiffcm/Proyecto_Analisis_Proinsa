@@ -52,6 +52,7 @@
                     <div class="mb-4">
                         @Html.Label("Correo Electrónico")
                         @Html.TextBoxFor(m => m.CORREO, new { @class = "form-control"})
+                        @Html.HiddenFor(m => m.CORREO_ID)
                     </div>
                 </div>
             </div>
