@@ -1210,7 +1210,7 @@ GO
 -- Create Date: 06/22/2024
 -- Description: Modifica los datos desde la vista del administrador
 -- =============================================
-ALTER PROCEDURE [dbo].[EditarDatosVistaAdmin]
+CREATE OR ALTER PROCEDURE [dbo].[EditarDatosVistaAdmin]
 (
     -- Add the parameters for the stored procedure here
     @ID_EMPLEADO BIGINT,
