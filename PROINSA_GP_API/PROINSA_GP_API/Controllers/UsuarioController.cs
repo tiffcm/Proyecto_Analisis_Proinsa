@@ -173,53 +173,55 @@ namespace PROINSA_GP_API.Controllers
             Respuesta respuesta = new Respuesta();
             using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
-                var parametros = new DynamicParameters();
-                parametros.Add("@ID_EMPLEADO", usuario.ID_EMPLEADO);
-                parametros.Add("@IDENTIFICACION", usuario.IDENTIFICACION);
-                parametros.Add("@NOMBRECOMPLETO", usuario.NOMBRECOMPLETO);
-                parametros.Add("@SALARIO", usuario.SALARIO);
-                parametros.Add("@FOTO", usuario.FOTO);
-                parametros.Add("@CORREO", usuario.CORREO);
-                parametros.Add("@CARGO_ID", usuario.ID_CARGO); 
-                parametros.Add("@HORARIOLABORAL_ID", usuario.ID_HORARIOLABORAL); 
-                parametros.Add("@DEPARTAMENTO_ID", usuario.ID_DEPARTAMENTO); 
-                parametros.Add("@ROL_ID", usuario.IDROL); 
-				parametros.Add("@DIRRECCION", usuario.DIRRECION);
-                if (usuario.TELEFONOS != null && usuario.TELEFONOS.Any())
-                {
-                    if (usuario.TELEFONOS.Count == 1)
+               
+                    var parametros = new DynamicParameters();
+                    parametros.Add("@ID_EMPLEADO", usuario.ID_EMPLEADO);
+                    parametros.Add("@IDENTIFICACION", usuario.IDENTIFICACION);
+                    parametros.Add("@NOMBRECOMPLETO", usuario.NOMBRECOMPLETO);
+                    parametros.Add("@SALARIO", usuario.SALARIO);
+                    parametros.Add("@FOTO", usuario.FOTO);
+                    parametros.Add("@CORREO_ID", usuario.CORREO_ID);
+                    parametros.Add("@CARGO_ID", usuario.ID_CARGO);
+                    parametros.Add("@HORARIOLABORAL_ID", usuario.ID_HORARIOLABORAL);
+                    parametros.Add("@DEPARTAMENTO_ID", usuario.ID_DEPARTAMENTO);
+                    parametros.Add("@ROL_ID", usuario.IDROL);
+                    parametros.Add("@DIRRECCION", usuario.DIRRECION);
+                    if (usuario.TELEFONOS != null && usuario.TELEFONOS.Any())
                     {
-                        parametros.Add($"@ID_TELEFONO{1}", usuario.TELEFONOS[0].ID_TELEFONO);
-                        parametros.Add($"@TELEFONO{1}", usuario.TELEFONOS[0].TELEFONO);
-                        parametros.Add($"@ID_TELEFONO{2}", usuario.TELEFONOS[0].ID_TELEFONO);
-                        parametros.Add($"@TELEFONO{2}", usuario.TELEFONOS[0].TELEFONO);
+                        if (usuario.TELEFONOS.Count == 1)
+                        {
+                            parametros.Add($"@ID_TELEFONO{1}", usuario.TELEFONOS[0].ID_TELEFONO);
+                            parametros.Add($"@TELEFONO{1}", usuario.TELEFONOS[0].TELEFONO);
+                            parametros.Add($"@ID_TELEFONO{2}", usuario.TELEFONOS[0].ID_TELEFONO);
+                            parametros.Add($"@TELEFONO{2}", usuario.TELEFONOS[0].TELEFONO);
+                        }
+                        else
+                        {
+                            for (int i = 0; i < usuario.TELEFONOS.Count; i++)
+                            {
+                                parametros.Add($"@ID_TELEFONO{i + 1}", usuario.TELEFONOS[i].ID_TELEFONO);
+                                parametros.Add($"@TELEFONO{i + 1}", usuario.TELEFONOS[i].TELEFONO);
+                            }
+                        }
+                    }
+
+                    var request = await contexto.ExecuteAsync("EditarDatosVistaAdmin", parametros,
+                       commandType: System.Data.CommandType.StoredProcedure);
+                    if (request > 0)
+                    {
+                        respuesta.CODIGO = 1;
+                        respuesta.MENSAJE = "OK";
+                        respuesta.CONTENIDO = true;
+                        return Ok(respuesta);
                     }
                     else
                     {
-                        for (int i = 0; i < usuario.TELEFONOS.Count; i++)
-                        {
-                            parametros.Add($"@ID_TELEFONO{i + 1}", usuario.TELEFONOS[i].ID_TELEFONO);
-                            parametros.Add($"@TELEFONO{i + 1}", usuario.TELEFONOS[i].TELEFONO);
-                        }
+                        respuesta.CODIGO = 0;
+                        respuesta.MENSAJE = "Se presentó un inconveniente actualizando su información";
+                        respuesta.CONTENIDO = false;
+                        return Ok(respuesta);
                     }
-                }
-
-                var request = await contexto.ExecuteAsync("EditarDatosVistaAdmin", parametros,
-                   commandType: System.Data.CommandType.StoredProcedure);
-                if (request > 0)
-                {
-                    respuesta.CODIGO = 1;
-                    respuesta.MENSAJE = "OK";
-                    respuesta.CONTENIDO = true;
-                    return Ok(respuesta);
-                }
-                else
-                {
-                    respuesta.CODIGO = 0;
-                    respuesta.MENSAJE = "Se presentó un inconveniente actualizando su información";
-                    respuesta.CONTENIDO = false;
-                    return Ok(respuesta);
-                }
+               
             }
         }
 

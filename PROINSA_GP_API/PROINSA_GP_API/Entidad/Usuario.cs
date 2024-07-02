@@ -15,7 +15,7 @@
         public string? CARGO { get; set; }
         public string? CORREO { get; set; }
         public string? DEPARTAMENTO { get; set; }
-        public long ID_DEPARTAMENTO { get; set; }
+        public long? ID_DEPARTAMENTO { get; set; }
         public int IDROL { get; set; }
         public string? NOMBREROL { get; set; }
         public string? DIRRECION { get; set; }
@@ -28,34 +28,35 @@
         public List<Cargo>? CARGOS { get; set; }
         public List<Departamento>? DEPARTAMENTOS { get; set; }
         public List<Rol>? ROLES { get; set; }
-        public long ID_CARGO { get; set; } //
+        public long? ID_CARGO { get; set; } //
         public string? NOMBRE_HL { get; set; }
-		public int ID_HORARIOLABORAL { get; set; }
+		public long? ID_HORARIOLABORAL { get; set; }
+        public long? CORREO_ID { get; set; }
 	}
 
     public class Telefono
     {
-        public long ID_TELEFONO { get; set; }
+        public long? ID_TELEFONO { get; set; }
         public string? TELEFONO { get; set; }
     }
 
     public class Cargo
     {
-        public long ID_CARGO { get; set; }
+        public long? ID_CARGO { get; set; }
         public string? CARGO { get; set; }
 
     }
 
     public class Departamento
     {
-        public long ID_DEPARTAMENTO { get; set; }
+        public long? ID_DEPARTAMENTO { get; set; }
         public string? DEPARTAMENTO { get; set; }
 
     }
 
     public class Horario
     {
-        public long ID_HORARIOLABORAL { get; set; }
+        public long? ID_HORARIOLABORAL { get; set; }
         public string? NOMBRE_HL { get; set; }
 
     }
