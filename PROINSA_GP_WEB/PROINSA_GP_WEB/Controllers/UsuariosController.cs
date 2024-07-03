@@ -43,6 +43,10 @@ namespace PROINSA_GP_WEB.Controllers
                     }                    
                 }
             }
+            else
+            {
+                return RedirectToAction("IniciarSesion", "Inicio");
+            }
             return View();
         }
 
