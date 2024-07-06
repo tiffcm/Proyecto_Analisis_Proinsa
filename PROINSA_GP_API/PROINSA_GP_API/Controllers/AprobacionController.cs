@@ -53,7 +53,7 @@ namespace PROINSA_GP_API.Controllers
                 parameters.Add("@ID_SOLICITUD", ID_SOLICITUD);
                 parameters.Add("@id_empleado", id_empleado);
 
-                var request = (await contexto.QueryAsync<Aprobacion>("ObtenerAprobacionPendienteDetalle", parameters, commandType: System.Data.CommandType.StoredProcedure)).ToList();
+                var request = (await contexto.QueryAsync<AprobacionDetalle>("ObtenerAprobacionPendienteDetalle", parameters, commandType: System.Data.CommandType.StoredProcedure)).ToList();
 
                 if (request != null && request.Count > 0)
                 {
@@ -83,7 +83,7 @@ namespace PROINSA_GP_API.Controllers
 
                 parameters.Add("@ID_SOLICITUD", ID_SOLICITUD);
 
-                var request = (await contexto.QueryAsync<Aprobacion>("ObtenerAprobacionFlujo", parameters, commandType: System.Data.CommandType.StoredProcedure)).ToList();
+                var request = (await contexto.QueryAsync<AprobacionFlujo>("ObtenerAprobacionFlujo", parameters, commandType: System.Data.CommandType.StoredProcedure)).ToList();
 
                 if (request != null && request.Count > 0)
                 {
@@ -103,7 +103,7 @@ namespace PROINSA_GP_API.Controllers
         
         [HttpPut]
         [Route("ActualizarAprobacionFlujo")]
-        public async Task<IActionResult> ActualizarDatosUsuario(Aprobacion aprobacion)
+        public async Task<IActionResult> ActualizarDatosUsuario(ActualizacionAprobacion aprobacion)
         {
             Respuesta respuesta = new Respuesta();
             using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
@@ -111,7 +111,7 @@ namespace PROINSA_GP_API.Controllers
                 var parametros = new DynamicParameters();
                 parametros.Add("@id_solicitud", aprobacion.ID_SOLICITUD);
                 parametros.Add("@id_empleado", aprobacion.ID_EMPLEADO);
-                parametros.Add("@respuesta", aprobacion.RESPUESTA);
+                parametros.Add("@respuesta", aprobacion.RESPUESTASOLICITUD);
                 parametros.Add("@comentario", aprobacion.COMENTARIO);
                 var request = await contexto.ExecuteAsync("ActualizarFlujoAprobacion", parametros,
                    commandType: System.Data.CommandType.StoredProcedure);

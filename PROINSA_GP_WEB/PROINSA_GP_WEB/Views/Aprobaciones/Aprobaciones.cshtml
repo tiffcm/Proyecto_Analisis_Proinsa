@@ -1,4 +1,4 @@
-﻿@using System.Data
+﻿@model List<PROINSA_GP_WEB.Entidad.Aprobacion>
 @{
     ViewBag.Title = "Aprobaciones";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -13,41 +13,47 @@
             <div class="tab-content">
                 <div class="tab-pane show active" id="striped-rows-preview">
                     <div class="table-responsive-sm">
-                        <table id="dataTable" class="table table-bordered dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
-                            <thead>
-                                <tr>
-                                    <th>ID SOLICITUD</th>
-                                    <th>FECHA SOLICITUD</th>
-                                    <th>IDENTIFICACION</th>
-                                    <th>SOLICITANTE</th>
-                                    <th>TIPO PERMISO</th>
-                                    <th>RESPUESTA SOLICITUD</th>
-                                    <th>ACCIONES</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (DataRow row in Model.Rows)
-                                {
+                        @if (Model != null)
+                        {
+                            <table id="dataTable" class="table table-bordered dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
+                                <thead>
                                     <tr>
-                                        <td>@row["ID_SOLICITUD"]</td>
-                                        <td>@row["FECHA_SOLICITUD"]</td>
-                                        <td>@row["IDENTIFICACION"]</td>
-                                        <td>@row["SOLICITANTE"]</td>
-                                        <td>@row["TIPOPERMISO"]</td>
-                                        <td>@row["RESPUESTASOLICITUD"]</td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary ver-solicitud"
-                                                    data-id="@row["ID_SOLICITUD"]"
-                                                    data-tipo="@row["TIPOPERMISO"]"
-                                                    data-identificacion="@row["IDENTIFICACION"]"
-                                                    data-nombre="@row["SOLICITANTE"]">
-                                                Ver solicitud
-                                            </button>
-                                        </td>
+                                        <th>ID SOLICITUD</th>
+                                        <th>FECHA SOLICITUD</th>
+                                        <th>ID_EMPLEADO</th>
+                                        <th>SOLICITANTE</th>
+                                        <th>TIPO PERMISO</th>
+                                        <th>RESPUESTA SOLICITUD</th>
+                                        <th>ACCIONES</th>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.ID_SOLICITUD</td>
+                                            <td>@item.FECHA_SOLICITUD</td>
+                                            <td>@item.ID_EMPLEADO</td>
+                                            <td>@item.SOLICITANTE</td>
+                                            <td>@item.TIPOPERMISO</td>
+                                            <td>@item.RESPUESTASOLICITUD</td>
+                                            <td>
+                                                <button class="btn btn-primary ver-solicitud"
+                                                        data-id="@item.ID_SOLICITUD"
+                                                        data-tipo="@item.TIPOPERMISO">
+                                                    Ver solicitud
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <p>No hay solicitudes pendientes de aprobación</p>
+                        }
                     </div>
                 </div>
             </div>
@@ -126,27 +132,34 @@
                                     <div class="tab-content">
                                         <div class="tab-pane show active" id="striped-rows-preview">
                                             <div class="table-responsive-sm">
-                                                <table id="dataTable" class="table table-bordered dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>ID SOLICITUD</th>
-                                                            <th>FECHA SOLICITUD</th>
-                                                            <th>IDENTIFICACION</th>
-                                                            <th>SOLICITANTE</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach (DataRow row in Model.Rows)
-                                                        {
+                                                @if (Model != null)
+                                                {
+                                                    <table id="dataTable" class="table table-bordered dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
+                                                        <thead>
                                                             <tr>
-                                                                <td>@row["ID_SOLICITUD"]</td>
-                                                                <td>@row["FECHA_SOLICITUD"]</td>
-                                                                <td>@row["IDENTIFICACION"]</td>
-                                                                <td>@row["SOLICITANTE"]</td>
+                                                                <th>ID SOLICITUD</th>
+                                                                <th>FECHA SOLICITUD</th>
+                                                                <th>ID_EMPLEADO</th>
+                                                                <th>SOLICITANTE</th>
                                                             </tr>
-                                                        }
-                                                    </tbody>
-                                                </table>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var item in Model)
+                                                            {
+                                                                <tr>
+                                                                    <td>@item.ID_SOLICITUD</td>
+                                                                    <td>@item.FECHA_SOLICITUD</td>
+                                                                    <td>@item.ID_EMPLEADO</td>
+                                                                    <td>@item.SOLICITANTE</td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                }
+                                                else
+                                                {
+                                                    <p>No hay solicitudes pendientes de aprobación</p>
+                                                }
                                             </div>
                                         </div>
                                     </div>
@@ -227,27 +240,34 @@
                                     <div class="tab-content">
                                         <div class="tab-pane show active" id="striped-rows-preview">
                                             <div class="table-responsive-sm">
-                                                <table id="dataTable" class="table table-bordered dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>ID SOLICITUD</th>
-                                                            <th>FECHA SOLICITUD</th>
-                                                            <th>IDENTIFICACION</th>
-                                                            <th>SOLICITANTE</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach (DataRow row in Model.Rows)
-                                                        {
+                                                @if (Model != null)
+                                                {
+                                                    <table id="dataTable" class="table table-bordered dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
+                                                        <thead>
                                                             <tr>
-                                                                <td>@row["ID_SOLICITUD"]</td>
-                                                                <td>@row["FECHA_SOLICITUD"]</td>
-                                                                <td>@row["IDENTIFICACION"]</td>
-                                                                <td>@row["SOLICITANTE"]</td>
+                                                                <th>ID SOLICITUD</th>
+                                                                <th>FECHA SOLICITUD</th>
+                                                                <th>ID_EMPLEADO</th>
+                                                                <th>SOLICITANTE</th>
                                                             </tr>
-                                                        }
-                                                    </tbody>
-                                                </table>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var item in Model)
+                                                            {
+                                                                <tr>
+                                                                    <td>@item.ID_SOLICITUD</td>
+                                                                    <td>@item.FECHA_SOLICITUD</td>
+                                                                    <td>@item.ID_EMPLEADO</td>
+                                                                    <td>@item.SOLICITANTE</td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                }
+                                                else
+                                                {
+                                                    <p>No hay solicitudes pendientes de aprobación</p>
+                                                }
                                             </div>
                                         </div>
                                     </div>
@@ -334,27 +354,34 @@
                                     <div class="tab-content">
                                         <div class="tab-pane show active" id="striped-rows-preview">
                                             <div class="table-responsive-sm">
-                                                <table id="dataTable" class="table table-bordered dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>ID SOLICITUD</th>
-                                                            <th>FECHA SOLICITUD</th>
-                                                            <th>IDENTIFICACION</th>
-                                                            <th>SOLICITANTE</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach (DataRow row in Model.Rows)
-                                                        {
+                                                @if (Model != null)
+                                                {
+                                                    <table id="dataTable" class="table table-bordered dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
+                                                        <thead>
                                                             <tr>
-                                                                <td>@row["ID_SOLICITUD"]</td>
-                                                                <td>@row["FECHA_SOLICITUD"]</td>
-                                                                <td>@row["IDENTIFICACION"]</td>
-                                                                <td>@row["SOLICITANTE"]</td>
+                                                                <th>ID SOLICITUD</th>
+                                                                <th>FECHA SOLICITUD</th>
+                                                                <th>ID_EMPLEADO</th>
+                                                                <th>SOLICITANTE</th>
                                                             </tr>
-                                                        }
-                                                    </tbody>
-                                                </table>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var item in Model)
+                                                            {
+                                                                <tr>
+                                                                    <td>@item.ID_SOLICITUD</td>
+                                                                    <td>@item.FECHA_SOLICITUD</td>
+                                                                    <td>@item.ID_EMPLEADO</td>
+                                                                    <td>@item.SOLICITANTE</td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                }
+                                                else
+                                                {
+                                                    <p>No hay solicitudes pendientes de aprobación</p>
+                                                }
                                             </div>
                                         </div>
                                     </div>
@@ -441,27 +468,34 @@
                                     <div class="tab-content">
                                         <div class="tab-pane show active" id="striped-rows-preview">
                                             <div class="table-responsive-sm">
-                                                <table id="dataTable" class="table table-bordered dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>ID SOLICITUD</th>
-                                                            <th>FECHA SOLICITUD</th>
-                                                            <th>IDENTIFICACION</th>
-                                                            <th>SOLICITANTE</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach (DataRow row in Model.Rows)
-                                                        {
+                                                @if (Model != null)
+                                                {
+                                                    <table id="dataTable" class="table table-bordered dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
+                                                        <thead>
                                                             <tr>
-                                                                <td>@row["ID_SOLICITUD"]</td>
-                                                                <td>@row["FECHA_SOLICITUD"]</td>
-                                                                <td>@row["IDENTIFICACION"]</td>
-                                                                <td>@row["SOLICITANTE"]</td>
+                                                                <th>ID SOLICITUD</th>
+                                                                <th>FECHA SOLICITUD</th>
+                                                                <th>ID_EMPLEADO</th>
+                                                                <th>SOLICITANTE</th>
                                                             </tr>
-                                                        }
-                                                    </tbody>
-                                                </table>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var item in Model)
+                                                            {
+                                                                <tr>
+                                                                    <td>@item.ID_SOLICITUD</td>
+                                                                    <td>@item.FECHA_SOLICITUD</td>
+                                                                    <td>@item.ID_EMPLEADO</td>
+                                                                    <td>@item.SOLICITANTE</td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                }
+                                                else
+                                                {
+                                                    <p>No hay solicitudes pendientes de aprobación</p>
+                                                }
                                             </div>
                                         </div>
                                     </div>
