@@ -25,8 +25,9 @@ namespace PROINSA_GP_WEB.Controllers
             return View();
         }
 
+
         [HttpGet]
-        public IActionResult AproVacaciones()
+        public IActionResult AproCambioHorario(long ID_SOLICITUD)
         {
             return View();
         }
@@ -40,6 +41,7 @@ namespace PROINSA_GP_WEB.Controllers
             if (datos != null && datos.CONTENIDO != null)
             {
                 var detalle = JsonSerializer.Deserialize<List<AprobacionDetalle>>((JsonElement)datos.CONTENIDO!);
+                // se debe llamar el flujo 
                 return Json(detalle);
             }
             else

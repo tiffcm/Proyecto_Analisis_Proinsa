@@ -38,11 +38,15 @@
                                             <td>@item.TIPOPERMISO</td>
                                             <td>@item.RESPUESTASOLICITUD</td>
                                             <td>
-                                                <button class="btn btn-primary ver-solicitud"
-                                                        data-id="@item.ID_SOLICITUD"
-                                                        data-tipo="@item.TIPOPERMISO">
-                                                    Ver solicitud
-                                                </button>
+                                                @if (item.TIPOPERMISO == "CAMBIO DE HORARIO")
+                                                {
+                                                    <a class="btn btn-primary" asp-action="AproCambioHorario" asp-route-ID_SOLICITUD="@item.ID_SOLICITUD" name="ID_SOLICITUD" id="ID_SOLICITUD">Ver solicitud</a>
+                                                }
+                                                else
+                                                {
+                                                    <a class="btn btn-primary" asp-action="ConsultarAprobDetalle" asp-route-ID_SOLICITUD="@item.ID_SOLICITUD" name="ID_SOLICITUD" id="ID_SOLICITUD">Ver solicitud</a>
+                                                }
+                                                
                                             </td>
                                         </tr>
                                     }
@@ -61,6 +65,9 @@
     </div>
 </div>
 
+
+@* MODAL YA NO ES NECESARIO
+ *@
 <!-- MODAL PARA VACACIONES -->
 <div class="col-lg-4 col-md-6">
     <div class="mt-3">
