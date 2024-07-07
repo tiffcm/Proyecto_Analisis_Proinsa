@@ -13,121 +13,208 @@
             <div class="card mb-4">
                 <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Datos para la gestión del permiso:</h5>
                 <div class="card-body">
-                    @if (Model.AprobacionDetalles != null)
+                    @using (Html.BeginForm("Aprobaciones", "Aprobaciones", FormMethod.Post, new { id = "miFormulario" }))
                     {
-                        foreach (var item in Model.AprobacionDetalles)
+                        if (Model.AprobacionDetalles != null)
                         {
-                            @using (Html.BeginForm("Aprobaciones", "Aprobaciones", FormMethod.Post, new { id = "miFormulario" }))
+                            for (int i = 0; i < Model.AprobacionDetalles.Count; i++)
                             {
-                                @Html.Hidden("ID_SOLICITUD", item.ID_SOLICITUD)
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            @Html.Label("Identificación del empleado")
-                                            @Html.Hidden("ID_EMPLEADO", item.ID_EMPLEADO)
-                                            @Html.TextBoxFor(m => item.ID_EMPLEADO, new { @class = "form-control", @type = "text", @disabled = "true" })
+                                var item = Model.AprobacionDetalles[i];
+                                @Html.Hidden($"AprobacionDetalles[{i}].ID_SOLICITUD", item.ID_SOLICITUD)
+                                if (item.TIPOPERMISO == "CAMBIO DE HORARIO")
+                                {
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="mb-3">
+                                                @Html.Label("N° de Solicitud")
+                                                @Html.Hidden($"AprobacionDetalles[{i}].ID_SOLICITUD", item.ID_SOLICITUD)
+                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].ID_SOLICITUD, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="mb-3">
+                                                @Html.Label("Tipo de Permiso")
+                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].TIPOPERMISO, new { @class = "form-control", @type = "text", @readonly = "true", @style="text-align:center;"})
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            @Html.Label("Tipo de Permiso:")
-                                            @Html.Hidden("TIPOPERMISO", item.TIPOPERMISO)
-                                            @Html.TextBoxFor(m => item.TIPOPERMISO, new { @class = "form-control", @type = "text", @disabled = "true" })
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                @Html.Label("Identificación")
+                                                @Html.Hidden($"AprobacionDetalles[{i}].ID_EMPLEADO", item.ID_EMPLEADO)
+                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].ID_EMPLEADO, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                @Html.Label("Nombre del empleado")
+                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].SOLICITANTE, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            @Html.Label("Horario actual:")
-                                            @Html.Hidden("HORARIO_ACTUAL", item.HORARIO_ACTUAL)
-                                            @Html.TextBoxFor(m => item.HORARIO_ACTUAL, new { @class = "form-control", @type = "text", @disabled = "true" })
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                @Html.Label("Horario actual:")
+                                                @Html.Hidden($"AprobacionDetalles[{i}].HORARIO_ACTUAL", item.HORARIO_ACTUAL)
+                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].HORARIO_ACTUAL, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                @Html.Label("Horario nuevo:")
+                                                @Html.Hidden($"AprobacionDetalles[{i}].HORARIO_NUEVO", item.HORARIO_NUEVO)
+                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].HORARIO_NUEVO, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            @Html.Label("Horario nuevo:")
-                                            @Html.Hidden("HORARIO_NUEVO", item.HORARIO_NUEVO)
-                                            @Html.TextBoxFor(m => item.HORARIO_NUEVO, new { @class = "form-control", @type = "text", @disabled = "true" })
+                                }
+                                else if (item.TIPOPERMISO == "VACACIONES")
+                                {
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="mb-3">
+                                                @Html.Label("N° de Solicitud")
+                                                @Html.Hidden($"AprobacionDetalles[{i}].ID_SOLICITUD", item.ID_SOLICITUD)
+                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].ID_SOLICITUD, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="mb-3">
+                                                @Html.Label("Tipo de Permiso")
+                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].TIPOPERMISO, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="mb-3">
-                                            @Html.Label("Comprobante")
-                                            <button class="btn btn-primary" style="width:300px" type="button">Descargar</button>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                @Html.Label("Identificación")
+                                                @Html.Hidden($"AprobacionDetalles[{i}].ID_EMPLEADO", item.ID_EMPLEADO)
+                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].ID_EMPLEADO, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                @Html.Label("Nombre del empleado")
+                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].SOLICITANTE, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            @Html.Label("Identificación del empleado")
-                                            @Html.TextBoxFor(m => item.ID_EMPLEADO, new { @class = "form-control", @type = "text", @disabled = "true" })
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div class="mb-3">
+                                                @Html.Label("Fecha Inicio")
+                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].FECHA_INICIO, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="mb-3">
+                                                @Html.Label("Fecha Final")
+                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].FECHA_FINAL, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="mb-3">
+                                                @Html.Label("Dias")
+                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].DIAS, new { @class = "form-control", @type = "int", @readonly = "true", @style = "text-align:center;" })
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            @Html.Label("Tipo de Permiso:")
-                                            @Html.TextBoxFor(m => item.TIPOPERMISO, new { @class = "form-control", @type = "text", @disabled = "true" })
+                                }
+                                else if (item.TIPOPERMISO == "INCAPACIDAD" || item.TIPOPERMISO == "PERMISO ESPECIAL")
+                                {
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                @Html.Label("N° de Solicitud")
+                                                @Html.Hidden($"AprobacionDetalles[{i}].ID_SOLICITUD", item.ID_SOLICITUD)
+                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].ID_SOLICITUD, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                @Html.Label("Tipo de Permiso")
+                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].TIPOPERMISO, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                @Html.Label("Comprobante")
+                                                <button class="btn btn-primary" style="width:300px" type="button">Descargar</button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        <div class="mb-3">
-                                            @Html.Label("Fecha Inicio:")
-                                            @Html.TextBoxFor(m => item.FECHA_INICIO, new { @class = "form-control", @type = "text", @disabled = "true" })
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                @Html.Label("Identificación")
+                                                @Html.Hidden($"AprobacionDetalles[{i}].ID_EMPLEADO", item.ID_EMPLEADO)
+                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].ID_EMPLEADO, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                @Html.Label("Nombre del empleado")
+                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].SOLICITANTE, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-5">
-                                        <div class="mb-3">
-                                            @Html.Label("Fecha Final:")
-                                            @Html.TextBoxFor(m => item.FECHA_FINAL, new { @class = "form-control", @type = "text", @disabled = "true" })
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div class="mb-3">
+                                                @Html.Label("Fecha Inicio:")
+                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].FECHA_INICIO, new { @class = "form-control", @type = "text", @readonly = "true" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="mb-3">
+                                                @Html.Label("Fecha Final:")
+                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].FECHA_FINAL, new { @class = "form-control", @type = "text", @readonly = "true" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="mb-3">
+                                                @Html.Label("Dias:")
+                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].DIAS, new { @class = "form-control", @type = "int", @readonly = "true" })
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
-                                        <div class="mb-3">
-                                            @Html.Label("Dias:")
-                                            @Html.TextBoxFor(m => item.DIAS, new { @class = "form-control", @type = "int", @disabled = "true" })
-                                        </div>
-                                    </div>
-                                </div>
-
+                                }
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             @Html.Label("Comentario:")
-                                            @Html.TextAreaFor(m => item.COMENTARIO, new { @class = "form-control", @type = "text", @disabled = "true" })
+                                            @Html.TextAreaFor(m => m.AprobacionDetalles![i].COMENTARIO, new { @class = "form-control", @type = "text", @readonly = "true" })
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             @Html.Label("Detalle:")
-                                            @Html.TextAreaFor(m => item.DETALLE, new { @class = "form-control", @type = "text", @disabled = "true" })
+                                            @Html.TextAreaFor(m => m.AprobacionDetalles![i].DETALLE, new { @class = "form-control", @type = "text", @readonly = "true" })
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         @Html.Label("Justificacion:")
-                                        @Html.TextAreaFor(m => item.JUSTIFICACION, new { @class = "form-control", @type = "text", id = "prueba" })
+                                        @Html.TextAreaFor(m => m.AprobacionDetalles![i].JUSTIFICACION, new { @class = "form-control", @type = "text", @required="true" })
                                     </div>
                                 </div>
-                                @Html.Hidden("RESPUESTASOLICITUD", "", new { id = "respuestaSolicitud" })
+                                @Html.HiddenFor(m => m.AprobacionDetalles![i].RESPUESTASOLICITUD, new { id = $"respuestaSolicitud_{i}" })
                                 <div style="text-align:center;">
-                                    <button class="btn btn-primary mt-4" style="width:300px" onclick="setRespuesta('A')" type="submit" id="submitButton">Aprobar</button>
+                                    <button class="btn btn-primary mt-4" style="width:300px" onclick="setRespuesta('A', 'respuestaSolicitud_@i')" type="submit" id="submitButton">Aprobar</button>
+                                    <button class="btn btn-primary mt-4" style="width:300px" onclick="setRespuesta('R', 'respuestaSolicitud_@i')" type="submit" id="submitButton">Rechazar</button>
                                 </div>
                             }
                         }
-                    }
-                    else
-                    {
-                        <p>No hay solicitudes pendientes de aprobación</p>
+                        else
+                        {
+                            <p>No hay solicitudes pendientes de aprobación</p>
+                        }      
+                        
+
                     }
                 </div>
                 <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#dataTable2" aria-expanded="false" aria-controls="dataTable2">
@@ -178,7 +265,7 @@
     </div>
 </div>
 <script>
-    function setRespuesta(respuesta) {
-        document.getElementById('respuestaSolicitud').value = respuesta;
+    function setRespuesta(respuesta, fieldId) {
+        document.getElementById(fieldId).value = respuesta;
     }
 </script>

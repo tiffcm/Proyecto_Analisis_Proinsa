@@ -38,15 +38,7 @@
                                             <td>@item.TIPOPERMISO</td>
                                             <td>@item.RESPUESTASOLICITUD</td>
                                             <td>
-                                                @if (item.TIPOPERMISO == "CAMBIO DE HORARIO")
-                                                {
-                                                    <a class="btn btn-primary" asp-action="AproCambioHorario" asp-route-ID_SOLICITUD="@item.ID_SOLICITUD" name="ID_SOLICITUD" id="ID_SOLICITUD">Ver solicitud</a>
-                                                }
-                                                else
-                                                {
-                                                    <a class="btn btn-primary" asp-action="ConsultarAprobDetalle" asp-route-ID_SOLICITUD="@item.ID_SOLICITUD" name="ID_SOLICITUD" id="ID_SOLICITUD">Ver solicitud</a>
-                                                }
-
+                                                <a class="btn btn-primary" asp-action="ConsultarAprobDetalle" asp-route-ID_SOLICITUD="@item.ID_SOLICITUD" name="ID_SOLICITUD" id="ID_SOLICITUD">Ver solicitud</a>
                                             </td>
                                         </tr>
                                     }
@@ -134,9 +126,9 @@
                     <!-- ACÁ SE TIENE QUE LLAMAR EL FLUJO DE APROBACIONES -->
                     <div class="collapse" id="dataTable2">
                         <div class="d-grid d-sm-flex p-3 border">
-                            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4 w-100">
                                 <div class="row">
-                                    <div class="tab-content">
+                                    <div class="tab-content col-md-12">
                                         <div class="tab-pane show active" id="striped-rows-preview">
                                             <div class="table-responsive-sm">
                                                 @if (Model != null)

@@ -14,7 +14,7 @@ namespace PROINSA_GP_WEB.Controllers
         public IActionResult Aprobaciones()
         {
             long? idEmpleado = HttpContext.Session.GetInt32("ID_EMPLEADO");
-            var datos = iAprobacionModel.ObtenerSolicitudesEmpleado(3);
+            var datos = iAprobacionModel.ObtenerSolicitudesEmpleado(idEmpleado);
             if (datos != null)
             {
                 var aprobaciones = JsonSerializer.Deserialize<List<Aprobacion>>((JsonElement)datos.CONTENIDO!);
@@ -47,18 +47,41 @@ namespace PROINSA_GP_WEB.Controllers
         }
 
         [HttpPost]
-        public IActionResult Aprobaciones(ActualizacionAprobacion entidad)
+        public ActionResult Aprobaciones(AprobacionViewModel viewModel)
         {
-            long? idEmpleado = HttpContext.Session.GetInt32("ID_EMPLEADO");
-            var datos = iAprobacionModel.ObtenerSolicitudesEmpleado(idEmpleado);
-            if (datos != null)
-            {
-                var aprobaciones = JsonSerializer.Deserialize<List<Aprobacion>>((JsonElement)datos.CONTENIDO!);
-                return View(aprobaciones);
+            if (viewModel.AprobacionDetalles != null && viewModel.AprobacionDetalles.Any())
+            {                
+                foreach (var detalle in viewModel.AprobacionDetalles)
+                {
+                    var entidad = new ActualizacionAprobacion
+                    {
+                        // Acá se recuperan los datos que vienen de la vista de aprobaciones
+                        ID_EMPLEADO = detalle.ID_EMPLEADO,
+                        ID_SOLICITUD = detalle.ID_SOLICITUD,
+                        RESPUESTASOLICITUD = detalle.RESPUESTASOLICITUD,
+                        COMENTARIO = detalle.JUSTIFICACION
+                    };
+
+
+                    //Ejemplo de cómo se vería el llamado desde el controlador
+                    var actualizarAprobacion = iAprobacionModel.ActualizarApro(entidad);
+                    if (actualizarAprobacion != null)
+                    {
+                        return RedirectToAction("Aprobaciones", "Aprobaciones");
+                    }
+                    else
+                    {
+                        ViewBag.Mensaje = actualizarAprobacion!.MENSAJE;
+                        return View();
+                    }
+                }
+
+                return RedirectToAction("Aprobaciones", "Aprobaciones"); //Esto hay que ajustarlo
             }
-            else
-                return View();
+
+            return RedirectToAction("Aprobaciones", "Aprobaciones"); //Esto hay que ajustarlo
         }
+
 
         [HttpGet]
         public IActionResult ConsultarAprobDetalle(long ID_SOLICITUD)
