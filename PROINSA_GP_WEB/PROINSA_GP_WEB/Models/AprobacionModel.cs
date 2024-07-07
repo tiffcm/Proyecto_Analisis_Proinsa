@@ -49,5 +49,16 @@ namespace PROINSA_GP_WEB.Models
             else
                 return new Respuesta();
         }
+
+        public Respuesta? ActualizarApro(ActualizacionAprobacion entidad)
+        {
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Aprobacion/ActualizarAprobacionFlujo";
+            JsonContent body = JsonContent.Create(entidad);
+            var solicitud = _httpClient.PutAsync(url, body).Result;
+            if (solicitud.IsSuccessStatusCode)
+                return solicitud.Content.ReadFromJsonAsync<Respuesta>().Result;
+            else
+                return new Respuesta();
+        }
     }
 }

@@ -9,6 +9,7 @@
         public int DIAS { get; set; }
         public string? COMENTARIO { get; set; }
         public string? JUSTIFICACION { get; set; }
+        public string? RESPUESTASOLICITUD { get; set; }
         public string? DETALLE { get; set; }
         public string? HORARIO_NUEVO { get; set; }
         public string? HORARIO_ACTUAL { get; set; }
