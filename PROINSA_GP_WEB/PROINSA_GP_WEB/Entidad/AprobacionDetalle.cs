@@ -6,9 +6,12 @@
         public int ID_EMPLEADO { get; set; }
         public string? SOLICITANTE { get; set; }
         public string? TIPOPERMISO { get; set; }
-        public int? DIAS { get; set; }
+        public int DIAS { get; set; }
         public string? COMENTARIO { get; set; }
+        public string? JUSTIFICACION { get; set; }
         public string? DETALLE { get; set; }
+        public string? HORARIO_NUEVO { get; set; }
+        public string? HORARIO_ACTUAL { get; set; }
         public DateTime FECHA_INICIO { get; set; }
         public DateTime FECHA_FINAL { get; set; }
     }

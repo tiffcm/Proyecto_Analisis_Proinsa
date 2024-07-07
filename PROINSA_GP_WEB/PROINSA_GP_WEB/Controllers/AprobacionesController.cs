@@ -13,9 +13,8 @@ namespace PROINSA_GP_WEB.Controllers
         [HttpGet]
         public IActionResult Aprobaciones()
         {
-            ObtenerAprobacionFlujo(3);
             long? idEmpleado = HttpContext.Session.GetInt32("ID_EMPLEADO");
-            var datos = iAprobacionModel.ObtenerSolicitudesEmpleado(idEmpleado);
+            var datos = iAprobacionModel.ObtenerSolicitudesEmpleado(3);
             if (datos != null)
             {
                 var aprobaciones = JsonSerializer.Deserialize<List<Aprobacion>>((JsonElement)datos.CONTENIDO!);
@@ -25,45 +24,88 @@ namespace PROINSA_GP_WEB.Controllers
             return View();
         }
 
-
-        [HttpGet]
         public IActionResult AproCambioHorario(long ID_SOLICITUD)
         {
-            return View();
+            long? idEmpleado = HttpContext.Session.GetInt32("ID_EMPLEADO");
+            var datosDetalle = iAprobacionModel.ObtenerAprobacionPendienteDetalle(idEmpleado, ID_SOLICITUD);
+
+            var viewModel = new AprobacionViewModel();
+
+            if (datosDetalle != null)
+            {
+                viewModel.AprobacionDetalles = JsonSerializer.Deserialize<List<AprobacionDetalle>>((JsonElement)datosDetalle.CONTENIDO!);
+            }
+
+            // Si necesitas también obtener el flujo inicial al cargar esta vista:
+            var datosFlujo = iAprobacionModel.ObtenerAprobacionFlujo(ID_SOLICITUD);
+            if (datosFlujo != null && datosFlujo.CONTENIDO != null)
+            {
+                viewModel.AprobacionFlujos = JsonSerializer.Deserialize<List<AprobacionFlujo>>((JsonElement)datosFlujo.CONTENIDO!);
+            }
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Aprobaciones(ActualizacionAprobacion entidad)
+        {
+            long? idEmpleado = HttpContext.Session.GetInt32("ID_EMPLEADO");
+            var datos = iAprobacionModel.ObtenerSolicitudesEmpleado(idEmpleado);
+            if (datos != null)
+            {
+                var aprobaciones = JsonSerializer.Deserialize<List<Aprobacion>>((JsonElement)datos.CONTENIDO!);
+                return View(aprobaciones);
+            }
+            else
+                return View();
         }
 
         [HttpGet]
         public IActionResult ConsultarAprobDetalle(long ID_SOLICITUD)
         {
             long? idEmpleado = HttpContext.Session.GetInt32("ID_EMPLEADO");
-            var datos = iAprobacionModel.ObtenerAprobacionPendienteDetalle(idEmpleado, ID_SOLICITUD);
+            var datosDetalle = iAprobacionModel.ObtenerAprobacionPendienteDetalle(idEmpleado, ID_SOLICITUD);
 
-            if (datos != null && datos.CONTENIDO != null)
+            var viewModel = new AprobacionViewModel();
+
+            if (datosDetalle != null)
             {
-                var detalle = JsonSerializer.Deserialize<List<AprobacionDetalle>>((JsonElement)datos.CONTENIDO!);
-                // se debe llamar el flujo 
-                return Json(detalle);
+                viewModel.AprobacionDetalles = JsonSerializer.Deserialize<List<AprobacionDetalle>>((JsonElement)datosDetalle.CONTENIDO!);
             }
-            else
+
+            // Si necesitas también obtener el flujo inicial al cargar esta vista:
+            var datosFlujo = iAprobacionModel.ObtenerAprobacionFlujo(ID_SOLICITUD);
+            if (datosFlujo != null && datosFlujo.CONTENIDO != null)
             {
-                return Json(new { success = false });
+                viewModel.AprobacionFlujos = JsonSerializer.Deserialize<List<AprobacionFlujo>>((JsonElement)datosFlujo.CONTENIDO!);
             }
+
+            return View(viewModel);
         }
+
+
 
         [HttpGet]
         public IActionResult ObtenerAprobacionFlujo(long ID_SOLICITUD)
-        {            
-            var datos = iAprobacionModel.ObtenerAprobacionFlujo(ID_SOLICITUD);
+        {
+            long? idEmpleado = HttpContext.Session.GetInt32("ID_EMPLEADO");
+            var datosDetalle = iAprobacionModel.ObtenerAprobacionPendienteDetalle(idEmpleado, ID_SOLICITUD);
+            var datosFlujo = iAprobacionModel.ObtenerAprobacionFlujo(ID_SOLICITUD);
 
-            if (datos != null && datos.CONTENIDO != null)
+            var viewModel = new AprobacionViewModel();
+
+            if (datosDetalle != null)
             {
-                var detalle = JsonSerializer.Deserialize<List<AprobacionDetalle>>((JsonElement)datos.CONTENIDO!);
-                return Json(detalle);
+                viewModel.AprobacionDetalles = JsonSerializer.Deserialize<List<AprobacionDetalle>>((JsonElement)datosDetalle.CONTENIDO!);
             }
-            else
+
+            if (datosFlujo != null && datosFlujo.CONTENIDO != null)
             {
-                return Json(new { success = false });
+                viewModel.AprobacionFlujos = JsonSerializer.Deserialize<List<AprobacionFlujo>>((JsonElement)datosFlujo.CONTENIDO!);
             }
+
+            return View("ConsultarAprobDetalle", viewModel);
         }
+
     }
 }

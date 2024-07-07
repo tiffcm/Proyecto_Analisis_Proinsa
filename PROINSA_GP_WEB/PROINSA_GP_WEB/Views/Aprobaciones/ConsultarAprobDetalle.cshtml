@@ -1,4 +1,4 @@
-﻿@model PROINSA_GP_WEB.Entidad.AprobacionDetalle;
+﻿@model PROINSA_GP_WEB.Entidad.AprobacionViewModel
 
 @{
     ViewBag.Title = "ConsultarAprobDetalle";
@@ -13,108 +13,172 @@
             <div class="card mb-4">
                 <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Datos para la gestión del permiso:</h5>
                 <div class="card-body">
-                    @using (Html.BeginForm("ConsultarAprobDetalle", "Solicitudes", FormMethod.Post))
+                    @if (Model.AprobacionDetalles != null)
                     {
-                        @Html.HiddenFor(m => m.ID_SOLICITUD)
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                @Html.TextBoxFor(m => m.ID_EMPLEADO, new { @class = "form-control", @readonly = "true" })
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="mb-3">
-                                @Html.Label("Tipo de Permiso:")
-                                @Html.TextBoxFor(m => m.TIPOPERMISO, new { @class = "form-control", @readonly = "true" })
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-5">
-                                <div class="mb-3">
-                                    @Html.Label("Fecha Inicio:")
-                                    @Html.TextBoxFor(m => m.FECHA_INICIO, new { @class = "form-control", @type = "date", @readonly = "true" })
-                                </div>
-                            </div>
-                            <div class="col-md-5">
-                                <div class="mb-3">
-                                    @Html.Label("Fecha Final:")
-                                    @Html.TextBoxFor(m => m.FECHA_FINAL, new { @class = "form-control", @type = "date", @readonly = "true" })
+                        foreach (var item in Model.AprobacionDetalles)
+                        {
+                            @using (Html.BeginForm("Aprobaciones", "Aprobaciones", FormMethod.Post, new { id = "miFormulario" }))
+                            {
+                                @Html.Hidden("ID_SOLICITUD", item.ID_SOLICITUD)
 
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            @Html.Label("Identificación del empleado")
+                                            @Html.Hidden("ID_EMPLEADO", item.ID_EMPLEADO)
+                                            @Html.TextBoxFor(m => item.ID_EMPLEADO, new { @class = "form-control", @type = "text", @disabled = "true" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            @Html.Label("Tipo de Permiso:")
+                                            @Html.Hidden("TIPOPERMISO", item.TIPOPERMISO)
+                                            @Html.TextBoxFor(m => item.TIPOPERMISO, new { @class = "form-control", @type = "text", @disabled = "true" })
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="mb-3">
-                                    @Html.Label("Dias:")
-                                    @Html.TextBoxFor(m => m.DIAS, new { @class = "form-control", @type = "date", @readonly = "true" })
-
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            @Html.Label("Horario actual:")
+                                            @Html.Hidden("HORARIO_ACTUAL", item.HORARIO_ACTUAL)
+                                            @Html.TextBoxFor(m => item.HORARIO_ACTUAL, new { @class = "form-control", @type = "text", @disabled = "true" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            @Html.Label("Horario nuevo:")
+                                            @Html.Hidden("HORARIO_NUEVO", item.HORARIO_NUEVO)
+                                            @Html.TextBoxFor(m => item.HORARIO_NUEVO, new { @class = "form-control", @type = "text", @disabled = "true" })
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    @Html.Label("Comentario:")
-                                    @Html.TextAreaFor(m => m.COMENTARIO, new { @class = "form-control", @readonly = "true" })
-
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            @Html.Label("Comprobante")
+                                            <button class="btn btn-primary" style="width:300px" type="button">Descargar</button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    @Html.Label("Detalle:")
-                                    @Html.TextAreaFor(m => m.DETALLE, new { @class = "form-control", @readonly = "true" })
 
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            @Html.Label("Identificación del empleado")
+                                            @Html.TextBoxFor(m => item.ID_EMPLEADO, new { @class = "form-control", @type = "text", @disabled = "true" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            @Html.Label("Tipo de Permiso:")
+                                            @Html.TextBoxFor(m => item.TIPOPERMISO, new { @class = "form-control", @type = "text", @disabled = "true" })
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                @Html.Label("Justificacion:")
-                                @* @Html.TextAreaFor(m => m., new { @class = "form-control" }) *@ <!-- AGREGAR JUSTIFICACION EN LA ENTIDAD Y SQL-->
 
-                            </div>
-                        </div>
-                        <div style="display:grid; place-items:center;">
-                            <button class="btn btn-primary mt-4 " style="width:300px" type="submit" id="submitButton">Rechazar</button>
-                            <button class="btn btn-primary mt-4 " style="width:300px" type="submit" id="submitButton">Aprobar</button>
-                        </div>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="mb-3">
+                                            @Html.Label("Fecha Inicio:")
+                                            @Html.TextBoxFor(m => item.FECHA_INICIO, new { @class = "form-control", @type = "text", @disabled = "true" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="mb-3">
+                                            @Html.Label("Fecha Final:")
+                                            @Html.TextBoxFor(m => item.FECHA_FINAL, new { @class = "form-control", @type = "text", @disabled = "true" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="mb-3">
+                                            @Html.Label("Dias:")
+                                            @Html.TextBoxFor(m => item.DIAS, new { @class = "form-control", @type = "int", @disabled = "true" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            @Html.Label("Comentario:")
+                                            @Html.TextAreaFor(m => item.COMENTARIO, new { @class = "form-control", @type = "text", @disabled = "true" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            @Html.Label("Detalle:")
+                                            @Html.TextAreaFor(m => item.DETALLE, new { @class = "form-control", @type = "text", @disabled = "true" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        @Html.Label("Justificacion:")
+                                        @Html.TextAreaFor(m => item.JUSTIFICACION, new { @class = "form-control", @type = "text", id = "prueba" })
+                                    </div>
+                                </div>
+                                @Html.Hidden("RESPUESTASOLICITUD", "", new { id = "respuestaSolicitud" })
+                                <div style="text-align:center;">
+                                    <button class="btn btn-primary mt-4" style="width:300px" onclick="setRespuesta('A')" type="submit" id="submitButton">Aprobar</button>
+                                </div>
+                            }
+                        }
                     }
+                    else
+                    {
+                        <p>No hay solicitudes pendientes de aprobación</p>
+                    }
+                </div>
+                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#dataTable2" aria-expanded="false" aria-controls="dataTable2">
+                    Flujo de aprobaciones
+                </button>
+                <div class="collapse" id="dataTable2">
+                    <div class="d-grid d-sm-flex p-3 border">
+                        <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4 w-100">
+                            <div class="row justify-content-center">
+                                <div class="col-12">
+                                    <div class="table-responsive-sm">
+                                        @if (Model.AprobacionFlujos != null)
+                                        {
+                                            <table id="dataTable" class="table table-bordered dataTable text-center" cellspacing="0" role="grid" aria-describedby="dataTable_info">
+                                                <thead>
+                                                    <tr>
+                                                        <th>ID SOLICITUD</th>
+                                                        <th>FECHA SOLICITUD</th>
+                                                        <th>ID_EMPLEADO</th>
+                                                        <th>SOLICITANTE</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var item in Model.AprobacionFlujos)
+                                                    {
+                                                        <tr>
+                                                            <td>@item.SECUENCIA</td>
+                                                            <td>@item.DEPARTAMENTO</td>
+                                                            <td>@item.NOMBRE_ENCARGADO</td>
+                                                            <td>@item.RESPUESTA_SOLICITUD</td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        }
+                                        else
+                                        {
+                                            <p>No hay solicitudes pendientes de aprobación</p>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.5/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
-@* <script>
-    document.addEventListener('DOMContentLoaded', (event) => {
-        var toastButtons = document.querySelectorAll('.toastBtn');
-        var selectElement = document.getElementById('tipoSolicitudSelect');
-        var submitButton = document.getElementById('submitButton');
-
-        // Manejar el cambio de selección en el DropDownList
-        selectElement.addEventListener('change', function () {
-            var selectedValue = parseInt(selectElement.value);
-            var toastId = '';
-
-            if (selectedValue === 1) {
-                toastId = 'btnVacaciones';
-            } else if (selectedValue === 2) {
-                toastId = 'btnPermiso';
-            } else if (selectedValue === 3) {
-                toastId = 'btnIncapacidad';
-            }
-
-            toastButtons.forEach(button => {
-                button.setAttribute('data-toast-id', toastId);
-            });
-        });
-
-        toastButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                var toastId = this.getAttribute('data-toast-id');
-                localStorage.setItem('showToastId', toastId);
-                window.location.href = '/Home/Principal';
-            });
-        });
-    });
-</script> *@
+<script>
+    function setRespuesta(respuesta) {
+        document.getElementById('respuestaSolicitud').value = respuesta;
+    }
+</script>
