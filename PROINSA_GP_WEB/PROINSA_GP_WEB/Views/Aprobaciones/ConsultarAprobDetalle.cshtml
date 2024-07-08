@@ -22,14 +22,14 @@
                             {
                                 var item = Model.AprobacionDetalles[i];
                                 @Html.Hidden($"AprobacionDetalles[{i}].ID_SOLICITUD", item.ID_SOLICITUD)
+                                @Html.Hidden($"AprobacionDetalles[{i}].ID_EMPLEADO", item.ID_EMPLEADO)
                                 if (item.TIPOPERMISO == "CAMBIO DE HORARIO")
                                 {
                                     <div class="row">
                                        
                                         <div class="col-md-2">
                                             <div class="mb-3">
-                                                @Html.Label("N° de Solicitud")
-                                                @Html.Hidden($"AprobacionDetalles[{i}].ID_SOLICITUD", item.ID_SOLICITUD)
+                                                @Html.Label("N° de Solicitud")                                                
                                                 @Html.TextBoxFor(m => m.AprobacionDetalles![i].ID_SOLICITUD, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
                                             </div>
                                         </div>
@@ -44,8 +44,7 @@
                                         <div class="col-md-6">
                                             <div class="mb-3">
                                                 @Html.Label("Identificación")
-                                                @Html.Hidden($"AprobacionDetalles[{i}].ID_SOLICITANTE", item.ID_SOLICITANTE)
-                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].ID_SOLICITANTE, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
+                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].IDENTIFICACION, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -58,27 +57,15 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                @Html.Label("Horario actual:")
-                                                @Html.Hidden($"AprobacionDetalles[{i}].HORARIO_ACTUAL", item.HORARIO_ACTUAL)
+                                                @Html.Label("Horario actual:")                                                
                                                 @Html.TextBoxFor(m => m.AprobacionDetalles![i].HORARIO_ACTUAL, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                @Html.Label("Horario nuevo:")
-                                                @Html.Hidden($"AprobacionDetalles[{i}].HORARIO_NUEVO", item.HORARIO_NUEVO)
+                                                @Html.Label("Horario nuevo:")                                                
                                                 @Html.TextBoxFor(m => m.AprobacionDetalles![i].HORARIO_NUEVO, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
-                                            </div>
-
-                                            <div class="mb-3">
-
-                                                @Html.Hidden($"AprobacionDetalles[{i}].ID_EMPLEADO", item.ID_EMPLEADO)
-                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].ID_EMPLEADO, new { @class = "form-control", @hidden = "true" })
-                                            </div>
-
-
-
-                                           
+                                            </div>                                       
                                         </div>
                                     </div>
                                 }
@@ -87,8 +74,7 @@
                                     <div class="row">
                                         <div class="col-md-2">
                                             <div class="mb-3">
-                                                @Html.Label("N° de Solicitud")
-                                                @Html.Hidden($"AprobacionDetalles[{i}].ID_SOLICITUD", item.ID_SOLICITUD)
+                                                @Html.Label("N° de Solicitud")                                                
                                                 @Html.TextBoxFor(m => m.AprobacionDetalles![i].ID_SOLICITUD, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
                                             </div>
                                         </div>
@@ -103,8 +89,7 @@
                                         <div class="col-md-6">
                                             <div class="mb-3">
                                                 @Html.Label("Identificación")
-                                                @Html.Hidden($"AprobacionDetalles[{i}].ID_SOLICITANTE", item.ID_SOLICITANTE)
-                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].ID_SOLICITANTE, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
+                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].IDENTIFICACION, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -132,12 +117,6 @@
                                                 @Html.Label("Dias")
                                                 @Html.TextBoxFor(m => m.AprobacionDetalles![i].DIAS, new { @class = "form-control", @type = "int", @readonly = "true", @style = "text-align:center;" })
                                             </div>
-                                            <div class="mb-3">
-
-                                                @Html.Hidden($"AprobacionDetalles[{i}].ID_EMPLEADO", item.ID_EMPLEADO)
-                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].ID_EMPLEADO, new { @class = "form-control", @hidden = "true" })
-                                            </div>
-
                                         </div>
                                     </div>
                                 }
@@ -146,8 +125,7 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="mb-3">
-                                                @Html.Label("N° de Solicitud")
-                                                @Html.Hidden($"AprobacionDetalles[{i}].ID_SOLICITUD", item.ID_SOLICITUD)
+                                                @Html.Label("N° de Solicitud")                                                
                                                 @Html.TextBoxFor(m => m.AprobacionDetalles![i].ID_SOLICITUD, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
                                             </div>
                                         </div>
@@ -167,9 +145,8 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                @Html.Label("Identificación")
-                                                @Html.Hidden($"AprobacionDetalles[{i}].ID_SOLICITANTE", item.ID_SOLICITANTE)
-                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].ID_SOLICITANTE, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
+                                                @Html.Label("Identificación")                                                
+                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].IDENTIFICACION, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -219,13 +196,6 @@
                                         @Html.Label("Justificacion:")
                                         @Html.TextAreaFor(m => m.AprobacionDetalles![i].JUSTIFICACION, new { @class = "form-control", @type = "text", @required="true" })
                                     </div>
-
-                                    <div class="mb-3">
-                                        @Html.Hidden($"AprobacionDetalles[{i}].ID_EMPLEADO", item.ID_EMPLEADO)
-                                        @Html.TextBoxFor(m => m.AprobacionDetalles![i].ID_EMPLEADO, new { @class = "form-control", @hidden = "true" })
-                                    </div>
-
-
                                 </div>
                                 @Html.HiddenFor(m => m.AprobacionDetalles![i].RESPUESTASOLICITUD, new { id = $"respuestaSolicitud_{i}" })
                                 <div style="text-align:center;">
@@ -237,9 +207,7 @@
                         else
                         {
                             <p>No hay solicitudes pendientes de aprobación</p>
-                        }      
-                        
-
+                        }                             
                     }
                 </div>
                 <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#dataTable2" aria-expanded="false" aria-controls="dataTable2">

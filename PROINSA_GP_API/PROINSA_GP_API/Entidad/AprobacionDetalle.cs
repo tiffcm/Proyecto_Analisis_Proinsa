@@ -3,9 +3,9 @@
     public class AprobacionDetalle
     {
         public long ID_SOLICITUD { get; set; }
-        public int ID_EMPLEADO { get; set; }
+        public long ID_EMPLEADO { get; set; }
+        public int IDENTIFICACION { get; set; }
         public string? SOLICITANTE { get; set; }
-        public int ID_SOLICITANTE { get; set; }
         public string? TIPOPERMISO { get; set; }
         public int DIAS { get; set; }
         public string? COMENTARIO { get; set; }
