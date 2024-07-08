@@ -2,13 +2,16 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using P_WebMartes.Models;
 using PROINSA_GP_WEB.Entidad;
+using PROINSA_GP_WEB.Models;
 using PROINSA_GP_WEB.Servicios;
 using System.Security.Claims;
 using System.Text.Json;
 
 namespace PROINSA_GP_WEB.Controllers
 {
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     /// <summary>
     /// Lógica de inicio de sesión y validación de usuarios con Entra ID
     /// </summary>
@@ -152,6 +155,7 @@ namespace PROINSA_GP_WEB.Controllers
             return RedirectToAction("IniciarSesion", "Inicio", routeValues: new { mensaje });
         }
 
+        [Seguridad]
         [HttpPost]
         public async Task<IActionResult> Logout()
         {

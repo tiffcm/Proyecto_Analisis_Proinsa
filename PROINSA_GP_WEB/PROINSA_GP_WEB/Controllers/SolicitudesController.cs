@@ -1,13 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PROINSA_GP_WEB.Entidad;
+using PROINSA_GP_WEB.Models;
 using PROINSA_GP_WEB.Servicios;
 using System.Data;
 using System.Text.Json;
 
 namespace PROINSA_GP_WEB.Controllers
 {
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public class SolicitudesController (ISolicitudModel iSolicitudModel): Controller
     {
+        [Seguridad]
         [HttpGet]
         public IActionResult RegistrarSolicitud()
         {
@@ -16,6 +19,7 @@ namespace PROINSA_GP_WEB.Controllers
             return View();
         }
 
+        [Seguridad]
         [HttpPost]
         public IActionResult RegistrarSolicitud(Solicitud ent)
         {
@@ -29,7 +33,6 @@ namespace PROINSA_GP_WEB.Controllers
             {
                 ViewBag.msj = resp.MENSAJE;
             }            
-            //Hay que controlar error en caso de no tener saldo de vacaciones
             return View();
         }
 
@@ -84,6 +87,7 @@ namespace PROINSA_GP_WEB.Controllers
             return View();
         }
 
+        [Seguridad]
         [HttpGet]
         public IActionResult CambiosHorario()
         {            
@@ -105,6 +109,7 @@ namespace PROINSA_GP_WEB.Controllers
             return View(new Solicitud());
         }
 
+        [Seguridad]
         [HttpPost]
         public IActionResult CambiosHorario(Solicitud ent)
         {
@@ -118,12 +123,14 @@ namespace PROINSA_GP_WEB.Controllers
             return View();
         }
 
+        [Seguridad]
         [HttpGet]
         public IActionResult ReporteSolicitudAntiguedad()
         {
             return View();
         }
 
+        [Seguridad]
         [HttpGet]
         public IActionResult HistorialSolicitudes()
         {

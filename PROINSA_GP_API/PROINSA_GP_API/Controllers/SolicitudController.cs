@@ -59,7 +59,7 @@ namespace PROINSA_GP_API.Controllers
                 else
                 {
                     respuesta.CONTENIDO = 0;
-                    respuesta.MENSAJE = "La información del usuario ya se encuentra registrada";
+                    respuesta.MENSAJE = "No cuenta con los dias suficientes para completar la solicitud";
                     respuesta.CONTENIDO = false;
                     return Ok(respuesta);
                 }

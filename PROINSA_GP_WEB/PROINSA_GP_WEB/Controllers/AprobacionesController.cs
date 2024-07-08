@@ -1,5 +1,6 @@
 ﻿using Azure;
 using Microsoft.AspNetCore.Mvc;
+using P_WebMartes.Models;
 using PROINSA_GP_WEB.Entidad;
 using PROINSA_GP_WEB.Models;
 using PROINSA_GP_WEB.Servicios;
@@ -8,8 +9,11 @@ using System.Text.Json;
 
 namespace PROINSA_GP_WEB.Controllers
 {
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public class AprobacionesController (IAprobacionModel iAprobacionModel) : Controller
     {
+        [Seguridad]
+        [Administrador]
         [HttpGet]
         public IActionResult Aprobaciones()
         {
@@ -24,28 +28,30 @@ namespace PROINSA_GP_WEB.Controllers
             return View();
         }
 
-        public IActionResult AproCambioHorario(long ID_SOLICITUD)
-        {
-            long? idEmpleado = HttpContext.Session.GetInt32("ID_EMPLEADO");
-            var datosDetalle = iAprobacionModel.ObtenerAprobacionPendienteDetalle(idEmpleado, ID_SOLICITUD);
+        //public IActionResult AproCambioHorario(long ID_SOLICITUD)
+        //{
+        //    long? idEmpleado = HttpContext.Session.GetInt32("ID_EMPLEADO");
+        //    var datosDetalle = iAprobacionModel.ObtenerAprobacionPendienteDetalle(idEmpleado, ID_SOLICITUD);
 
-            var viewModel = new AprobacionViewModel();
+        //    var viewModel = new AprobacionViewModel();
 
-            if (datosDetalle != null)
-            {
-                viewModel.AprobacionDetalles = JsonSerializer.Deserialize<List<AprobacionDetalle>>((JsonElement)datosDetalle.CONTENIDO!);
-            }
+        //    if (datosDetalle != null)
+        //    {
+        //        viewModel.AprobacionDetalles = JsonSerializer.Deserialize<List<AprobacionDetalle>>((JsonElement)datosDetalle.CONTENIDO!);
+        //    }
 
-            // Si necesitas también obtener el flujo inicial al cargar esta vista:
-            var datosFlujo = iAprobacionModel.ObtenerAprobacionFlujo(ID_SOLICITUD);
-            if (datosFlujo != null && datosFlujo.CONTENIDO != null)
-            {
-                viewModel.AprobacionFlujos = JsonSerializer.Deserialize<List<AprobacionFlujo>>((JsonElement)datosFlujo.CONTENIDO!);
-            }
+        //    // Si necesitas también obtener el flujo inicial al cargar esta vista:
+        //    var datosFlujo = iAprobacionModel.ObtenerAprobacionFlujo(ID_SOLICITUD);
+        //    if (datosFlujo != null && datosFlujo.CONTENIDO != null)
+        //    {
+        //        viewModel.AprobacionFlujos = JsonSerializer.Deserialize<List<AprobacionFlujo>>((JsonElement)datosFlujo.CONTENIDO!);
+        //    }
 
-            return View(viewModel);
-        }
+        //    return View(viewModel);
+        //}
 
+        [Seguridad]
+        [Administrador]
         [HttpPost]
         public ActionResult Aprobaciones(AprobacionViewModel viewModel)
         {
@@ -82,8 +88,8 @@ namespace PROINSA_GP_WEB.Controllers
         }
 
 
-
-
+        [Seguridad]
+        [Administrador]
         [HttpGet]
         public IActionResult ConsultarAprobDetalle(long ID_SOLICITUD)
         {
@@ -111,7 +117,8 @@ namespace PROINSA_GP_WEB.Controllers
         }
 
 
-
+        [Seguridad]
+        [Administrador]
         [HttpGet]
         public IActionResult ObtenerAprobacionFlujo(long ID_SOLICITUD)
         {

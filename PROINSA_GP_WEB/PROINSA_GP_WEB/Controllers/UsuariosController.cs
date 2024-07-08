@@ -66,9 +66,7 @@ namespace PROINSA_GP_WEB.Controllers
         /// Permite al administrador acceder a la lista de empleados.
         /// </summary>
         /// <returns></returns>
-        //[Administrador]
-        [Seguridad]
-        [HttpGet]
+        [Administrador][Seguridad][HttpGet]
         public IActionResult AdministrarUsuarios()
         {
             var respuesta = _iUsuarioModel.MostrarInfoVistaAdmin();
@@ -82,10 +80,11 @@ namespace PROINSA_GP_WEB.Controllers
                 }
             return View(new List<Usuario>());
         }
-
-        [Administrador]
-        [Seguridad]
-        [HttpPost]
+        /// <summary>
+        /// Permite al administrador activar/desactivar a los usuarios por medio del parametro "IdEmpleado"
+        /// </summary>
+        /// <returns></returns>
+        [Administrador][Seguridad][HttpPost]
         public IActionResult CambiarEstadoUsuario(long IdEmpleado)
         {
             var Respuesta = _iUsuarioModel.CambiarEstadoUsuarioAdmin(IdEmpleado);
@@ -93,6 +92,10 @@ namespace PROINSA_GP_WEB.Controllers
 
         }
 
+        /// <summary>
+        /// Permite al administrador acceder a la informacion del empleado.
+        /// </summary>
+        /// <returns></returns>
         [Administrador][Seguridad][HttpGet]
         public IActionResult MantenimientoUsuario(long IDEmpleado)
         {
@@ -127,9 +130,11 @@ namespace PROINSA_GP_WEB.Controllers
                 return NotFound();
         }
 
-        [Administrador]
-        [Seguridad]
-        [HttpPost]
+        /// <summary>
+        /// Permite al administrador actualizar la informacion del empleado.
+        /// </summary>
+        /// <returns></returns>
+        [Administrador][Seguridad][HttpPost]
         public IActionResult MantenimientoUsuario(Usuario usuario)
         {
 			var respuesta = _iUsuarioModel.EditarDatosVistaAdmin(usuario);
@@ -137,12 +142,12 @@ namespace PROINSA_GP_WEB.Controllers
 
         }
 
-			/// <summary>
-			/// 
-			/// </summary>
-			/// <returns></returns>
 
-			[Administrador][Seguridad][HttpPost]
+        /// <summary>
+        /// Las siguientes 4 funciones son usadas para enlistar las opciones a seleccionar durante la actualizacion del usuario llamados en MantenimientoUsuario()
+        /// </summary>
+        /// <returns></returns>
+        [Administrador][Seguridad]
         public IActionResult MantenimientoUsuarioListaCargos()
         {
 
@@ -158,9 +163,7 @@ namespace PROINSA_GP_WEB.Controllers
             return View(viewModel);
         }
 
-        [Administrador]
-        [Seguridad]
-        [HttpPost]
+        [Administrador][Seguridad]
         public IActionResult MantenimientoUsuarioListaHorarios()
         {
 
@@ -177,9 +180,7 @@ namespace PROINSA_GP_WEB.Controllers
         }
 
 
-        [Administrador]
-        [Seguridad]
-        [HttpPost]
+        [Administrador][Seguridad]
         public IActionResult MantenimientoUsuarioListaRoles()
         {
 
@@ -196,9 +197,7 @@ namespace PROINSA_GP_WEB.Controllers
             return View(viewModel);
         }
 
-        [Administrador]
-        [Seguridad]
-        [HttpPost]
+        [Administrador][Seguridad]
         public IActionResult MantenimientoUsuarioListaDepartamentos()
         {
 
