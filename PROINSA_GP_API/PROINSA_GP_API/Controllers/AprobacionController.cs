@@ -111,7 +111,7 @@ namespace PROINSA_GP_API.Controllers
                 var parametros = new DynamicParameters();
                 parametros.Add("@id_solicitud", aprobacion.ID_SOLICITUD);
                 parametros.Add("@id_empleado", aprobacion.ID_EMPLEADO);
-                parametros.Add("@respuesta", aprobacion.RESPUESTASOLICITUD);
+                parametros.Add("@RESPUESTA", aprobacion.RESPUESTASOLICITUD);
                 parametros.Add("@comentario", aprobacion.COMENTARIO);
                 var request = await contexto.ExecuteAsync("ActualizarFlujoAprobacion", parametros,
                    commandType: System.Data.CommandType.StoredProcedure);

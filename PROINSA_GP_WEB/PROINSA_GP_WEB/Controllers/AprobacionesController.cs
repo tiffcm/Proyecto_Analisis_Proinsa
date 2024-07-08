@@ -24,21 +24,6 @@ namespace PROINSA_GP_WEB.Controllers
             return View();
         }
 
-
-        public ActionResult ObtenerIdEmpleado()
-        {
-
-            int? idEmpleadoSession = HttpContext.Session.GetInt32("ID_EMPLEADO");
-
-
-            var viewModel = new AprobacionDetalle
-            {
-                ID_EMPLEADO = idEmpleadoSession.Value,
-            };
-
-            return View(viewModel);
-        }
-
         public IActionResult AproCambioHorario(long ID_SOLICITUD)
         {
             long? idEmpleado = HttpContext.Session.GetInt32("ID_EMPLEADO");
@@ -64,38 +49,38 @@ namespace PROINSA_GP_WEB.Controllers
         [HttpPost]
         public ActionResult Aprobaciones(AprobacionViewModel viewModel)
         {
+            long? idEncargado = HttpContext.Session.GetInt32("ID_EMPLEADO");
             if (viewModel.AprobacionDetalles != null && viewModel.AprobacionDetalles.Any())
-            {                
+            {
                 foreach (var detalle in viewModel.AprobacionDetalles)
                 {
                     var entidad = new ActualizacionAprobacion
                     {
                         // Acá se recuperan los datos que vienen de la vista de aprobaciones
-                        ID_EMPLEADO = detalle.ID_EMPLEADO,
+                        ID_EMPLEADO = idEncargado,
                         ID_SOLICITUD = detalle.ID_SOLICITUD,
                         RESPUESTASOLICITUD = detalle.RESPUESTASOLICITUD,
                         COMENTARIO = detalle.JUSTIFICACION
                     };
 
-
-                    //Ejemplo de cómo se vería el llamado desde el controlador
+                    // Ejemplo de cómo se vería el llamado desde el controlador
                     var actualizarAprobacion = iAprobacionModel.ActualizarApro(entidad);
-                    if (actualizarAprobacion != null)
+                    if (actualizarAprobacion == null)
                     {
-                        return RedirectToAction("Aprobaciones", "Aprobaciones");
-                    }
-                    else
-                    {
-                        ViewBag.Mensaje = actualizarAprobacion!.MENSAJE;
-                        return View();
+                        ViewBag.Mensaje = "Error al actualizar la aprobación para la solicitud ID: " + detalle.ID_SOLICITUD;
+                        return View(viewModel);
                     }
                 }
 
-                return RedirectToAction("Aprobaciones", "Aprobaciones"); //Esto hay que ajustarlo
+                // Si todas las aprobaciones se actualizaron correctamente
+                return RedirectToAction("Aprobaciones", "Aprobaciones");
             }
 
-            return RedirectToAction("Aprobaciones", "Aprobaciones"); //Esto hay que ajustarlo
+            // Si no hay detalles de aprobaciones
+            ViewBag.Mensaje = "No hay aprobaciones para procesar.";
+            return View(viewModel);
         }
+
 
 
 
