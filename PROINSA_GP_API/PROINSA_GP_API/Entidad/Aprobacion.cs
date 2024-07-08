@@ -8,5 +8,7 @@
         public string? TIPOPERMISO { get; set; }
         public string? RESPUESTASOLICITUD { get; set; }
         public DateTime? FECHA_SOLICITUD { get; set; }
+
+        public int ID_SOLICITANTE { get; set; }
     }
 }

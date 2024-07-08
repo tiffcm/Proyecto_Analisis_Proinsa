@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "ConsultarAprobDetalle";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var idEmpleado = ViewBag.ID_EMPLEADO;
 }
 
 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Desarrollo personal / Solicitudes / Crear una solicitud / </span> Registrar permiso </h4>
@@ -24,6 +25,7 @@
                                 if (item.TIPOPERMISO == "CAMBIO DE HORARIO")
                                 {
                                     <div class="row">
+                                       
                                         <div class="col-md-2">
                                             <div class="mb-3">
                                                 @Html.Label("N° de Solicitud")
@@ -42,8 +44,8 @@
                                         <div class="col-md-6">
                                             <div class="mb-3">
                                                 @Html.Label("Identificación")
-                                                @Html.Hidden($"AprobacionDetalles[{i}].ID_EMPLEADO", item.ID_EMPLEADO)
-                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].ID_EMPLEADO, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
+                                                @Html.Hidden($"AprobacionDetalles[{i}].ID_SOLICITANTE", item.ID_SOLICITANTE)
+                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].ID_SOLICITANTE, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -67,6 +69,16 @@
                                                 @Html.Hidden($"AprobacionDetalles[{i}].HORARIO_NUEVO", item.HORARIO_NUEVO)
                                                 @Html.TextBoxFor(m => m.AprobacionDetalles![i].HORARIO_NUEVO, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
                                             </div>
+
+                                            <div class="mb-3">
+
+                                                @Html.Hidden($"AprobacionDetalles[{i}].ID_EMPLEADO", item.ID_EMPLEADO)
+                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].ID_EMPLEADO, new { @class = "form-control", @hidden = "true" })
+                                            </div>
+
+
+
+                                           
                                         </div>
                                     </div>
                                 }
@@ -91,8 +103,8 @@
                                         <div class="col-md-6">
                                             <div class="mb-3">
                                                 @Html.Label("Identificación")
-                                                @Html.Hidden($"AprobacionDetalles[{i}].ID_EMPLEADO", item.ID_EMPLEADO)
-                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].ID_EMPLEADO, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
+                                                @Html.Hidden($"AprobacionDetalles[{i}].ID_SOLICITANTE", item.ID_SOLICITANTE)
+                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].ID_SOLICITANTE, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -120,6 +132,12 @@
                                                 @Html.Label("Dias")
                                                 @Html.TextBoxFor(m => m.AprobacionDetalles![i].DIAS, new { @class = "form-control", @type = "int", @readonly = "true", @style = "text-align:center;" })
                                             </div>
+                                            <div class="mb-3">
+
+                                                @Html.Hidden($"AprobacionDetalles[{i}].ID_EMPLEADO", item.ID_EMPLEADO)
+                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].ID_EMPLEADO, new { @class = "form-control", @hidden = "true" })
+                                            </div>
+
                                         </div>
                                     </div>
                                 }
@@ -150,8 +168,8 @@
                                         <div class="col-md-6">
                                             <div class="mb-3">
                                                 @Html.Label("Identificación")
-                                                @Html.Hidden($"AprobacionDetalles[{i}].ID_EMPLEADO", item.ID_EMPLEADO)
-                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].ID_EMPLEADO, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
+                                                @Html.Hidden($"AprobacionDetalles[{i}].ID_SOLICITANTE", item.ID_SOLICITANTE)
+                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].ID_SOLICITANTE, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -201,6 +219,13 @@
                                         @Html.Label("Justificacion:")
                                         @Html.TextAreaFor(m => m.AprobacionDetalles![i].JUSTIFICACION, new { @class = "form-control", @type = "text", @required="true" })
                                     </div>
+
+                                    <div class="mb-3">
+                                        @Html.Hidden($"AprobacionDetalles[{i}].ID_EMPLEADO", item.ID_EMPLEADO)
+                                        @Html.TextBoxFor(m => m.AprobacionDetalles![i].ID_EMPLEADO, new { @class = "form-control", @hidden = "true" })
+                                    </div>
+
+
                                 </div>
                                 @Html.HiddenFor(m => m.AprobacionDetalles![i].RESPUESTASOLICITUD, new { id = $"respuestaSolicitud_{i}" })
                                 <div style="text-align:center;">
@@ -231,19 +256,20 @@
                                             <table id="dataTable" class="table table-bordered dataTable text-center" cellspacing="0" role="grid" aria-describedby="dataTable_info">
                                                 <thead>
                                                     <tr>
-                                                        <th>ID SOLICITUD</th>
-                                                        <th>FECHA SOLICITUD</th>
-                                                        <th>ID_EMPLEADO</th>
-                                                        <th>SOLICITANTE</th>
+                                                        <th>RESPONSABLE</th>
+                                                        <th>DEPARTAMENTO</th>
+                                                        <th>SECUENCIA</th>
+                                                        <th>RESPUESTA</th>
+                                                        
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     @foreach (var item in Model.AprobacionFlujos)
                                                     {
                                                         <tr>
-                                                            <td>@item.SECUENCIA</td>
-                                                            <td>@item.DEPARTAMENTO</td>
                                                             <td>@item.NOMBRE_ENCARGADO</td>
+                                                            <td>@item.DEPARTAMENTO</td>
+                                                            <td>@item.SECUENCIA</td>
                                                             <td>@item.RESPUESTA_SOLICITUD</td>
                                                         </tr>
                                                     }

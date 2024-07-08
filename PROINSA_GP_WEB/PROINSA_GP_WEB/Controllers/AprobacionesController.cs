@@ -24,6 +24,21 @@ namespace PROINSA_GP_WEB.Controllers
             return View();
         }
 
+
+        public ActionResult ObtenerIdEmpleado()
+        {
+
+            int? idEmpleadoSession = HttpContext.Session.GetInt32("ID_EMPLEADO");
+
+
+            var viewModel = new AprobacionDetalle
+            {
+                ID_EMPLEADO = idEmpleadoSession.Value,
+            };
+
+            return View(viewModel);
+        }
+
         public IActionResult AproCambioHorario(long ID_SOLICITUD)
         {
             long? idEmpleado = HttpContext.Session.GetInt32("ID_EMPLEADO");
@@ -83,6 +98,7 @@ namespace PROINSA_GP_WEB.Controllers
         }
 
 
+
         [HttpGet]
         public IActionResult ConsultarAprobDetalle(long ID_SOLICITUD)
         {
@@ -96,7 +112,10 @@ namespace PROINSA_GP_WEB.Controllers
                 viewModel.AprobacionDetalles = JsonSerializer.Deserialize<List<AprobacionDetalle>>((JsonElement)datosDetalle.CONTENIDO!);
             }
 
-            // Si necesitas también obtener el flujo inicial al cargar esta vista:
+            
+            ViewBag.ID_EMPLEADO = idEmpleado;
+
+            // Obtener el flujo inicial al cargar esta vista
             var datosFlujo = iAprobacionModel.ObtenerAprobacionFlujo(ID_SOLICITUD);
             if (datosFlujo != null && datosFlujo.CONTENIDO != null)
             {

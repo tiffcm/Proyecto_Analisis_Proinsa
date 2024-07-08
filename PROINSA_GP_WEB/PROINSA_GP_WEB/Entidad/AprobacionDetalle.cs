@@ -15,5 +15,7 @@
         public string? HORARIO_ACTUAL { get; set; }
         public DateTime FECHA_INICIO { get; set; }
         public DateTime FECHA_FINAL { get; set; }
+
+        public int ID_SOLICITANTE { get; set; }
     }
 }
