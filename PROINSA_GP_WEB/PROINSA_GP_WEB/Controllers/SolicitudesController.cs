@@ -29,10 +29,9 @@ namespace PROINSA_GP_WEB.Controllers
             {
                 return RedirectToAction("Principal", "Home");
             }
-            else
-            {
-                ViewBag.msj = resp.MENSAJE;
-            }            
+            CargarTiposSolicitud();
+            ObtenerIdEmpleado();
+            ViewBag.msj = resp.MENSAJE;
             return View();
         }
 
@@ -81,6 +80,7 @@ namespace PROINSA_GP_WEB.Controllers
             return View(viewModel);
         }
 
+        [Seguridad]
         [HttpGet]
         public IActionResult Constancias()
         {

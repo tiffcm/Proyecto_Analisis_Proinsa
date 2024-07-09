@@ -13,6 +13,12 @@
             <div class="card mb-4">
                 <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Datos para la gestión del permiso:</h5>
                 <div class="card-body">
+                   @if (ViewBag.msj != null)
+                    {
+                        <div class="alert alert-secondary" style="text-align:center" role="alert">
+                            @ViewBag.msj
+                        </div>
+                    }
                     @using (Html.BeginForm("RegistrarSolicitud", "Solicitudes", FormMethod.Post))
                     {
                         <div class="col-md-4">

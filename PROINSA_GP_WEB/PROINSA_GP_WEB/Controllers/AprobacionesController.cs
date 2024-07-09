@@ -28,28 +28,6 @@ namespace PROINSA_GP_WEB.Controllers
             return View();
         }
 
-        //public IActionResult AproCambioHorario(long ID_SOLICITUD)
-        //{
-        //    long? idEmpleado = HttpContext.Session.GetInt32("ID_EMPLEADO");
-        //    var datosDetalle = iAprobacionModel.ObtenerAprobacionPendienteDetalle(idEmpleado, ID_SOLICITUD);
-
-        //    var viewModel = new AprobacionViewModel();
-
-        //    if (datosDetalle != null)
-        //    {
-        //        viewModel.AprobacionDetalles = JsonSerializer.Deserialize<List<AprobacionDetalle>>((JsonElement)datosDetalle.CONTENIDO!);
-        //    }
-
-        //    // Si necesitas también obtener el flujo inicial al cargar esta vista:
-        //    var datosFlujo = iAprobacionModel.ObtenerAprobacionFlujo(ID_SOLICITUD);
-        //    if (datosFlujo != null && datosFlujo.CONTENIDO != null)
-        //    {
-        //        viewModel.AprobacionFlujos = JsonSerializer.Deserialize<List<AprobacionFlujo>>((JsonElement)datosFlujo.CONTENIDO!);
-        //    }
-
-        //    return View(viewModel);
-        //}
-
         [Seguridad]
         [Administrador]
         [HttpPost]
