@@ -57,32 +57,30 @@
 											} else
 											{
 											<a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalUsuario_@item.ID_EMPLEADO" asp-action="CambiarEstadoUsuario" asp-route-Id="@item.ID_EMPLEADO">Desactivar</a>
-											}
-											
-
+											}																						
 											<!-- Modal -->
 											<div class="modal fade" id="modalUsuario_@item.ID_EMPLEADO" tabindex="-1" aria-labelledby="modalUsuarioLabel_@item.ID_EMPLEADO" aria-hidden="true">
 												<div class="modal-dialog">
 													<div class="modal-content">
 														<div class="modal-header">
-															<h1 class="modal-title fs-5" id="modalUsuarioLabel">Usuario</h1>
+															<h5 class="modal-title" id="modalUsuarioLabel">Usuario</h5>
 															<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 														</div>
 														<div class="modal-body">
-															<h2>¿Desea cambiar el estado del usuario?</h2>
+															<h6>¿Desea cambiar el estado del usuario?</h6>
 															<form asp-controller="Usuarios" asp-action="CambiarEstadoUsuario" method="POST">
-																<div class="form-group">
-																	<!-- Campo oculto para enviar el ID de la usuario -->
+																<div class="form-group mb-3">
+																	<!-- Campo oculto para enviar el ID del usuario -->
 																	<input type="hidden" name="IdEmpleado" id="IdEmpleado" value="@item.ID_EMPLEADO" />
-																	<!-- Muestra el ID de la usuario en un elemento de texto (solo para visualización) -->
-																	<label>ID de la usuario:</label>
+																	<!-- Muestra el ID del usuario en un elemento de texto (solo para visualización) -->
+																	<label>ID del usuario:</label>
 																	<span>@item.ID_EMPLEADO</span>
 																</div>
-																<div class="form-group">
-																	<label>Nombre de la usuario</label>
+																<div class="form-group mb-3">
+																	<label>Nombre del usuario:</label>
 																	<span class="text-black">@item.NOMBRECOMPLETO</span>
 																</div>
-																<div class="modal-footer" style="justify-content:center">
+																<div class="modal-footer d-flex justify-content-center">
 																	<input type="submit" value="Confirmar" class="btn btn-danger" />
 																</div>
 															</form>
@@ -91,7 +89,6 @@
 												</div>
 											</div>
 										</td>
-
 									</tr>
 								}
 							</tbody>

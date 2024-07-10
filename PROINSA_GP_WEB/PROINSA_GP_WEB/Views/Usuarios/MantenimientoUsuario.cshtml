@@ -11,8 +11,8 @@
    <div class="card-body">
         @using (Html.BeginForm("MantenimientoUsuario", "Usuarios", FormMethod.Post))
         {
-            <div class="row gx-3 gy-2 align-items-center">
-                <div class="col-6">
+            <div class="row">
+                <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Identificacion del usuario")
                         @Html.TextBoxFor(m => m.IDENTIFICACION, new { @class = "form-control"})
@@ -26,14 +26,14 @@
                 </div>
             </div>
 
-            <div class="row gx-3 gy-2 align-items-center">
-                <div class="col-6">
+            <div class="row">
+                <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Nombre del usuario")
                         @Html.TextBoxFor(m => m.NOMBRECOMPLETO, new { @class = "form-control"})
                     </div>
                 </div>
-                <div class="col-3">
+                <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Salario")
                         @Html.TextBoxFor(m => m.SALARIO, new { @class = "form-control" })
@@ -41,8 +41,8 @@
                 </div>
             </div>
 
-            <div class="row gx-3 gy-2 align-items-center">
-				<div class="col-6">
+            <div class="row">
+				<div class="col-md-6">
 					<div class="mb-4">
 						@Html.Label("Foto")
 						@* @Html.TextBoxFor(m => m., new { @class = "form-control" }) *@
@@ -57,14 +57,14 @@
                 </div>
             </div>
             <!-- Codigo CARGO -->
-            <div class="row gx-3 gy-2 align-items-center">
-                <div class="col-6">
+            <div class="row">
+                <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Cargo actual")
                         @Html.TextBoxFor(m => m.CARGO, new { @class = "form-control", @readonly = "true" })
                     </div>
                 </div>
-                 <div class="col-6">
+                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Cargos disponibles")
                         @Html.DropDownListFor(m => m.ID_CARGO, new SelectList(ViewBag.CargoList, "Value", "Text"), new { @class = "form-control" })
@@ -72,14 +72,14 @@
                 </div> 
             </div>
             <!-- Codigo HORARIO -->
-            <div class="row gx-3 gy-2 align-items-center">
-                <div class="col-6">
+            <div class="row">
+                <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Horario actual")
                         @Html.TextBoxFor(m => m.NOMBRE_HL, new { @class = "form-control", @readonly = "true" })
                     </div>
                 </div>
-                 <div class="col-6">
+                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Horarios disponibles")
                         @Html.DropDownListFor(m => m.ID_HORARIOLABORAL, new SelectList(ViewBag.HorarioList, "Value", "Text"), new { @class = "form-control" })
@@ -88,8 +88,8 @@
             </div>
 
             <!-- Codigo DEPARTAMENTO -->
-            <div class="row gx-3 gy-2 align-items-center">
-                <div class="col-6">
+            <div class="row">
+                <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Departamento actual")
                         @Html.TextBoxFor(m => m.DEPARTAMENTO, new { @class = "form-control", @readonly = "true" })
@@ -104,23 +104,55 @@
             </div> 
 
             <!-- Codigo DIRECCION -->
-            <div class="row gx-3 gy-2 align-items-center">
+            <div class="row">
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Direccion")
                         @Html.TextBoxFor(m => m.DIRRECION, new { @class = "form-control"})
                     </div>
                 </div>
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        @Html.Label("Activo")
+                        @Html.TextBoxFor(m => m.ESTADO, new { @class = "form-control", @readonly = "true" })
+                        @* <input asp-for="ESTADO" type="checkbox" class="form-check-input" style="text-align: center;" id="flexCheckDefault" />
+                    <span asp-validation-for="ESTADO" class="text-danger"></span> *@
+                    </div>
+                </div>
+                @* <div class="col-md-6">
+            <div class="mb-4">
+            @Html.Label(" ")
+            @if (Model.ESTADO != "Activo")
+            {
+            //<button type="submit" class="btn btn-danger">Activar</button>
+            <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalUsuario_@Model.ID_EMPLEADO" asp-action="CambiarEstadoUsuario" asp-route-Id="@Model.ID_EMPLEADO">Activar</a>
+            } else
+            {
+            //<button type="submit" class="btn btn-danger">Desactivar</button>
+            <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalUsuario_@Model.ID_EMPLEADO" asp-action="CambiarEstadoUsuario" asp-route-Id="@Model.ID_EMPLEADO">Desactivar</a>
+            }
+
+            </div>
+            <div class="mb-4">
+            @Html.Label("Estado actual")
+            <select asp-for="ESTADO" asp-controller="Usuarios" asp-action="CambiarEstadoUsuario" class="form-control" method="POST" style="text-align: center;" required>
+            <option value="true">Activo</option>
+            <option value="false">Inactivo</option>
+            </select>
+            </div>
+            </div> *@
+
+
             </div>
 
             <!-- Codigo TELEFONOS -->
 
-            <div class="row gx-3 gy-2 align-items-center">
+            <div class="row">
                 @if (Model.TELEFONOS != null && Model.TELEFONOS.Any())
                 {
                     @for (int i = 0; i < Model.TELEFONOS.Count; i++)
                     {
-                        <div class="mb-3 col-md-4">
+                        <div class="mb-3 col-md-6">
                             @Html.HiddenFor(m => m.TELEFONOS![i].ID_TELEFONO, new { Name = $"TELEFONOS[{i}].ID_TELEFONO" })
                             @Html.Label("Telefono #" + (i + 1))
                             @Html.TextBoxFor(m => m.TELEFONOS![i].TELEFONO, new { @class = "form-control", Name = $"TELEFONOS[{i}].TELEFONO" })
@@ -132,54 +164,16 @@
                     <p>No hay teléfonos registrados.</p>
                 }
             </div>
-
-            <!-- CODIGO ESTADO-->
-
-            <div class="row gx-3 gy-2 align-items-center">
-                <div class="col-md-6">
-                    <div class="mb-4">
-                        @Html.Label("Activo")
-                        @Html.TextBoxFor(m => m.ESTADO, new { @class = "form-control", @readonly = "true" })
-                        @* <input asp-for="ESTADO" type="checkbox" class="form-check-input" style="text-align: center;" id="flexCheckDefault" />
-                        <span asp-validation-for="ESTADO" class="text-danger"></span> *@
-                    </div>
-                </div>
-                @* <div class="col-md-6">
-                    <div class="mb-4">
-                        @Html.Label(" ")
-                        @if (Model.ESTADO != "Activo")
-                        {
-                            //<button type="submit" class="btn btn-danger">Activar</button>
-                            <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalUsuario_@Model.ID_EMPLEADO" asp-action="CambiarEstadoUsuario" asp-route-Id="@Model.ID_EMPLEADO">Activar</a>
-                        } else
-                        {
-                            //<button type="submit" class="btn btn-danger">Desactivar</button>
-                            <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalUsuario_@Model.ID_EMPLEADO" asp-action="CambiarEstadoUsuario" asp-route-Id="@Model.ID_EMPLEADO">Desactivar</a>
-                        }
-
-                        </div>
-                     <div class="mb-4">
-                        @Html.Label("Estado actual")
-                        <select asp-for="ESTADO" asp-controller="Usuarios" asp-action="CambiarEstadoUsuario" class="form-control" method="POST" style="text-align: center;" required>
-                        <option value="true">Activo</option>
-                        <option value="false">Inactivo</option>
-                    </select>
-                    </div> 
-                </div> *@
-               
-
-            </div>
-
             <!-- CODIGO ROL-->
 
-            <div class="row gx-3 gy-2 align-items-center">
+            <div class="row">
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Rol actual")
                         @Html.TextBoxFor(m => m.NOMBREROL, new { @class = "form-control", @readonly = "true" })
                     </div>
                 </div>
-                 <div class="col-6">
+                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Roles disponibles")
                         @Html.DropDownListFor(m => m.IDROL, new SelectList(ViewBag.RolesList, "Value", "Text"), new { @class = "form-control" })

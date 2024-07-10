@@ -26,17 +26,17 @@
                                 if (item.TIPOPERMISO == "CAMBIO DE HORARIO")
                                 {
                                     <div class="row">
-                                       
+
                                         <div class="col-md-2">
                                             <div class="mb-3">
-                                                @Html.Label("N° de Solicitud")                                                
+                                                @Html.Label("N° de Solicitud")
                                                 @Html.TextBoxFor(m => m.AprobacionDetalles![i].ID_SOLICITUD, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
                                             </div>
                                         </div>
                                         <div class="col-md-10">
                                             <div class="mb-3">
                                                 @Html.Label("Tipo de Permiso")
-                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].TIPOPERMISO, new { @class = "form-control", @type = "text", @readonly = "true", @style="text-align:center;"})
+                                                @Html.TextBoxFor(m => m.AprobacionDetalles![i].TIPOPERMISO, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
                                             </div>
                                         </div>
                                     </div>
@@ -57,15 +57,15 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                @Html.Label("Horario actual:")                                                
+                                                @Html.Label("Horario actual:")
                                                 @Html.TextBoxFor(m => m.AprobacionDetalles![i].HORARIO_ACTUAL, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                @Html.Label("Horario nuevo:")                                                
+                                                @Html.Label("Horario nuevo:")
                                                 @Html.TextBoxFor(m => m.AprobacionDetalles![i].HORARIO_NUEVO, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
-                                            </div>                                       
+                                            </div>
                                         </div>
                                     </div>
                                 }
@@ -74,7 +74,7 @@
                                     <div class="row">
                                         <div class="col-md-2">
                                             <div class="mb-3">
-                                                @Html.Label("N° de Solicitud")                                                
+                                                @Html.Label("N° de Solicitud")
                                                 @Html.TextBoxFor(m => m.AprobacionDetalles![i].ID_SOLICITUD, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
                                             </div>
                                         </div>
@@ -125,7 +125,7 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="mb-3">
-                                                @Html.Label("N° de Solicitud")                                                
+                                                @Html.Label("N° de Solicitud")
                                                 @Html.TextBoxFor(m => m.AprobacionDetalles![i].ID_SOLICITUD, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
                                             </div>
                                         </div>
@@ -138,14 +138,14 @@
                                         <div class="col-md-4">
                                             <div class="mb-3">
                                                 @Html.Label("Comprobante")
-                                                <button class="btn btn-primary" style="width:300px" type="button">Descargar</button>
+                                                <button class="form-control btn btn-primary" type="button">Descargar</button>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                @Html.Label("Identificación")                                                
+                                                @Html.Label("Identificación")
                                                 @Html.TextBoxFor(m => m.AprobacionDetalles![i].IDENTIFICACION, new { @class = "form-control", @type = "text", @readonly = "true", @style = "text-align:center;" })
                                             </div>
                                         </div>
@@ -171,7 +171,7 @@
                                         </div>
                                         <div class="col-md-2">
                                             <div class="mb-3">
-                                                @Html.Label("Dias:")
+                                                @Html.Label("Días:")
                                                 @Html.TextBoxFor(m => m.AprobacionDetalles![i].DIAS, new { @class = "form-control", @type = "int", @readonly = "true" })
                                             </div>
                                         </div>
@@ -193,62 +193,70 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="mb-3">
-                                        @Html.Label("Justificacion:")
-                                        @Html.TextAreaFor(m => m.AprobacionDetalles![i].JUSTIFICACION, new { @class = "form-control", @type = "text", @required="true" })
+                                        @Html.Label("Justificación:")
+                                        @Html.TextAreaFor(m => m.AprobacionDetalles![i].JUSTIFICACION, new { @class = "form-control", @type = "text", @required = "true" })
                                     </div>
                                 </div>
                                 @Html.HiddenFor(m => m.AprobacionDetalles![i].RESPUESTASOLICITUD, new { id = $"respuestaSolicitud_{i}" })
                                 <div style="text-align:center;">
-                                    <button class="btn btn-primary mt-4" style="width:300px" onclick="setRespuesta('A', 'respuestaSolicitud_@i')" type="submit" id="submitButton">Aprobar</button>
-                                    <button class="btn btn-primary mt-4" style="width:300px" onclick="setRespuesta('R', 'respuestaSolicitud_@i')" type="submit" id="submitButton">Rechazar</button>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <button class="form-control btn btn-primary mt-4" onclick="setRespuesta('A', 'respuestaSolicitud_@i')" type="submit" id="submitButton">Aprobar</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <button class="form-control btn btn-primary mt-4" onclick="setRespuesta('R', 'respuestaSolicitud_@i')" type="submit" id="submitButton">Rechazar</button>
+                                            </div>
+                                        </div>
+                                    </div>                                                                        
                                 </div>
                             }
                         }
                         else
                         {
                             <p>No hay solicitudes pendientes de aprobación</p>
-                        }                             
+                        }
                     }
                 </div>
-                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#dataTable2" aria-expanded="false" aria-controls="dataTable2">
+                <button class="btn btn-primary mb-4" type="button" data-bs-toggle="collapse" data-bs-target="#dataTable2" aria-expanded="false" aria-controls="dataTable2">
                     Flujo de aprobaciones
                 </button>
-                <div class="collapse" id="dataTable2">
-                    <div class="d-grid d-sm-flex p-3 border">
-                        <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4 w-100">
-                            <div class="row justify-content-center">
-                                <div class="col-12">
-                                    <div class="table-responsive-sm">
-                                        @if (Model.AprobacionFlujos != null)
-                                        {
-                                            <table id="dataTable" class="table table-bordered dataTable text-center" cellspacing="0" role="grid" aria-describedby="dataTable_info">
-                                                <thead>
+                <div class="collapse mb-4" id="dataTable2">
+                    <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4 w-100">
+                        <div class="row justify-content-center">
+                            <div class="col-md-12">
+                                <div class="table-responsive-sm">
+                                    @if (Model.AprobacionFlujos != null)
+                                    {
+                                        <table id="dataTable" class="table table-bordered dataTable text-center" cellspacing="0" role="grid" aria-describedby="dataTable_info">
+                                            <thead>
+                                                <tr>
+                                                    <th>RESPONSABLE</th>
+                                                    <th>DEPARTAMENTO</th>
+                                                    <th>SECUENCIA</th>
+                                                    <th>RESPUESTA</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.AprobacionFlujos)
+                                                {
                                                     <tr>
-                                                        <th>RESPONSABLE</th>
-                                                        <th>DEPARTAMENTO</th>
-                                                        <th>SECUENCIA</th>
-                                                        <th>RESPUESTA</th>
-                                                        
+                                                        <td>@item.NOMBRE_ENCARGADO</td>
+                                                        <td>@item.DEPARTAMENTO</td>
+                                                        <td>@item.SECUENCIA</td>
+                                                        <td>@item.RESPUESTA_SOLICITUD</td>
                                                     </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach (var item in Model.AprobacionFlujos)
-                                                    {
-                                                        <tr>
-                                                            <td>@item.NOMBRE_ENCARGADO</td>
-                                                            <td>@item.DEPARTAMENTO</td>
-                                                            <td>@item.SECUENCIA</td>
-                                                            <td>@item.RESPUESTA_SOLICITUD</td>
-                                                        </tr>
-                                                    }
-                                                </tbody>
-                                            </table>
-                                        }
-                                        else
-                                        {
-                                            <p>No hay solicitudes pendientes de aprobación</p>
-                                        }
-                                    </div>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    }
+                                    else
+                                    {
+                                        <p>No hay solicitudes pendientes de aprobación</p>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -258,6 +266,7 @@
         </div>
     </div>
 </div>
+<script src="~/js/datatable.js"></script>
 <script>
     function setRespuesta(respuesta, fieldId) {
         document.getElementById(fieldId).value = respuesta;
