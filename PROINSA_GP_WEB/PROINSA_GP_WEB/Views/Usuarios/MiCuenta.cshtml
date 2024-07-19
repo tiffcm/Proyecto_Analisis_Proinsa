@@ -2,33 +2,39 @@
 @{
     ViewBag.Title = "MiCuenta";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var extension = Context.Session.GetString("EXTENSION");
 }
 
 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Perfil /</span> Mi cuenta</h4>
-<div class="content-wrapper">    
+<div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="row">
             <div class="col-md-12">
                 <div class="card mb-4">
-                    <h5 class="card-header">Detalles del perfil</h5>                    
-                    <div class="card-body">
-                        <div class="d-flex align-items-start align-items-sm-center gap-4">
-                            <img src="../assets/img/avatars/1.png" alt="user-avatar" class="d-block rounded" height="100" width="100"
-                                 id="uploadedAvatar" />
-                            <div class="button-wrapper">
-                                <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
-                                    <span class="d-none d-sm-block">Subir nueva foto</span>
-                                    <i class="bx bx-upload d-block d-sm-none"></i>
-                                    <input type="file" id="upload" class="account-file-input" hidden accept="image/png, image/jpeg" />
-                                </label>
-                                <p class="text-muted mb-0">Permitido los siguientes formatos JPG, GIF or PNG. hasta un máximo de 1MB</p>
+                    <h5 class="card-header">Detalles del perfil</h5>
+                    @using (Html.BeginForm("MiCuenta", "Usuarios", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <div class="card-body">
+                            <div class="d-flex align-items-start align-items-sm-center gap-4">
+                                <img id="imgSeleccionada" class="rounded float-left" height="100" width="100" hidden alt="Imagen seleccionada" />
+                                @if (extension != null)
+                                {
+                                    <img src="@Model.FOTO_VISTA" alt="user-avatar" class="rounded float-left" height="100" width="100" id="uploadedAvatar" />
+                                }else{
+                                    <i class="bi bi-person-circle w-px-50 h-auto rounded-circle mb-4" style="font-size:40px;"></i>
+                                }                                
+                                <div class="button-wrapper">
+                                    <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                                        <span class="d-none d-sm-block">Subir nueva foto</span>
+                                        <i class="bx bx-upload d-block d-sm-none"></i>
+                                        <input type="file" id="upload" name="upload" class="account-file-input" hidden accept=".jpg,.jpeg,.png" />
+                                    </label>
+                                    <p class="text-muted mb-0">Permitido los siguientes formatos JPG, JPEG o PNG. Hasta un máximo de 1MB</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <hr class="my-0" />
-                    <div class="card-body">                        
-                        @using (Html.BeginForm("MiCuenta", "Usuarios", FormMethod.Post))
-                        {
+                        <hr class="my-0" />
+                        <div class="card-body">
                             @Html.HiddenFor(m => m.ID_EMPLEADO)
                             <div class="row">
                                 <div class="mb-3 col-md-12">
@@ -46,12 +52,12 @@
                                     @Html.TextBoxFor(m => m.CARGO, new { @class = "form-control", @readonly = "true" })
                                 </div>
                                 @if (Model.TELEFONOS != null && Model.TELEFONOS.Any())
-                                {                                    
+                                {
                                     @for (int i = 0; i < Model.TELEFONOS.Count; i++)
                                     {
                                         <div class="mb-3 col-md-4">
                                             @Html.HiddenFor(m => m.TELEFONOS![i].ID_TELEFONO, new { Name = $"TELEFONOS[{i}].ID_TELEFONO" })
-                                            @Html.Label("Telefono #" + (i+1))
+                                            @Html.Label("Telefono #" + (i + 1))
                                             @Html.TextBoxFor(m => m.TELEFONOS![i].TELEFONO, new { @class = "form-control", Name = $"TELEFONOS[{i}].TELEFONO" })
                                         </div>
                                     }
@@ -70,10 +76,10 @@
                             <div class="mt-2" style="display:grid; place-items:center;">
                                 <button type="submit" class="btn btn-primary mb-4">Guardar cambios</button>
                             </div>
-                        }
-                    </div>                    
+                        </div>
+                    }
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
 </div>
