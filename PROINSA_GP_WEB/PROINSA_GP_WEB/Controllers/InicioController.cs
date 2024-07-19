@@ -110,7 +110,8 @@ namespace PROINSA_GP_WEB.Controllers
                         HttpContext.Session.SetInt32("ID_EMPLEADO", (int)datosUsuario!.ID_EMPLEADO);
                         HttpContext.Session.SetString("NombreUsuario", datosUsuario!.NOMBRECOMPLETO!);
                         HttpContext.Session.SetInt32("IdRol", datosUsuario!.IDROL!);
-                        HttpContext.Session.SetString("RolUsuario", datosUsuario!.NOMBREROL!);                        
+                        HttpContext.Session.SetString("RolUsuario", datosUsuario!.NOMBREROL!);
+                        HttpContext.Session.Set("BLOP", datosUsuario!.FOTO!);                        
                         string base64 = Convert.ToBase64String(datosUsuario!.FOTO!);
                         string extension = datosUsuario.TIPO_FOTO ?? "image/png";
                         datosUsuario.FOTO_VISTA = $"data:{extension};base64,{base64}";

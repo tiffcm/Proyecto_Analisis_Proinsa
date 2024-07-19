@@ -67,13 +67,18 @@ namespace PROINSA_GP_WEB.Controllers
             {
                 var extension = archivo.ContentType;
                 entidad.FOTO = ConvertirIMGBytes(archivo);
-                entidad.TIPO_FOTO = extension;                
+                entidad.TIPO_FOTO = extension;
+                string base64 = Convert.ToBase64String(entidad!.FOTO!);
+                string tipoarchivo = entidad.TIPO_FOTO ?? "image/png";
+                entidad.FOTO_VISTA = $"data:{tipoarchivo};base64,{base64}";
+                HttpContext.Session.SetString("FOTO", entidad!.FOTO_VISTA!);
+                HttpContext.Session.SetString("EXTENSION", tipoarchivo);
             }
-            string base64 = Convert.ToBase64String(entidad!.FOTO!);
-            string tipoarchivo = entidad.TIPO_FOTO ?? "image/png";
-            entidad.FOTO_VISTA = $"data:{tipoarchivo};base64,{base64}";
-            HttpContext.Session.SetString("FOTO", entidad!.FOTO_VISTA!);
-            HttpContext.Session.SetString("EXTENSION", tipoarchivo);
+            else
+            {
+                entidad.FOTO = HttpContext.Session.Get("BLOP");
+                entidad.TIPO_FOTO = HttpContext.Session.GetString("EXTENSION");
+            }
             var respuesta = _iUsuarioModel.ActualizarDatosUsuario(entidad);
             return RedirectToAction("Principal","Home");
         }
