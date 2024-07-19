@@ -11,7 +11,9 @@
         public long ID_EMPLEADO { get; set; }
         public int? IDENTIFICACION { get; set; }
         public string? NOMBRECOMPLETO { get; set; }
-        public string? FOTO { get; set; }
+        public Byte[]? FOTO { get; set; }
+        public string? TIPO_FOTO { get; set; }
+        public string? FOTO_VISTA { get; set; }
         public string? CARGO { get; set; }
         public string? CORREO { get; set; }
         public string? DEPARTAMENTO { get; set; }
