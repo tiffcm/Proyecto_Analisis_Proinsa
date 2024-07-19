@@ -20,11 +20,6 @@ namespace PROINSA_GP_WEB.Servicios
         List<SelectListItem> MostrarTodosCargos();
         List<SelectListItem> MostrarTodosHorarios();
         List<SelectListItem> MostrarTodosRoles();
-        List<SelectListItem> MostrarTodosDepartamentos();
-
-
-
-
-
+        List<SelectListItem> MostrarTodosDepartamentos();        
     }
 }

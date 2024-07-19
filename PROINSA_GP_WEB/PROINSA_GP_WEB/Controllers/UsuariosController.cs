@@ -3,6 +3,7 @@ using P_WebMartes.Models;
 using PROINSA_GP_WEB.Entidad;
 using PROINSA_GP_WEB.Models;
 using PROINSA_GP_WEB.Servicios;
+using System.Buffers.Text;
 using System.Text.Json;
 
 namespace PROINSA_GP_WEB.Controllers
@@ -30,6 +31,9 @@ namespace PROINSA_GP_WEB.Controllers
                 if (respuesta!.CODIGO == 1)
                 {
                     var usuario = JsonSerializer.Deserialize<Usuario>((JsonElement)respuesta.CONTENIDO!);
+                    string base64 = Convert.ToBase64String(usuario!.FOTO!);
+                    string extension = usuario.TIPO_FOTO ?? "image/png";
+                    usuario.FOTO_VISTA = $"data:{extension};base64,{base64}";                    
                     if (usuario != null)
                     {
                         long? IdEmpleado = HttpContext.Session.GetInt32("ID_EMPLEADO");
@@ -58,6 +62,18 @@ namespace PROINSA_GP_WEB.Controllers
         [Seguridad][HttpPost]
         public IActionResult MiCuenta(Usuario entidad)
         {
+            IFormFile archivo = Request.Form.Files["upload"]!;
+            if (archivo != null)
+            {
+                var extension = archivo.ContentType;
+                entidad.FOTO = ConvertirIMGBytes(archivo);
+                entidad.TIPO_FOTO = extension;                
+            }
+            string base64 = Convert.ToBase64String(entidad!.FOTO!);
+            string tipoarchivo = entidad.TIPO_FOTO ?? "image/png";
+            entidad.FOTO_VISTA = $"data:{tipoarchivo};base64,{base64}";
+            HttpContext.Session.SetString("FOTO", entidad!.FOTO_VISTA!);
+            HttpContext.Session.SetString("EXTENSION", tipoarchivo);
             var respuesta = _iUsuarioModel.ActualizarDatosUsuario(entidad);
             return RedirectToAction("Principal","Home");
         }
@@ -102,10 +118,7 @@ namespace PROINSA_GP_WEB.Controllers
             MantenimientoUsuarioListaCargos();
             MantenimientoUsuarioListaHorarios();
             MantenimientoUsuarioListaRoles();
-            MantenimientoUsuarioListaDepartamentos();
-
-           
-
+            MantenimientoUsuarioListaDepartamentos();           
             if (IDEmpleado != null)
             {
                 var respuesta = _iUsuarioModel.MostrarEmpleadoVistaAdmin(IDEmpleado);
@@ -122,8 +135,6 @@ namespace PROINSA_GP_WEB.Controllers
                             usuario.TELEFONOS = telefonos;
                             return View(usuario);
                         }
-
-
                     }
                 }
             }
@@ -212,7 +223,14 @@ namespace PROINSA_GP_WEB.Controllers
 
             return View(viewModel);
         }
-        
 
+        private byte[] ConvertirIMGBytes(IFormFile foto)
+        {
+            using (var ms = new MemoryStream())
+            {
+                foto.CopyTo(ms);
+                return ms.ToArray();
+            }
+        }
     }
 }

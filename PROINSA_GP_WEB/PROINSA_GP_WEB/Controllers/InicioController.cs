@@ -6,6 +6,7 @@ using P_WebMartes.Models;
 using PROINSA_GP_WEB.Entidad;
 using PROINSA_GP_WEB.Models;
 using PROINSA_GP_WEB.Servicios;
+using System.Buffers.Text;
 using System.Security.Claims;
 using System.Text.Json;
 
@@ -109,7 +110,12 @@ namespace PROINSA_GP_WEB.Controllers
                         HttpContext.Session.SetInt32("ID_EMPLEADO", (int)datosUsuario!.ID_EMPLEADO);
                         HttpContext.Session.SetString("NombreUsuario", datosUsuario!.NOMBRECOMPLETO!);
                         HttpContext.Session.SetInt32("IdRol", datosUsuario!.IDROL!);
-                        HttpContext.Session.SetString("RolUsuario", datosUsuario!.NOMBREROL!);
+                        HttpContext.Session.SetString("RolUsuario", datosUsuario!.NOMBREROL!);                        
+                        string base64 = Convert.ToBase64String(datosUsuario!.FOTO!);
+                        string extension = datosUsuario.TIPO_FOTO ?? "image/png";
+                        datosUsuario.FOTO_VISTA = $"data:{extension};base64,{base64}";
+                        HttpContext.Session.SetString("FOTO", datosUsuario!.FOTO_VISTA!);
+                        HttpContext.Session.SetString("EXTENSION", extension);
                     }
                     else
                     {

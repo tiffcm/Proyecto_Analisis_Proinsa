@@ -7,14 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\cargarImg.js" />
     <Content Remove="wwwroot\js\modalDinamico.js" />
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\js\cargarImg.js" />
     <_ContentIncludedByDefault Remove="wwwroot\js\modalDinamico.js" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\js\cargarImg.js" />
     <None Include="wwwroot\js\modalDinamico.js" />
   </ItemGroup>
 
