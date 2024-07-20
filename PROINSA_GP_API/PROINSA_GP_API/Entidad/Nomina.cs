@@ -11,4 +11,22 @@
         public int CreadorID { get; set; }
 
     }
+
+
+    public class IngresoNominaDetalle
+    {
+        public decimal MONTO { get; set; }
+        public string? DETALLE { get; set; }
+        public long INGRESO_ID { get; set; }
+        public long EMPLEADO_ID { get; set; }
+    }
+
+
+    public class DeduccionNominaDetalle
+    {
+        public decimal MONTO { get; set; }
+        public string? DETALLE { get; set; }
+        public long DEDUCCION_ID { get; set; }
+        public long EMPLEADO_ID { get; set; }
+    }
 }
