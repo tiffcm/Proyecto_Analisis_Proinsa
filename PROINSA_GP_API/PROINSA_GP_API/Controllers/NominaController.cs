@@ -15,8 +15,8 @@ namespace PROINSA_GP_API.Controllers
         
 
         [HttpPost]
-        [Route("RegistrarNomina")]
-        public async Task<IActionResult> RegistrarNomina(Nomina entidad)
+        [Route("RegistrarActualizarIngreso")]
+        public async Task<IActionResult> RegistrarActualizarIngreso(Nomina entidad)
         {
             Respuesta respuesta = new Respuesta();
 
@@ -35,126 +35,6 @@ namespace PROINSA_GP_API.Controllers
                 {
                     respuesta.CONTENIDO = 0;
                     respuesta.MENSAJE = "Ha ocurrido un error al procesar la solicitud";
-                    respuesta.CONTENIDO = false;
-                    return Ok(respuesta);
-                }
-            }
-        }
-
-
-        [HttpPost]
-        [Route("RegistrarIngresosNominaDetalle")]
-        public async Task<IActionResult> RegistrarIngresosNominaDetalle([FromBody] List<IngresoNominaDetalle> ingresos)
-        {
-            Respuesta respuesta = new Respuesta();
-
-            
-
-
-            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
-            {
-                var dataTable = new DataTable();
-                dataTable.Columns.Add("MONTO", typeof(decimal));
-                dataTable.Columns.Add("DETALLE", typeof(string));
-                dataTable.Columns.Add("INGRESO_ID", typeof(long));
-                dataTable.Columns.Add("EMPLEADO_ID", typeof(long));
-
-                foreach (var ingreso in ingresos)
-                {
-                    dataTable.Rows.Add(ingreso.MONTO, ingreso.DETALLE, ingreso.INGRESO_ID, ingreso.EMPLEADO_ID);
-                }
-
-                var dynamicParameters = new DynamicParameters();
-                dynamicParameters.Add("@IngresosNominaDetalle", dataTable.AsTableValuedParameter("dbo.IngresoNominaDetalleType"));
-
-                try
-                {
-                    await context.OpenAsync();
-                    var result = await context.ExecuteAsync(
-                        "RegistrarIngresosNominaDetalle",
-                        dynamicParameters,
-                        commandType: CommandType.StoredProcedure
-                    );
-
-                    if (result > 0)
-                    {
-                        respuesta.CODIGO = 1;
-                        respuesta.MENSAJE = "OK";
-                        respuesta.CONTENIDO = true;
-                        return Ok(respuesta);
-                    }
-                    else
-                    {
-                        respuesta.CODIGO = 0;
-                        respuesta.MENSAJE = "Ha ocurrido un error al procesar la solicitud";
-                        respuesta.CONTENIDO = false;
-                        return Ok(respuesta);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    respuesta.CODIGO = 0;
-                    respuesta.MENSAJE = $"Error: {ex.Message}";
-                    respuesta.CONTENIDO = false;
-                    return Ok(respuesta);
-                }
-            }
-        }
-
-
-        [HttpPost]
-        [Route("RegistrarDeduccionNominaDetalle")]
-        public async Task<IActionResult> RegistrarDeduccionNominaDetalle([FromBody] List<DeduccionNominaDetalle> deducciones)
-        {
-            Respuesta respuesta = new Respuesta();
-
-
-
-
-            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
-            {
-                var dataTable = new DataTable();
-                dataTable.Columns.Add("MONTO", typeof(decimal));
-                dataTable.Columns.Add("DETALLE", typeof(string));
-                dataTable.Columns.Add("DEDUCCION_ID", typeof(long));
-                dataTable.Columns.Add("EMPLEADO_ID", typeof(long));
-
-                foreach (var deduccion in deducciones)
-                {
-                    dataTable.Rows.Add(deduccion.MONTO, deduccion.DETALLE, deduccion.DEDUCCION_ID, deduccion.EMPLEADO_ID);
-                }
-
-                var dynamicParameters = new DynamicParameters();
-                dynamicParameters.Add("@DeduccionesNominaDetalle", dataTable.AsTableValuedParameter("dbo.DeduccionNominaDetalleType"));
-
-                try
-                {
-                    await context.OpenAsync();
-                    var result = await context.ExecuteAsync(
-                        "RegistrarDeduccionesNominaDetalle",
-                        dynamicParameters,
-                        commandType: CommandType.StoredProcedure
-                    );
-
-                    if (result > 0)
-                    {
-                        respuesta.CODIGO = 1;
-                        respuesta.MENSAJE = "OK";
-                        respuesta.CONTENIDO = true;
-                        return Ok(respuesta);
-                    }
-                    else
-                    {
-                        respuesta.CODIGO = 0;
-                        respuesta.MENSAJE = "Ha ocurrido un error al procesar la solicitud";
-                        respuesta.CONTENIDO = false;
-                        return Ok(respuesta);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    respuesta.CODIGO = 0;
-                    respuesta.MENSAJE = $"Error: {ex.Message}";
                     respuesta.CONTENIDO = false;
                     return Ok(respuesta);
                 }
