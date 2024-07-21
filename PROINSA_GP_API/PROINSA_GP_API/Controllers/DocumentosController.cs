@@ -26,8 +26,7 @@ namespace PROINSA_GP_API.Controllers
                 parametros.Add("@EMPLEADO_ID", entidad.EMPLEADO_ID);
                 parametros.Add("@DOCUMENTO", entidad.DOCUMENTO);
 
-                var result = await context.ExecuteAsync("REGISTRAR_DOCUMENTO", new 
-                { parametros },
+                var result = await context.ExecuteAsync("REGISTRAR_DOCUMENTO", parametros ,
                 commandType: CommandType.StoredProcedure);
 
                 if (result > 0)

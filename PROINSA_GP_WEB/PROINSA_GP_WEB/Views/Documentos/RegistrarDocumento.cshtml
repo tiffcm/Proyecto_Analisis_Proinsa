@@ -1,0 +1,66 @@
+﻿@model PROINSA_GP_WEB.Entidad.Documento
+@{
+    ViewBag.Title = "RegistrarDocumentos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Documentos y anuncios / Gestión de documentos /  </span> Registrar documentos</h4>
+<div class="content-wrapper">
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="row">
+            <div class="card mb-4">
+                <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Datos para la gestión del permiso:</h5>
+                <div class="card-body">
+                    @if (ViewBag.msj != null)
+                    {
+                        <div class="alert alert-secondary" style="text-align:center" role="alert">
+                            @ViewBag.msj
+                        </div>
+                    }
+                    @using (Html.BeginForm("RegistrarDocumento", "Documentos", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    @Html.Label("Tipo de documento:")
+                                    @Html.DropDownListFor(m => m.TIPODOCUMENTO_ID, ViewBag.tiposDocumentos as List<SelectListItem>, "Por favor, elija el tipo de documento", new { @class = "form-control", @style = "text-align:center;", @required = "true" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    @Html.Label("Nombre del documento:")
+                                    @Html.TextBoxFor(m => m.NOMBRE_DOCUMENTO, new { @class = "form-control", @type = "text", @required="true"})
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    @Html.Label("Comentario:")
+                                    @Html.TextAreaFor(m => m.COMENTARIO, new { @class = "form-control", @required = "true" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label for="subirDocumento" class="btn btn-primary col-md-12" tabindex="0">
+                                        <span class="d-none d-sm-block">Subir archivo</span>
+                                        <i class="bx bx-subirDocumento d-block d-sm-none"></i>
+                                        <input type="file" id="subirDocumento" name="subirDocumento" class="account-file-input" hidden accept=".pdf" required/>
+                                    </label>
+                                    <p class="text-muted mb-0" style="text-align:center;">Permitido el formato en PDF. Hasta un máximo de 5MB</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display:grid; place-items:center;">
+                            <button class="btn btn-primary mt-4 toastBtn" style="width:300px" type="submit" id="submitButton">Registrar</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

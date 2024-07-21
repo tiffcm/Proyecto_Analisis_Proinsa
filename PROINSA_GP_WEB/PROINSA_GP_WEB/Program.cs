@@ -14,6 +14,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddSingleton<IUsuarioModel, UsuarioModel>();
 builder.Services.AddSingleton<ISolicitudModel, SolicitudModel>();
 builder.Services.AddSingleton<IAprobacionModel, AprobacionModel>();
+builder.Services.AddSingleton<IDocumentoModel, DocumentoModel>();
 
 // Para autenticación con AZURE
 builder.Services.AddAuthentication().AddMicrosoftAccount(opciones =>

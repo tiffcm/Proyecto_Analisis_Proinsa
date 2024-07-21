@@ -1,58 +1,60 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using P_WebMartes.Models;
+using PROINSA_GP_WEB.Entidad;
 using PROINSA_GP_WEB.Models;
+using PROINSA_GP_WEB.Servicios;
+using System.Data;
+using System.Text.Json;
 
 namespace PROINSA_GP_WEB.Controllers
 {
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public class DocumentosController : Controller
-    {
-        // SE DEBE REALIZAR LA VALIDACION DE VISTAS PARA USUARIO Y ADMIN
-        [Seguridad]
-        [HttpGet]
-        public IActionResult DocusPlanos()
+    public class DocumentosController (IDocumentoModel iDocumentoModel) : Controller
+    {        
+        [Seguridad][HttpGet]
+        public IActionResult RegistrarDocumento()
+        {
+            var tiposDocumentos = iDocumentoModel.ConsultarTiposDocumento();
+            ViewBag.tiposDocumentos = JsonSerializer.Deserialize<List<SelectListItem>>((JsonElement)tiposDocumentos.CONTENIDO!);
+            return View();
+        }
+
+        [Seguridad][HttpPost]
+        public IActionResult RegistrarDocumento(Documento entidad)
+        {
+            long? IdEmpleado = HttpContext.Session.GetInt32("ID_EMPLEADO");
+            IFormFile archivo = Request.Form.Files["subirDocumento"]!;
+            entidad.DOCUMENTO = ConvertirPDFBytes(archivo);
+            string base64 = Convert.ToBase64String(entidad!.DOCUMENTO!);            
+            entidad.VER_DOCUMENTO = $"data:image/pdf;base64,{base64}";
+            entidad.EMPLEADO_ID = IdEmpleado;
+            var respuesta = iDocumentoModel.RegistrarDocumento(entidad);
+            return RedirectToAction("Principal","Home");
+        }
+
+        [Seguridad][HttpGet]
+        public IActionResult HistorialDocumentos()
+        {
+            var idEmpleadoSession = HttpContext.Session.GetInt32("ID_EMPLEADO");
+            int idEmpleado = idEmpleadoSession ?? 0;
+            DataTable documentos = iDocumentoModel.ConsultarDocumentosEmpleado(idEmpleado)!;
+            return View(documentos);            
+        }
+
+        [Seguridad][HttpGet]
+        public IActionResult ConsultarDocumentos()
         {
             return View();
         }
 
-        [Seguridad]
-        [HttpGet]
-        public IActionResult DocusPropios()
+        private byte[] ConvertirPDFBytes(IFormFile pdf)
         {
-            return View();
+            using (var ms = new MemoryStream())
+            {
+                pdf.CopyTo(ms);
+                return ms.ToArray();
+            }
         }
-
-        // ESTOS 2 DE ACA ABAJO CREO QUE NO SE VAN A NECESITAR SE HARIAN SUBOPCIONES EN EL MENU (PLANOS Y PROPIOS/USUARIOS)
-        //[HttpGet]
-        //public IActionResult GestionMisDocumentos()
-        //{
-        //    return View();
-        //}
-
-        //[Seguridad]
-        //[Administrador]
-        //[HttpGet]
-        //public IActionResult GestionDocumentos()
-        //{
-        //    return View();
-        //}
-
-        [Seguridad]
-        [Administrador]
-        [HttpGet]
-        public IActionResult DocumentoUsuario()
-        {
-            return View();
-        }
-
-        [Seguridad]
-        [Administrador]
-        [HttpGet]
-        public IActionResult Documentoplano()
-        {
-            return View();
-        }
-
-        
     }
 }

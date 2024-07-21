@@ -1,0 +1,45 @@
+﻿@using System.Data
+@{
+    ViewBag.Title = "HistorialDocumentos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Documentos y anuncios / Gestión de documentos / </span>  Ver mis documentos </h4>
+
+<div class="card-body">
+    <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Historial de documentos:</h5>
+    <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+        <div class="row">
+            <div class="tab-content">
+                <div class="tab-pane show active" id="striped-rows-preview">
+                    <div class="table-responsive-sm">
+                        <table id="dataTable" class="table table-bordered dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
+                            <thead>
+                                <tr>
+                                    <th>TIPO DE DOCUMENTO</th>
+                                    <th>NOMBRE DEL DOCUMENTO</th>
+                                    <th>COMENTARIO</th>
+                                    <th>DOCUMENTO</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (DataRow row in Model.Rows)
+                                {
+                                    <tr>
+                                        <td>@row["DESCRIPCION"]</td>
+                                        <td>@row["NOMBRE_DOCUMENTO"]</td>
+                                        <td>@row["COMENTARIO"]</td>
+                                        <td>
+                                            <a href="@row["DOCUMENTO"]" class="btn btn-primary" download>Descargar</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/datatable.js"></script>
