@@ -138,37 +138,6 @@ namespace PROINSA_GP_API.Controllers
             }
         }
 
-        [HttpPut]
-        [Route("ActualizarFoto")]
-        public async Task<IActionResult> ActualizarFoto(Usuario usuario)
-        {
-            Respuesta respuesta = new Respuesta();
-            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
-            {
-                var parametros = new DynamicParameters();
-                parametros.Add("@ID_EMPLEADO", usuario.ID_EMPLEADO);
-                parametros.Add("@FOTO", usuario.FOTO);
-                parametros.Add("@TIPO_FOTO", usuario.TIPO_FOTO);
-
-                var request = await contexto.ExecuteAsync("ActualizarFoto", parametros,
-                   commandType: System.Data.CommandType.StoredProcedure);
-                if (request > 0)
-                {
-                    respuesta.CODIGO = 1;
-                    respuesta.MENSAJE = "OK";
-                    respuesta.CONTENIDO = true;
-                    return Ok(respuesta);
-                }
-                else
-                {
-                    respuesta.CODIGO = 0;
-                    respuesta.MENSAJE = "Se presentó un inconveniente actualizando su información";
-                    respuesta.CONTENIDO = false;
-                    return Ok(respuesta);
-                }
-            }
-        }
-
         //---------------------
         /// ADMINISTRADOR
         /// VER LISTA DE USUARIOS
