@@ -12,7 +12,33 @@ namespace PROINSA_GP_API.Controllers
     [ApiController]
     public class NominaController(IConfiguration iConfiguration) : ControllerBase
     {
-        
+
+        [HttpPost]
+        [Route("CalculoNominaInicial")]
+        public async Task<IActionResult> CalculoNominaInicial()
+        {
+            Respuesta respuesta = new Respuesta();
+
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+                var result = await context.ExecuteAsync("CalculoNominaInicial", commandType: CommandType.StoredProcedure);
+
+                if (result > 0)
+                {
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = true;
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CONTENIDO = 0;
+                    respuesta.MENSAJE = "Error al procesar el calculo";
+                    respuesta.CONTENIDO = false;
+                    return Ok(respuesta);
+                }
+            }
+        }
 
         [HttpPost]
         [Route("RegistrarActualizarIngreso")]
