@@ -1,4 +1,4 @@
-﻿@using System.Data
+﻿@model List<PROINSA_GP_WEB.Entidad.Documento>
 @{
     ViewBag.Title = "HistorialDocumentos";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,9 +9,9 @@
 <div class="card-body">
     <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Historial de documentos:</h5>
     <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
-        <div class="row">
+        <div class="item">
             <div class="tab-content">
-                <div class="tab-pane show active" id="striped-rows-preview">
+                <div class="tab-pane show active" id="striped-items-preview">
                     <div class="table-responsive-sm">
                         <table id="dataTable" class="table table-bordered dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
                             <thead>
@@ -19,19 +19,27 @@
                                     <th>TIPO DE DOCUMENTO</th>
                                     <th>NOMBRE DEL DOCUMENTO</th>
                                     <th>COMENTARIO</th>
-                                    <th>DOCUMENTO</th>
+                                    <th>ELIMINAR</th>
+                                    <th>ACTUALIZAR</th>
+                                    <th>DESCARGAR</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @foreach (DataRow row in Model.Rows)
+                            <tbody class="align_dataTable_text">
+                                @foreach (var item in Model)
                                 {
                                     <tr>
-                                        <td>@row["DESCRIPCION"]</td>
-                                        <td>@row["NOMBRE_DOCUMENTO"]</td>
-                                        <td>@row["COMENTARIO"]</td>
+                                        <td>@item.NOMBRE_TIPODOCUMENTO</td>
+                                        <td>@item.NOMBRE_DOCUMENTO</td>
+                                        <td>@item.COMENTARIO</td>
                                         <td>
-                                            <a href="@row["DOCUMENTO"]" class="btn btn-primary" download>Descargar</a>
+                                            <a href="@Url.Action("EliminarDocumento","Documentos", new{ q = item.ID_EMPLEADODOCUMENTO})" class="btn btn-primary">Eliminar</a>
                                         </td>
+                                        <td>
+                                            <a href="@Url.Action("ActualizarDocumento","Documentos", new{ q = item.ID_EMPLEADODOCUMENTO})" class="btn btn-primary">Actualizar</a>
+                                        </td>
+                                        <td>
+                                            <a href="@item.VER_DOCUMENTO" class="btn btn-primary" download>Descargar</a>
+                                        </td>                                        
                                     </tr>
                                 }
                             </tbody>

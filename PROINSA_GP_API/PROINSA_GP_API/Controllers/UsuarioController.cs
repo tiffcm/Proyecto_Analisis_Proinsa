@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using PROINSA_GP_API.Entidad;
 
@@ -132,6 +133,33 @@ namespace PROINSA_GP_API.Controllers
                 {
                     respuesta.CODIGO = 0;
                     respuesta.MENSAJE = "La información del empleado no se encuentra registrada";
+                    respuesta.CONTENIDO = false;
+                    return Ok(respuesta);
+                }
+            }
+        }
+
+        [HttpGet]
+        [Route("ConsultarEmpleados")]
+        public async Task<IActionResult> ConsultarEmpleados()
+        {
+            Respuesta respuesta = new Respuesta();
+            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+                var request = await contexto.QueryAsync<SelectListItem>("ConsultarEmpleados",
+                    new { },
+                    commandType: System.Data.CommandType.StoredProcedure);
+                if (request != null)
+                {
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = request;
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CODIGO = 0;
+                    respuesta.MENSAJE = "No hay tipos de documento registrados";
                     respuesta.CONTENIDO = false;
                     return Ok(respuesta);
                 }

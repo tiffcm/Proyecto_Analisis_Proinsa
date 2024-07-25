@@ -33,43 +33,57 @@ namespace PROINSA_GP_WEB.Models
                 return new Respuesta();
         }
 
-        public DataTable ConsultarDocumentosEmpleado(int EMPLEADO_ID)
+        public Respuesta ConsultarDocumentosEmpleado(long EMPLEADO_ID)
         {
-            DataTable dataTable = new DataTable();
 
             string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Documentos/ConsultarDocumentosEmpleado?EMPLEADO_ID=" + EMPLEADO_ID;
-            var response = _httpClient.GetAsync(url).Result;
+            var result = _httpClient.GetAsync(url).Result;
+            if (result.IsSuccessStatusCode)                
+                return result.Content.ReadFromJsonAsync<Respuesta>().Result!;
+            else
+                return new Respuesta();
+        }
 
-            if (response.IsSuccessStatusCode)
-            {
-                var respuesta = response.Content.ReadFromJsonAsync<Respuesta>().Result;
-                if (respuesta!.CODIGO == 1)
-                {
-                    var jsonElement = (JsonElement)respuesta.CONTENIDO!;
-                    var documentos = JsonSerializer.Deserialize<List<Documento>>(jsonElement.GetRawText());
+        public Respuesta ConsultarDocumentoEmpleado(long ID_EMPLEADODOCUMENTO)
+        {
 
-                    if (documentos != null)
-                    {
-                        dataTable.Columns.Add("DESCRIPCION", typeof(string));
-                        dataTable.Columns.Add("NOMBRE_DOCUMENTO", typeof(string));
-                        dataTable.Columns.Add("COMENTARIO", typeof(string));
-                        dataTable.Columns.Add("DOCUMENTO", typeof(string));
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Documentos/ConsultarDocumentoEmpleado?ID_EMPLEADODOCUMENTO=" + ID_EMPLEADODOCUMENTO;
+            var result = _httpClient.GetAsync(url).Result;
+            if (result.IsSuccessStatusCode)
+                return result.Content.ReadFromJsonAsync<Respuesta>().Result!;
+            else
+                return new Respuesta();
+        }
 
-                        foreach (var documento in documentos)
-                        {
-                            string base64 = Convert.ToBase64String(documento.DOCUMENTO!);                            
-                            documento.VER_DOCUMENTO = $"data:application/pdf;base64,{base64}";
-                            DataRow row = dataTable.NewRow();
-                            row["DESCRIPCION"] = documento.DESCRIPCION;
-                            row["NOMBRE_DOCUMENTO"] = documento.NOMBRE_DOCUMENTO;
-                            row["COMENTARIO"] = documento.COMENTARIO;
-                            row["DOCUMENTO"] = documento.VER_DOCUMENTO;
-                            dataTable.Rows.Add(row);
-                        }
-                    }
-                }
-            }
-            return dataTable;
+        public Respuesta EliminarDocumento( long ID_EMPLEADODOCUMENTO)
+        {
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Documentos/EliminarDocumento?ID_EMPLEADODOCUMENTO=" + ID_EMPLEADODOCUMENTO;
+            var result = _httpClient.DeleteAsync(url).Result;
+            if (result.IsSuccessStatusCode)
+                return result.Content.ReadFromJsonAsync<Respuesta>().Result!;
+            else
+                return new Respuesta();
+        }
+
+        public Respuesta? ActualizarDocumento(Documento entidad)
+        {
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Documentos/ActualizarDocumento";
+            JsonContent body = JsonContent.Create(entidad);
+            var solicitud = _httpClient.PutAsync(url, body).Result;
+            if (solicitud.IsSuccessStatusCode)
+                return solicitud.Content.ReadFromJsonAsync<Respuesta>().Result;
+            else
+                return new Respuesta();
+        }
+
+        public Respuesta ConsultarEmpleados()
+        {
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Usuario/ConsultarEmpleados";
+            var result = _httpClient.GetAsync(url).Result;
+            if (result.IsSuccessStatusCode)
+                return result.Content.ReadFromJsonAsync<Respuesta>().Result!;
+            else
+                return new Respuesta();
         }
     }
 }
