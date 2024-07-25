@@ -174,5 +174,35 @@ namespace PROINSA_GP_API.Controllers
                 }
             }
         }
+
+        [HttpGet]
+        [Route("ConsultarDocumentoEmpleado")]
+        public async Task<IActionResult> ConsultarDocumentoEmpleado(long ID_EMPLEADODOCUMENTO)
+        {
+            Respuesta respuesta = new Respuesta();
+
+            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@ID_EMPLEADODOCUMENTO", ID_EMPLEADODOCUMENTO);
+
+                var request = (await contexto.QueryAsync<Documento>("ConsultarDocumentoEmpleado", parameters,
+                    commandType: System.Data.CommandType.StoredProcedure)).FirstOrDefault();
+
+                if (request != null)
+                {
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = request;
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CODIGO = 0;
+                    respuesta.MENSAJE = "No hay registros";
+                    return Ok(respuesta);
+                }
+            }
+        }
     }
 }
