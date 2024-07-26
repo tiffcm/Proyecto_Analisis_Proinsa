@@ -2,18 +2,18 @@
 
 namespace PROINSA_GP_WEB.Servicios
 {
-    public interface IActividadesModel
+    public interface IActividadModel
     {
-        Respuesta? AgregarCliente(Actividades entidad);
-        Respuesta? ModificarCliente(Actividades entidad);
+        Respuesta? AgregarCliente(Actividad entidad);
+        Respuesta? ModificarCliente(Actividad entidad);
         Respuesta? ListarClientes();
         Respuesta? DetallarCliente(long? IdCLIENTE);
         Respuesta? CambiarEstadoCliente(long? IdCLIENTE);
 
         ///
 
-        Respuesta? AgregarProyecto(Actividades entidad);
-        Respuesta? ModificarProyecto(Actividades entidad);
+        Respuesta? AgregarProyecto(Actividad entidad);
+        Respuesta? ModificarProyecto(Actividad entidad);
         Respuesta? ListarProyectos();
         Respuesta? DetallarProyecto(long? IdPROYECTO);
         Respuesta? CambiarEstadoProyecto(long? IdPROYECTO);

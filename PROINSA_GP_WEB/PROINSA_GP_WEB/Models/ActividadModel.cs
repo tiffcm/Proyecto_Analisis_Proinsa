@@ -5,14 +5,14 @@ using System.Text.Json;
 
 namespace PROINSA_GP_WEB.Models
 {
-    public class ActividadesModel(HttpClient _httpClient, IConfiguration iConfiguration) : IActividadesModel
+    public class ActividadModel(HttpClient _httpClient, IConfiguration iConfiguration) : IActividadModel
     {
         /// <summary>
         /// PARTE DE LOS "CLIENTES" = EMPLEADOS
         /// </summary>
         /// <param name="entidad"></param>
         /// <returns></returns>
-        public Respuesta? AgregarCliente(Actividades entidad)
+        public Respuesta? AgregarCliente(Actividad entidad)
         {
             string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Actividades/AgregarCliente";
             JsonContent body = JsonContent.Create(entidad);
@@ -24,7 +24,7 @@ namespace PROINSA_GP_WEB.Models
         }
 
 
-        public Respuesta? ModificarCliente(Actividades entidad)
+        public Respuesta? ModificarCliente(Actividad entidad)
         {
             string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Actividades/ModificarCliente";
             JsonContent body = JsonContent.Create(entidad);
@@ -71,12 +71,13 @@ namespace PROINSA_GP_WEB.Models
 
         }
 
+
         /// <summary>
         /// PARTE DE LOS PROYECTOS
         /// </summary>
         /// <param name="entidad"></param>
         /// <returns></returns>
-        public Respuesta? AgregarProyecto(Actividades entidad)
+        public Respuesta? AgregarProyecto(Actividad entidad)
         {
             string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Actividades/AgregarProyecto";
             JsonContent body = JsonContent.Create(entidad);
@@ -87,7 +88,7 @@ namespace PROINSA_GP_WEB.Models
                 return new Respuesta();
         }
 
-        public Respuesta? ModificarProyecto(Actividades entidad)
+        public Respuesta? ModificarProyecto(Actividad entidad)
         {
             string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Actividades/ModificarProyecto";
             JsonContent body = JsonContent.Create(entidad);

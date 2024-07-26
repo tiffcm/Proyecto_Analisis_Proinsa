@@ -156,6 +156,24 @@ namespace PROINSA_GP_WEB.Controllers
 			var respuesta = _iUsuarioModel.EditarDatosVistaAdmin(usuario);
 			return RedirectToAction("AdministrarUsuarios", "Usuarios");
 
+
+        }
+
+        [Administrador]
+        [Seguridad]
+        [HttpPost]
+        public IActionResult CambiarEstadoUsuarioVista(long IdEmpleado)
+        {
+            var respuesta = _iUsuarioModel.CambiarEstadoUsuarioAdmin(IdEmpleado);
+
+            if (respuesta.CODIGO == 1)
+            {
+                return RedirectToAction("MantenimientoUsuario", new { IdEmpleado });
+            }
+
+            ViewBag.msj = respuesta.MENSAJE;
+            return RedirectToAction("MantenimientoUsuario", new { IdEmpleado });
+
         }
 
 

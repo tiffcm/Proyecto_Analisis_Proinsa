@@ -110,6 +110,26 @@
                                     <div data-i18n="Connections">Ver historial de actividades</div>
                                 </a>
                             </li>
+                            @if (idRol == 1)
+                            {
+                                <li class="menu-item">
+                                    <a href="@Url.Action("IngresoClientes","Actividades")" class="menu-link">
+                                        <div data-i18n="Connections">Registrar Cliente</div>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="@Url.Action("ListaClientes","Actividades")" class="menu-link">
+                                        <div data-i18n="Connections">Ver Clientes</div>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="@Url.Action("RegistrarProyecto","Actividades")" class="menu-link">
+                                        <div data-i18n="Connections">Registrar Proyecto</div>
+                                    </a>
+                                </li>
+                            }
+                            
+                        
                         </ul>
                     </li>
                     <!--Título: Documentos y anuncios -->
