@@ -22,13 +22,13 @@ namespace PROINSA_GP_API.Controllers
 
         [HttpPost]
         [Route("AgregarCliente")]
-        public async Task<IActionResult> AgregarCliente(Actividades entidad)
+        public async Task<IActionResult> AgregarCliente(Actividad entidad)
         {
             Respuesta respuesta = new Respuesta();
 
             using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
-                var result = await context.ExecuteAsync("AgregarCliente", new { entidad.NOMBRE, entidad.DETALLE, entidad.PAIS, entidad.SECTOR }, commandType: CommandType.StoredProcedure);
+                var result = await context.ExecuteAsync("AgregarCliente", new { entidad.NOMBRE,  entidad.PAIS, entidad.SECTOR, entidad.DETALLE, }, commandType: CommandType.StoredProcedure);
 
                 if (result > 0)
                 {
@@ -49,7 +49,7 @@ namespace PROINSA_GP_API.Controllers
 
         [HttpPut]
         [Route("ModificarCliente")]
-        public async Task<IActionResult> ModificarCliente(Actividades entidad)
+        public async Task<IActionResult> ModificarCliente(Actividad entidad)
         {
             Respuesta respuesta = new Respuesta();
             using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
@@ -60,7 +60,7 @@ namespace PROINSA_GP_API.Controllers
                 parametros.Add("@DETALLE", entidad.DETALLE);
                 parametros.Add("@PAIS", entidad.PAIS);
                 parametros.Add("@SECTOR", entidad.SECTOR);
-                parametros.Add("@ESTADO", entidad.ESTADO);
+                //parametros.Add("@ESTADO", entidad.ESTADO);
 
                 var request = await contexto.ExecuteAsync("ModificarCliente", parametros,
                    commandType: System.Data.CommandType.StoredProcedure);
@@ -138,7 +138,7 @@ namespace PROINSA_GP_API.Controllers
 
         [HttpPut]
         [Route("CambiarEstadoCliente")]
-        public async Task<IActionResult> CambiarEstadoCliente(long IdCLIENTE)
+        public async Task<IActionResult> CambiarEstadoCliente(long? IdCLIENTE)
         {
             Respuesta respuesta = new Respuesta();
             using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
@@ -164,6 +164,33 @@ namespace PROINSA_GP_API.Controllers
             }
         }
 
+        [HttpPut]
+        [Route("CambiarEstadoClienteLista")]
+        public async Task<IActionResult> CambiarEstadoClienteLista(long? IdCliente)
+        {
+            Respuesta respuesta = new Respuesta();
+            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+                var parametros = new DynamicParameters();
+                parametros.Add("@ID_CLIENTE", IdCliente);
+                var request = await contexto.ExecuteAsync("CambiarEstadoClienteLista", parametros,
+                   commandType: System.Data.CommandType.StoredProcedure);
+                if (request > 0)
+                {
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = true;
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CODIGO = 0;
+                    respuesta.MENSAJE = "Se presentó un inconveniente actualizando el estado";
+                    respuesta.CONTENIDO = false;
+                    return Ok(respuesta);
+                }
+            }
+        }
         /// <summary>
         /// SPs para proyecto
         /// </summary>
@@ -172,7 +199,7 @@ namespace PROINSA_GP_API.Controllers
 
         [HttpPost]
         [Route("AgregarProyecto")]
-        public async Task<IActionResult> AgregarProyecto(Actividades entidad)
+        public async Task<IActionResult> AgregarProyecto(Actividad entidad)
         {
             Respuesta respuesta = new Respuesta();
 
@@ -199,7 +226,7 @@ namespace PROINSA_GP_API.Controllers
 
         [HttpPut]
         [Route("ModificarProyecto")]
-        public async Task<IActionResult> ModificarProyecto(Actividades entidad)
+        public async Task<IActionResult> ModificarProyecto(Actividad entidad)
         {
             Respuesta respuesta = new Respuesta();
             using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
@@ -237,13 +264,13 @@ namespace PROINSA_GP_API.Controllers
 
         [HttpPut]
         [Route("CambiarEstadoProyecto")]
-        public async Task<IActionResult> CambiarEstadoProyecto(long ID_PROYECTO)
+        public async Task<IActionResult> CambiarEstadoProyecto(long? IdPROYECTO)
         {
             Respuesta respuesta = new Respuesta();
             using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
                 var parametros = new DynamicParameters();
-                parametros.Add("@ID_PROYECTO", ID_PROYECTO);
+                parametros.Add("@ID_PROYECTO", IdPROYECTO);
                 var request = await contexto.ExecuteAsync("CambiarEstadoProyecto", parametros,
                    commandType: System.Data.CommandType.StoredProcedure);
                 if (request > 0)
@@ -324,14 +351,14 @@ namespace PROINSA_GP_API.Controllers
         /// <param name="entidad"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("IngresoActividad")]
-        public async Task<IActionResult> IngresoActividad(Actividades entidad)
+        [Route("IngresorRegistroActividad")]
+        public async Task<IActionResult> IngresorRegistroActividad(Actividad entidad)
         {
             Respuesta respuesta = new Respuesta();
 
             using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
-                var result = await context.ExecuteAsync("IngresoActividad", new { entidad.FECHA_INICIO, entidad.FECHA_FIN, entidad.TOTALHORAS, entidad.DETALLE, }, commandType: CommandType.StoredProcedure);
+                var result = await context.ExecuteAsync("IngresorRegistroActividad", new { entidad.FECHA_INICIO, entidad.FECHA_FIN, entidad.TOTALHORAS, entidad.DETALLE, entidad.EMPLEADO_ID}, commandType: CommandType.StoredProcedure);
 
                 if (result > 0)
                 {
@@ -343,12 +370,154 @@ namespace PROINSA_GP_API.Controllers
                 else
                 {
                     respuesta.CONTENIDO = 0;
-                    respuesta.MENSAJE = "No se logro agregar el cliente";
+                    respuesta.MENSAJE = "No se logro registrar la actividad";
+                    respuesta.CONTENIDO = false;
+                    return Ok(respuesta);
+                }
+            }
+        }
+        [HttpGet]
+        [Route("ListarTodasActividades")]
+        public async Task<IActionResult> ListarTodasActividades()
+        {
+            Respuesta respuesta = new Respuesta();
+            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+                var request = await contexto.QueryAsync("ListarTodasActividades", new { },
+                      commandType: System.Data.CommandType.StoredProcedure);
+                if (request != null)
+                {
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = request.ToList();
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CODIGO = 0;
+                    respuesta.MENSAJE = "No hay proyectos registrados";
                     respuesta.CONTENIDO = false;
                     return Ok(respuesta);
                 }
             }
         }
 
+        [HttpGet]
+        [Route("ListarActividadesPorEmpleado")]
+        public async Task<IActionResult> ListarActividadesPorEmpleado(long IdEMPLEADO)
+        {
+            Respuesta respuesta = new Respuesta();
+            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+                var request = await contexto.QueryAsync("ListarActividadesPorEmpleado", new { },
+                      commandType: System.Data.CommandType.StoredProcedure);
+                if (request != null)
+                {
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = request.ToList();
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CODIGO = 0;
+                    respuesta.MENSAJE = "No hay proyectos registrados";
+                    respuesta.CONTENIDO = false;
+                    return Ok(respuesta);
+                }
+            }
+        }
+
+        [HttpPut]
+        [Route("ModificarRegistroActividad")]
+        public async Task<IActionResult> ModificarRegistroActividad(Actividad entidad)
+        {
+            Respuesta respuesta = new Respuesta();
+            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+                var parametros = new DynamicParameters();
+                parametros.Add("@ID_REGISTROACTIVIDAD", entidad.ID_PROYECTO);
+                parametros.Add("@FECHA_INICIO", entidad.NOMBRE);
+                parametros.Add("@FECHA_FIN", entidad.TOTAL_HORAS);
+                parametros.Add("@TOTALHORAS", entidad.INICIO_FECHA);
+                parametros.Add("@DETALLE", entidad.FINAL_FECHA);
+                parametros.Add("@ESTADO", entidad.COD_PROYECTO);
+                parametros.Add("@EMPLEADO_ID", entidad.COMENTARIO);
+                
+
+                var request = await contexto.ExecuteAsync("ModificarRegistroActividad", parametros,
+                   commandType: System.Data.CommandType.StoredProcedure);
+                if (request > 0)
+                {
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = true;
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CODIGO = 0;
+                    respuesta.MENSAJE = "Se presentó un inconveniente actualizando la información";
+                    respuesta.CONTENIDO = false;
+                    return Ok(respuesta);
+                }
+            }
+        }
+        [HttpGet]
+        [Route("DetallarRegistroActividadPorID")]
+        public async Task<IActionResult> DetallarRegistroActividadPorID(long ID_REGISTROACTIVIDAD)
+        {
+            Respuesta respuesta = new Respuesta();
+            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+                var parametros = new DynamicParameters();
+                parametros.Add("@ID_REGISTROACTIVIDAD", ID_REGISTROACTIVIDAD);
+                var request = (await contexto.QueryAsync("DetallarRegistroActividadPorID",
+                    parametros,
+                    commandType: System.Data.CommandType.StoredProcedure)).FirstOrDefault();
+                if (request != null)
+                {
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = request;
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CODIGO = 0;
+                    respuesta.MENSAJE = "No hay mas detalle acerca del proyecto";
+                    respuesta.CONTENIDO = false;
+                    return Ok(respuesta);
+                }
+            }
+        }
+
+        [HttpPut]
+        [Route("CambiarEstadoRegistroActividad")]
+        public async Task<IActionResult> CambiarEstadoRegistroActividad(long? ID_REGISTROACTIVIDAD)
+        {
+            Respuesta respuesta = new Respuesta();
+            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+                var parametros = new DynamicParameters();
+                parametros.Add("@ID_REGISTROACTIVIDAD", ID_REGISTROACTIVIDAD);
+                var request = await contexto.ExecuteAsync("CambiarEstadoRegistroActividad", parametros,
+                   commandType: System.Data.CommandType.StoredProcedure);
+                if (request > 0)
+                {
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = true;
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CODIGO = 0;
+                    respuesta.MENSAJE = "Se presentó un inconveniente actualizando el estado";
+                    respuesta.CONTENIDO = false;
+                    return Ok(respuesta);
+                }
+            }
+        }
     }
 }

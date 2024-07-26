@@ -42,12 +42,12 @@
             </div>
 
             <div class="row">
-				<div class="col-md-6">
+				@* <div class="col-md-6">
 					<div class="mb-4">
 						@Html.Label("Foto")
-						@* @Html.TextBoxFor(m => m., new { @class = "form-control" }) *@
+						@Html.TextBoxFor(m => m., new { @class = "form-control" })
 					</div>
-                </div>
+                </div> *@
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Correo Electrónico")
@@ -113,36 +113,10 @@
                 </div>
                 <div class="col-md-6">
                     <div class="mb-4">
-                        @Html.Label("Activo")
+                        @Html.Label("Estado")
                         @Html.TextBoxFor(m => m.ESTADO, new { @class = "form-control", @readonly = "true" })
-                        @* <input asp-for="ESTADO" type="checkbox" class="form-check-input" style="text-align: center;" id="flexCheckDefault" />
-                    <span asp-validation-for="ESTADO" class="text-danger"></span> *@
                     </div>
                 </div>
-                @* <div class="col-md-6">
-            <div class="mb-4">
-            @Html.Label(" ")
-            @if (Model.ESTADO != "Activo")
-            {
-            //<button type="submit" class="btn btn-danger">Activar</button>
-            <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalUsuario_@Model.ID_EMPLEADO" asp-action="CambiarEstadoUsuario" asp-route-Id="@Model.ID_EMPLEADO">Activar</a>
-            } else
-            {
-            //<button type="submit" class="btn btn-danger">Desactivar</button>
-            <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalUsuario_@Model.ID_EMPLEADO" asp-action="CambiarEstadoUsuario" asp-route-Id="@Model.ID_EMPLEADO">Desactivar</a>
-            }
-
-            </div>
-            <div class="mb-4">
-            @Html.Label("Estado actual")
-            <select asp-for="ESTADO" asp-controller="Usuarios" asp-action="CambiarEstadoUsuario" class="form-control" method="POST" style="text-align: center;" required>
-            <option value="true">Activo</option>
-            <option value="false">Inactivo</option>
-            </select>
-            </div>
-            </div> *@
-
-
             </div>
 
             <!-- Codigo TELEFONOS -->
@@ -187,9 +161,17 @@
                 <div class="mt-4">
                     <button type="submit" class="btn btn-primary">Actualizar usuario</button>
                 </div>
-            </div>   
-
+            </div> 
             
+        }
+        <!-- Botón para cambiar el estado del cliente -->
+        @using (Html.BeginForm("CambiarEstadoUsuarioVista", "Usuarios", new { IdEmpleado = Model.ID_EMPLEADO }, FormMethod.Post))
+        {
+            <div class="mt-4" style="text-align:center;">
+                <button type="submit" class="btn btn-secondary">
+                    Cambiar Estado a @(Model.ESTADO == "Activo" ? "Inactivo" : "Activo")
+                </button>
+            </div>
         }
     </div>
 </div>
