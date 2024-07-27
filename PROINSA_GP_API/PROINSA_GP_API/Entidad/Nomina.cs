@@ -19,6 +19,8 @@
         public string? DETALLE { get; set; }
         public long INGRESO_ID { get; set; }
         public long EMPLEADO_ID { get; set; }
+
+        public int CANTIDAD { get; set; }
     }
 
 

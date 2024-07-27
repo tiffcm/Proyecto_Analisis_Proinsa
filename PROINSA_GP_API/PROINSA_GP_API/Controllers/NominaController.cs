@@ -13,6 +13,35 @@ namespace PROINSA_GP_API.Controllers
     public class NominaController(IConfiguration iConfiguration) : ControllerBase
     {
 
+        
+
+        [HttpPost]
+        [Route("RegistrarNomina")]
+        public async Task<IActionResult> RegistrarNomina(Nomina entidad)
+        {
+            Respuesta respuesta = new Respuesta();
+
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+                var result = await context.ExecuteAsync("RegistrarNomina", new { entidad.DESCRIPCION, entidad.OBSERVACIONES, entidad.TipoNomina, entidad.CreadorID }, commandType: CommandType.StoredProcedure);
+
+                if (result > 0)
+                {
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = true;
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CONTENIDO = 0;
+                    respuesta.MENSAJE = "Ha ocurrido un error al procesar la solicitud";
+                    respuesta.CONTENIDO = false;
+                    return Ok(respuesta);
+                }
+            }
+        }
+
         [HttpPost]
         [Route("CalculoNominaInicial")]
         public async Task<IActionResult> CalculoNominaInicial()
@@ -41,14 +70,14 @@ namespace PROINSA_GP_API.Controllers
         }
 
         [HttpPost]
-        [Route("RegistrarActualizarIngreso")]
-        public async Task<IActionResult> RegistrarActualizarIngreso(Nomina entidad)
+        [Route("CalculoNominaFinal")]
+        public async Task<IActionResult> CalculoNominaFinal()
         {
             Respuesta respuesta = new Respuesta();
 
             using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
-                var result = await context.ExecuteAsync("RegistrarNomina", new { entidad.DESCRIPCION, entidad.OBSERVACIONES, entidad.TipoNomina, entidad.CreadorID }, commandType: CommandType.StoredProcedure);
+                var result = await context.ExecuteAsync("CalculoNominaFinal", commandType: CommandType.StoredProcedure);
 
                 if (result > 0)
                 {
@@ -60,7 +89,7 @@ namespace PROINSA_GP_API.Controllers
                 else
                 {
                     respuesta.CONTENIDO = 0;
-                    respuesta.MENSAJE = "Ha ocurrido un error al procesar la solicitud";
+                    respuesta.MENSAJE = "Error al procesar el calculo";
                     respuesta.CONTENIDO = false;
                     return Ok(respuesta);
                 }
@@ -112,10 +141,11 @@ namespace PROINSA_GP_API.Controllers
                 dataTable.Columns.Add("DETALLE", typeof(string));
                 dataTable.Columns.Add("INGRESO_ID", typeof(long));
                 dataTable.Columns.Add("EMPLEADO_ID", typeof(long));
+                dataTable.Columns.Add("CANTIDAD", typeof(long));
 
                 foreach (var ingreso in ingresos)
                 {
-                    dataTable.Rows.Add(ingreso.MONTO, ingreso.DETALLE, ingreso.INGRESO_ID, ingreso.EMPLEADO_ID);
+                    dataTable.Rows.Add(ingreso.MONTO, ingreso.DETALLE, ingreso.INGRESO_ID, ingreso.EMPLEADO_ID, ingreso.CANTIDAD);
                 }
 
                 var dynamicParameters = new DynamicParameters();

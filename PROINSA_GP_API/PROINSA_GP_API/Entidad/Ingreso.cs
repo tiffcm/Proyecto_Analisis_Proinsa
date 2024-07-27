@@ -11,5 +11,7 @@
 
         public decimal PORCENTAJE { get; set; }
 
+       
+
     }
 }
