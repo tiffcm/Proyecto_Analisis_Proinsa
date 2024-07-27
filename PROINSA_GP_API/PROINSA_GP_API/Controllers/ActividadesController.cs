@@ -107,6 +107,31 @@ namespace PROINSA_GP_API.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("ListaDeClientes")]
+        public async Task<IActionResult> ListaDeClientes()
+        {
+            Respuesta respuesta = new Respuesta();
+            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+                var request = await contexto.QueryAsync("ListaDeClientes", new { },
+                      commandType: System.Data.CommandType.StoredProcedure);
+                if (request != null)
+                {
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = request.ToList();
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CODIGO = 0;
+                    respuesta.MENSAJE = "No hay clientes registrados";
+                    respuesta.CONTENIDO = false;
+                    return Ok(respuesta);
+                }
+            }
+        }
 
         [HttpGet]
         [Route("DetallarCliente")]
@@ -298,6 +323,32 @@ namespace PROINSA_GP_API.Controllers
             using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
                 var request = await contexto.QueryAsync("ListarProyectos", new { },
+                      commandType: System.Data.CommandType.StoredProcedure);
+                if (request != null)
+                {
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = request.ToList();
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CODIGO = 0;
+                    respuesta.MENSAJE = "No hay proyectos registrados";
+                    respuesta.CONTENIDO = false;
+                    return Ok(respuesta);
+                }
+            }
+        }
+
+        [HttpGet]
+        [Route("ListaDeProyectos")]
+        public async Task<IActionResult> ListaDeProyectos()
+        {
+            Respuesta respuesta = new Respuesta();
+            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+                var request = await contexto.QueryAsync("ListaDeProyectos", new { },
                       commandType: System.Data.CommandType.StoredProcedure);
                 if (request != null)
                 {

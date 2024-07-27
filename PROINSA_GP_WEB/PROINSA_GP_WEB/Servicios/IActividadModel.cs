@@ -1,4 +1,5 @@
-﻿using PROINSA_GP_WEB.Entidad;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using PROINSA_GP_WEB.Entidad;
 
 namespace PROINSA_GP_WEB.Servicios
 {
@@ -9,6 +10,7 @@ namespace PROINSA_GP_WEB.Servicios
         Respuesta? ListarClientes();
         Respuesta? DetallarCliente(long? IdCLIENTE);
         Respuesta? CambiarEstadoCliente(long? IdCLIENTE);
+        List<SelectListItem> ListaDeClientes();
 
         ///
 
@@ -17,6 +19,6 @@ namespace PROINSA_GP_WEB.Servicios
         Respuesta? ListarProyectos();
         Respuesta? DetallarProyecto(long? IdPROYECTO);
         Respuesta? CambiarEstadoProyecto(long? IdPROYECTO);
-
+        List<SelectListItem> ListaDeProyectos();
     }
 }

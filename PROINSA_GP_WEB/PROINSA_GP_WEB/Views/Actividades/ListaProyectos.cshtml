@@ -1,0 +1,72 @@
+﻿@model List<PROINSA_GP_WEB.Entidad.Actividad>
+@{
+	ViewBag.Title = "ListaProyectos";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Actividades / </span> Clientes </h4>
+
+<!-- Content wrapper -->
+<div class="content-wrapper">
+	<!-- Content -->
+	<div class="container-xxl flex-grow-1 container-p-y">
+		<!-- Basic Bootstrap Table -->
+		<div class="card">
+			<h5 class="card-header">Clientes registrados</h5>
+
+			@if (Model != null && Model.Any())
+			{
+				<div class="table-responsive text-nowrap">
+					<table class="table">
+						<thead>
+							<tr>
+
+								<th>Nombre</th>
+								<th>Total Horas</th>
+								<th>Codigo Proyecto</th>
+								<th>Contacto</th>
+								<th>Cliente</th>
+								<th>Acciones</th>
+							</tr>
+						</thead>
+						<tbody class="table-border-bottom-0">
+							@foreach (var item in Model)
+							{
+								<tr>
+
+									<td>
+										@item.NOMBRE
+									</td>
+									<td>
+										@item.TOTAL_HORAS
+									</td>
+									<td>
+										@item.COD_PROYECTO
+									</td>
+									<td>
+										@item.CONTACTO_ID
+									</td>
+									<td>
+										@item.ID_CLIENTE @* POR EL MOMENTO PERO AQUI DEBE IR EL NOMBRE *@
+									</td>
+									<td>
+										<a class="btn btn-primary" asp-action="EditarCliente" asp-route-IdCLIENTE="@item.ID_CLIENTE" name="IdCLIENTE" id="IdCLIENTE">Editar <i class="bi bi-pen"></i></a>
+										
+									</td>
+								</tr>
+							}
+						</tbody>
+					</table>
+				</div>
+			}
+			else
+			{
+				<p>No hay proyectos registrados aun</p>
+				<a class="btn btn-primary" asp-action="RegistrarProyecto">Registrar Proyecto <i class="bi bi-pen"></i></a>
+			}
+
+		</div>
+		<!--/ Basic Bootstrap Table -->
+	</div>
+</div>
+<!-- Content wrapper -->

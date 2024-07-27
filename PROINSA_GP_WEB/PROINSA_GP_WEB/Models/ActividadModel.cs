@@ -47,6 +47,31 @@ namespace PROINSA_GP_WEB.Models
             else
                 return new Respuesta();
         }
+        public List<SelectListItem> ListaDeClientes()
+        {
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Actividades/ListaDeClientes";
+            var resp = _httpClient.GetAsync(url).Result;
+
+            if (resp.IsSuccessStatusCode)
+            {
+                var respuesta = resp.Content.ReadFromJsonAsync<Respuesta>().Result;
+                if (respuesta!.CODIGO == 1)
+                {
+                    var jsonElement = (JsonElement)respuesta.CONTENIDO!;
+                    var ClientesList = JsonSerializer.Deserialize<List<Actividad>>(jsonElement.GetRawText());
+                    if (ClientesList != null)
+                    {
+                        return ClientesList.Select(t => new SelectListItem
+                        {
+                            Value = t.ID_CLIENTE.ToString(),
+                            Text = t.NOMBRE
+                        }).ToList();
+                    }
+                }
+            }
+            return new List<SelectListItem>();
+        }
+
 
         public Respuesta? DetallarCliente(long? IdCLIENTE)
         {
@@ -110,6 +135,31 @@ namespace PROINSA_GP_WEB.Models
             }
             else
                 return new Respuesta();
+        }
+
+        public List<SelectListItem> ListaDeProyectos()
+        {
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Actividades/ListaDeProyectos";
+            var resp = _httpClient.GetAsync(url).Result;
+
+            if (resp.IsSuccessStatusCode)
+            {
+                var respuesta = resp.Content.ReadFromJsonAsync<Respuesta>().Result;
+                if (respuesta!.CODIGO == 1)
+                {
+                    var jsonElement = (JsonElement)respuesta.CONTENIDO!;
+                    var ProyectoList = JsonSerializer.Deserialize<List<Actividad>>(jsonElement.GetRawText());
+                    if (ProyectoList != null)
+                    {
+                        return ProyectoList.Select(t => new SelectListItem
+                        {
+                            Value = t.ID_PROYECTO.ToString(),
+                            Text = t.NOMBRE
+                        }).ToList();
+                    }
+                }
+            }
+            return new List<SelectListItem>();
         }
 
         public Respuesta? DetallarProyecto(long? IdPROYECTO)

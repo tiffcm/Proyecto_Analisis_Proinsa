@@ -1,0 +1,110 @@
+﻿@model PROINSA_GP_WEB.Entidad.Actividad
+@{
+    ViewBag.Title = "EditarProyecto";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"> Actividades / </span> Ingreso Clientes</h4>
+
+<div class="card mb-4">
+    <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Ingresar un nuevo cliente </h5>
+    <div class="card-body">
+        @if (ViewBag.msj != null)
+        {
+            <div class="alert alert-secondary" style="text-align:center" role="alert">
+                @ViewBag.msj
+            </div>
+        }
+        @using (Html.BeginForm("EditarProyecto", "Actividades", FormMethod.Post))
+        {
+            <div class="row">
+                @Html.HiddenFor(m => m.ID_CLIENTE)
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        @Html.Label("Nombre Proyecto")
+                        @Html.TextBoxFor(m => m.NOMBRE, new { @class = "form-control", @required = "True" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        @Html.Label("Total horas")
+                        @Html.TextBoxFor(m => m.TOTAL_HORAS, new { @class = "form-control", @required = "True" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        @Html.Label("Fecha Inicio")
+                        @Html.TextBoxFor(m => m.INICIO_FECHA, new { @class = "form-control", @type = "date", @required = "True" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        @Html.Label("Fecha Final")
+                        @Html.TextBoxFor(m => m.FINAL_FECHA, new { @class = "form-control", @type = "date", @required = "True" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        @Html.Label("Codigo Proyecto")
+                        @Html.TextBoxFor(m => m.COD_PROYECTO, new { @class = "form-control", @required = "True" })
+                    </div>
+                </div>
+                @* DROP DOWN LIST PARA LOS EMPLEADOS *@
+                @* <div class="col-md-6">
+            <div class="mb-4">
+            @Html.Label("Contacto (PM)")
+            @Html.DropDownListFor(m => m.CONTACTO_ID, new SelectList(ViewBag.ContactosList, "Value", "Text"), new { @class = "form-control", placeholder = "Seleccione un contacto para el proyecto", @required = "True" })
+            </div>
+            </div> *@
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        @Html.Label("Cliente")
+                        @Html.DropDownListFor(m => m.ID_CLIENTE, new SelectList(ViewBag.ClientesList, "Value", "Text"), new { @class = "form-control", placeholder = "Seleccione un cliente", @required = "True" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        @Html.Label("Comentario")
+                        @Html.TextAreaFor(m => m.COMENTARIO, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        @Html.Label("Estado")
+                        @Html.TextBoxFor(m => m.ESTADO, new { @class = "form-control", @readonly = "true" })
+                    </div>
+                </div>
+            </div>
+            <div style="display:grid; place-items:center;">
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary">Actualizar Proyecto </button>
+                </div>
+            </div>
+        }
+        <!-- Botón para cambiar el estado del cliente -->
+        @using (Html.BeginForm("CambiarEstadoProyecto", "Actividades", new { IdPROYECTO = Model.ID_PROYECTO }, FormMethod.Post))
+        {
+            <div class="mt-4" style="text-align:center;">
+                <button type="submit" class="btn btn-secondary">
+                    Cambiar Estado a @(Model.ESTADO == "Activo" ? "Inactivo" : "Activo")
+                </button>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.5/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+

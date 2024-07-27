@@ -151,6 +151,7 @@ namespace PROINSA_GP_WEB.Controllers
         [HttpPost]
         public IActionResult RegistrarProyecto(Actividad entidad)
         {
+            AsignacionProyectoClientesLista();
             var respuesta = _iActividadModel.AgregarProyecto(entidad);
 
             if (respuesta!.CODIGO == 1)
@@ -210,6 +211,9 @@ namespace PROINSA_GP_WEB.Controllers
             return View(new List<Actividad>());
         }
 
+        [Administrador]
+        [Seguridad]
+        [HttpPost]
         public IActionResult CambiarEstadoProyecto(long IdPROYECTO) // en el view se agrega, este es para modificar individual
         {
             var respuesta = _iActividadModel.CambiarEstadoProyecto(IdPROYECTO);
@@ -223,5 +227,51 @@ namespace PROINSA_GP_WEB.Controllers
 
 
         }
+
+        // CREAR VISTA PARA LA ASIGNACION DE PROYECTOS A EMPLEADOS
+
+        public IActionResult AsignacionProyectoLista()
+        {
+
+            var ProyectoList = _iActividadModel.ListaDeProyectos();
+            ViewBag.ProyectoList = ProyectoList!;
+
+            var viewModel = new Actividad
+            {
+                ID_PROYECTO = 1,
+
+            };
+
+            return View(viewModel);
+        }
+        public IActionResult AsignacionProyectoClientesLista()
+        {
+
+            var ClientesList = _iActividadModel.ListaDeClientes();
+            ViewBag.ClientesList = ClientesList!;
+
+            var viewModel = new Actividad
+            {
+                ID_CLIENTE = 1,
+
+            };
+
+            return View(viewModel);
+        }
+
+        //public IActionResult AsignacionProyectoContactosLista()
+        //{
+
+        //    var ContactosList = _iActividadModel.ListaDeContactos();
+        //    ViewBag.ContactosList = ContactosList!;
+
+        //    var viewModel = new Actividad
+        //    {
+        //        CONTACTO_ID = 1,
+
+        //    };
+
+        //    return View(viewModel);
+        //}
     }
 }
