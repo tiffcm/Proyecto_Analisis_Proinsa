@@ -7598,6 +7598,7 @@ BEGIN
     END CATCH;
 END;
 
+
 /****** Object:  StoredProcedure [dbo].[RegistrarNomina]    Script Date: 20/7/2024 11:19:04 p. m. ******/
 
 
