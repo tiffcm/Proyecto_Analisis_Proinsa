@@ -8988,15 +8988,15 @@ BEGIN
     BEGIN TRY
         BEGIN TRANSACTION;
 
-      
         DECLARE @EmpleadoID BIGINT;
         DECLARE @NominaID BIGINT;
+        DECLARE @IngresoPrincipal DECIMAL(10,2);
+        DECLARE @DeduccionCCSS DECIMAL(10,2);
+        DECLARE @DeduccionImpuesto DECIMAL(10,2);
         DECLARE @TotalIngresos DECIMAL(10,2);
         DECLARE @TotalDeducciones DECIMAL(10,2);
         DECLARE @SalarioNeto DECIMAL(10,2);
-        DECLARE @SalarioNetoActual DECIMAL(10,2);
 
-      
         DECLARE empleados_cursor CURSOR FOR
         SELECT DISTINCT EMPLEADO_ID
         FROM NOMINA
@@ -9007,29 +9007,53 @@ BEGIN
 
         WHILE @@FETCH_STATUS = 0
         BEGIN
-         
-            SELECT @NominaID = ID_NOMINA, @SalarioNetoActual = SALARIO_NETO
+           
+            SELECT @NominaID = ID_NOMINA
             FROM NOMINA
             WHERE EMPLEADO_ID = @EmpleadoID AND PERIODO = @Mes;
 
+           
+            SELECT @IngresoPrincipal = SUM(MONTO)
+            FROM INGRESONOMINADETALLE ind
+            INNER JOIN NOMINADETALLE nd ON ind.NOMINADETALLE_ID = nd.ID_NOMINADETALLE
+            INNER JOIN NOMINA n ON nd.NOMINA_ID = n.ID_NOMINA
+            WHERE n.EMPLEADO_ID = @EmpleadoID AND n.PERIODO = @Mes AND ind.INGRESO_ID = 1;
+
+          
+            SELECT @DeduccionCCSS = SUM(MONTO)
+            FROM DEDUCCIONNOMINADETALLE dnd
+            INNER JOIN NOMINADETALLE nd ON dnd.NOMINADETALLE_ID = nd.ID_NOMINADETALLE
+            INNER JOIN NOMINA n ON nd.NOMINA_ID = n.ID_NOMINA
+            WHERE n.EMPLEADO_ID = @EmpleadoID AND n.PERIODO = @Mes AND dnd.DEDUCCION_ID = 1;
+
             
+            SELECT @DeduccionImpuesto = SUM(MONTO)
+            FROM DEDUCCIONNOMINADETALLE dnd
+            INNER JOIN NOMINADETALLE nd ON dnd.NOMINADETALLE_ID = nd.ID_NOMINADETALLE
+            INNER JOIN NOMINA n ON nd.NOMINA_ID = n.ID_NOMINA
+            WHERE n.EMPLEADO_ID = @EmpleadoID AND n.PERIODO = @Mes AND dnd.DEDUCCION_ID = 2;
+
+         
             SELECT @TotalIngresos = SUM(MONTO)
             FROM INGRESONOMINADETALLE ind
             INNER JOIN NOMINADETALLE nd ON ind.NOMINADETALLE_ID = nd.ID_NOMINADETALLE
             INNER JOIN NOMINA n ON nd.NOMINA_ID = n.ID_NOMINA
             WHERE n.EMPLEADO_ID = @EmpleadoID AND n.PERIODO = @Mes AND ind.INGRESO_ID != 1;
 
-          
+           
             SELECT @TotalDeducciones = SUM(MONTO)
             FROM DEDUCCIONNOMINADETALLE dnd
             INNER JOIN NOMINADETALLE nd ON dnd.NOMINADETALLE_ID = nd.ID_NOMINADETALLE
             INNER JOIN NOMINA n ON nd.NOMINA_ID = n.ID_NOMINA
             WHERE n.EMPLEADO_ID = @EmpleadoID AND n.PERIODO = @Mes AND dnd.DEDUCCION_ID NOT IN (1, 2);
 
-            
-            SET @SalarioNeto = ISNULL(@SalarioNetoActual, 0) + ISNULL(@TotalIngresos, 0) - ISNULL(@TotalDeducciones, 0);
+            SET @SalarioNeto = ISNULL(@IngresoPrincipal, 0) 
+                               - ISNULL(@DeduccionCCSS, 0) 
+                               - ISNULL(@DeduccionImpuesto, 0)
+                               + ISNULL(@TotalIngresos, 0) 
+                               - ISNULL(@TotalDeducciones, 0);
 
-          
+            
             UPDATE NOMINA
             SET SALARIO_NETO = @SalarioNeto
             WHERE ID_NOMINA = @NominaID;
@@ -9047,22 +9071,74 @@ BEGIN
             ROLLBACK TRANSACTION;
 
         INSERT INTO [dbo].[DB_ERRORES]
-                   ([UserName]
-                   ,[ErrorNumber]
-                   ,[ErrorState]
-                   ,[ErrorSeverity]
-                   ,[ErrorLine]
-                   ,[ErrorProcedure]
-                   ,[ErrorMessage]
-                   ,[ErrorDateTime])
+               ([UserName]
+               ,[ErrorNumber]
+               ,[ErrorState]
+               ,[ErrorSeverity]
+               ,[ErrorLine]
+               ,[ErrorProcedure]
+               ,[ErrorMessage]
+               ,[ErrorDateTime])
         VALUES
-                  (SUSER_SNAME(),
-                   ERROR_NUMBER(),
-                   ERROR_STATE(),
-                   ERROR_SEVERITY(),
-                   ERROR_LINE(),
-                   ERROR_PROCEDURE(),
-                   ERROR_MESSAGE(),
-                   GETDATE());
+              (SUSER_SNAME(),
+               ERROR_NUMBER(),
+               ERROR_STATE(),
+               ERROR_SEVERITY(),
+               ERROR_LINE(),
+               ERROR_PROCEDURE(),
+               ERROR_MESSAGE(),
+               GETDATE());
     END CATCH;
 END;
+GO
+
+CREATE proc ObtenerNominaMensualEmpleado 
+		@EMPLEADO_ID BIGINT
+		AS begin
+		DECLARE @MES INT
+		DECLARE @FECHA DATETIME
+		DECLARE @ID_NOMINA INT
+		
+		 SET @FECHA = GETDATE();
+         SET @MES = MONTH(@Fecha);
+		 SET @ID_NOMINA=(SELECT  ID_NOMINA
+         FROM NOMINA
+         WHERE EMPLEADO_ID = @EMPLEADO_ID AND PERIODO=@MES)
+
+		 --INGRESOS
+
+		 SELECT 'INGRESO' AS TIPO ,ingre.NOMBRE_INGRESO as NOMBRE, ingreso.DETALLE, ingreso.MONTO, ISNULL(ingreso.CANTIDAD,0) AS CANTIDAD FROM INGRESONOMINADETALLE ingreso 
+		 inner join NOMINADETALLE nominade on nominade.ID_NOMINADETALLE=ingreso.NOMINADETALLE_ID
+		 inner join NOMINA nomina on nomina.ID_NOMINA=nominade.NOMINA_ID
+		 inner join INGRESO ingre on ingre.ID_INGRESO=ingreso.INGRESO_ID
+		 where ingreso.EMPLEADO_ID=@EMPLEADO_ID and nomina.PERIODO=@MES
+
+          ---- DEDUCCIONES
+		  UNION
+		 
+		 SELECT  'DEDUCCION' AS TIPO,DEDUCCION.NOMBRE_DEDUCCION AS NOMBRE , DEDU.DETALLE, DEDU.MONTO, 0  AS CANTIDAD FROM DEDUCCIONNOMINADETALLE DEDU
+		 inner join NOMINADETALLE nominade on nominade.ID_NOMINADETALLE=DEDU.NOMINADETALLE_ID
+		 inner join NOMINA nomina on nomina.ID_NOMINA=nominade.NOMINA_ID
+		 inner join DEDUCCION DEDUCCION on DEDU.DEDUCCION_ID=DEDUCCION.ID_DEDUCCION
+		 where DEDU.EMPLEADO_ID=@EMPLEADO_ID and nomina.PERIODO=@MES
+
+		 AND DEDU.MONTO>0.00
+
+
+		 END
+
+		 GO
+
+CREATE proc ObtenerNominaMensualEmpleados 
+@fechapago datetime
+as begin
+
+select nomina.DESCRIPCION AS NOMINA , NOMINA.FECHA_PAGO, emple.NOMBRECOMPLETO as EMPLEADO , emple.IDENTIFICACION , cargo.DESCRIPCION as CARGO, nomina.SALARIO_NETO  as SALARIO from NOMINA nomina
+inner join EMPLEADO emple on nomina.EMPLEADO_ID=emple.ID_EMPLEADO
+inner join CARGO cargo on cargo.ID_CARGO=emple.CARGO_ID
+where NOMINA.FECHA_PAGO=@fechapago
+
+end
+		 
+
+

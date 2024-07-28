@@ -10,6 +10,25 @@
 
         public int CreadorID { get; set; }
 
+        public decimal MONTO { get; set; }
+        public string? DETALLE { get; set; }
+
+        public string? NOMBRE { get; set; }
+
+        public int CANTIDAD{ get; set; }
+
+        public string? NOMINA { get; set; }
+
+        public string? FECHA_PAGO { get; set; }
+
+        public string? EMPLEADO { get; set; }
+
+        public string? IDENTIFICACION { get; set; }
+
+        public string? CARGO { get; set; }
+
+        public decimal SALARIO { get; set; }
+
     }
 
 

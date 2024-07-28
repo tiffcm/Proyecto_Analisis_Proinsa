@@ -245,6 +245,62 @@ namespace PROINSA_GP_API.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("ObtenerNominaEmpleado")]
+        public async Task<IActionResult> ObtenerNominaEmpleado(int EMPLEADO_ID)
+        {
+            Respuesta respuesta = new Respuesta();
+            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@EMPLEADO_ID", EMPLEADO_ID);
+
+                var request = (await contexto.QueryAsync<Nomina>("ObtenerNominaMensualEmpleado", parameters, commandType: System.Data.CommandType.StoredProcedure)).ToList();
+
+                if (request != null && request.Count > 0)
+                {
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = request;
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CODIGO = 0;
+                    respuesta.MENSAJE = "No hay registros";
+                    return Ok(respuesta);
+                }
+            }
+        }
+
+        [HttpGet]
+        [Route("ObtenerNominaMensualEmpleados")]
+        public async Task<IActionResult> ObtenerNominaMensualEmpleados(DateTime fechapago)
+        {
+            Respuesta respuesta = new Respuesta();
+            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@fechapago", fechapago);
+
+                var request = (await contexto.QueryAsync<Nomina>("ObtenerNominaMensualEmpleados", parameters, commandType: System.Data.CommandType.StoredProcedure)).ToList();
+
+                if (request != null && request.Count > 0)
+                {
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = request;
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CODIGO = 0;
+                    respuesta.MENSAJE = "No hay registros";
+                    return Ok(respuesta);
+                }
+            }
+        }
+
 
 
 
