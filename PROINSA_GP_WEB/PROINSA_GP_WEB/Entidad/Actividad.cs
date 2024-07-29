@@ -15,6 +15,8 @@
         public string? COMENTARIO { get; set; }
         public long? CONTACTO_ID { get; set; }
         public long? ID_PROYECTO { get; set; }
+
+        public List<Cliente>? CLIENTES { get; set; }
         /// <summary>
         /// //
         /// </summary>
@@ -25,6 +27,12 @@
 
         public long ID_REGISTROACTIVIDAD { get; set; }
 
+        public class Cliente
+        {
+            public long ID_CLIENTE { get; set; }
+            public string? NOMBRE { get; set; }
+
+        }
 
     }
 }

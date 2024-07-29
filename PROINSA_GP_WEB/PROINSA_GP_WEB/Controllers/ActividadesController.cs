@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using P_WebMartes.Models;
 using PROINSA_GP_WEB.Entidad;
 using PROINSA_GP_WEB.Models;
@@ -143,6 +144,7 @@ namespace PROINSA_GP_WEB.Controllers
         [HttpGet]
         public IActionResult RegistrarProyecto()
         {
+            AsignacionProyectoClientesLista();
             return View();
         }
 
@@ -151,7 +153,6 @@ namespace PROINSA_GP_WEB.Controllers
         [HttpPost]
         public IActionResult RegistrarProyecto(Actividad entidad)
         {
-            AsignacionProyectoClientesLista();
             var respuesta = _iActividadModel.AgregarProyecto(entidad);
 
             if (respuesta!.CODIGO == 1)
@@ -159,6 +160,7 @@ namespace PROINSA_GP_WEB.Controllers
                 return RedirectToAction("Principal", "Home");
             }
 
+            AsignacionProyectoClientesLista();
             ViewBag.msj = respuesta.MENSAJE;
             return View();
         }
@@ -246,17 +248,23 @@ namespace PROINSA_GP_WEB.Controllers
         }
         public IActionResult AsignacionProyectoClientesLista()
         {
+            var model = new Actividad();
+            model.CLIENTES = _iActividadModel.ListaDeClientes();
 
-            var ClientesList = _iActividadModel.ListaDeClientes();
-            ViewBag.ClientesList = ClientesList!;
+            ViewBag.ClientesList = new SelectList(model.CLIENTES, "ID_CLIENTE", "NOMBRE");
 
-            var viewModel = new Actividad
-            {
-                ID_CLIENTE = 1,
+            return View(model);
 
-            };
+            //var ClientesList = _iActividadModel.ListaDeClientes();
+            //ViewBag.ClientesList = ClientesList!;
 
-            return View(viewModel);
+            //var viewModel = new Actividad
+            //{
+            //    ID_CLIENTE = 1,
+
+            //};
+
+            //return View(viewModel);
         }
 
         //public IActionResult AsignacionProyectoContactosLista()

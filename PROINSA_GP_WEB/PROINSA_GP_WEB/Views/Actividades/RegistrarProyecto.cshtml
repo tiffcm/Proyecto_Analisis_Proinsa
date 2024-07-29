@@ -64,12 +64,12 @@
             </div>
 
             <div class="row">
-                @* <div class="col-md-6">
+                <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Cliente")
                         @Html.DropDownListFor(m => m.ID_CLIENTE, new SelectList(ViewBag.ClientesList, "Value", "Text"), new { @class = "form-control", placeholder = "Seleccione un cliente", @required = "True" })
                     </div>
-                </div>    *@
+                </div>    
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Comentario")

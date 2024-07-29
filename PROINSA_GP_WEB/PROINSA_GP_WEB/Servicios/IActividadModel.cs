@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using PROINSA_GP_WEB.Entidad;
+using static PROINSA_GP_WEB.Entidad.Actividad;
 
 namespace PROINSA_GP_WEB.Servicios
 {
@@ -10,7 +11,7 @@ namespace PROINSA_GP_WEB.Servicios
         Respuesta? ListarClientes();
         Respuesta? DetallarCliente(long? IdCLIENTE);
         Respuesta? CambiarEstadoCliente(long? IdCLIENTE);
-        List<SelectListItem> ListaDeClientes();
+        List<Cliente> ListaDeClientes();
 
         ///
 

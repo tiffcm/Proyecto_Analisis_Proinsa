@@ -2,6 +2,7 @@
 using PROINSA_GP_WEB.Entidad;
 using PROINSA_GP_WEB.Servicios;
 using System.Text.Json;
+using static PROINSA_GP_WEB.Entidad.Actividad;
 
 namespace PROINSA_GP_WEB.Models
 {
@@ -47,7 +48,7 @@ namespace PROINSA_GP_WEB.Models
             else
                 return new Respuesta();
         }
-        public List<SelectListItem> ListaDeClientes()
+        public List<Cliente> ListaDeClientes()
         {
             string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Actividades/ListaDeClientes";
             var resp = _httpClient.GetAsync(url).Result;
@@ -58,18 +59,12 @@ namespace PROINSA_GP_WEB.Models
                 if (respuesta!.CODIGO == 1)
                 {
                     var jsonElement = (JsonElement)respuesta.CONTENIDO!;
-                    var ClientesList = JsonSerializer.Deserialize<List<Actividad>>(jsonElement.GetRawText());
-                    if (ClientesList != null)
-                    {
-                        return ClientesList.Select(t => new SelectListItem
-                        {
-                            Value = t.ID_CLIENTE.ToString(),
-                            Text = t.NOMBRE
-                        }).ToList();
-                    }
+                    var ClientesList = JsonSerializer.Deserialize<List<Cliente>>(jsonElement.GetRawText());
+                    return ClientesList ?? new List<Cliente>();
                 }
+                
             }
-            return new List<SelectListItem>();
+            return new List<Cliente>();
         }
 
 
