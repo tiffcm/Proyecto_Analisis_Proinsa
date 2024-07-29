@@ -417,33 +417,7 @@ CREATE TABLE [dbo].[EMPLEADOTELEFONO](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[FASEPROYECTO]    Script Date: 20/7/2024 11:19:04 p. m. ******/
 
-CREATE TABLE [dbo].[FASEPROYECTO](
-	[ID_FASEPROYECTO] [bigint] IDENTITY(1,1) NOT NULL,
-	[NOMBRE] [varchar](50) NOT NULL,
-	[CODIGO_FASE] [varchar](50) NOT NULL,
-	[COMENTARIO] [varchar](500) NULL,
-	[ESTADO] [bit],
-	[PROYECTO_ID] [bigint] NOT NULL,
- CONSTRAINT [PK_FASEPROYECTO_ID] PRIMARY KEY CLUSTERED 
-(
-	[ID_FASEPROYECTO] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[FASEPROYECTOREGISTROACTIVIDAD]    Script Date: 20/7/2024 11:19:04 p. m. ******/
-
-CREATE TABLE [dbo].[FASEPROYECTOREGISTROACTIVIDAD](
-	[ID_FASEPROYECTOREGISTROACTIVIDAD] [bigint] IDENTITY(1,1) NOT NULL,
-	[REGISTROACTIVIDAD_ID] [bigint] NOT NULL,
-	[FASEPROYECTO_ID] [bigint] NOT NULL,
- CONSTRAINT [PK_FASEPROYECTOREGISTROACTIVIDAD_ID] PRIMARY KEY CLUSTERED 
-(
-	[ID_FASEPROYECTOREGISTROACTIVIDAD] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
 /****** Object:  Table [dbo].[FLUJOAPROBACION]    Script Date: 20/7/2024 11:19:04 p. m. ******/
 
 CREATE TABLE [dbo].[FLUJOAPROBACION](
@@ -611,7 +585,7 @@ CREATE TABLE [dbo].[REGISTROACTIVIDAD](
 	[TOTALHORAS] [decimal](18, 2) NOT NULL,
 	[DETALLE] [varchar](500) NULL,
 	[ESTADO] [bigint],
-	[FASEPROYECTO_ID] [bigint] NOT NULL,
+	[PROYECTO_ID] [bigint] NOT NULL,
 	[EMPLEADO_ID] [bigint] NOT NULL,
  CONSTRAINT [PK_REGISTROACTIVIDAD_ID] PRIMARY KEY CLUSTERED 
 (
@@ -687,16 +661,17 @@ CREATE TABLE [dbo].[TIPOSOLICITUD](
 ) ON [PRIMARY]
 GO
 
-CREATE TABLE [dbo].[EMPLEADOFASEPROYECTO](
-	[ID_EMPLEADOFASEPROYECTO] [bigint] IDENTITY(1,1) NOT NULL,
-	[FASEPROYECTO_ID] [bigint] NOT NULL,
+CREATE TABLE [dbo].[EMPLEADOPROYECTO](
+	[ID_EMPLEADOPROYECTO] [bigint] IDENTITY(1,1) NOT NULL,
 	[EMPLEADO_ID] [bigint] NOT NULL,
-CONSTRAINT [PK_EMPLEADOFASEPROYECTO_ID] PRIMARY KEY CLUSTERED
+	[PROYECTO_ID] [bigint] NOT NULL,
+CONSTRAINT [PK_EMPLEADOPROYECTO_ID] PRIMARY KEY CLUSTERED
 (
-	[ID_EMPLEADOFASEPROYECTO] ASC
+	[ID_EMPLEADOPROYECTO] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-)ON [PRIMARY]
+) ON [PRIMARY]
 GO
+
 SET IDENTITY_INSERT [dbo].[APROBACIONSOLICITUD] ON 
 
 INSERT [dbo].[APROBACIONSOLICITUD] ([ID_APROBACIONSOLICITUD], [FECHA_APROBACIONSOLICITUD], [SECUENCIA], [RESPUESTA_SOLICITUD], [COMENTARIO], [ENCARGADO_APROBACION_ID], [SOLICITUD_ID]) VALUES (1, NULL, 2, N'P         ', NULL, 2, 3)
@@ -1013,16 +988,7 @@ REFERENCES [dbo].[TELEFONO] ([ID_TELEFONO])
 GO
 ALTER TABLE [dbo].[EMPLEADOTELEFONO] CHECK CONSTRAINT [FK_EMPLEADOTELEFONO_TELEFONO]
 GO
-ALTER TABLE [dbo].[FASEPROYECTOREGISTROACTIVIDAD]  WITH CHECK ADD  CONSTRAINT [FK_FASEPROYECTOREGISTROACTIVIDAD_FASEPROYECTO] FOREIGN KEY([FASEPROYECTO_ID])
-REFERENCES [dbo].[FASEPROYECTO] ([ID_FASEPROYECTO])
-GO
-ALTER TABLE [dbo].[FASEPROYECTOREGISTROACTIVIDAD] CHECK CONSTRAINT [FK_FASEPROYECTOREGISTROACTIVIDAD_FASEPROYECTO]
-GO
-ALTER TABLE [dbo].[FASEPROYECTOREGISTROACTIVIDAD]  WITH CHECK ADD  CONSTRAINT [FK_FASEPROYECTOREGISTROACTIVIDAD_REGISTROACTIVIDAD] FOREIGN KEY([REGISTROACTIVIDAD_ID])
-REFERENCES [dbo].[REGISTROACTIVIDAD] ([ID_REGISTROACTIVIDAD])
-GO
-ALTER TABLE [dbo].[FASEPROYECTOREGISTROACTIVIDAD] CHECK CONSTRAINT [FK_FASEPROYECTOREGISTROACTIVIDAD_REGISTROACTIVIDAD]
-GO
+
 ALTER TABLE [dbo].[FLUJOAPROBACION]  WITH CHECK ADD  CONSTRAINT [FK_FLUJOAPROBACION_DEPARTAMENTO1] FOREIGN KEY([DEPARTAMENTO_APROBACION_ID])
 REFERENCES [dbo].[DEPARTAMENTO] ([ID_DEPARTAMENTO])
 GO
@@ -1113,6 +1079,11 @@ REFERENCES [dbo].[EMPLEADO] ([ID_EMPLEADO])
 GO
 ALTER TABLE [dbo].[REGISTROACTIVIDAD] CHECK CONSTRAINT [FK_REGISTROACTIVIDAD_EMPLEADO]
 GO
+ALTER TABLE [dbo].[REGISTROACTIVIDAD]  WITH CHECK ADD  CONSTRAINT [FK_REGISTROACTIVIDAD_PROYECTO] FOREIGN KEY([PROYECTO_ID])
+REFERENCES [dbo].[PROYECTO] ([ID_PROYECTO])
+GO
+ALTER TABLE [dbo].[REGISTROACTIVIDAD] CHECK CONSTRAINT [FK_REGISTROACTIVIDAD_PROYECTO]
+GO
 ALTER TABLE [dbo].[SOLICITUD]  WITH CHECK ADD  CONSTRAINT [FK_SOLICITUD_EMPLEADO] FOREIGN KEY([SOLICITANTE_ID])
 REFERENCES [dbo].[EMPLEADO] ([ID_EMPLEADO])
 GO
@@ -1123,25 +1094,15 @@ REFERENCES [dbo].[TIPOSOLICITUD] ([ID_TIPOSOLICITUD])
 GO
 ALTER TABLE [dbo].[SOLICITUD] CHECK CONSTRAINT [FK_SOLICITUD_TIPOSOLICITUD]
 GO
-ALTER TABLE [dbo].[FASEPROYECTO]  WITH CHECK ADD CONSTRAINT [FK_FASEPROYECTO_PROYECTO] FOREIGN KEY([PROYECTO_ID])
-REFERENCES [dbo].[PROYECTO] ([ID_PROYECTO])
-GO
-ALTER TABLE [dbo].[FASEPROYECTO] CHECK CONSTRAINT [FK_FASEPROYECTO_PROYECTO]
-GO
-ALTER TABLE [dbo].[EMPLEADOFASEPROYECTO] WITH CHECK ADD CONSTRAINT [FK_EMPLEADOFASEPROYECTO_FASEPROYECTO] FOREIGN KEY([FASEPROYECTO_ID])
-REFERENCES [dbo].[FASEPROYECTO] ([ID_FASEPROYECTO])
-GO
-ALTER TABLE [dbo].[EMPLEADOFASEPROYECTO] CHECK CONSTRAINT [FK_EMPLEADOFASEPROYECTO_FASEPROYECTO]
-GO
-ALTER TABLE [dbo].[EMPLEADOFASEPROYECTO] WITH CHECK ADD CONSTRAINT [FK_EMPLEADOFASEPROYECTO_EMPLEADO] FOREIGN KEY([EMPLEADO_ID])
+ALTER TABLE [dbo].[EMPLEADOPROYECTO]  WITH CHECK ADD  CONSTRAINT [FK_EMPLEADOPROYECTO_EMPLEADO] FOREIGN KEY([EMPLEADO_ID])
 REFERENCES [dbo].[EMPLEADO] ([ID_EMPLEADO])
 GO
-ALTER TABLE [dbo].[EMPLEADOFASEPROYECTO] CHECK CONSTRAINT [FK_EMPLEADOFASEPROYECTO_EMPLEADO]
+ALTER TABLE [dbo].[EMPLEADOPROYECTO] CHECK CONSTRAINT [FK_EMPLEADOPROYECTO_EMPLEADO]
 GO
-ALTER TABLE [dbo].[REGISTROACTIVIDAD] WITH CHECK ADD CONSTRAINT [FK_REGISTROACTIVIDAD_FASEPROYECTO] FOREIGN KEY ([FASEPROYECTO_ID])
-REFERENCES [dbo].[FASEPROYECTO] ([ID_FASEPROYECTO])
+ALTER TABLE [dbo].[EMPLEADOPROYECTO]  WITH CHECK ADD  CONSTRAINT [FK_EMPLEADOPROYECTO_PROYECTO] FOREIGN KEY([PROYECTO_ID])
+REFERENCES [dbo].[PROYECTO] ([ID_PROYECTO])
 GO
-ALTER TABLE [dbo].[REGISTROACTIVIDAD] CHECK CONSTRAINT [FK_REGISTROACTIVIDAD_FASEPROYECTO]
+ALTER TABLE [dbo].[EMPLEADOPROYECTO] CHECK CONSTRAINT [FK_EMPLEADOPROYECTO_PROYECTO]
 GO
 /****** Object:  StoredProcedure [dbo].[ActualizarDatosUsuario]    Script Date: 20/7/2024 11:19:04 p. m. ******/
 
@@ -7996,6 +7957,77 @@ BEGIN
 	FROM [dbo].[CLIENTE]
 END
 GO
+
+-- =======================================================
+-- Create Stored Procedure Template for Azure SQL Database
+-- =======================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:      Wilson Arias
+-- Create Date: 07/20/2024
+-- Description: Una lista del nombre de los clientes activos en el sistema.
+-- =============================================
+CREATE PROCEDURE dbo.ListarClientesNombres
+
+    -- Add the parameters for the stored procedure here
+	
+
+AS
+BEGIN
+    -- SET NOCOUNT ON added to prevent extra result sets from
+    -- interfering with SELECT statements.
+    SET NOCOUNT ON
+
+    -- Insert statements for procedure here
+	SELECT [ID_CLIENTE]
+      ,[NOMBRE]
+	FROM [dbo].[CLIENTE]
+	WHERE ESTADO = 1;
+END
+GO
+
+-- =======================================================
+-- Create Stored Procedure Template for Azure SQL Database
+-- =======================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:      Wilson Arias
+-- Create Date: 07/21/2024
+-- Description: Busca clientes por nombre con coincidencias parciales e insensible a mayúsculas/minúsculas.
+-- =============================================
+CREATE PROCEDURE dbo.BuscarClientePorNombre
+(
+    @Nombre VARCHAR(50)
+)
+AS
+BEGIN
+
+
+    -- Convertir el parámetro de búsqueda a minúsculas
+    DECLARE @Busqueda NVARCHAR(50);
+    SET @Busqueda = UPPER(@Nombre);
+
+    SELECT 
+        [ID_CLIENTE],
+        [NOMBRE],
+        [DETALLE],
+        [PAIS],
+        [SECTOR],
+        [ESTADO]
+    FROM 
+        [dbo].[CLIENTE]
+    WHERE 
+        UPPER([NOMBRE]) LIKE '%' + @Busqueda + '%'
+		AND [ESTADO] = 1;
+END
+GO
+
 -- =======================================================
 -- Create Stored Procedure Template for Azure SQL Database
 -- =======================================================
@@ -8219,7 +8251,7 @@ GO
 -- =============================================
 -- Author:      Wilson Arias
 -- Create Date: 07/21/2024
--- Description: Lista todos los Proyectos del sistema.
+-- Description: Lista todos los Proyectos del sistema para verlos en la lista de proyectos
 -- =============================================
 CREATE PROCEDURE dbo.ListarProyectos
 
@@ -8242,6 +8274,37 @@ BEGIN
   FROM [dbo].[PROYECTO]
 END
 GO
+
+-- =======================================================
+-- Create Stored Procedure Template for Azure SQL Database
+-- =======================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:      Wilson Arias
+-- Create Date: 07/21/2024
+-- Description: Lista todos los nombres de los proyectos en el sistemas que esten activos.
+-- =============================================
+CREATE PROCEDURE dbo.ListarProyectosNombres
+
+    -- Add the parameters for the stored procedure here
+	
+
+AS
+BEGIN
+    -- SET NOCOUNT ON added to prevent extra result sets from
+    -- interfering with SELECT statements.
+
+    -- Insert statements for procedure here
+	SELECT [ID_PROYECTO]
+      ,[NOMBRE]
+  FROM [dbo].[PROYECTO]
+  WHERE ESTADO = 1;
+END
+GO
+
 -- =======================================================
 -- Create Stored Procedure Template for Azure SQL Database
 -- =======================================================
@@ -8279,228 +8342,8 @@ BEGIN
 	WHERE ID_PROYECTO = @ID_PROYECTO;
 END
 GO
--- =======================================================
--- Create Stored Procedure Template for Azure SQL Database
--- =======================================================
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
--- =============================================
--- Author:      Wilson Arias
--- Create Date: 07/21/2024
--- Description: Agrega una nueva fase de proyecto al sistema.
--- =============================================
-CREATE PROCEDURE dbo.AgregarFaseProyecto
-(
-    -- Add the parameters for the stored procedure here
-	@NOMBRE varchar(50),
-	@CODIGO_FASE varchar(50),
-	@COMENTARIO varchar(500),
-	@PROYECTO_ID bigint
-)
-AS
-BEGIN
-    -- SET NOCOUNT ON added to prevent extra result sets from
-    -- interfering with SELECT statements.
-    SET NOCOUNT ON
 
-    -- Insert statements for procedure here
-	INSERT INTO [dbo].[FASEPROYECTO]
-           ([NOMBRE]
-           ,[CODIGO_FASE]
-           ,[COMENTARIO]
-           ,[ESTADO]
-		   ,[PROYECTO_ID])
-     VALUES
-           (@NOMBRE,
-            @CODIGO_FASE,
-            @COMENTARIO,
-            1,
-			@PROYECTO_ID)
-END
-GO
--- =======================================================
--- Create Stored Procedure Template for Azure SQL Database
--- =======================================================
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
--- =============================================
--- Author:      Wilson Arias
--- Create Date: 07/21/2024
--- Description: Modifica una fase de proyecto especificada por el ID de esta.
--- =============================================
-CREATE PROCEDURE dbo.ModificarFaseProyecto
-(
-    -- Add the parameters for the stored procedure here
-	@ID_FASEPROYECTO bigint,
-	@NOMBRE varchar(50),
-	@CODIGO_FASE varchar(50),
-	@COMENTARIO varchar(500),
-	@ESTADO bit,
-	@PROYECTO_ID bigint
-)
-AS
-BEGIN
-    -- SET NOCOUNT ON added to prevent extra result sets from
-    -- interfering with SELECT statements.
-    SET NOCOUNT ON
 
-    -- Insert statements for procedure here
-	UPDATE [dbo].[FASEPROYECTO]
-		SET [NOMBRE] = @NOMBRE,
-		 [CODIGO_FASE] = @CODIGO_FASE,
-		 [COMENTARIO] = @COMENTARIO,
-		 [ESTADO] = @ESTADO,
-		 [PROYECTO_ID] = @PROYECTO_ID
-		WHERE ID_FASEPROYECTO = @ID_FASEPROYECTO;
-END
-GO
--- =======================================================
--- Create Stored Procedure Template for Azure SQL Database
--- =======================================================
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
--- =============================================
--- Author:      Wilson Arias
--- Create Date: 07/21/2024
--- Description: Cambia el estado de una FaseProyecto al contrario que tenga seteado.
--- =============================================
-CREATE PROCEDURE dbo.CambiarEstadoFaseProyecto
-(
-    -- Add the parameters for the stored procedure here
-	@ID_FASEPROYECTO bigint
-)
-AS
-BEGIN
-    -- SET NOCOUNT ON added to prevent extra result sets from
-    -- interfering with SELECT statements.
-    SET NOCOUNT ON
-	DECLARE @estado_actual bit;
-
-	SET @estado_actual = (SELECT ESTADO FROM FASEPROYECTO WHERE ID_FASEPROYECTO = @ID_FASEPROYECTO);
-
-    -- Insert statements for procedure here
-	IF @estado_actual = 0
-	BEGIN
-		UPDATE FASEPROYECTO
-		SET ESTADO = 1
-		WHERE ID_FASEPROYECTO = @ID_FASEPROYECTO;
-	END
-	ELSE
-	BEGIN
-		UPDATE FASEPROYECTO
-		SET ESTADO = 0
-		WHERE ID_FASEPROYECTO = @ID_FASEPROYECTO;
-	END
-END
-GO
--- =======================================================
--- Create Stored Procedure Template for Azure SQL Database
--- =======================================================
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
--- =============================================
--- Author:      Wilson Arias
--- Create Date: 07/21/2024
--- Description: Da un listado completo de todas las fases de proyecto.
--- =============================================
-CREATE PROCEDURE dbo.ListarFasesProyectos
-
-    -- Add the parameters for the stored procedure here
-    
-
-AS
-BEGIN
-    -- SET NOCOUNT ON added to prevent extra result sets from
-    -- interfering with SELECT statements.
-
-    -- Insert statements for procedure here
-    SELECT 
-        f.[ID_FASEPROYECTO],
-        f.[NOMBRE] AS FASE_NOMBRE,
-        f.[CODIGO_FASE],
-        f.[COMENTARIO],
-        f.[ESTADO],
-        f.[PROYECTO_ID],
-        p.[NOMBRE] AS PROYECTO_NOMBRE
-    FROM 
-        [dbo].[FASEPROYECTO] f
-    INNER JOIN 
-        [dbo].[PROYECTO] p ON f.[PROYECTO_ID] = p.[ID_PROYECTO]
-END
-GO
--- =======================================================
--- Create Stored Procedure Template for Azure SQL Database
--- =======================================================
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
--- =============================================
--- Author:      Wilson Arias
--- Create Date: 07/21/2024
--- Description: Obtiene las fases asociadas a un proyecto específico.
--- =============================================
-CREATE PROCEDURE dbo.VerFasesPorProyecto
-(
-    @PROYECTO_ID bigint
-)
-AS
-BEGIN
-
-    SELECT 
-        f.[ID_FASEPROYECTO],
-        f.[NOMBRE] AS FASE_NOMBRE,
-        f.[CODIGO_FASE],
-        f.[ESTADO],
-        f.[PROYECTO_ID],
-        p.[NOMBRE] AS PROYECTO_NOMBRE
-    FROM 
-        [dbo].[FASEPROYECTO] f
-    INNER JOIN 
-        [dbo].[PROYECTO] p ON f.[PROYECTO_ID] = p.[ID_PROYECTO]
-    WHERE 
-        f.[PROYECTO_ID] = @PROYECTO_ID;
-END
-GO
-
--- =======================================================
--- Create Stored Procedure Template for Azure SQL Database
--- =======================================================
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
--- =============================================
--- Author:      Wilson Arias
--- Create Date: 07/21/2024
--- Description: Asigna un empleado a una fase de proyecto específica.
--- =============================================
-CREATE PROCEDURE dbo.AsignarEmpleadoAFaseProyecto
-(
-    @FASEPROYECTO_ID bigint,
-    @EMPLEADO_ID bigint
-)
-AS
-BEGIN
-
-    BEGIN 
-        INSERT INTO [dbo].[EMPLEADOFASEPROYECTO]
-               ([FASEPROYECTO_ID],
-                [EMPLEADO_ID])
-         VALUES
-               (@FASEPROYECTO_ID,
-                @EMPLEADO_ID);
-    END
-END
-GO
 -- =======================================================
 -- Create Stored Procedure Template for Azure SQL Database
 -- =======================================================
@@ -8520,7 +8363,7 @@ CREATE PROCEDURE dbo.IngresorRegistroActividad
 	@TOTALHORAS decimal(18,2),
 	@DETALLE varchar(500),
 	@ESTADO bit,
-	@FASEPROYECTO_ID bigint,
+	@PROYECTO_ID bigint,
 	@EMPLEADO_ID bigint
 )
 AS
@@ -8533,7 +8376,7 @@ BEGIN
            ,[TOTALHORAS]
            ,[DETALLE]
 		   ,[ESTADO]
-		   ,[FASEPROYECTO_ID]
+		   ,[PROYECTO_ID]
            ,[EMPLEADO_ID])
      VALUES
            (@FECHA_INICIO,
@@ -8541,7 +8384,7 @@ BEGIN
             @TOTALHORAS,
 			@DETALLE,
 			1,
-			@FASEPROYECTO_ID,
+			@PROYECTO_ID,
             @EMPLEADO_ID)
     END
 END
@@ -8572,7 +8415,7 @@ BEGIN
 			,[FECHA_FINAL]
 			,[TOTALHORAS]
 			,[EMPLEADO_ID]
-			,[FASEPROYECTO_ID]
+			,[PROYECTO_ID]
 		 FROM [dbo].[REGISTROACTIVIDAD]
     END
 END
@@ -8603,7 +8446,7 @@ BEGIN
             ,[FECHA_FINAL]
             ,[TOTALHORAS]
             ,[EMPLEADO_ID]
-            ,[FASEPROYECTO_ID]
+            ,[PROYECTO_ID]
         FROM [dbo].[REGISTROACTIVIDAD]
         WHERE [EMPLEADO_ID] = @EMPLEADO_ID
     END
@@ -8630,7 +8473,7 @@ CREATE PROCEDURE dbo.ModificarRegistroActividad
 	@TOTALHORAS decimal(18,2),
 	@DETALLE varchar(500),
 	@ESTADO bit,
-	@FASEPROYECTO_ID bigint,
+	@PROYECTO_ID bigint,
 	@EMPLEADO_ID bigint
 )
 AS
@@ -8643,7 +8486,7 @@ BEGIN
 			[TOTALHORAS] = @TOTALHORAS,
 			[DETALLE] = @DETALLE,
 			[ESTADO] = @ESTADO,
-			[FASEPROYECTO_ID] = @FASEPROYECTO_ID,
+			[PROYECTO_ID] = @PROYECTO_ID,
 			[EMPLEADO_ID] = @EMPLEADO_ID
 		WHERE ID_REGISTROACTIVIDAD = @ID_REGISTROACTIVIDAD;
     END
@@ -8677,7 +8520,7 @@ BEGIN
 			,[DETALLE]
 			,[EMPLEADO_ID]
 			,[ESTADO]
-			,[FASEPROYECTO_ID]
+			,[PROYECTO_ID]
 		FROM [dbo].[REGISTROACTIVIDAD]
 		WHERE ID_REGISTROACTIVIDAD = @ID_REGISTROACTIVIDAD;
     END
@@ -8694,7 +8537,7 @@ GO
 -- =============================================
 -- Author:      Wilson Arias
 -- Create Date: 07/21/2024
--- Description: Permite detallar un registro de actividad especifico por el ID
+-- Description: Permite cambiar el estado de una actividad al contrario que tenga seteado
 -- =============================================
 CREATE PROCEDURE dbo.CambiarEstadoRegistroActividad
 (
@@ -9139,6 +8982,137 @@ inner join CARGO cargo on cargo.ID_CARGO=emple.CARGO_ID
 where NOMINA.FECHA_PAGO=@fechapago
 
 end
-		 
+GO
+
+-- =======================================================
+-- Create Stored Procedure Template for Azure SQL Database
+-- =======================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:      Wilson Arias
+-- Create Date: 07/28/2024
+-- Description: Asocia un proyecto con empleado.
+-- =============================================
+CREATE PROCEDURE AgregarEmpleadoProyecto
+(
+    -- Add the parameters for the stored procedure here
+    @EMPLEADO_ID bigint,
+    @PROYECTO_ID bigint
+)
+AS
+BEGIN
+    -- SET NOCOUNT ON added to prevent extra result sets from
+    -- interfering with SELECT statements.
+
+
+    -- Insert statements for procedure here
+	INSERT INTO [dbo].[EMPLEADOPROYECTO]
+           ([EMPLEADO_ID]
+           ,[PROYECTO_ID])
+    VALUES
+           (@EMPLEADO_ID,
+            @PROYECTO_ID)
+END
+GO
+
+-- =======================================================
+-- Create Stored Procedure Template for Azure SQL Database
+-- =======================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:      Wilson Arias
+-- Create Date: 07/21/2024
+-- Description: Lista los proyectos asignados a un empleado específico
+-- =============================================
+CREATE PROCEDURE dbo.ListarProyectosPorEmpleado
+(
+    @EMPLEADO_ID bigint
+)
+AS
+BEGIN
+
+    SELECT 
+        p.[ID_PROYECTO],
+        p.[NOMBRE] AS PROYECTO_NOMBRE
+    FROM 
+        [dbo].[PROYECTO] p
+    INNER JOIN 
+        [dbo].[EMPLEADOPROYECTO] ep ON p.[ID_PROYECTO] = ep.[PROYECTO_ID]
+    WHERE 
+        ep.[EMPLEADO_ID] = @EMPLEADO_ID
+		AND p.[ESTADO] = 1;
+END
+GO
+
+-- =======================================================
+-- Create Stored Procedure Template for Azure SQL Database
+-- =======================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:      Wilson Arias
+-- Create Date: 07/21/2024
+-- Description: Lista los nombres de los empleados asociados a un proyecto específico
+-- =============================================
+CREATE PROCEDURE dbo.ListarEmpleadosPorProyecto
+(
+    @PROYECTO_ID bigint
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        e.[NOMBRECOMPLETO]
+    FROM 
+        [dbo].[EMPLEADO] e
+    INNER JOIN 
+        [dbo].[EMPLEADOPROYECTO] ep ON e.[ID_EMPLEADO] = ep.[EMPLEADO_ID]
+    WHERE 
+        ep.[PROYECTO_ID] = @PROYECTO_ID;
+END
+GO
+
+-- =======================================================
+-- Create Stored Procedure Template for Azure SQL Database
+-- =======================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:      Wilson Arias
+-- Create Date: 07/21/2024
+-- Description: Busca empleados por nombre con coincidencias parciales e insensible a mayúsculas/minúsculas
+-- =============================================
+CREATE PROCEDURE dbo.BuscarEmpleadoPorNombre
+(
+    @Nombre NVARCHAR(250)
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Convertir el parámetro de búsqueda a minúsculas
+    DECLARE @Busqueda VARCHAR(250);
+    SET @Busqueda = UPPER(@Nombre);
+
+    SELECT 
+        [ID_EMPLEADO],
+        [NOMBRECOMPLETO]
+    FROM 
+        [dbo].[EMPLEADO]
+    WHERE 
+        UPPER([NOMBRECOMPLETO]) LIKE '%' + @Busqueda + '%';
+END
+GO
 
 
