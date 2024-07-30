@@ -7905,22 +7905,22 @@ CREATE PROCEDURE dbo.ModificarCliente
 	@NOMBRE varchar(50) NULL,
 	@DETALLE varchar(500) Null,
 	@PAIS varchar(50) NULL,
-	@SECTOR varchar(50) NULL,
-	@ESTADO bit
+	@SECTOR varchar(50) NULL
+	
 )
 AS
 BEGIN
     -- SET NOCOUNT ON added to prevent extra result sets from
     -- interfering with SELECT statements.
-    SET NOCOUNT ON
+    -- SET NOCOUNT ON
 
     -- Insert statements for procedure here
 	UPDATE [dbo].[CLIENTE]
-		SET [NOMBRE] = @NOMBRE,
-			 [DETALLE] = @DETALLE,
-			 [PAIS] = @PAIS,
-			 [SECTOR] = @SECTOR,
-			 [ESTADO] = @ESTADO
+		SET [NOMBRE] = COALESCE(@NOMBRE, [NOMBRE]),
+			 [DETALLE] = COALESCE(@DETALLE, [DETALLE]),
+			 [PAIS] = COALESCE(@PAIS, [PAIS]),
+			 [SECTOR] = COALESCE(@SECTOR, [SECTOR])
+			 
 		WHERE ID_CLIENTE = @ID_CLIENTE
 END
 GO
@@ -8178,8 +8178,8 @@ CREATE PROCEDURE dbo.ModificarProyecto
 	@COD_PROYECTO varchar (50),
 	@COMENTARIO varchar (200),
 	@CONTACTO_ID bigint,
-	@CLIENTE_ID bigint,
-	@ESTADO bit
+	@CLIENTE_ID bigint
+	
 )
 AS
 BEGIN
@@ -8188,15 +8188,14 @@ BEGIN
 
     -- Insert statements for procedure here
 	UPDATE [dbo].[PROYECTO]
-		SET [NOMBRE] = @NOMBRE,
-		 [TOTAL_HORAS] = @TOTAL_HORAS,
-		 [INICIO_FECHA] = @INICIO_FECHA,
-		 [FINAL_FECHA] = @FINAL_FECHA,
-		 [COD_PROYECTO] = @COD_PROYECTO,
-		 [COMENTARIO] = @COMENTARIO,
-		 [CONTACTO_ID] = @CONTACTO_ID,
-		 [CLIENTE_ID] = @CLIENTE_ID,
-		 [ESTADO] = @ESTADO
+		SET [NOMBRE] = COALESCE(@NOMBRE, [NOMBRE]),
+		 [TOTAL_HORAS] = COALESCE(@TOTAL_HORAS,[TOTAL_HORAS]),
+		 [INICIO_FECHA] = COALESCE(@INICIO_FECHA, [INICIO_FECHA]),
+		 [FINAL_FECHA] = COALESCE(@FINAL_FECHA, [FINAL_FECHA]),
+		 [COD_PROYECTO] = COALESCE(@COD_PROYECTO, [COD_PROYECTO]),
+		 [COMENTARIO] = COALESCE(@COMENTARIO, [COMENTARIO]),
+		 [CONTACTO_ID] = COALESCE(@CONTACTO_ID, [CONTACTO_ID]),
+		 [CLIENTE_ID] = COALESCE(@CLIENTE_ID, [CLIENTE_ID])
 		WHERE ID_PROYECTO = @ID_PROYECTO;
 END
 GO
@@ -8264,14 +8263,25 @@ BEGIN
     -- interfering with SELECT statements.
 
     -- Insert statements for procedure here
-	SELECT [ID_PROYECTO]
-      ,[NOMBRE]
-      ,[TOTAL_HORAS]
-      ,[COD_PROYECTO]
-      ,[CONTACTO_ID]
-      ,[CLIENTE_ID]
-      ,CASE WHEN ESTADO = 1 THEN 'Activo' ELSE 'Inactivo' END AS ESTADO
-  FROM [dbo].[PROYECTO]
+	SELECT 
+        p.[ID_PROYECTO],
+        p.[NOMBRE],
+        p.[TOTAL_HORAS],
+        p.[COD_PROYECTO],
+        p.[CONTACTO_ID],
+        e.[NOMBRECOMPLETO] AS NOMBRE_CONTACTO,
+        p.[CLIENTE_ID],
+        c.[NOMBRE] AS NOMBRE_CLIENTE,
+        CASE 
+            WHEN p.[ESTADO] = 1 THEN 'Activo' 
+            ELSE 'Inactivo' 
+        END AS ESTADO
+    FROM 
+        [dbo].[PROYECTO] p
+    LEFT JOIN 
+        [dbo].[EMPLEADO] e ON p.[CONTACTO_ID] = e.[ID_EMPLEADO]
+    LEFT JOIN 
+        [dbo].[CLIENTE] c ON p.[CLIENTE_ID] = c.[ID_CLIENTE];
 END
 GO
 
@@ -8328,18 +8338,27 @@ BEGIN
     -- interfering with SELECT statements.
 
     -- Insert statements for procedure here
-	SELECT [ID_PROYECTO]
-      ,[NOMBRE]
-      ,[TOTAL_HORAS]
-	  ,[INICIO_FECHA]
-	  ,[FINAL_FECHA]
-      ,[COD_PROYECTO]
-	  ,[COMENTARIO]
-      ,[CONTACTO_ID]
-      ,[CLIENTE_ID]
-      ,CASE WHEN ESTADO = 1 THEN 'Activo' ELSE 'Inactivo' END AS ESTADO
-	FROM [dbo].[PROYECTO]
-	WHERE ID_PROYECTO = @ID_PROYECTO;
+	    SELECT 
+        p.[ID_PROYECTO],
+        p.[NOMBRE],
+        p.[TOTAL_HORAS],
+        p.[INICIO_FECHA],
+        p.[FINAL_FECHA],
+        p.[COD_PROYECTO],
+        p.[COMENTARIO],
+        p.[CONTACTO_ID],
+        e.[NOMBRECOMPLETO] AS NOMBRE_CONTACTO,
+        p.[CLIENTE_ID],
+        c.[NOMBRE] AS NOMBRE_CLIENTE,
+        CASE WHEN p.ESTADO = 1 THEN 'Activo' ELSE 'Inactivo' END AS ESTADO
+    FROM 
+        [dbo].[PROYECTO] p
+    LEFT JOIN 
+        [dbo].[CLIENTE] c ON p.[CLIENTE_ID] = c.[ID_CLIENTE]
+    LEFT JOIN 
+        [dbo].[EMPLEADO] e ON p.[CONTACTO_ID] = e.[ID_EMPLEADO]
+    WHERE 
+        p.[ID_PROYECTO] = @ID_PROYECTO;
 END
 GO
 
@@ -8404,20 +8423,26 @@ GO
 -- =============================================
 CREATE PROCEDURE dbo.ListarTodasActividades
 
--- Add the parameters for the stored procedure here
-
 AS
 BEGIN
+    SET NOCOUNT ON;
 
-    BEGIN 
-        SELECT [ID_REGISTROACTIVIDAD]
-			,[FECHA_INICIO]
-			,[FECHA_FINAL]
-			,[TOTALHORAS]
-			,[EMPLEADO_ID]
-			,[PROYECTO_ID]
-		 FROM [dbo].[REGISTROACTIVIDAD]
-    END
+    SELECT 
+        ra.[ID_REGISTROACTIVIDAD],
+        ra.[FECHA_INICIO],
+        ra.[FECHA_FINAL],
+        ra.[TOTALHORAS],
+        ra.[EMPLEADO_ID],
+        e.[NOMBRECOMPLETO] AS NOMBRE_EMPLEADO,
+        ra.[PROYECTO_ID],
+        p.[NOMBRE] AS NOMBRE_PROYECTO,
+        p.[COD_PROYECTO]
+    FROM 
+        [dbo].[REGISTROACTIVIDAD] ra
+    LEFT JOIN 
+        [dbo].[EMPLEADO] e ON ra.[EMPLEADO_ID] = e.[ID_EMPLEADO]
+    LEFT JOIN 
+        [dbo].[PROYECTO] p ON ra.[PROYECTO_ID] = p.[ID_PROYECTO];
 END
 GO
 
@@ -8440,16 +8465,24 @@ CREATE PROCEDURE dbo.ListarActividadesPorEmpleado
 AS
 BEGIN
 
-    BEGIN 
-        SELECT [ID_REGISTROACTIVIDAD]
-            ,[FECHA_INICIO]
-            ,[FECHA_FINAL]
-            ,[TOTALHORAS]
-            ,[EMPLEADO_ID]
-            ,[PROYECTO_ID]
-        FROM [dbo].[REGISTROACTIVIDAD]
-        WHERE [EMPLEADO_ID] = @EMPLEADO_ID
-    END
+    SELECT 
+        ra.[ID_REGISTROACTIVIDAD],
+        ra.[FECHA_INICIO],
+        ra.[FECHA_FINAL],
+        ra.[TOTALHORAS],
+        ra.[EMPLEADO_ID],
+        e.[NOMBRECOMPLETO] AS NOMBRE_EMPLEADO,
+        ra.[PROYECTO_ID],
+        p.[NOMBRE] AS NOMBRE_PROYECTO,
+        p.[COD_PROYECTO]
+    FROM 
+        [dbo].[REGISTROACTIVIDAD] ra
+    LEFT JOIN 
+        [dbo].[EMPLEADO] e ON ra.[EMPLEADO_ID] = e.[ID_EMPLEADO]
+    LEFT JOIN 
+        [dbo].[PROYECTO] p ON ra.[PROYECTO_ID] = p.[ID_PROYECTO]
+    WHERE 
+        ra.[EMPLEADO_ID] = @EMPLEADO_ID;
 END
 GO
 -- =======================================================
@@ -8512,18 +8545,26 @@ CREATE PROCEDURE dbo.DetallarRegistroActividadPorID
 AS
 BEGIN
 
-    BEGIN 
-		SELECT [ID_REGISTROACTIVIDAD]
-			,[FECHA_INICIO]
-			,[FECHA_FINAL]
-			,[TOTALHORAS]
-			,[DETALLE]
-			,[EMPLEADO_ID]
-			,[ESTADO]
-			,[PROYECTO_ID]
-		FROM [dbo].[REGISTROACTIVIDAD]
-		WHERE ID_REGISTROACTIVIDAD = @ID_REGISTROACTIVIDAD;
-    END
+    SELECT 
+        ra.[ID_REGISTROACTIVIDAD],
+        ra.[FECHA_INICIO],
+        ra.[FECHA_FINAL],
+        ra.[TOTALHORAS],
+        ra.[DETALLE],
+        ra.[EMPLEADO_ID],
+        e.[NOMBRECOMPLETO] AS NOMBRE_EMPLEADO,
+        ra.[ESTADO],
+        ra.[PROYECTO_ID],
+        p.[NOMBRE] AS NOMBRE_PROYECTO,
+        p.[COD_PROYECTO]
+    FROM 
+        [dbo].[REGISTROACTIVIDAD] ra
+    LEFT JOIN 
+        [dbo].[EMPLEADO] e ON ra.[EMPLEADO_ID] = e.[ID_EMPLEADO]
+    LEFT JOIN 
+        [dbo].[PROYECTO] p ON ra.[PROYECTO_ID] = p.[ID_PROYECTO]
+    WHERE 
+        ra.[ID_REGISTROACTIVIDAD] = @ID_REGISTROACTIVIDAD;
 END
 GO
 
@@ -9112,6 +9153,22 @@ BEGIN
         [dbo].[EMPLEADO]
     WHERE 
         UPPER([NOMBRECOMPLETO]) LIKE '%' + @Busqueda + '%';
+END
+GO
+
+CREATE PROCEDURE [dbo].[MostrarTodosEmpleados]
+
+    -- Add the parameters for the stored procedure here
+
+AS
+BEGIN
+    -- SET NOCOUNT ON added to prevent extra result sets from
+    -- interfering with SELECT statements.
+    -- SET NOCOUNT ON
+
+    -- Insert statements for procedure here
+    SELECT ID_EMPLEADO, NOMBRECOMPLETO AS NOMBRE
+       FROM EMPLEADO;
 END
 GO
 
