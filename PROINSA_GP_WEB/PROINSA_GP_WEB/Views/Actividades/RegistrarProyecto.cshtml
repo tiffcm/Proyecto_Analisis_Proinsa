@@ -58,8 +58,8 @@
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Contacto (PM) ID")
-                        @Html.TextBoxFor(m => m.CONTACTO_ID, new { @class = "form-control", @required = "True" })
-                        @* @Html.DropDownListFor(m => m.CONTACTO_ID, new SelectList(ViewBag.EmpleadoContactList, "Value", "Text"), "Seleccione un contacto..", new { @class = "form-control", @required = "True" }) *@
+                        @* @Html.TextBoxFor(m => m.CONTACTO_ID, new { @class = "form-control", @required = "True" }) *@
+                        @Html.DropDownListFor(m => m.CONTACTO_ID, new SelectList(ViewBag.EmpleadoContactList, "Value", "Text"), "Seleccione un contacto..", new { @class = "form-control", @required = "True" })
                     
                     </div>
                 </div>

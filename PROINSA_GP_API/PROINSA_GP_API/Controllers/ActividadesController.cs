@@ -577,14 +577,14 @@ namespace PROINSA_GP_API.Controllers
                 var parametros = new DynamicParameters();
                 parametros.Add("@EMPLEADO_ID", iDEmpleado);
                 
-                var request = (await contexto.QueryAsync<Actividad>("ListarProyectosPorEmpleado",
+                var request = await contexto.QueryAsync("ListarProyectosPorEmpleado",
                     parametros,
-                    commandType: System.Data.CommandType.StoredProcedure)).FirstOrDefault();
+                    commandType: System.Data.CommandType.StoredProcedure);
                 if (request != null)
                 {
                     respuesta.CODIGO = 1;
                     respuesta.MENSAJE = "OK";
-                    respuesta.CONTENIDO = request;
+                    respuesta.CONTENIDO = request.ToList();
                     return Ok(respuesta);
                 }
                 else

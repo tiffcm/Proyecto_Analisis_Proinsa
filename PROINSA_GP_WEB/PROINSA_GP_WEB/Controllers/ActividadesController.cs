@@ -209,8 +209,8 @@ namespace PROINSA_GP_WEB.Controllers
         public IActionResult RegistrarProyecto()
         {
 
-			    //AsignacionEmpleadosContactoLista();
-			    ProyectoClientesLista();
+            AsignacionEmpleadosContactoLista();
+            ProyectoClientesLista();
             return View();
         }
 
@@ -226,7 +226,7 @@ namespace PROINSA_GP_WEB.Controllers
                 return RedirectToAction("Principal", "Home");
             }
 
-			       //AsignacionEmpleadosContactoLista();
+			       AsignacionEmpleadosContactoLista();
 			      ProyectoClientesLista();
             ViewBag.msj = respuesta.MENSAJE;
             return View();
@@ -237,7 +237,7 @@ namespace PROINSA_GP_WEB.Controllers
         [HttpGet]
         public IActionResult EditarProyecto(long? IdPROYECTO)
         {
-			//AsignacionEmpleadosContactoLista();
+			AsignacionEmpleadosContactoLista();
 			ProyectoClientesLista();
             if (IdPROYECTO != null)
             {
@@ -264,7 +264,7 @@ namespace PROINSA_GP_WEB.Controllers
             {
                 return RedirectToAction("ListaProyectos", "Actividades");
             }
-            //AsignacionEmpleadosContactoLista();
+            AsignacionEmpleadosContactoLista();
 			ProyectoClientesLista();
             ViewBag.msj = respuesta.MENSAJE;
             return View();
@@ -395,18 +395,18 @@ namespace PROINSA_GP_WEB.Controllers
             return View(viewModel);
         }
 
-		//public IActionResult AsignacionEmpleadosContactoLista()
-		//{
-		//	var empleadoContactList = _iActividadModel.MostrarTodosEmpleadosContactos();
-		//	ViewBag.EmpleadoContactList = empleadoContactList!;
+		public IActionResult AsignacionEmpleadosContactoLista()
+		{
+		var empleadoContactList = _iActividadModel.MostrarTodosEmpleados();
+			ViewBag.EmpleadoContactList = empleadoContactList!;
 
-		//	var viewModel = new Actividad
-		//	{
-		//		CONTACTO_ID = 1,
-		//	};
+			var viewModel = new Actividad
+			{
+				CONTACTO_ID = 1,
+			};
 
-		//	return View(viewModel);
-		//}
+			return View(viewModel);
+		}
 
 	}
 }
