@@ -3,6 +3,7 @@ using PROINSA_GP_WEB.Entidad;
 using PROINSA_GP_WEB.Servicios;
 using System.Text.Json;
 
+
 namespace PROINSA_GP_WEB.Models
 {
     public class ActividadModel(HttpClient _httpClient, IConfiguration iConfiguration) : IActividadModel
@@ -47,9 +48,7 @@ namespace PROINSA_GP_WEB.Models
             else
                 return new Respuesta();
         }
-<<<<<<< Updated upstream
-=======
-        
+
         public List<SelectListItem> ListarClientesNombres()
         {
             string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Actividades/ListarClientesNombres";
@@ -74,7 +73,7 @@ namespace PROINSA_GP_WEB.Models
             }
             return new List<SelectListItem>();
         }
->>>>>>> Stashed changes
+
 
         public Respuesta? DetallarCliente(long? IdCLIENTE)
         {
@@ -139,10 +138,7 @@ namespace PROINSA_GP_WEB.Models
             else
                 return new Respuesta();
         }
-<<<<<<< Updated upstream
 
-        public Respuesta? DetallarProyecto(long? IdPROYECTO)
-=======
         public Respuesta? ListarEmpleadosPorProyecto()
         {
             string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Actividades/ListarEmpleadosPorProyecto";
@@ -232,7 +228,7 @@ namespace PROINSA_GP_WEB.Models
 		//}
 
 		public Respuesta? DetallarProyecto(long? IdPROYECTO)
->>>>>>> Stashed changes
+
         {
             string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Actividades/DetallarProyecto?IdPROYECTO=" + IdPROYECTO;
             var solicitud = _httpClient.GetAsync(url).Result;
@@ -357,6 +353,7 @@ namespace PROINSA_GP_WEB.Models
                 return new Respuesta();
 
         }
+
 
 
 

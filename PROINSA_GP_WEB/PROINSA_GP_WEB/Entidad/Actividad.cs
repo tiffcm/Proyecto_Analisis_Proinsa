@@ -15,15 +15,13 @@
         public string? COMENTARIO { get; set; }
         public long? CONTACTO_ID { get; set; }
         public long? ID_PROYECTO { get; set; }
-<<<<<<< Updated upstream
-=======
         public long? PROYECTO_ID { get; set; }
 
 		public string? NOMBRE_CONTACTO { get; set; }
 		public string? NOMBRE_CLIENTE { get; set; }
 
 		//public List<Cliente>? CLIENTES { get; set; }
->>>>>>> Stashed changes
+
         /// <summary>
         /// //
         /// </summary>
@@ -35,15 +33,12 @@
 
         public long ID_REGISTROACTIVIDAD { get; set; }
 
-<<<<<<< Updated upstream
-=======
         //public class Cliente
         //{
         //    public long ID_CLIENTE { get; set; }
         //    public string? NOMBRE { get; set; }
 
         //}
->>>>>>> Stashed changes
 
     }
 }

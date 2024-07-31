@@ -24,12 +24,13 @@
 
 		////
 		///
-		public string? FECHA_INICIO { get; set; }
+		    public string? FECHA_INICIO { get; set; }
         public string? FECHA_FIN {  get; set; }
         public decimal? TOTALHORAS { get; set; }
         public long EMPLEADO_ID { get; set; }
 
         public string? PROYECTO_NOMBRE { get; set; }
+
 
         public long ID_REGISTROACTIVIDAD { get; set; }
 

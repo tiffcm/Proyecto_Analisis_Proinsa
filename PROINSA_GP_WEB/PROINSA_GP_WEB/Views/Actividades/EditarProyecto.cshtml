@@ -1,4 +1,5 @@
 ﻿@model PROINSA_GP_WEB.Entidad.Actividad
+
 @{
     ViewBag.Title = "EditarProyecto";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,6 +9,7 @@
 
 <div class="card mb-4">
     <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Edicion del proyecto </h5>
+
     <div class="card-body">
         @if (ViewBag.msj != null)
         {
@@ -19,6 +21,7 @@
         {
             <div class="row">
                 @Html.HiddenFor(m => m.ID_PROYECTO)
+
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Nombre Proyecto")
@@ -63,6 +66,7 @@
                         @* @Html.DropDownListFor(m => m.CONTACTO_ID, new SelectList(ViewBag.EmpleadoContactList, "Value", "Text"), new { @class = "form-control", @required = "True" }) *@
                     </div>
                 </div>
+
             </div>
 
             <div class="row">
@@ -70,6 +74,7 @@
                     <div class="mb-4">
                         @Html.Label("Cliente")
                         @Html.DropDownListFor(m => m.ID_CLIENTE, new SelectList(ViewBag.ClientesList, "Value", "Text"), "Selecciona un cliente..", new { @class = "form-control", @required = "True" })
+
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -103,7 +108,6 @@
                 </button>
             </div>
         }
-
 
     </div>
 </div>

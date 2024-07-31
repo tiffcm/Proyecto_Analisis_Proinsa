@@ -107,6 +107,31 @@ namespace PROINSA_GP_API.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("ListaDeClientes")]
+        public async Task<IActionResult> ListaDeClientes()
+        {
+            Respuesta respuesta = new Respuesta();
+            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+                var request = await contexto.QueryAsync("ListaDeClientes", new { },
+                      commandType: System.Data.CommandType.StoredProcedure);
+                if (request != null)
+                {
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = request.ToList();
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CODIGO = 0;
+                    respuesta.MENSAJE = "No hay clientes registrados";
+                    respuesta.CONTENIDO = false;
+                    return Ok(respuesta);
+                }
+            }
+        }
 
         [HttpGet]
         [Route("ListarClientesNombres")]
@@ -344,11 +369,13 @@ namespace PROINSA_GP_API.Controllers
         [HttpGet]
         [Route("ListarProyectosNombres")]
         public async Task<IActionResult> ListarProyectosNombres()
+
         {
             Respuesta respuesta = new Respuesta();
             using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
                 var request = await contexto.QueryAsync("ListarProyectosNombres", new { },
+
                       commandType: System.Data.CommandType.StoredProcedure);
                 if (request != null)
                 {
@@ -532,14 +559,14 @@ namespace PROINSA_GP_API.Controllers
                 }
                 else
                 {
-                    respuesta.CONTENIDO = 0;
+                    respuesta.CODIGO = 0;
                     respuesta.MENSAJE = "No se logro registrar la actividad";
                     respuesta.CONTENIDO = false;
                     return Ok(respuesta);
                 }
             }
         }
-
+        
         [HttpGet]
         [Route("ListarProyectosPorEmpleado")]
         public async Task<IActionResult> ListarProyectosPorEmpleado(long iDEmpleado)

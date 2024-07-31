@@ -1,4 +1,7 @@
-﻿using PROINSA_GP_WEB.Entidad;
+
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using PROINSA_GP_WEB.Entidad;
+using static PROINSA_GP_WEB.Entidad.Actividad;
 
 namespace PROINSA_GP_WEB.Servicios
 {
@@ -9,10 +12,8 @@ namespace PROINSA_GP_WEB.Servicios
         Respuesta? ListarClientes();
         Respuesta? DetallarCliente(long? IdCLIENTE);
         Respuesta? CambiarEstadoCliente(long? IdCLIENTE);
-<<<<<<< Updated upstream
-=======
         List<SelectListItem> ListarClientesNombres();
->>>>>>> Stashed changes
+
 
         ///
 
@@ -21,8 +22,6 @@ namespace PROINSA_GP_WEB.Servicios
         Respuesta? ListarProyectos();
         Respuesta? DetallarProyecto(long? IdPROYECTO);
         Respuesta? CambiarEstadoProyecto(long? IdPROYECTO);
-<<<<<<< Updated upstream
-=======
         List<SelectListItem> ListarProyectosNombres();
         Respuesta? ListarEmpleadosPorProyecto();
         Respuesta? AgregarEmpleadoProyecto(Actividad entidad);
@@ -37,7 +36,6 @@ namespace PROINSA_GP_WEB.Servicios
         Respuesta? ListarTodasActividades();
         Respuesta? DetallarRegistroActividadPorID(long? ID_REGISTROACTIVIDAD);
         Respuesta? CambiarEstadoRegistroActividad(long? ID_REGISTROACTIVIDAD);
->>>>>>> Stashed changes
 
     }
 }

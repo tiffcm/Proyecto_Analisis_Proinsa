@@ -7,6 +7,10 @@ namespace PROINSA_GP_WEB.Servicios
     {
         Respuesta? RegistrarDocumento(Documento entidad);
         Respuesta ConsultarTiposDocumento();
-        DataTable ConsultarDocumentosEmpleado(int idEmpleado);
+        Respuesta ConsultarEmpleados();
+        Respuesta ConsultarDocumentosEmpleado(long EMPLEADO_ID);
+        Respuesta ConsultarDocumentoEmpleado(long ID_EMPLEADODOCUMENTO);
+        Respuesta EliminarDocumento(long ID_EMPLEADODOCUMENTO);
+        Respuesta? ActualizarDocumento(Documento entidad);
     }
 }
