@@ -44,13 +44,16 @@
 										@item.COD_PROYECTO
 									</td>
 									<td>
-										@item.CONTACTO_ID
+										@Html.HiddenFor(modelItem => @item.CONTACTO_ID)
+										@item.NOMBRE_CONTACTO
 									</td>
 									<td>
-										@item.ID_CLIENTE @* POR EL MOMENTO PERO AQUI DEBE IR EL NOMBRE *@
+										@Html.HiddenFor(modelItem => @item.ID_CLIENTE)
+										@item.NOMBRE_CLIENTE
 									</td>
 									<td>
-										<a class="btn btn-primary" asp-action="EditarCliente" asp-route-IdCLIENTE="@item.ID_CLIENTE" name="IdCLIENTE" id="IdCLIENTE">Editar <i class="bi bi-pen"></i></a>
+										<a class="btn btn-primary" asp-action="EditarProyecto" asp-route-IdPROYECTO="@item.ID_PROYECTO" name="IdPROYECTO" id="IdPROYECTO">Editar <i class="bi bi-pen"></i></a>
+
 										
 									</td>
 								</tr>

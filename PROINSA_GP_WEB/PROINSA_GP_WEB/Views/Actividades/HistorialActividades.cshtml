@@ -1,107 +1,76 @@
-﻿
+﻿@model List<PROINSA_GP_WEB.Entidad.Actividad>
 @{
-    ViewBag.Title = "HistorialActividades";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.Title = "HistorialActividades";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Horarios y actividades / Actividades diarias /</span> Historial de actividades</h4>
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Actividades / </span> Clientes </h4>
 
 <!-- Content wrapper -->
 <div class="content-wrapper">
-    <!-- Content -->
-    <div class="container-xxl flex-grow-1 container-p-y">
-        <!-- Basic Bootstrap Table -->
-        <div class="card">
-            <h5 class="card-header">Actividades registradas</h5>
-            <div class="table-responsive text-nowrap">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Empleado</th>
-                            <th>Departamento</th>
-                            <th>Estado</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-border-bottom-0">
-                        <tr>
-                            <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>22 / 05 / 2024</strong></td>
-                            <td>Albert Cook</td>
-                            <td>Nombre del departamento</td>
-                            <td><span class="badge bg-label-primary me-1">Active</span></td>
-                            <td>
-                                <a href="@Url.Action("RegistroActividades","Actividades")">Ver</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>23 / 05 / 2024</strong></td>
-                            <td>Albert Cook</td>
-                            <td>Nombre del departamento</td>
-                            <td><span class="badge bg-label-success me-1">Completed</span></td>
-                            <td>
-                                <a href="@Url.Action("RegistroActividades","Actividades")">Ver</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>24 / 05 / 2024</strong></td>
-                            <td>Albert Cook</td>
-                            <td>Nombre del departamento</td>
-                            <td><span class="badge bg-label-info me-1">Scheduled</span></td>
-                            <td>
-                                <a href="@Url.Action("RegistroActividades","Actividades")">Ver</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>25 / 05 / 2024</strong></td>
-                            <td>Albert Cook</td>
-                            <td>Nombre del departamento</td>
-                            <td><span class="badge bg-label-warning me-1">Pending</span></td>
-                            <td>
-                                <a href="@Url.Action("RegistroActividades","Actividades")">Ver</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>26 / 05 / 2024</strong></td>
-                            <td>Albert Cook</td>
-                            <td>Nombre del departamento</td>
-                            <td><span class="badge bg-label-primary me-1">Active</span></td>
-                            <td>
-                                <a href="@Url.Action("RegistroActividades","Actividades")">Ver</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>27 / 05 / 2024</strong></td>
-                            <td>Albert Cook</td>
-                            <td>Nombre del departamento</td>
-                            <td><span class="badge bg-label-success me-1">Completed</span></td>
-                            <td>
-                                <a href="@Url.Action("RegistroActividades","Actividades")">Ver</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>28 / 05 / 2024</strong></td>
-                            <td>Albert Cook</td>
-                            <td>Nombre del departamento</td>
-                            <td><span class="badge bg-label-info me-1">Scheduled</span></td>
-                            <td>
-                                <a href="@Url.Action("RegistroActividades","Actividades")">Ver</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>29 / 05 / 2024</strong></td>
-                            <td>Albert Cook</td>
-                            <td>Nombre del departamento</td>
-                            <td><span class="badge bg-label-warning me-1">Pending</span></td>
-                            <td>
-                                <a href="@Url.Action("RegistroActividades","Actividades")">Ver</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <!--/ Basic Bootstrap Table -->
-    </div>
+	<!-- Content -->
+	<div class="container-xxl flex-grow-1 container-p-y">
+		<!-- Basic Bootstrap Table -->
+		<div class="card">
+			<h5 class="card-header">Clientes registrados</h5>
+
+			@if (Model != null && Model.Any())
+			{
+				<div class="table-responsive text-nowrap">
+					<table class="table">
+						<thead>
+							<tr>
+
+								<th>ID</th>
+								<th>Total Horas</th>
+								<th>Fecha inicio</th>
+								<th>Fecha Final</th>
+								<th>Proyecto</th>
+								<th>Empleado</th>
+								<th>Acciones</th>
+							</tr>
+						</thead>
+						<tbody class="table-border-bottom-0">
+							@foreach (var item in Model)
+							{
+								<tr>
+
+									<td>
+										@item.ID_REGISTROACTIVIDAD
+									</td>
+									<td>
+										@item.TOTAL_HORAS
+									</td>
+									<td>
+										@item.FECHA_INICIO
+									</td>
+									<td>
+										@item.FECHA_FIN
+									</td>
+									<td>
+										@item.ID_PROYECTO
+									</td>
+									<td>
+										@item.EMPLEADO_ID
+									</td>
+									<td>
+										<a class="btn btn-primary" asp-action="" asp-route-IdPROYECTO="@item.ID_PROYECTO" name="IdPROYECTO" id="IdPROYECTO">Editar <i class="bi bi-pen"></i></a>
+
+									</td>
+								</tr>
+							}
+						</tbody>
+					</table>
+				</div>
+			}
+			else
+			{
+				<p>No hay proyectos registrados aun</p>
+				//<a class="btn btn-primary" asp-action="RegistrarProyecto">Registrar Proyecto <i class="bi bi-pen"></i></a>
+			}
+
+		</div>
+		<!--/ Basic Bootstrap Table -->
+	</div>
 </div>
 <!-- Content wrapper -->

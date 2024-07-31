@@ -1,13 +1,15 @@
-﻿ @model PROINSA_GP_WEB.Entidad.Actividad
+﻿@model PROINSA_GP_WEB.Entidad.Actividad
+
 @{
     ViewBag.Title = "EditarProyecto";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"> Actividades / </span> Ingreso Clientes</h4>
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"> Actividades / </span> Editar Proyecto </h4>
 
 <div class="card mb-4">
-    <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Ingresar un nuevo cliente </h5>
+    <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Edicion del proyecto </h5>
+
     <div class="card-body">
         @if (ViewBag.msj != null)
         {
@@ -18,7 +20,8 @@
         @using (Html.BeginForm("EditarProyecto", "Actividades", FormMethod.Post))
         {
             <div class="row">
-                @Html.HiddenFor(m => m.ID_CLIENTE)
+                @Html.HiddenFor(m => m.ID_PROYECTO)
+
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Nombre Proyecto")
@@ -56,19 +59,22 @@
                     </div>
                 </div>
                 @* DROP DOWN LIST PARA LOS EMPLEADOS *@
-                @* <div class="col-md-6">
-            <div class="mb-4">
-            @Html.Label("Contacto (PM)")
-            @Html.DropDownListFor(m => m.CONTACTO_ID, new SelectList(ViewBag.ContactosList, "Value", "Text"), new { @class = "form-control", placeholder = "Seleccione un contacto para el proyecto", @required = "True" })
-            </div>
-            </div> *@
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        @Html.Label("Contacto (PM) ID")
+                        @Html.TextBoxFor(m => m.CONTACTO_ID, new { @class = "form-control", @required = "True" })
+                        @* @Html.DropDownListFor(m => m.CONTACTO_ID, new SelectList(ViewBag.EmpleadoContactList, "Value", "Text"), new { @class = "form-control", @required = "True" }) *@
+                    </div>
+                </div>
+
             </div>
 
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Cliente")
-                        @Html.DropDownListFor(m => m.ID_CLIENTE, new SelectList(ViewBag.ClientesList, "Value", "Text"), new { @class = "form-control", placeholder = "Seleccione un cliente", @required = "True" })
+                        @Html.DropDownListFor(m => m.ID_CLIENTE, new SelectList(ViewBag.ClientesList, "Value", "Text"), "Selecciona un cliente..", new { @class = "form-control", @required = "True" })
+
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -79,13 +85,14 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6">
+            <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Estado")
                         @Html.TextBoxFor(m => m.ESTADO, new { @class = "form-control", @readonly = "true" })
                     </div>
                 </div>
             </div>
+
             <div style="display:grid; place-items:center;">
                 <div class="mt-4">
                     <button type="submit" class="btn btn-primary">Actualizar Proyecto </button>
@@ -101,6 +108,7 @@
                 </button>
             </div>
         }
+
     </div>
 </div>
 

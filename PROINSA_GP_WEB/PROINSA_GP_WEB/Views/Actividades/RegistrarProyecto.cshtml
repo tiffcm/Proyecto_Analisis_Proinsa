@@ -55,12 +55,15 @@
                     </div>
                 </div>
                 @* DROP DOWN LIST PARA LOS EMPLEADOS *@
-                @* <div class="col-md-6">
+                <div class="col-md-6">
                     <div class="mb-4">
-                        @Html.Label("Contacto (PM)")
-                        @Html.DropDownListFor(m => m.CONTACTO_ID, new SelectList(ViewBag.ContactosList, "Value", "Text"), new { @class = "form-control", placeholder = "Seleccione un contacto para el proyecto", @required = "True" })
+                        @Html.Label("Contacto (PM) ID")
+                        @Html.TextBoxFor(m => m.CONTACTO_ID, new { @class = "form-control", @required = "True" })
+                        @* @Html.DropDownListFor(m => m.CONTACTO_ID, new SelectList(ViewBag.EmpleadoContactList, "Value", "Text"), "Seleccione un contacto..", new { @class = "form-control", @required = "True" }) *@
+                    
                     </div>
-                </div> *@
+                </div>
+
             </div>
 
             <div class="row">

@@ -113,6 +113,7 @@
                             @if (idRol == 1)
                             {
                                 <hr />
+
                                 <li class="menu-item">
                                     <a href="@Url.Action("IngresoClientes","Actividades")" class="menu-link">
                                         <div data-i18n="Connections">Registrar Cliente</div>
@@ -128,11 +129,18 @@
                                         <div data-i18n="Connections">Registrar Proyecto</div>
                                     </a>
                                 </li>
+
                                 <li class="menu-item">
                                     <a href="@Url.Action("ListaProyectos","Actividades")" class="menu-link">
                                         <div data-i18n="Connections">Ver Proyectos</div>
                                     </a>
                                 </li>
+                                <li class="menu-item">
+                                    <a href="@Url.Action("AsignacionProyectoEmpleaado","Actividades")" class="menu-link">
+                                        <div data-i18n="Connections">Asignar Proyectos</div>
+                                    </a>
+                                </li>
+
                             }
                             
                         
