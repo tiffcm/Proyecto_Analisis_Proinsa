@@ -1,6 +1,6 @@
 ﻿@model List<PROINSA_GP_WEB.Entidad.Actividad>
 @{
-	ViewBag.Title = "HistorialActividades";
+	ViewBag.Title = "ListaProyectos";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -21,12 +21,11 @@
 						<thead>
 							<tr>
 
-								<th>ID</th>
+								<th>Nombre</th>
 								<th>Total Horas</th>
-								<th>Fecha inicio</th>
-								<th>Fecha Final</th>
-								<th>Proyecto</th>
-								<th>Empleado</th>
+								<th>Codigo Proyecto</th>
+								<th>Contacto</th>
+								<th>Cliente</th>
 								<th>Acciones</th>
 							</tr>
 						</thead>
@@ -36,26 +35,25 @@
 								<tr>
 
 									<td>
-										@item.ID_REGISTROACTIVIDAD
+										@item.NOMBRE
 									</td>
 									<td>
 										@item.TOTAL_HORAS
 									</td>
 									<td>
-										@item.FECHA_INICIO
+										@item.COD_PROYECTO
 									</td>
 									<td>
-										@item.FECHA_FIN
+										@Html.HiddenFor(modelItem => @item.CONTACTO_ID)
+										@item.NOMBRE_CONTACTO
 									</td>
 									<td>
-										@item.ID_PROYECTO
+										@Html.HiddenFor(modelItem => @item.ID_CLIENTE)
+										@item.NOMBRE_CLIENTE
 									</td>
 									<td>
-										@item.EMPLEADO_ID
-									</td>
-									<td>
-										<a class="btn btn-primary" asp-action="" asp-route-IdPROYECTO="@item.ID_PROYECTO" name="IdPROYECTO" id="IdPROYECTO">Editar <i class="bi bi-pen"></i></a>
-
+										<a class="btn btn-primary" asp-action="EditarProyecto" asp-route-IdPROYECTO="@item.ID_PROYECTO" name="IdPROYECTO" id="IdPROYECTO">Editar <i class="bi bi-pen"></i></a>
+										
 									</td>
 								</tr>
 							}
@@ -66,7 +64,7 @@
 			else
 			{
 				<p>No hay proyectos registrados aun</p>
-				//<a class="btn btn-primary" asp-action="RegistrarProyecto">Registrar Proyecto <i class="bi bi-pen"></i></a>
+				<a class="btn btn-primary" asp-action="RegistrarProyecto">Registrar Proyecto <i class="bi bi-pen"></i></a>
 			}
 
 		</div>

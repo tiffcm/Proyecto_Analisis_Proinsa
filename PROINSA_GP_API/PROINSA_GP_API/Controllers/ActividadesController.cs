@@ -107,8 +107,7 @@ namespace PROINSA_GP_API.Controllers
             }
         }
 
-<<<<<<< Updated upstream
-=======
+
         [HttpGet]
         [Route("ListarClientesNombres")]
         public async Task<IActionResult> ListarClientesNombres()
@@ -134,7 +133,6 @@ namespace PROINSA_GP_API.Controllers
                 }
             }
         }
->>>>>>> Stashed changes
 
         [HttpGet]
         [Route("DetallarCliente")]
@@ -344,8 +342,6 @@ namespace PROINSA_GP_API.Controllers
         }
 
         [HttpGet]
-<<<<<<< Updated upstream
-=======
         [Route("ListarProyectosNombres")]
         public async Task<IActionResult> ListarProyectosNombres()
         {
@@ -424,7 +420,6 @@ namespace PROINSA_GP_API.Controllers
 		}
 
 		[HttpGet]
->>>>>>> Stashed changes
         [Route("DetallarProyecto")]
         public async Task<IActionResult> DetallarProyecto(long IdPROYECTO)
         {
