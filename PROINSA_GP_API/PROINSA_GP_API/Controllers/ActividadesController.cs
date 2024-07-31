@@ -107,6 +107,34 @@ namespace PROINSA_GP_API.Controllers
             }
         }
 
+<<<<<<< Updated upstream
+=======
+        [HttpGet]
+        [Route("ListarClientesNombres")]
+        public async Task<IActionResult> ListarClientesNombres()
+        {
+            Respuesta respuesta = new Respuesta();
+            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+                var request = await contexto.QueryAsync("ListarClientesNombres", new { },
+                      commandType: System.Data.CommandType.StoredProcedure);
+                if (request != null)
+                {
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = request.ToList();
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CODIGO = 0;
+                    respuesta.MENSAJE = "No hay clientes registrados";
+                    respuesta.CONTENIDO = false;
+                    return Ok(respuesta);
+                }
+            }
+        }
+>>>>>>> Stashed changes
 
         [HttpGet]
         [Route("DetallarCliente")]
@@ -205,7 +233,7 @@ namespace PROINSA_GP_API.Controllers
 
             using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
-                var result = await context.ExecuteAsync("AgregarProyecto", new { entidad.NOMBRE, entidad.TOTAL_HORAS, entidad.INICIO_FECHA, entidad.COD_PROYECTO, entidad.COMENTARIO, entidad.CONTACTO_ID, entidad.ID_CLIENTE }, commandType: CommandType.StoredProcedure);
+                var result = await context.ExecuteAsync("AgregarProyecto", new { entidad.NOMBRE, entidad.TOTAL_HORAS, entidad.INICIO_FECHA, entidad.FINAL_FECHA, entidad.COD_PROYECTO, entidad.COMENTARIO, entidad.CONTACTO_ID, entidad.ID_CLIENTE }, commandType: CommandType.StoredProcedure);
 
                 if (result > 0)
                 {
@@ -241,7 +269,6 @@ namespace PROINSA_GP_API.Controllers
                 parametros.Add("@COMENTARIO", entidad.COMENTARIO);
                 parametros.Add("@CONTACTO_ID", entidad.CONTACTO_ID);
                 parametros.Add("@CLIENTE_ID", entidad.ID_CLIENTE);
-                parametros.Add("@ESTADO", entidad.ESTADO);
 
                 var request = await contexto.ExecuteAsync("ModificarProyecto", parametros,
                    commandType: System.Data.CommandType.StoredProcedure);
@@ -317,14 +344,95 @@ namespace PROINSA_GP_API.Controllers
         }
 
         [HttpGet]
+<<<<<<< Updated upstream
+=======
+        [Route("ListarProyectosNombres")]
+        public async Task<IActionResult> ListarProyectosNombres()
+        {
+            Respuesta respuesta = new Respuesta();
+            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+                var request = await contexto.QueryAsync("ListarProyectosNombres", new { },
+                      commandType: System.Data.CommandType.StoredProcedure);
+                if (request != null)
+                {
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = request.ToList();
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CODIGO = 0;
+                    respuesta.MENSAJE = "No hay proyectos registrados";
+                    respuesta.CONTENIDO = false;
+                    return Ok(respuesta);
+                }
+            }
+        }
+
+        [HttpGet]
+        [Route("MostrarTodosEmpleados")]
+        public async Task<IActionResult> MostrarTodosEmpleados()
+        {
+            Respuesta respuesta = new Respuesta();
+            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+                var request = await contexto.QueryAsync("MostrarTodosEmpleados", new { },
+                      commandType: System.Data.CommandType.StoredProcedure);
+                if (request != null)
+                {
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = request.ToList();
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CODIGO = 0;
+                    respuesta.MENSAJE = "No hay empleados registrados";
+                    respuesta.CONTENIDO = false;
+                    return Ok(respuesta);
+                }
+            }
+        }
+
+		[HttpGet]
+		[Route("MostrarTodosEmpleadosContactos")]
+		public async Task<IActionResult> MostrarTodosEmpleadosContactos()
+		{
+			Respuesta respuesta = new Respuesta();
+			using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+			{
+				var request = await contexto.QueryAsync("MostrarTodosEmpleadosContactos", new { },
+					  commandType: System.Data.CommandType.StoredProcedure);
+				if (request != null)
+				{
+					respuesta.CODIGO = 1;
+					respuesta.MENSAJE = "OK";
+					respuesta.CONTENIDO = request.ToList();
+					return Ok(respuesta);
+				}
+				else
+				{
+					respuesta.CODIGO = 0;
+					respuesta.MENSAJE = "No hay contactos/empleados registrados";
+					respuesta.CONTENIDO = false;
+					return Ok(respuesta);
+				}
+			}
+		}
+
+		[HttpGet]
+>>>>>>> Stashed changes
         [Route("DetallarProyecto")]
-        public async Task<IActionResult> DetallarProyecto(long ID_PROYECTO)
+        public async Task<IActionResult> DetallarProyecto(long IdPROYECTO)
         {
             Respuesta respuesta = new Respuesta();
             using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
                 var parametros = new DynamicParameters();
-                parametros.Add("@ID_PROYECTO", ID_PROYECTO);
+                parametros.Add("@ID_PROYECTO", IdPROYECTO);
                 var request = (await contexto.QueryAsync("DetallarProyecto",
                     parametros ,
                     commandType: System.Data.CommandType.StoredProcedure)).FirstOrDefault();
@@ -345,6 +453,66 @@ namespace PROINSA_GP_API.Controllers
             }
         }
 
+
+        [HttpPost]
+        [Route("AgregarEmpleadoProyecto")]
+        public async Task<IActionResult> AgregarEmpleadoProyecto(Actividad entidad)
+        {
+            Respuesta respuesta = new Respuesta();
+
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+                var result = await context.ExecuteAsync("AgregarEmpleadoProyecto", new { entidad.EMPLEADO_ID, entidad.PROYECTO_ID }, commandType: CommandType.StoredProcedure);
+
+                if (result > 0)
+                {
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = true;
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CONTENIDO = 0;
+                    respuesta.MENSAJE = "No se logro agregar el cliente";
+                    respuesta.CONTENIDO = false;
+                    return Ok(respuesta);
+                }
+            }
+        }
+
+      
+        [HttpGet]
+        [Route("ListarEmpleadosPorProyecto")]
+        public async Task<IActionResult> ListarEmpleadosPorProyecto(Actividad entidad )
+        {
+            Respuesta respuesta = new Respuesta();
+            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+                var parametros = new DynamicParameters();
+                parametros.Add("@PROYECTO_ID", entidad.ID_PROYECTO);
+                var request = await contexto.QueryAsync("ListarEmpleadosPorProyecto", parametros,
+                    commandType: System.Data.CommandType.StoredProcedure);
+                if (request != null)
+                {
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = request.ToList();
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CODIGO = 0;
+                    respuesta.MENSAJE = "La información del empleado no se encuentra registrada";
+                    respuesta.CONTENIDO = false;
+                    return Ok(respuesta);
+                }
+            }
+        }
+
+
+
+
         /// <summary>
         /// SPs para el empleado - ACTIVIDADES
         /// </summary>
@@ -358,7 +526,7 @@ namespace PROINSA_GP_API.Controllers
 
             using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
-                var result = await context.ExecuteAsync("IngresorRegistroActividad", new { entidad.FECHA_INICIO, entidad.FECHA_FIN, entidad.TOTALHORAS, entidad.DETALLE, entidad.EMPLEADO_ID}, commandType: CommandType.StoredProcedure);
+                var result = await context.ExecuteAsync("IngresorRegistroActividad", new { entidad.FECHA_INICIO, entidad.FECHA_FIN, entidad.TOTALHORAS, entidad.DETALLE, entidad.EMPLEADO_ID, entidad.PROYECTO_ID}, commandType: CommandType.StoredProcedure);
 
                 if (result > 0)
                 {
@@ -376,6 +544,36 @@ namespace PROINSA_GP_API.Controllers
                 }
             }
         }
+
+        [HttpGet]
+        [Route("ListarProyectosPorEmpleado")]
+        public async Task<IActionResult> ListarProyectosPorEmpleado(long iDEmpleado)
+        {
+            Respuesta respuesta = new Respuesta();
+            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+                var parametros = new DynamicParameters();
+                parametros.Add("@EMPLEADO_ID", iDEmpleado);
+                
+                var request = (await contexto.QueryAsync<Actividad>("ListarProyectosPorEmpleado",
+                    parametros,
+                    commandType: System.Data.CommandType.StoredProcedure)).FirstOrDefault();
+                if (request != null)
+                {
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = request;
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CODIGO = 0;
+                    respuesta.MENSAJE = "No hay mas detalle acerca del proyecto";
+                    return Ok(respuesta);
+                }
+            }
+        }
+
         [HttpGet]
         [Route("ListarTodasActividades")]
         public async Task<IActionResult> ListarTodasActividades()
