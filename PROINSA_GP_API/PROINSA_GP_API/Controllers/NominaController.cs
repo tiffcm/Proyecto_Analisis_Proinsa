@@ -300,6 +300,40 @@ namespace PROINSA_GP_API.Controllers
                 }
             }
         }
+        [HttpPut]
+        [Route("RevisionNomina")]
+        public async Task<IActionResult> RevisionNomina(string Observaciones)
+        {
+            Respuesta respuesta = new Respuesta();
+            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+                var parametros = new DynamicParameters();
+                parametros.Add("@Observaciones", Observaciones);
+                var request = await contexto.ExecuteAsync("RevisionNomina", parametros,
+                   commandType: System.Data.CommandType.StoredProcedure);
+                if (request > 0)
+                {
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = true;
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CODIGO = 0;
+                    respuesta.MENSAJE = "Error en el proceso.";
+                    respuesta.CONTENIDO = false;
+                    return Ok(respuesta);
+                }
+            }
+        }
+
+        
+
+
+
+
+
 
 
 
