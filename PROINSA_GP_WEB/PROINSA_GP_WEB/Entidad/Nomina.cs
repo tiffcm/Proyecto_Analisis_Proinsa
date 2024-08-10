@@ -1,4 +1,4 @@
-﻿namespace PROINSA_GP_API.Entidad
+﻿namespace PROINSA_GP_WEB.Entidad
 {
     public class Nomina
     {
@@ -10,7 +10,7 @@
         public decimal MONTO { get; set; }
         public string? DETALLE { get; set; }
         public string? NOMBRE { get; set; }
-        public int CANTIDAD{ get; set; }
+        public int CANTIDAD { get; set; }
         public string? NOMINA { get; set; }
         public string? FECHA_PAGO { get; set; }
         public string? EMPLEADO { get; set; }

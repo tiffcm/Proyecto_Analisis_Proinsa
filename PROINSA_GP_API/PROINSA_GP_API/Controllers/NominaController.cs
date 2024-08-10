@@ -11,10 +11,7 @@ namespace PROINSA_GP_API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     public class NominaController(IConfiguration iConfiguration) : ControllerBase
-    {
-
-        
-
+    {        
         [HttpPost]
         [Route("RegistrarNomina")]
         public async Task<IActionResult> RegistrarNomina(Nomina entidad)
@@ -42,6 +39,8 @@ namespace PROINSA_GP_API.Controllers
             }
         }
 
+        //En los POST se tiene que mandar objetos
+        //Este hay que revisarlo porque es solo ejecutar y en el Web no puede ser POST porque se tiene que enviar datos
         [HttpPost]
         [Route("CalculoNominaInicial")]
         public async Task<IActionResult> CalculoNominaInicial()
@@ -69,6 +68,8 @@ namespace PROINSA_GP_API.Controllers
             }
         }
 
+        //En los POST se tiene que mandar objetos
+        //Este hay que revisarlo porque es solo ejecutar y en el Web no puede ser POST porque se tiene que enviar datos
         [HttpPost]
         [Route("CalculoNominaFinal")]
         public async Task<IActionResult> CalculoNominaFinal()
@@ -125,6 +126,8 @@ namespace PROINSA_GP_API.Controllers
             }
         }
 
+        //En los POST se tiene que mandar objetos
+        //Este hay que revisarlo FROMBody?
         [HttpPost]
         [Route("RegistrarIngresosNominaDetalle")]
         public async Task<IActionResult> RegistrarIngresosNominaDetalle([FromBody] List<IngresoNominaDetalle> ingresos)
@@ -185,7 +188,8 @@ namespace PROINSA_GP_API.Controllers
             }
         }
 
-
+        //En los POST se tiene que mandar objetos
+        //Este hay que revisarlo FROMBody?
         [HttpPost]
         [Route("RegistrarDeduccionNominaDetalle")]
         public async Task<IActionResult> RegistrarDeduccionNominaDetalle([FromBody] List<DeduccionNominaDetalle> deducciones)
@@ -300,6 +304,8 @@ namespace PROINSA_GP_API.Controllers
                 }
             }
         }
+
+        //En los PUT se tiene que mandar objetos
         [HttpPut]
         [Route("RevisionNomina")]
         public async Task<IActionResult> RevisionNomina(string Observaciones)
@@ -327,17 +333,5 @@ namespace PROINSA_GP_API.Controllers
                 }
             }
         }
-
-        
-
-
-
-
-
-
-
-
-
-
     }
 }
