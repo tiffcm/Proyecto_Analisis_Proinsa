@@ -3,6 +3,8 @@
     public class Nomina
     {
         public long ID_TIPONOMINA { get; set; }
+
+        public long ID_EMPLEADO { get; set; }
         public string? DESCRIPCION { get; set; }
         public string? OBSERVACIONES { get; set; }
         public int TipoNomina { get; set; }

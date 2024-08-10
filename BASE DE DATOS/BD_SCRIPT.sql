@@ -9079,8 +9079,8 @@ END;
 go
 
 
-create PROCEDURE [dbo].[AprobarNominaPeriodo]
-    @UsuarioAprobador VARCHAR(100)
+CREATE PROCEDURE [dbo].[AprobarNominaPeriodo]
+    @ID_EMPLEADO bigint
 AS
 BEGIN
     DECLARE @Fecha DATETIME;
@@ -9107,7 +9107,7 @@ BEGIN
         UPDATE NOMINA
         SET ESTADO = 'APROBADO',
             FECHACAPROBACION = @Fecha,
-            APROBADOR_ID = @UsuarioAprobador
+            APROBADOR_ID = @ID_EMPLEADO
         WHERE ID_NOMINA = @Nomina;
 
       
@@ -9118,8 +9118,7 @@ BEGIN
     CLOSE NominaCursor;
     DEALLOCATE NominaCursor;
 END;
-
-go
+GO
 
 create proc [dbo].[ObtenerNominaMensualEmpleado]
 		@EMPLEADO_ID BIGINT

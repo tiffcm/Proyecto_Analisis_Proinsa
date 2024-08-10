@@ -126,128 +126,122 @@ namespace PROINSA_GP_API.Controllers
             }
         }
 
-        //En los POST se tiene que mandar objetos
-        //Este hay que revisarlo FROMBody?
         [HttpPost]
         [Route("RegistrarIngresosNominaDetalle")]
-        public async Task<IActionResult> RegistrarIngresosNominaDetalle([FromBody] List<IngresoNominaDetalle> ingresos)
+        public async Task<IActionResult> RegistrarIngresosNominaDetalle(List<IngresoNominaDetalle> ingresos)
         {
             Respuesta respuesta = new Respuesta();
 
-
-
-
-            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
-            {
-                var dataTable = new DataTable();
-                dataTable.Columns.Add("MONTO", typeof(decimal));
-                dataTable.Columns.Add("DETALLE", typeof(string));
-                dataTable.Columns.Add("INGRESO_ID", typeof(long));
-                dataTable.Columns.Add("EMPLEADO_ID", typeof(long));
-                dataTable.Columns.Add("CANTIDAD", typeof(long));
-
-                foreach (var ingreso in ingresos)
+           
+                using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
                 {
-                    dataTable.Rows.Add(ingreso.MONTO, ingreso.DETALLE, ingreso.INGRESO_ID, ingreso.EMPLEADO_ID, ingreso.CANTIDAD);
-                }
+                    
+                    var dataTable = new DataTable();
+                    dataTable.Columns.Add("MONTO", typeof(decimal));
+                    dataTable.Columns.Add("DETALLE", typeof(string));
+                    dataTable.Columns.Add("INGRESO_ID", typeof(long));
+                    dataTable.Columns.Add("EMPLEADO_ID", typeof(long));
+                    dataTable.Columns.Add("CANTIDAD", typeof(long));
 
-                var dynamicParameters = new DynamicParameters();
-                dynamicParameters.Add("@IngresosNominaDetalle", dataTable.AsTableValuedParameter("dbo.IngresoNominaDetalleType"));
+                   
+                    foreach (var ingreso in ingresos)
+                    {
+                        dataTable.Rows.Add(ingreso.MONTO, ingreso.DETALLE, ingreso.INGRESO_ID, ingreso.EMPLEADO_ID, ingreso.CANTIDAD);
+                    }
 
-                try
-                {
+                    
+                    SqlParameter tableParameter = new SqlParameter
+                    {
+                        ParameterName = "@IngresosNominaDetalle",
+                        SqlDbType = SqlDbType.Structured,
+                        TypeName = "dbo.IngresoNominaDetalleType", 
+                        Value = dataTable
+                    };
+
+                    SqlCommand command = new SqlCommand("RegistrarIngresosNominaDetalle", context)
+                    {
+                        CommandType = CommandType.StoredProcedure
+                    };
+                    command.Parameters.Add(tableParameter);
+
                     await context.OpenAsync();
-                    var result = await context.ExecuteAsync(
-                        "RegistrarIngresosNominaDetalle",
-                        dynamicParameters,
-                        commandType: CommandType.StoredProcedure
-                    );
+                    var result = await command.ExecuteNonQueryAsync();
 
                     if (result > 0)
                     {
                         respuesta.CODIGO = 1;
                         respuesta.MENSAJE = "OK";
                         respuesta.CONTENIDO = true;
-                        return Ok(respuesta);
                     }
                     else
                     {
                         respuesta.CODIGO = 0;
                         respuesta.MENSAJE = "Ha ocurrido un error al procesar la solicitud";
                         respuesta.CONTENIDO = false;
-                        return Ok(respuesta);
                     }
                 }
-                catch (Exception ex)
-                {
-                    respuesta.CODIGO = 0;
-                    respuesta.MENSAJE = $"Error: {ex.Message}";
-                    respuesta.CONTENIDO = false;
-                    return Ok(respuesta);
-                }
-            }
+           
+
+            return Ok(respuesta);
         }
 
-        //En los POST se tiene que mandar objetos
-        //Este hay que revisarlo FROMBody?
+
         [HttpPost]
         [Route("RegistrarDeduccionNominaDetalle")]
-        public async Task<IActionResult> RegistrarDeduccionNominaDetalle([FromBody] List<DeduccionNominaDetalle> deducciones)
+        public async Task<IActionResult> RegistrarDeduccionNominaDetalle(List<DeduccionNominaDetalle> deducciones)
         {
             Respuesta respuesta = new Respuesta();
 
-
-
-
-            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
-            {
-                var dataTable = new DataTable();
-                dataTable.Columns.Add("MONTO", typeof(decimal));
-                dataTable.Columns.Add("DETALLE", typeof(string));
-                dataTable.Columns.Add("DEDUCCION_ID", typeof(long));
-                dataTable.Columns.Add("EMPLEADO_ID", typeof(long));
-
-                foreach (var deduccion in deducciones)
+           
+                using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
                 {
-                    dataTable.Rows.Add(deduccion.MONTO, deduccion.DETALLE, deduccion.DEDUCCION_ID, deduccion.EMPLEADO_ID);
-                }
+                    
+                    var dataTable = new DataTable();
+                    dataTable.Columns.Add("MONTO", typeof(decimal));
+                    dataTable.Columns.Add("DETALLE", typeof(string));
+                    dataTable.Columns.Add("DEDUCCION_ID", typeof(long));
+                    dataTable.Columns.Add("EMPLEADO_ID", typeof(long));
 
-                var dynamicParameters = new DynamicParameters();
-                dynamicParameters.Add("@DeduccionesNominaDetalle", dataTable.AsTableValuedParameter("dbo.DeduccionNominaDetalleType"));
+                    
+                    foreach (var deduccion in deducciones)
+                    {
+                        dataTable.Rows.Add(deduccion.MONTO, deduccion.DETALLE, deduccion.DEDUCCION_ID, deduccion.EMPLEADO_ID);
+                    }
 
-                try
-                {
+                    
+                    SqlParameter tableParameter = new SqlParameter
+                    {
+                        ParameterName = "@DeduccionesNominaDetalle",
+                        SqlDbType = SqlDbType.Structured,
+                        TypeName = "dbo.DeduccionNominaDetalleType", 
+                        Value = dataTable
+                    };
+
+                    SqlCommand command = new SqlCommand("RegistrarDeduccionesNominaDetalle", context)
+                    {
+                        CommandType = CommandType.StoredProcedure
+                    };
+                    command.Parameters.Add(tableParameter);
+
                     await context.OpenAsync();
-                    var result = await context.ExecuteAsync(
-                        "RegistrarDeduccionesNominaDetalle",
-                        dynamicParameters,
-                        commandType: CommandType.StoredProcedure
-                    );
+                    var result = await command.ExecuteNonQueryAsync();
 
                     if (result > 0)
                     {
                         respuesta.CODIGO = 1;
                         respuesta.MENSAJE = "OK";
                         respuesta.CONTENIDO = true;
-                        return Ok(respuesta);
                     }
                     else
                     {
                         respuesta.CODIGO = 0;
                         respuesta.MENSAJE = "Ha ocurrido un error al procesar la solicitud";
                         respuesta.CONTENIDO = false;
-                        return Ok(respuesta);
                     }
                 }
-                catch (Exception ex)
-                {
-                    respuesta.CODIGO = 0;
-                    respuesta.MENSAJE = $"Error: {ex.Message}";
-                    respuesta.CONTENIDO = false;
-                    return Ok(respuesta);
-                }
-            }
+            return Ok(respuesta);
         }
+
 
         [HttpGet]
         [Route("ObtenerNominaEmpleado")]
@@ -305,33 +299,69 @@ namespace PROINSA_GP_API.Controllers
             }
         }
 
-        //En los PUT se tiene que mandar objetos
         [HttpPut]
         [Route("RevisionNomina")]
-        public async Task<IActionResult> RevisionNomina(string Observaciones)
+        public async Task<IActionResult> RevisionNomina(Nomina ent)
         {
-            Respuesta respuesta = new Respuesta();
-            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            Respuesta resp = new Respuesta();
+
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
-                var parametros = new DynamicParameters();
-                parametros.Add("@Observaciones", Observaciones);
-                var request = await contexto.ExecuteAsync("RevisionNomina", parametros,
-                   commandType: System.Data.CommandType.StoredProcedure);
-                if (request > 0)
+               
+                var result = await context.ExecuteAsync("RevisionNomina",
+                    new { ent.OBSERVACIONES}, commandType: CommandType.StoredProcedure);
+
+                if (result > 0)
                 {
-                    respuesta.CODIGO = 1;
-                    respuesta.MENSAJE = "OK";
-                    respuesta.CONTENIDO = true;
-                    return Ok(respuesta);
+                    resp.CODIGO = 1;
+                    resp.MENSAJE = "OK";
+                    resp.CONTENIDO= true;
+                    return Ok(resp);
                 }
                 else
                 {
-                    respuesta.CODIGO = 0;
-                    respuesta.MENSAJE = "Error en el proceso.";
-                    respuesta.CONTENIDO = false;
-                    return Ok(respuesta);
+                    resp.CODIGO = 0;
+                    resp.MENSAJE = "Ha ocurrido un error al actualizar la nómina.";
+                    resp.CONTENIDO = false;
+                    return Ok(resp);
                 }
             }
+
+
+
+        }
+
+
+        [HttpPut]
+        [Route("AprobacionNomina")]
+        public async Task<IActionResult> AprobacionNomina(Nomina ent)
+        {
+            Respuesta resp = new Respuesta();
+
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+
+                var result = await context.ExecuteAsync("AprobarNominaPeriodo",
+                    new { ent.ID_EMPLEADO}, commandType: CommandType.StoredProcedure);
+
+                if (result > 0)
+                {
+                    resp.CODIGO = 1;
+                    resp.MENSAJE = "OK";
+                    resp.CONTENIDO = true;
+                    return Ok(resp);
+                }
+                else
+                {
+                    resp.CODIGO = 0;
+                    resp.MENSAJE = "Ha ocurrido un error al actualizar la nómina.";
+                    resp.CONTENIDO = false;
+                    return Ok(resp);
+                }
+            }
+
+
+
         }
     }
 }
