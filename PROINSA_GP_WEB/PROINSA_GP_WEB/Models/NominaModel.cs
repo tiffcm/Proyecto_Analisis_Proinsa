@@ -15,8 +15,7 @@ namespace PROINSA_GP_WEB.Models
             else
                 return new Respuesta();
         }
-
-        //Este hay que revisarlo
+     
         public Respuesta? CalculoNominaInicial(Nomina entidad)
         {
             string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Nomina/CalculoNominaInicial";
@@ -28,7 +27,6 @@ namespace PROINSA_GP_WEB.Models
                 return new Respuesta();
         }
 
-        //Este hay que revisarlo
         public Respuesta? CalculoNominaFinal(Nomina entidad)
         {
             string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Nomina/CalculoNominaFinal";
@@ -51,7 +49,6 @@ namespace PROINSA_GP_WEB.Models
                 return new Respuesta();
         }
 
-        //Este hay que revisarlo
         public Respuesta? RegistrarIngresosNominaDetalle(Nomina entidad)
         {
             string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Nomina/RegistrarIngresosNominaDetalle";
@@ -63,7 +60,6 @@ namespace PROINSA_GP_WEB.Models
                 return new Respuesta();
         }
 
-        //Este hay que revisarlo
         public Respuesta? RegistrarDeduccionNominaDetalle(Nomina entidad)
         {
             string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Nomina/RegistrarDeduccionNominaDetalle";
@@ -77,7 +73,7 @@ namespace PROINSA_GP_WEB.Models
 
         public Respuesta? ObtenerNominaEmpleado(int EMPLEADO_ID)
         {
-            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Nomina/ObtenerNominaEmpleado";
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Nomina/ObtenerNominaEmpleado?=EMPLEADO_ID" + EMPLEADO_ID;
             var solicitud = _httpClient.GetAsync(url).Result;
 
             if (solicitud.IsSuccessStatusCode)
@@ -88,7 +84,7 @@ namespace PROINSA_GP_WEB.Models
 
         public Respuesta? ObtenerNominaMensualEmpleados(DateTime fechapago)
         {
-            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Nomina/ObtenerNominaMensualEmpleados";
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Nomina/ObtenerNominaMensualEmpleados?=fechapago" + fechapago;
             var solicitud = _httpClient.GetAsync(url).Result;
 
             if (solicitud.IsSuccessStatusCode)
@@ -96,11 +92,21 @@ namespace PROINSA_GP_WEB.Models
             else
                 return new Respuesta();
         }
-
-        //En los PUT se tiene que mandar objetos
+       
         public Respuesta? RevisionNomina(Nomina entidad)
         {
             string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Nomina/RevisionNomina";
+            JsonContent body = JsonContent.Create(entidad);
+            var solicitud = _httpClient.PutAsync(url, body).Result;
+            if (solicitud.IsSuccessStatusCode)
+                return solicitud.Content.ReadFromJsonAsync<Respuesta>().Result;
+            else
+                return new Respuesta();
+        }
+
+        public Respuesta? AprobacionNomina(Nomina entidad)
+        {
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Nomina/AprobacionNomina";
             JsonContent body = JsonContent.Create(entidad);
             var solicitud = _httpClient.PutAsync(url, body).Result;
             if (solicitud.IsSuccessStatusCode)

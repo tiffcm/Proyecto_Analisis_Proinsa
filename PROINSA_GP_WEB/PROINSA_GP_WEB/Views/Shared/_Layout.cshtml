@@ -282,28 +282,33 @@
                             </a>
                             <ul class="menu-sub">
                                 <li class="menu-item">
-                                    <a href="@Url.Action("Ingresos","Nominas")" class="menu-link">
-                                        <div data-i18n="Perfect Scrollbar">Ingresos</div>
+                                    <a href="@Url.Action("RegistrarNomina","Nominas")" class="menu-link">
+                                        <div data-i18n="Perfect Scrollbar">Registrar nómina</div>
                                     </a>
                                 </li>
                                 <li class="menu-item">
-                                    <a href="@Url.Action("Deducciones","Nominas")" class="menu-link">
+                                    <a href="@Url.Action("RegistrarNomina","Nominas")" class="menu-link">
                                         <div data-i18n="Perfect Scrollbar">Deducciones</div>
                                     </a>
                                 </li>
                                 <li class="menu-item">
-                                    <a href="@Url.Action("Configuracion","Nominas")" class="menu-link">
+                                    <a href="@Url.Action("RegistrarDeduccion","Nominas")" class="menu-link">
                                         <div data-i18n="Perfect Scrollbar">Configuración</div>
                                     </a>
                                 </li>
                                 <li class="menu-item">
-                                    <a href="@Url.Action("Calculo","Nominas")" class="menu-link">
-                                        <div data-i18n="Perfect Scrollbar">Cálculo</div>
+                                    <a href="@Url.Action("ObtenerNominaEmpleado","Nominas")" class="menu-link">
+                                        <div data-i18n="Perfect Scrollbar">Obtener nómina empleado</div>
                                     </a>
                                 </li>
                                 <li class="menu-item">
-                                    <a href="@Url.Action("NominaMensual","Nominas")" class="menu-link">
-                                        <div data-i18n="Perfect Scrollbar">Nómina mensual</div>
+                                    <a href="@Url.Action("ObtenerNominaMensualEmpleados","Nominas")" class="menu-link">
+                                        <div data-i18n="Perfect Scrollbar">Obtener nómina empleados</div>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="@Url.Action("RevisionNomina","Nominas")" class="menu-link">
+                                        <div data-i18n="Perfect Scrollbar">Revisar nómina</div>
                                     </a>
                                 </li>
                             </ul>
@@ -423,15 +428,6 @@
                                         <a class="dropdown-item" href="#">
                                             <i class="bi bi-gear me-2" style="font-size: 1.2rem;"></i>
                                             <span class="align-middle">Soporte</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="#">
-                                            <span class="d-flex align-items-center align-middle">
-                                                <i class="bi bi-card-checklist me-2" style="font-size: 1.2rem;"></i>
-                                                <span class="flex-grow-1 align-middle">Notificaciones</span>
-                                                <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                                            </span>
                                         </a>
                                     </li>
                                     <li>

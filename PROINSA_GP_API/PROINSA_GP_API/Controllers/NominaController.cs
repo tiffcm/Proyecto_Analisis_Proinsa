@@ -360,9 +360,6 @@ namespace PROINSA_GP_API.Controllers
                     return Ok(resp);
                 }
             }
-
-
-
         }
     }
 }

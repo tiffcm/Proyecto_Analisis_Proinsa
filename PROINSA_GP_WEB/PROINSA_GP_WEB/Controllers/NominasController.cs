@@ -6,12 +6,11 @@ namespace PROINSA_GP_WEB.Controllers
 {
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public class NominasController : Controller
-    {
-        // VALIDACION DE VISTAS Y FUNCIONES POR TRABAJAR
+    {        
         [Seguridad]
         [Administrador]
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult RegistrarNomina()
         {
             return View();
         }
@@ -19,7 +18,7 @@ namespace PROINSA_GP_WEB.Controllers
         [Seguridad]
         [Administrador]
         [HttpGet]
-        public IActionResult Ingresos()
+        public IActionResult RegistrarIngresos()
         {
             return View();
         }
@@ -27,7 +26,7 @@ namespace PROINSA_GP_WEB.Controllers
         [Seguridad]
         [Administrador]
         [HttpGet]
-        public IActionResult GestionIngresos()
+        public IActionResult RegistrarDeduccion()
         {
             return View();
         }
@@ -35,7 +34,7 @@ namespace PROINSA_GP_WEB.Controllers
         [Seguridad]
         [Administrador]
         [HttpGet]
-        public IActionResult Deducciones()
+        public IActionResult ObtenerNominaEmpleado()
         {
             return View();
         }
@@ -43,7 +42,7 @@ namespace PROINSA_GP_WEB.Controllers
         [Seguridad]
         [Administrador]
         [HttpGet]
-        public IActionResult GestionDeducciones()
+        public IActionResult ObtenerNominaMensualEmpleados()
         {
             return View();
         }
@@ -51,7 +50,7 @@ namespace PROINSA_GP_WEB.Controllers
         [Seguridad]
         [Administrador]
         [HttpGet]
-        public IActionResult Configuracion()
+        public IActionResult RevisionNomina()
         {
             return View();
         }
@@ -59,15 +58,7 @@ namespace PROINSA_GP_WEB.Controllers
         [Seguridad]
         [Administrador]
         [HttpGet]
-        public IActionResult Calculo()
-        {
-            return View();
-        }
-
-        [Seguridad]
-        [Administrador]
-        [HttpGet]
-        public IActionResult NominaMensual()
+        public IActionResult AprobacionNomina()
         {
             return View();
         }
