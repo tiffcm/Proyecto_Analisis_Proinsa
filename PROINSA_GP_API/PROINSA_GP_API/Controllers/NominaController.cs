@@ -39,17 +39,18 @@ namespace PROINSA_GP_API.Controllers
             }
         }
 
-        //En los POST se tiene que mandar objetos
-        //Este hay que revisarlo porque es solo ejecutar y en el Web no puede ser POST porque se tiene que enviar datos
+        
         [HttpPost]
         [Route("CalculoNominaInicial")]
-        public async Task<IActionResult> CalculoNominaInicial()
+        public async Task<IActionResult> CalculoNominaInicial(Nomina ent )
         {
             Respuesta respuesta = new Respuesta();
 
             using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
-                var result = await context.ExecuteAsync("CalculoNominaInicial", commandType: CommandType.StoredProcedure);
+                var result = await context.ExecuteAsync("CalculoNominaInicial",
+                    new { ent.FECHA }, commandType: CommandType.StoredProcedure);
+
 
                 if (result > 0)
                 {
@@ -68,17 +69,17 @@ namespace PROINSA_GP_API.Controllers
             }
         }
 
-        //En los POST se tiene que mandar objetos
-        //Este hay que revisarlo porque es solo ejecutar y en el Web no puede ser POST porque se tiene que enviar datos
+        
         [HttpPost]
         [Route("CalculoNominaFinal")]
-        public async Task<IActionResult> CalculoNominaFinal()
+        public async Task<IActionResult> CalculoNominaFinal( Nomina ent)
         {
             Respuesta respuesta = new Respuesta();
 
             using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
-                var result = await context.ExecuteAsync("CalculoNominaFinal", commandType: CommandType.StoredProcedure);
+                var result = await context.ExecuteAsync("CalculoNominaFinal",
+                    new { ent.FECHA }, commandType: CommandType.StoredProcedure);
 
                 if (result > 0)
                 {

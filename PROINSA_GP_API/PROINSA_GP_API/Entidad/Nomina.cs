@@ -19,6 +19,8 @@
         public string? IDENTIFICACION { get; set; }
         public string? CARGO { get; set; }
         public decimal SALARIO { get; set; }
+
+        public DateTime FECHA { get; set; }
     }
 
     public class IngresoNominaDetalle

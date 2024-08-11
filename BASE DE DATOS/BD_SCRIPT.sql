@@ -8545,6 +8545,7 @@ END;
 go
 
 create PROCEDURE [dbo].[CalculoNominaInicial]
+@Fecha datetime
 AS
 BEGIN
     BEGIN TRY
@@ -8560,13 +8561,13 @@ BEGIN
         DECLARE @SalarioNeto decimal(10, 4);
         DECLARE @NominaID bigint;
         DECLARE @NominaIDetalle bigint;
-        DECLARE @Fecha DATETIME;
+       
         DECLARE @Mes INT;
         DECLARE @PorcentajeDeduccionCCSS decimal(10, 4);
         DECLARE @PorcentajeDeduccionImpuesto decimal(10, 4);
         DECLARE @ImpuestoID bigint;
 
-        SET @Fecha = GETDATE();
+      
         SET @Mes = MONTH(@Fecha);
 
         BEGIN TRANSACTION;
@@ -8685,8 +8686,6 @@ BEGIN
                GETDATE());
     END CATCH;
 END;
-
-go
 
 
 create PROCEDURE [dbo].[RegistrarIngresosNominaDetalle]
@@ -8912,12 +8911,13 @@ END;
 go
 
 create PROCEDURE [dbo].[CalculoNominaFinal]
+@Fecha datetime
 AS
 BEGIN
-    DECLARE @Fecha DATETIME;
+   
     DECLARE @Mes INT;
 
-    SET @Fecha = GETDATE();
+    
     SET @Mes = MONTH(@Fecha);
 
     BEGIN TRY
@@ -9028,7 +9028,7 @@ BEGIN
                GETDATE());
     END CATCH;
 END;
-go
+
 
 create PROCEDURE [dbo].[RevisionNomina]
     @Observaciones VARCHAR(500)
