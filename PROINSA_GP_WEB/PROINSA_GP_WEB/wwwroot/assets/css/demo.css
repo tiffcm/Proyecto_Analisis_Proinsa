@@ -109,3 +109,59 @@
 .align_dataTable_text {
     text-align:center;
 }
+
+.table-responsive {
+    overflow-x: visible; /* Habilita el desplazamiento horizontal si el contenido es demasiado ancho */
+}
+
+.table {
+    width: 100%;
+}
+
+/* Media query para pantallas muy grandes y medianas */
+.dataTable2s_wrapper {
+    max-width: 100%; /* Por defecto usa el ancho completo disponible */
+}
+
+/* Pantallas pequeñas (hasta 768px) */
+@media (max-width: 768px) {
+    .dataTable2s_wrapper {
+        max-width: 500px; 
+        overflow-y: auto; 
+    }
+}
+
+/* Pantallas más pequeñas (hasta 740px) */
+@media (max-width: 740px) {
+    .dataTable2s_wrapper {
+        max-width: 400px; 
+    }
+}
+
+/* Pantallas pequeñas (hasta 625px) */
+@media (max-width: 625px) {
+    .dataTable2s_wrapper {
+        max-width: 350px; 
+    }
+}
+
+/* Pantallas muy pequeñas (hasta 564px) */
+@media (max-width: 564px) {
+    .dataTable2s_wrapper {
+        max-width: 300px; 
+    }
+}
+
+/* Pantallas extremadamente pequeñas (hasta 511px) */
+@media (max-width: 511px) {
+    .dataTable2s_wrapper {
+        max-width: 210px;
+    }
+}
+
+/* Pantallas ultra pequeñas (hasta 420px) */
+@media (max-width: 420px) {
+    .dataTable2s_wrapper {
+        max-width: 125px;
+    }
+}
