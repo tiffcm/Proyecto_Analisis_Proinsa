@@ -1,10 +1,134 @@
-﻿@{
+﻿<!-- Acá hay que crear un ViewModel para poder jugar con las 3 clases -->
+@model PROINSA_GP_WEB.Entidad.Nomina
+@{
     ViewBag.Title = "ObtenerNominaEmpleado";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Administrativo / Nómina /</span> Obtener Nómina empleado</h4>
 
-<div class="card mb-4">
-    <h5 class="card-header">Prueba por si quieren usar este fondo blanco</h5>
+<div class="content-wrapper">
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="row">
+            <div class="card mb-4">
+                <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Detalle de nómina Empleado:</h5>
+                <div class="card-body" style="min-height: 400px;">
+                    @using (Html.BeginForm("RevisionNomina", "Nomina", FormMethod.Post))
+                    {
+                        <!-- Acá va el empleado ID -->
+                        @Html.HiddenFor(m => m.CreadorID)
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    @Html.Label("Nombre del empleado:")
+                                    @Html.TextBoxFor(m => m.EMPLEADO, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    @Html.Label("Fecha:")
+                                    @Html.TextBoxFor(m => m.DESCRIPCION, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    @Html.Label("Observaciones:")
+                                    @Html.TextAreaFor(m => m.OBSERVACIONES, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <p class="demo-inline-spacing" style="text-align:center;">
+                            <a class="btn btn-primary me-1" data-bs-toggle="collapse" href="#collapseIngresos" role="button"
+                               aria-expanded="false" aria-controls="collapseIngresos">
+                                Presione para ver los ingresos
+                            </a>
+                            <a class="btn btn-primary me-1" data-bs-toggle="collapse" href="#collapseDeducciones"
+                               aria-expanded="false" aria-controls="collapseDeducciones">
+                                Presione para ver las deducciones
+                            </a>
+                        </p>
+                        <div class="card-body">
+                            <div class="collapse" id="collapseIngresos">
+                                <div class="d-grid d-sm-flex p-3 border">
+                                    <div class="card-body">
+                                        <h5 class="card-header text-uppercase text-danger">Ingresos:</h5>
+                                        <div id="dataTable2_wrapper" class="dataTable2s_wrapper dt-bootstrap4" style="max-height: 400px; overflow-y: auto;">
+                                            <div class="item">
+                                                <div class="tab-content">
+                                                    <div class="tab-pane show active" id="striped-items-preview">
+                                                        <div class="table-responsive">
+                                                            <table id="dataTableIngresos" class="table table-bordered dataTable2" cellspacing="0" role="grid" aria-describedby="dataTable2_info">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>TIPO DE INGRESO</th>
+                                                                        <th>DETALLE</th>
+                                                                        <th>MONTO</th>
+                                                                        <th>CANTIDAD</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody class="align_dataTable2_text">
+                                                                    <tr>
+                                                                        <td>NOMBRE_INGRESO</td>
+                                                                        <td>DETALLE</td>
+                                                                        <td>MONTO</td>
+                                                                        <td>CANTIDAD</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="collapse" id="collapseDeducciones">
+                                <div class="d-grid d-sm-flex p-3 border">
+                                    <div class="card-body">
+                                        <h5 class="card-header text-uppercase text-danger">Deducciones:</h5>
+                                        <div id="dataTable2_wrapper" class="dataTable2s_wrapper dt-bootstrap4" style="max-height: 400px; overflow-y: auto;">
+                                            <div class="item">
+                                                <div class="tab-content">
+                                                    <div class="tab-pane show active" id="striped-items-preview">
+                                                        <div class="table-responsive">
+                                                            <table id="dataTableDeducciones" class="table table-bordered dataTable2" cellspacing="0" role="grid" aria-describedby="dataTable2_info">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>TIPO DE DEDUCCIÓN</th>
+                                                                        <th>DETALLE</th>
+                                                                        <th>MONTO</th>
+                                                                        <th>CANTIDAD</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody class="align_dataTable2_text">
+                                                                    <tr>
+                                                                        <td>NOMBRE_DEDUCCION</td>
+                                                                        <td>DETALLE</td>
+                                                                        <td>MONTO</td>
+                                                                        <td>CANTIDAD</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display:grid; place-items:center;">
+                            <button class="btn btn-primary mt-4 toastBtn" style="width:300px" type="submit" data-toast-id="btnCambioHorario">Confirmar Observaciones</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script src="~/js/datatable.js"></script>

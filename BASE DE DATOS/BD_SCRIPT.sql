@@ -24,7 +24,6 @@ CREATE TYPE [dbo].[IngresoNominaDetalleType] AS TABLE(
 )
 GO
 
-
 /****** Object:  UserDefinedFunction [dbo].[CalcularDias]    Script Date: 20/7/2024 11:19:03 p. m. ******/
 
 CREATE FUNCTION [dbo].[CalcularDias] (
@@ -8413,137 +8412,6 @@ alter table Nomina
 add COMENTARIO_BOLETA varchar(500)
 go
 
-
-create PROCEDURE [dbo].[RegistrarNomina]
-    @Descripcion VARCHAR(100),
-    @Observaciones VARCHAR(500),
-    @TipoNomina INT,
-    @CreadorID BIGINT
-AS
-BEGIN
-    BEGIN TRY
-        DECLARE @Fecha DATETIME;
-        DECLARE @Mes INT;
-        DECLARE @UltimoDiaDelMes DATETIME;
-        DECLARE @EmpleadoID BIGINT;
-        DECLARE @SalarioEmpleado DECIMAL(18, 2);
-        DECLARE @Estado VARCHAR(20) = 'REGISTRADA';
-        DECLARE @Revisiones INT = 0;
-        DECLARE @ID_NOMINA BIGINT;
-
-        SET @Fecha = GETDATE();
-        SET @Mes = MONTH(@Fecha);
-        SET @UltimoDiaDelMes = EOMONTH(@Fecha);
-
-        
-        IF EXISTS (SELECT 1 FROM NOMINA WHERE PERIODO = @Mes AND ESTADO IN ('REGISTRADA', 'EN REVISION'))
-        BEGIN
-            RAISERROR('Ya existe una nómina para el periodo actual en estado REGISTRADA o EN REVISION', 16, 1);
-            RETURN;
-        END
-
-        BEGIN TRANSACTION;
-
-      
-        DECLARE empleado_cursor CURSOR FOR
-        SELECT ID_EMPLEADO, SALARIO
-        FROM Empleado;
-
-        OPEN empleado_cursor;
-
-        FETCH NEXT FROM empleado_cursor INTO @EmpleadoID, @SalarioEmpleado;
-
-        WHILE @@FETCH_STATUS = 0
-        BEGIN
-            INSERT INTO [dbo].[NOMINA]
-                   ([DESCRIPCION]
-                   ,[PERIODO]
-                   ,[FECHA_CALCULO]
-                   ,[FECHA_PAGO]
-                   ,[OBSERVACIONES]
-                   ,[REVISIONES]
-                   ,[FECHACREACION]
-                   ,[ESTADO]
-                   ,[SALARIO_BRUTO]
-                   ,[EMPLEADO_ID]
-                   ,[TIPONOMINA_ID]
-                   ,[CREADOR_ID])
-            VALUES
-                   (@Descripcion
-                   ,@Mes
-                   ,@Fecha
-                   ,@UltimoDiaDelMes
-                   ,@Observaciones
-                   ,@Revisiones
-                   ,@Fecha
-                   ,@Estado
-                   ,@SalarioEmpleado
-                   ,@EmpleadoID
-                   ,@TipoNomina
-                   ,@CreadorID);
-
-            FETCH NEXT FROM empleado_cursor INTO @EmpleadoID, @SalarioEmpleado;
-        END;
-
-        CLOSE empleado_cursor;
-        DEALLOCATE empleado_cursor;
-
-       
-        DECLARE nomina_cursor CURSOR FOR
-        SELECT ID_NOMINA
-        FROM NOMINA
-        WHERE FECHACREACION = @Fecha;
-
-        OPEN nomina_cursor;
-
-        FETCH NEXT FROM nomina_cursor INTO @ID_NOMINA;
-
-        WHILE @@FETCH_STATUS = 0
-        BEGIN
-            INSERT INTO [dbo].[NOMINADETALLE]
-                   (NOMINA_ID)
-            VALUES
-                   (@ID_NOMINA);
-
-            FETCH NEXT FROM nomina_cursor INTO @ID_NOMINA;
-        END;
-
-        CLOSE nomina_cursor;
-        DEALLOCATE nomina_cursor;
-
-       
-        EXEC [dbo].[CalculoNominaInicial];
-
-        COMMIT TRANSACTION;
-    END TRY
-    BEGIN CATCH
-       
-        IF @@TRANCOUNT > 0
-            ROLLBACK TRANSACTION;
-
-       
-        INSERT INTO [dbo].[DB_ERRORES]
-                   ([UserName]
-                   ,[ErrorNumber]
-                   ,[ErrorState]
-                   ,[ErrorSeverity]
-                   ,[ErrorLine]
-                   ,[ErrorProcedure]
-                   ,[ErrorMessage]
-                   ,[ErrorDateTime])
-        VALUES
-                  (SUSER_SNAME(),
-                   ERROR_NUMBER(),
-                   ERROR_STATE(),
-                   ERROR_SEVERITY(),
-                   ERROR_LINE(),
-                   ERROR_PROCEDURE(),
-                   ERROR_MESSAGE(),
-                   GETDATE());
-    END CATCH;
-END;
-go
-
 create PROCEDURE [dbo].[CalculoNominaInicial]
 @Fecha datetime
 AS
@@ -8686,6 +8554,137 @@ BEGIN
                GETDATE());
     END CATCH;
 END;
+GO
+
+create PROCEDURE [dbo].[RegistrarNomina]
+    @Descripcion VARCHAR(100),
+    @Observaciones VARCHAR(500),
+    @TipoNomina INT,
+    @CreadorID BIGINT
+AS
+BEGIN
+    BEGIN TRY
+        DECLARE @Fecha DATETIME;
+        DECLARE @Mes INT;
+        DECLARE @UltimoDiaDelMes DATETIME;
+        DECLARE @EmpleadoID BIGINT;
+        DECLARE @SalarioEmpleado DECIMAL(18, 2);
+        DECLARE @Estado VARCHAR(20) = 'REGISTRADA';
+        DECLARE @Revisiones INT = 0;
+        DECLARE @ID_NOMINA BIGINT;
+
+        SET @Fecha = GETDATE();
+        SET @Mes = MONTH(@Fecha);
+        SET @UltimoDiaDelMes = EOMONTH(@Fecha);
+
+        
+        IF EXISTS (SELECT 1 FROM NOMINA WHERE PERIODO = @Mes AND ESTADO IN ('REGISTRADA', 'EN REVISION'))
+        BEGIN
+            RAISERROR('Ya existe una nómina para el periodo actual en estado REGISTRADA o EN REVISION', 16, 1);
+            RETURN;
+        END
+
+        BEGIN TRANSACTION;
+
+      
+        DECLARE empleado_cursor CURSOR FOR
+        SELECT ID_EMPLEADO, SALARIO
+        FROM Empleado;
+
+        OPEN empleado_cursor;
+
+        FETCH NEXT FROM empleado_cursor INTO @EmpleadoID, @SalarioEmpleado;
+
+        WHILE @@FETCH_STATUS = 0
+        BEGIN
+            INSERT INTO [dbo].[NOMINA]
+                   ([DESCRIPCION]
+                   ,[PERIODO]
+                   ,[FECHA_CALCULO]
+                   ,[FECHA_PAGO]
+                   ,[OBSERVACIONES]
+                   ,[REVISIONES]
+                   ,[FECHACREACION]
+                   ,[ESTADO]
+                   ,[SALARIO_BRUTO]
+                   ,[EMPLEADO_ID]
+                   ,[TIPONOMINA_ID]
+                   ,[CREADOR_ID])
+            VALUES
+                   (@Descripcion
+                   ,@Mes
+                   ,@Fecha
+                   ,@UltimoDiaDelMes
+                   ,@Observaciones
+                   ,@Revisiones
+                   ,@Fecha
+                   ,@Estado
+                   ,@SalarioEmpleado
+                   ,@EmpleadoID
+                   ,@TipoNomina
+                   ,@CreadorID);
+
+            FETCH NEXT FROM empleado_cursor INTO @EmpleadoID, @SalarioEmpleado;
+        END;
+
+        CLOSE empleado_cursor;
+        DEALLOCATE empleado_cursor;
+
+       
+        DECLARE nomina_cursor CURSOR FOR
+        SELECT ID_NOMINA
+        FROM NOMINA
+        WHERE FECHACREACION = @Fecha;
+
+        OPEN nomina_cursor;
+
+        FETCH NEXT FROM nomina_cursor INTO @ID_NOMINA;
+
+        WHILE @@FETCH_STATUS = 0
+        BEGIN
+            INSERT INTO [dbo].[NOMINADETALLE]
+                   (NOMINA_ID)
+            VALUES
+                   (@ID_NOMINA);
+
+            FETCH NEXT FROM nomina_cursor INTO @ID_NOMINA;
+        END;
+
+        CLOSE nomina_cursor;
+        DEALLOCATE nomina_cursor;
+
+       
+        EXEC [dbo].[CalculoNominaInicial];
+
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+       
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRANSACTION;
+
+       
+        INSERT INTO [dbo].[DB_ERRORES]
+                   ([UserName]
+                   ,[ErrorNumber]
+                   ,[ErrorState]
+                   ,[ErrorSeverity]
+                   ,[ErrorLine]
+                   ,[ErrorProcedure]
+                   ,[ErrorMessage]
+                   ,[ErrorDateTime])
+        VALUES
+                  (SUSER_SNAME(),
+                   ERROR_NUMBER(),
+                   ERROR_STATE(),
+                   ERROR_SEVERITY(),
+                   ERROR_LINE(),
+                   ERROR_PROCEDURE(),
+                   ERROR_MESSAGE(),
+                   GETDATE());
+    END CATCH;
+END;
+go
 
 
 create PROCEDURE [dbo].[RegistrarIngresosNominaDetalle]
@@ -9028,7 +9027,7 @@ BEGIN
                GETDATE());
     END CATCH;
 END;
-
+GO
 
 create PROCEDURE [dbo].[RevisionNomina]
     @Observaciones VARCHAR(500)
@@ -9121,39 +9120,38 @@ END;
 GO
 
 create proc [dbo].[ObtenerNominaMensualEmpleado]
-		@EMPLEADO_ID BIGINT
-		AS begin
-		DECLARE @MES INT
-		DECLARE @FECHA DATETIME
-		DECLARE @ID_NOMINA INT
+@EMPLEADO_ID BIGINT
+AS begin
+DECLARE @MES INT
+DECLARE @FECHA DATETIME
+DECLARE @ID_NOMINA INT
 		
-		 SET @FECHA = GETDATE();
-         SET @MES = MONTH(@Fecha);
-		 SET @ID_NOMINA=(SELECT  ID_NOMINA
-         FROM NOMINA
-         WHERE EMPLEADO_ID = @EMPLEADO_ID AND PERIODO=@MES)
+	SET @FECHA = GETDATE();
+    SET @MES = MONTH(@Fecha);
+	SET @ID_NOMINA=(SELECT  ID_NOMINA
+    FROM NOMINA
+    WHERE EMPLEADO_ID = @EMPLEADO_ID AND PERIODO=@MES)
 
-		 --INGRESOS
+	--INGRESOS
 
-		 SELECT 'INGRESO' AS TIPO ,ingre.NOMBRE_INGRESO as NOMBRE, ingreso.DETALLE, ingreso.MONTO, ISNULL(ingreso.CANTIDAD,0) AS CANTIDAD FROM INGRESONOMINADETALLE ingreso 
-		 inner join NOMINADETALLE nominade on nominade.ID_NOMINADETALLE=ingreso.NOMINADETALLE_ID
-		 inner join NOMINA nomina on nomina.ID_NOMINA=nominade.NOMINA_ID
-		 inner join INGRESO ingre on ingre.ID_INGRESO=ingreso.INGRESO_ID
-		 where ingreso.EMPLEADO_ID=@EMPLEADO_ID and nomina.PERIODO=@MES
+	SELECT 'INGRESO' AS TIPO ,ingre.NOMBRE_INGRESO as NOMBRE, ingreso.DETALLE, ingreso.MONTO, ISNULL(ingreso.CANTIDAD,0) AS CANTIDAD FROM INGRESONOMINADETALLE ingreso 
+	inner join NOMINADETALLE nominade on nominade.ID_NOMINADETALLE=ingreso.NOMINADETALLE_ID
+	inner join NOMINA nomina on nomina.ID_NOMINA=nominade.NOMINA_ID
+	inner join INGRESO ingre on ingre.ID_INGRESO=ingreso.INGRESO_ID
+	where ingreso.EMPLEADO_ID=@EMPLEADO_ID and nomina.PERIODO=@MES
 
-          ---- DEDUCCIONES
-		  UNION
+    ---- DEDUCCIONES
+	UNION
 		 
-		 SELECT  'DEDUCCION' AS TIPO,DEDUCCION.NOMBRE_DEDUCCION AS NOMBRE , DEDU.DETALLE, DEDU.MONTO, 0  AS CANTIDAD FROM DEDUCCIONNOMINADETALLE DEDU
-		 inner join NOMINADETALLE nominade on nominade.ID_NOMINADETALLE=DEDU.NOMINADETALLE_ID
-		 inner join NOMINA nomina on nomina.ID_NOMINA=nominade.NOMINA_ID
-		 inner join DEDUCCION DEDUCCION on DEDU.DEDUCCION_ID=DEDUCCION.ID_DEDUCCION
-		 where DEDU.EMPLEADO_ID=@EMPLEADO_ID and nomina.PERIODO=@MES
+	SELECT  'DEDUCCION' AS TIPO,DEDUCCION.NOMBRE_DEDUCCION AS NOMBRE , DEDU.DETALLE, DEDU.MONTO, 0  AS CANTIDAD FROM DEDUCCIONNOMINADETALLE DEDU
+	inner join NOMINADETALLE nominade on nominade.ID_NOMINADETALLE=DEDU.NOMINADETALLE_ID
+	inner join NOMINA nomina on nomina.ID_NOMINA=nominade.NOMINA_ID
+	inner join DEDUCCION DEDUCCION on DEDU.DEDUCCION_ID=DEDUCCION.ID_DEDUCCION
+	where DEDU.EMPLEADO_ID=@EMPLEADO_ID and nomina.PERIODO=@MES
 
-		 AND DEDU.MONTO>0.00
+	AND DEDU.MONTO>0.00
 
-
-		 END
+END
 
 go
 
@@ -9315,5 +9313,3 @@ BEGIN
        FROM EMPLEADO;
 END
 GO
-
-

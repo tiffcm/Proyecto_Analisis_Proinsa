@@ -2,6 +2,7 @@
 {
     public class Nomina
     {
+        // Propiedades de la clase Nomina
         public long ID_TIPONOMINA { get; set; }
         public string? DESCRIPCION { get; set; }
         public string? OBSERVACIONES { get; set; }
@@ -17,6 +18,16 @@
         public string? IDENTIFICACION { get; set; }
         public string? CARGO { get; set; }
         public decimal SALARIO { get; set; }
+
+        // Listas de detalles de ingresos y deducciones de la nómina
+        public List<IngresoNominaDetalle> Ingresos { get; set; }
+        public List<DeduccionNominaDetalle> Deducciones { get; set; }
+        
+        public Nomina()
+        {
+            Ingresos = new List<IngresoNominaDetalle>();
+            Deducciones = new List<DeduccionNominaDetalle>();
+        }
     }
 
     public class IngresoNominaDetalle
