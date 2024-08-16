@@ -9313,3 +9313,241 @@ BEGIN
        FROM EMPLEADO;
 END
 GO
+
+create proc [dbo].[DatosEmpleadoNominaReporte]
+@EMPLEADO_ID bigint
+as begin
+
+select a.IDENTIFICACION, a.NOMBRECOMPLETO as NOMBRE, b.NOMBRE_CARGO as Cargo, a.SALDO_VACACIONES from EMPLEADO a 
+inner join CARGO b on a.CARGO_ID=b.ID_CARGO
+WHERE A.ID_EMPLEADO=@EMPLEADO_ID
+end
+go
+
+create proc [dbo].[DatosNominaEmpleadoDeduccionesReporte] 
+@FechaSeleccionada date,
+@EMPLEADO_ID bigint
+as begin
+declare @IDNomina bigint
+
+set @IDNomina=(
+SELECT 
+    ID_NOMINA
+FROM NOMINA 
+WHERE EMPLEADO_ID = @EMPLEADO_ID
+  AND YEAR(FECHA_PAGO) = YEAR(@FechaSeleccionada)
+  AND MONTH(FECHA_PAGO) = MONTH(@FechaSeleccionada))
+
+   SELECT  'DEDUCCION' AS TIPO,DEDUCCION.NOMBRE_DEDUCCION AS NOMBRE , DEDU.DETALLE, DEDU.MONTO, 0  AS CANTIDAD FROM DEDUCCIONNOMINADETALLE DEDU
+		 inner join NOMINADETALLE nominade on nominade.ID_NOMINADETALLE=DEDU.NOMINADETALLE_ID
+		 inner join NOMINA nomina on nomina.ID_NOMINA=nominade.NOMINA_ID
+		 inner join DEDUCCION DEDUCCION on DEDU.DEDUCCION_ID=DEDUCCION.ID_DEDUCCION
+		where nomina.ID_NOMINA=@IDNomina
+end
+go
+
+create proc [dbo].[DatosNominaEmpleadoIngresosReporte]
+@FechaSeleccionada date,
+@EMPLEADO_ID bigint
+as begin
+declare @IDNomina bigint
+
+set @IDNomina=(
+SELECT 
+    ID_NOMINA
+FROM NOMINA 
+WHERE EMPLEADO_ID = @EMPLEADO_ID
+  AND YEAR(FECHA_PAGO) = YEAR(@FechaSeleccionada)
+  AND MONTH(FECHA_PAGO) = MONTH(@FechaSeleccionada))
+
+  SELECT 'INGRESO' AS TIPO ,ingre.NOMBRE_INGRESO as NOMBRE, ingreso.DETALLE, ingreso.MONTO, ISNULL(ingreso.CANTIDAD,0) AS CANTIDAD FROM INGRESONOMINADETALLE ingreso 
+		 inner join NOMINADETALLE nominade on nominade.ID_NOMINADETALLE=ingreso.NOMINADETALLE_ID
+		 inner join NOMINA nomina on nomina.ID_NOMINA=nominade.NOMINA_ID
+		 inner join INGRESO ingre on ingre.ID_INGRESO=ingreso.INGRESO_ID
+		 where nomina.ID_NOMINA=@IDNomina
+
+
+end
+go
+
+create proc [dbo].[DatosNominaEmpleadoReporte] 
+@FechaSeleccionada date,
+@EMPLEADO_ID bigint
+as begin
+
+SELECT 
+    FORMAT(FECHA_PAGO, 'dd "de" MMMM "de" yyyy', 'es-ES') AS fechapago, 
+    FORMAT(FECHA_PAGO, 'MMMM yyyy', 'es-ES') AS periodonomina,
+    SALARIO_NETO, 
+    SALARIO_BRUTO
+FROM NOMINA 
+WHERE EMPLEADO_ID = @EMPLEADO_ID
+  AND YEAR(FECHA_PAGO) = YEAR(@FechaSeleccionada)
+  AND MONTH(FECHA_PAGO) = MONTH(@FechaSeleccionada);
+end
+go
+
+create proc [dbo].[DatosNominaGeneralReporte] 
+@FechaSeleccionada date
+as begin
+declare @IDNomina bigint
+
+set @IDNomina=(
+SELECT  top(1)
+    ID_NOMINA
+FROM NOMINA 
+WHERE
+   YEAR(FECHA_PAGO) = YEAR(@FechaSeleccionada)
+  And MONTH(FECHA_PAGO) = MONTH(@FechaSeleccionada))
+
+
+select top(1)  FORMAT(FECHACREACION, 'dd "de" MMMM "de" yyyy', 'es-ES') AS fechacreacion,  emple.NOMBRECOMPLETO as CREADOR,
+ FORMAT(FECHA_PAGO, 'dd "de" MMMM "de" yyyy', 'es-ES') AS fechapago, 
+    FORMAT(FECHA_PAGO, 'MMMM yyyy', 'es-ES') AS periodonomina,
+	 FORMAT(FECHACAPROBACION, 'MMMM yyyy', 'es-ES') AS fechaprobacion,
+	 emple2.NOMBRECOMPLETO AS APROBADOR
+     from NOMINA 
+inner join empleado emple on emple.ID_EMPLEADO=NOMINA.CREADOR_ID
+inner join empleado emple2 on emple2.ID_EMPLEADO=nomina.APROBADOR_ID
+
+where nomina.ID_NOMINA=@IDNomina
+
+end
+go
+create proc [dbo].[DatosNominaReporte]
+as begin
+
+
+select  FORMAT(FECHACREACION, 'dd "de" MMMM "de" yyyy', 'es-ES') AS fechacreacion,  emple.NOMBRECOMPLETO as CREADOR,
+ FORMAT(FECHA_PAGO, 'dd "de" MMMM "de" yyyy', 'es-ES') AS fechapago, 
+    FORMAT(FECHA_PAGO, 'MMMM yyyy', 'es-ES') AS periodonomina,
+	 FORMAT(FECHACAPROBACION, 'MMMM yyyy', 'es-ES') AS fechaprobacion,
+	 emple2.NOMBRECOMPLETO AS APROBADOR
+     from NOMINA 
+inner join empleado emple on emple.ID_EMPLEADO=NOMINA.CREADOR_ID
+inner join empleado emple2 on emple2.ID_EMPLEADO=nomina.APROBADOR_ID
+
+where nomina.ESTADO='EN REVISION'
+
+end
+go
+
+create   PROCEDURE [dbo].[EmpleadosReporte]
+
+AS
+BEGIN
+   
+
+    SELECT 
+        e.IDENTIFICACION,
+        e.ID_EMPLEADO,
+        e.NOMBRECOMPLETO,
+        e.SALARIO,
+        e.FOTO,
+        c.CORREO,
+        ca.NOMBRE_CARGO AS CARGO,
+		ca.ID_CARGO,
+        hl.DESCRIPCION AS NOMBRE_HL,
+		hl.ID_HORARIOLABORAL,
+        d.NOMBRE_DEPARTAMENTO AS DEPARTAMENTO,
+		d.ID_DEPARTAMENTO,
+        -- Concatenar direcciones
+        (SELECT dir.DIRRECION
+         FROM EMPLEADODIRRECCION ed
+         INNER JOIN DIRRECCION dir ON ed.DIRRECION_ID = dir.ID_DIRECCION
+         WHERE ed.EMPLEADO_ID = e.ID_EMPLEADO) AS DIRRECION,
+        
+        CASE WHEN e.ESTADO = 1 THEN 'Activo' ELSE 'Inactivo' END AS ESTADO,
+        -- Obtener el rol del usuario
+        (SELECT r.Name
+         FROM AspNetUserRoles ur
+         INNER JOIN AspNetRoles r ON ur.RoleId = r.Id
+         WHERE ur.UserId = e.AspNetUsers_ID) AS NOMBREROL
+		 
+    FROM EMPLEADO e
+    LEFT JOIN CORREO c ON e.CORREO_ID = c.ID_CORREO
+    LEFT JOIN CARGO ca ON e.CARGO_ID = ca.ID_CARGO
+    LEFT JOIN HORARIOLABORAL hl ON e.HORARIOLABORAL_ID = hl.ID_HORARIOLABORAL
+    LEFT JOIN DEPARTAMENTO d ON e.DEPARTAMENTO_ID = d.ID_DEPARTAMENTO
+    
+END
+go
+
+
+
+create PROCEDURE [dbo].[NominaGeneralReporte] 
+    @FechaSeleccionada DATE
+AS  
+BEGIN
+    SELECT  
+        nomina.EMPLEADO_ID, 
+        emple.IDENTIFICACION,
+        nomina.SALARIO_BRUTO,
+        nomina.SALARIO_NETO,
+        emple.NOMBRECOMPLETO AS Nombre,
+        'DEDUCCION' AS TIPO,
+        DEDUCCION.NOMBRE_DEDUCCION AS NOMBRE,
+        DEDU.DETALLE, 
+        DEDU.MONTO,  
+        0 AS CANTIDAD 
+    FROM 
+        DEDUCCIONNOMINADETALLE DEDU
+        INNER JOIN NOMINADETALLE nominade ON nominade.ID_NOMINADETALLE = DEDU.NOMINADETALLE_ID
+        INNER JOIN NOMINA nomina ON nomina.ID_NOMINA = nominade.NOMINA_ID
+        INNER JOIN DEDUCCION DEDUCCION ON DEDU.DEDUCCION_ID = DEDUCCION.ID_DEDUCCION
+        INNER JOIN EMPLEADO emple ON emple.ID_EMPLEADO = nomina.EMPLEADO_ID
+    WHERE 
+        YEAR(nomina.FECHA_PAGO) = YEAR(@FechaSeleccionada)
+        AND MONTH(nomina.FECHA_PAGO) = MONTH(@FechaSeleccionada)
+
+    UNION 
+
+    SELECT 
+        nomina.EMPLEADO_ID,  
+        emple.IDENTIFICACION,
+        nomina.SALARIO_BRUTO,
+        nomina.SALARIO_NETO,
+        emple.NOMBRECOMPLETO AS Nombre,
+        'INGRESO' AS TIPO,
+        ingre.NOMBRE_INGRESO AS NOMBRE,
+        ingreso.DETALLE, 
+        ingreso.MONTO, 
+        ISNULL(ingreso.CANTIDAD, 0) AS CANTIDAD 
+    FROM 
+        INGRESONOMINADETALLE ingreso 
+        INNER JOIN NOMINADETALLE nominade ON nominade.ID_NOMINADETALLE = ingreso.NOMINADETALLE_ID
+        INNER JOIN NOMINA nomina ON nomina.ID_NOMINA = nominade.NOMINA_ID
+        INNER JOIN INGRESO ingre ON ingre.ID_INGRESO = ingreso.INGRESO_ID
+        INNER JOIN EMPLEADO emple ON emple.ID_EMPLEADO = nomina.EMPLEADO_ID
+    WHERE 
+        YEAR(nomina.FECHA_PAGO) = YEAR(@FechaSeleccionada)
+        AND MONTH(nomina.FECHA_PAGO) = MONTH(@FechaSeleccionada)
+
+    ORDER BY 
+        nomina.EMPLEADO_ID,  
+        TIPO;
+END
+go
+create PROCEDURE [dbo].[ObtenerSolicitudEmpleadoPeriodoReporte]
+  @EMPLEADO_ID BIGINT,
+  @FECHA_INICIO DATE,
+  @FECHA_FINAL DATE
+AS
+BEGIN
+  SELECT  
+    a.fecha_solicitud,
+    b.NOMBRE_TIPO_SOLICITUD,
+    a.dias,
+    a.FECHA_INICIO,
+    a.FECHA_FINAL,
+    a.COMENTARIO,
+    a.detalle
+  FROM   
+    SOLICITUD a 
+  INNER JOIN 
+    TIPOSOLICITUD b 
+    ON a.TIPOSOLICITUD_ID = b.ID_TIPOSOLICITUD 
+  WHERE 
+    a.SOLICITANTE_ID = @EMPLEADO_ID
+    AND a.fecha_solicitud BETWEEN @FECHA_INICIO AND @FECHA_FINAL;
+END
