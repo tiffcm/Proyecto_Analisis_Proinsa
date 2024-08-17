@@ -7224,7 +7224,7 @@ GO
 create proc [dbo].[ObtenerTipoNomina]
 as begin
 
-select ID_TIPONOMINA, DESCRIPCION from TIPONOMINA
+select ID_TIPONOMINA 'value', DESCRIPCION 'text' from TIPONOMINA
 
 end
 
@@ -8556,9 +8556,9 @@ BEGIN
 END;
 GO
 
-create PROCEDURE [dbo].[RegistrarNomina]
-    @Descripcion VARCHAR(100),
-    @Observaciones VARCHAR(500),
+create OR ALTER PROCEDURE [dbo].[RegistrarNomina]
+    @DESCRIPCION VARCHAR(100),
+    @OBSERVACIONES VARCHAR(500),
     @TipoNomina INT,
     @CreadorID BIGINT
 AS
@@ -8611,11 +8611,11 @@ BEGIN
                    ,[TIPONOMINA_ID]
                    ,[CREADOR_ID])
             VALUES
-                   (@Descripcion
+                   (@DESCRIPCION
                    ,@Mes
                    ,@Fecha
                    ,@UltimoDiaDelMes
-                   ,@Observaciones
+                   ,@OBSERVACIONES
                    ,@Revisiones
                    ,@Fecha
                    ,@Estado
@@ -8654,7 +8654,7 @@ BEGIN
         DEALLOCATE nomina_cursor;
 
        
-        EXEC [dbo].[CalculoNominaInicial];
+        EXEC [dbo].[CalculoNominaInicial] @Fecha;
 
         COMMIT TRANSACTION;
     END TRY
@@ -8684,7 +8684,6 @@ BEGIN
                    GETDATE());
     END CATCH;
 END;
-go
 
 
 create PROCEDURE [dbo].[RegistrarIngresosNominaDetalle]
