@@ -13,42 +13,50 @@
             <div class="tab-content">
                 <div class="tab-pane show active" id="striped-items-preview">
                     <div class="table-responsive-sm">
-                        <table id="dataTable" class="table table-bordered dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
-                            <thead>
-                                <tr>
-                                    <th>IDENTIFICACION</th>
-                                    <th>EMPLEADO</th>
-                                    <th>NOMINA</th>
-                                    <th>FECHA_PAGO</th>
-                                    <th>CARGO</th>
-                                    <th>SALARIO</th>
-                                    <th>REGISTRAR INGRESOS</th>
-                                    <th>REGISTRAR DEDUCCIONES</th>
-                                    <th>VER DETALLE</th>
-                                </tr>
-                            </thead>
-                            <tbody class="align_dataTable_text">
-
+                        @if (Model != null && Model.Any())
+                        {
+                            <table id="dataTable" class="table table-bordered dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
+                                <thead>
                                     <tr>
-                                        <td>IDENTIFICACION</td>
-                                        <td>EMPLEADO</td>
-                                        <td>NOMINA</td>
-                                        <td>FECHA_PAGO</td>
-                                        <td>CARGO</td>
-                                        <td>SALARIO</td>
-                                        <td>
-                                            <a href="@Url.Action("ObtenerNominaEmpleado","Nomina")" class="btn btn-primary">Detalle</a>
-                                        </td>
-                                        <td>
-                                            <a href="@Url.Action("ObtenerNominaEmpleado","Nomina")" class="btn btn-primary">Detalle</a>
-                                        </td>
-                                        <td>
-                                            <a href="@Url.Action("ObtenerNominaEmpleado","Nomina")" class="btn btn-primary">Detalle</a>
-                                        </td>
+                                        <th>IDENTIFICACION</th>
+                                        <th>EMPLEADO</th>
+                                        <th>NOMINA</th>
+                                        <th>FECHA_PAGO</th>
+                                        <th>CARGO</th>
+                                        <th>SALARIO</th>
+                                        <th>REGISTRAR INGRESOS</th>
+                                        <th>REGISTRAR DEDUCCIONES</th>
+                                        <th>VER DETALLE</th>
                                     </tr>
-
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody class="align_dataTable_text">
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.IDENTIFICACION</td>
+                                            <td>@item.EMPLEADO</td>
+                                            <td>@item.NOMINA</td>
+                                            <td>@item.FECHA_PAGO</td>
+                                            <td>@item.CARGO</td>
+                                            <td>@item.SALARIO</td>
+                                            <td>
+                                                <a href="@Url.Action("ObtenerNominaEmpleado","Nomina")" class="btn btn-primary">Agregar ingresos</a>
+                                            </td>
+                                            <td>
+                                                <a href="@Url.Action("ObtenerNominaEmpleado","Nomina")" class="btn btn-primary">Agregar deducciones</a>
+                                            </td>
+                                            <td>
+                                                <a href="@Url.Action("ObtenerNominaEmpleado","Nomina")" class="btn btn-primary">Detalle</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <p>No hay nóminas disponibles para mostrar.</p>
+                        }
                     </div>
                 </div>
             </div>

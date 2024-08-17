@@ -84,7 +84,8 @@ namespace PROINSA_GP_WEB.Models
 
         public Respuesta? ObtenerNominaMensualEmpleados(DateTime fechapago)
         {
-            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Nomina/ObtenerNominaMensualEmpleados?=fechapago" + fechapago;
+            string fechaFormato = fechapago.ToString("yyyy-MM-ddTHH:mm:ss");
+            string url = $"{iConfiguration.GetSection("Llaves:UrlApi").Value}Nomina/ObtenerNominaMensualEmpleados?fechapago={Uri.EscapeDataString(fechaFormato)}";
             var solicitud = _httpClient.GetAsync(url).Result;
 
             if (solicitud.IsSuccessStatusCode)

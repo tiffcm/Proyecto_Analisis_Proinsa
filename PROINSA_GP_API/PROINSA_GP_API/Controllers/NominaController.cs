@@ -1,10 +1,10 @@
 ﻿using Dapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using PROINSA_GP_API.Entidad;
 using System.Data;
-
 
 namespace PROINSA_GP_API.Controllers
 {
@@ -105,13 +105,12 @@ namespace PROINSA_GP_API.Controllers
             Respuesta respuesta = new Respuesta();
 
             using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
-            {
-                var parameters = new DynamicParameters();
-                
+            {                                
+                var request = await contexto.QueryAsync<SelectListItem>("ObtenerTipoNomina",
+                    new { },
+                    commandType: System.Data.CommandType.StoredProcedure);
 
-                var request = (await contexto.QueryAsync<Nomina>("ObtenerTipoNomina", commandType: System.Data.CommandType.StoredProcedure)).ToList();
-
-                if (request != null && request.Count > 0)
+                if (request != null)
                 {
                     respuesta.CODIGO = 1;
                     respuesta.MENSAJE = "OK";
