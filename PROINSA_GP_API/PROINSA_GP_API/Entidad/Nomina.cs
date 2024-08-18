@@ -3,7 +3,6 @@
     public class Nomina
     {
         public long ID_TIPONOMINA { get; set; }
-
         public long ID_EMPLEADO { get; set; }
         public string? DESCRIPCION { get; set; }
         public string? OBSERVACIONES { get; set; }
@@ -19,7 +18,6 @@
         public string? IDENTIFICACION { get; set; }
         public string? CARGO { get; set; }
         public decimal SALARIO { get; set; }
-
         public DateTime FECHA { get; set; }
     }
 
@@ -29,6 +27,7 @@
         public string? DETALLE { get; set; }
         public long INGRESO_ID { get; set; }
         public long EMPLEADO_ID { get; set; }
+        public string? NOMBRE { get; set; }
         public int CANTIDAD { get; set; }
     }
 
@@ -38,5 +37,6 @@
         public string? DETALLE { get; set; }
         public long DEDUCCION_ID { get; set; }
         public long EMPLEADO_ID { get; set; }
+        public string? NOMBRE { get; set; }
     }
 }

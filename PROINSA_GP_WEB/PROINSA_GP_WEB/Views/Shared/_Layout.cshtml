@@ -62,7 +62,7 @@
             <!-- Menu -->
             <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
                 <div class="app-brand demo" style="display: grid; place-items: center;">
-                    <a href="index.html" class="app-brand-link">
+                    <a href="@Url.Action("Principal","Home")" class="app-brand-link">
                         <span class="app-brand-logo demo">
                             <img src="~/assets/img/empresa/Logo_Sin_Letras.png" style="width:58px; height:58px;" />
                         </span>
@@ -495,5 +495,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="~/js/cargarimg.js"></script>
     <script src="~/js/cargarpdf.js"></script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

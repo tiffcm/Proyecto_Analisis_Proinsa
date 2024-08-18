@@ -166,6 +166,33 @@ namespace PROINSA_GP_API.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("ConsultarNombreEmpleado")]
+        public async Task<IActionResult> ConsultarNombreEmpleado(long ID_EMPLEADO)
+        {
+            Respuesta respuesta = new Respuesta();
+            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+                var request = await contexto.QueryFirstOrDefaultAsync<IngresoNominaDetalle>("ConsultarNombreEmpleado",
+                    new { ID_EMPLEADO },
+                    commandType: System.Data.CommandType.StoredProcedure);
+                if (request != null)
+                {
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = request;
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CODIGO = 0;
+                    respuesta.MENSAJE = "No hay tipos de documento registrados";
+                    respuesta.CONTENIDO = false;
+                    return Ok(respuesta);
+                }
+            }
+        }
+
         //---------------------
         /// ADMINISTRADOR
         /// VER LISTA DE USUARIOS
