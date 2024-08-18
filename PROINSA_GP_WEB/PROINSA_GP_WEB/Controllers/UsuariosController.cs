@@ -76,7 +76,7 @@ namespace PROINSA_GP_WEB.Controllers
             }
             else
             {
-                entidad.FOTO = HttpContext.Session.Get("BLOP");
+                entidad.FOTO = HttpContext.Session.Get("BLOB");
                 entidad.TIPO_FOTO = HttpContext.Session.GetString("EXTENSION");
             }
             var respuesta = _iUsuarioModel.ActualizarDatosUsuario(entidad);
