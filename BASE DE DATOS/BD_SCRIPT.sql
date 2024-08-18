@@ -756,6 +756,7 @@ INSERT [dbo].[EMPLEADO] ([ID_EMPLEADO], [IDENTIFICACION], [NOMBRECOMPLETO], [FEC
 INSERT [dbo].[EMPLEADO] ([ID_EMPLEADO], [IDENTIFICACION], [NOMBRECOMPLETO], [FECHA_NACIMIENTO], [FECHA_INGRESO], [FOTO], [TIPO_FOTO], [SALARIO], [SALDO_VACACIONES], [CARGO_ID], [CORREO_ID], [HORARIOLABORAL_ID], [DEPARTAMENTO_ID], [ESTADO], [AspNetUsers_ID]) VALUES (3, 305070198, N'TIFANNY CAMACHO', CAST(N'1999-01-01T00:00:00.000' AS DateTime), CAST(N'2023-01-01T00:00:00.000' AS DateTime), 0x4E, NULL, CAST(500.00 AS Decimal(10, 2)), 12, 5, 3, 1, 1, 1, N'68890dd1-80fc-4c65-9481-f5a1275897ec')
 SET IDENTITY_INSERT [dbo].[EMPLEADO] OFF
 GO
+
 SET IDENTITY_INSERT [dbo].[EMPLEADODIRRECCION] ON 
 
 INSERT [dbo].[EMPLEADODIRRECCION] ([ID_EMPLEADODIRRECCION], [EMPLEADO_ID], [DIRRECION_ID]) VALUES (1, 2, 1)
@@ -6991,8 +6992,8 @@ GO
 create PROC [dbo].[ObtenerDeducciones]
   as begin
   
-  select  ID_DEDUCCION, NOMBRE_DEDUCCION, DESCRIPCION,PORCENTAJE from DEDUCCION
-
+  select  ID_DEDUCCION 'value', NOMBRE_DEDUCCION 'text'
+  from DEDUCCION
 
   end
 
@@ -7134,8 +7135,8 @@ GO
   create PROC [dbo].[ObtenerIngresos]
   as begin
   
-  select  ID_INGRESO, NOMBRE_INGRESO, DESCRIPCION, MONTO, PORCENTAJE from INGRESO
-
+  select  ID_INGRESO 'value', NOMBRE_INGRESO 'text' 
+  FROM INGRESO
 
   end
 
@@ -8684,6 +8685,7 @@ BEGIN
                    GETDATE());
     END CATCH;
 END;
+GO
 
 
 create PROCEDURE [dbo].[RegistrarIngresosNominaDetalle]
@@ -9158,21 +9160,19 @@ create proc [dbo].[ObtenerNominaMensualEmpleados]
 @fechapago datetime
 as begin
 
-select nomina.DESCRIPCION AS NOMINA , NOMINA.FECHA_PAGO, emple.NOMBRECOMPLETO as EMPLEADO , emple.IDENTIFICACION , cargo.DESCRIPCION as CARGO, nomina.SALARIO_NETO  as SALARIO from NOMINA nomina
+select nomina.DESCRIPCION AS NOMINA , NOMINA.FECHA_PAGO, emple.NOMBRECOMPLETO as EMPLEADO , emple.ID_EMPLEADO , emple.IDENTIFICACION , cargo.DESCRIPCION as CARGO, nomina.SALARIO_NETO  as SALARIO from NOMINA nomina
 inner join EMPLEADO emple on nomina.EMPLEADO_ID=emple.ID_EMPLEADO
 inner join CARGO cargo on cargo.ID_CARGO=emple.CARGO_ID
 where NOMINA.FECHA_PAGO=@fechapago
 
 end
+GO
 	
 
 -- =======================================================
 -- Create Stored Procedure Template for Azure SQL Database
 -- =======================================================
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 -- =============================================
 -- Author:      Wilson Arias
 -- Create Date: 07/28/2024
@@ -9550,3 +9550,16 @@ BEGIN
     a.SOLICITANTE_ID = @EMPLEADO_ID
     AND a.fecha_solicitud BETWEEN @FECHA_INICIO AND @FECHA_FINAL;
 END
+GO
+
+CREATE OR ALTER PROCEDURE ConsultarNombreEmpleado
+@ID_EMPLEADO BIGINT
+AS
+BEGIN
+
+	SELECT [ID_EMPLEADO] AS EMPLEADO_ID,[NOMBRECOMPLETO] AS NOMBRE
+	FROM [dbo].[EMPLEADO]
+	WHERE ID_EMPLEADO = @ID_EMPLEADO
+
+END
+GO
