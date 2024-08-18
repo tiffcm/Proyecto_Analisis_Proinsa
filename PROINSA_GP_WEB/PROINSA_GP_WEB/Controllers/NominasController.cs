@@ -29,8 +29,8 @@ namespace PROINSA_GP_WEB.Controllers
         {
             entidad.CreadorID = HttpContext.Session.GetInt32("ID_EMPLEADO")!.Value;
             var respuesta = iNominaModel.RegistrarNomina(entidad);
-            if (respuesta!.CODIGO == 1) 
-            return RedirectToAction("Principal", "Home");
+            if (respuesta!.CODIGO == 1)
+                return RedirectToAction("ObtenerNominaMensualEmpleados");
             else
                 return View();
         }
@@ -75,11 +75,10 @@ namespace PROINSA_GP_WEB.Controllers
                 ViewBag.Mensaje = "Hubo un problema al registrar los ingresos.";
                 return View(Ingresos);
             }
-            var fechaActual = DateTime.Now;
-            var ultimoDiaMes = new DateTime(fechaActual.Year, fechaActual.Month, 1).AddMonths(1).AddDays(-1);
+            DateTime ultimoDiaMes = UltimoDiaMesActual();
             var recalculo = iNominaModel.CalculoNominaFinal(ultimoDiaMes);
 
-            return RedirectToAction("Principal", "Home");
+            return RedirectToAction("ObtenerNominaMensualEmpleados");
         }
 
         [Seguridad]
@@ -122,28 +121,58 @@ namespace PROINSA_GP_WEB.Controllers
                 ViewBag.Mensaje = "Hubo un problema al registrar las deducciones.";
                 return View(Deducciones);
             }
-            var fechaActual = DateTime.Now;
-            var ultimoDiaMes = new DateTime(fechaActual.Year, fechaActual.Month, 1).AddMonths(1).AddDays(-1);
+            DateTime ultimoDiaMes = UltimoDiaMesActual();
             var recalculo = iNominaModel.CalculoNominaFinal(ultimoDiaMes);
 
-            return RedirectToAction("Principal", "Home");
+            return RedirectToAction("ObtenerNominaMensualEmpleados");
         }
 
         [Seguridad]
         [Administrador]
         [HttpGet]
-        public IActionResult ObtenerNominaEmpleado()
+        public IActionResult ObtenerNominaEmpleado(int q)
         {
-            return View();
+            // Obtener el nombre del empleado
+            var respuestaNombreEmpleado = iNominaModel.ConsultarNombreEmpleado(q);
+            string nombreEmpleado = string.Empty;
+            DateTime fechaNomina = UltimoDiaMesActual();
+
+            if (respuestaNombreEmpleado.CODIGO == 1)
+            {
+                var datosEmpleado = JsonSerializer.Deserialize<Nomina>((JsonElement)respuestaNombreEmpleado.CONTENIDO!);
+                nombreEmpleado = datosEmpleado!.NOMBRE;
+            }
+
+            // Obtener el detalle de la nómina del empleado
+            var respuestaDetalleNomina = iNominaModel.ObtenerNominaEmpleado(q);
+            if (respuestaDetalleNomina.CODIGO == 1)
+            {
+                var detalleNomina = JsonSerializer.Deserialize<List<IngresosDeduccionesDetalle>>((JsonElement)respuestaDetalleNomina.CONTENIDO!);
+
+                if (detalleNomina != null)
+                {
+                    // Crear un ViewModel que contenga la lista y la información adicional
+                    var viewModel = new NominaViewModel
+                    {
+                        NOMBRE_EMPLEADO = nombreEmpleado,
+                        FECHA_NOMINA = fechaNomina,
+                        DetalleNomina = detalleNomina
+                    };
+
+                    return View(viewModel);
+                }
+            }
+
+            return RedirectToAction("Principal", "Home");
         }
+
 
         [Seguridad]
         [Administrador]
         [HttpGet]
         public IActionResult ObtenerNominaMensualEmpleados()
         {
-            var fechaActual = DateTime.Now;
-            var ultimoDiaMes = new DateTime(fechaActual.Year, fechaActual.Month, 1).AddMonths(1).AddDays(-1);
+            DateTime ultimoDiaMes = UltimoDiaMesActual();
             var respuesta = iNominaModel.ObtenerNominaMensualEmpleados(ultimoDiaMes);
             if (respuesta!.CODIGO == 1)
             {
@@ -154,23 +183,46 @@ namespace PROINSA_GP_WEB.Controllers
             {
                 return View();
             }
-            
+
         }
 
         [Seguridad]
         [Administrador]
-        [HttpGet]
-        public IActionResult RevisionNomina()
+        [HttpPost]
+        public IActionResult RevisionNomina(string observaciones)
         {
-            return View();
+            Nomina entidad = new Nomina();
+            entidad.OBSERVACIONES = observaciones;
+            var respuesta = iNominaModel.RevisionNomina(entidad);
+            if (respuesta!.CODIGO == 1)
+            {
+                return RedirectToAction("ObtenerNominaMensualEmpleados");
+            }
+            //Acá hay que agregar un msj con un ViewBag
+            return RedirectToAction("ObtenerNominaMensualEmpleados");
         }
 
         [Seguridad]
         [Administrador]
-        [HttpGet]
+        [HttpPost]
         public IActionResult AprobacionNomina()
         {
-            return View();
+            Nomina entidad = new Nomina();
+            entidad.ID_EMPLEADO = HttpContext.Session.GetInt32("ID_EMPLEADO")!.Value;
+            var respuesta = iNominaModel.AprobacionNomina(entidad);
+            if (respuesta!.CODIGO == 1)
+            {
+                return RedirectToAction("ObtenerNominaMensualEmpleados");
+            }
+            //Acá hay que agregar un msj con un ViewBag
+            return RedirectToAction("ObtenerNominaMensualEmpleados");
+        }
+
+        private static DateTime UltimoDiaMesActual()
+        {
+            var fechaActual = DateTime.Now;
+            var ultimoDiaMes = new DateTime(fechaActual.Year, fechaActual.Month, 1).AddMonths(1).AddDays(-1);
+            return ultimoDiaMes;
         }
     }
 }

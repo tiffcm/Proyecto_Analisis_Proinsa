@@ -95,7 +95,7 @@ namespace PROINSA_GP_WEB.Models
 
         public Respuesta? ObtenerNominaEmpleado(int EMPLEADO_ID)
         {
-            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Nomina/ObtenerNominaEmpleado?=EMPLEADO_ID" + EMPLEADO_ID;
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Nomina/ObtenerNominaEmpleado?EMPLEADO_ID=" + EMPLEADO_ID;
             var solicitud = _httpClient.GetAsync(url).Result;
 
             if (solicitud.IsSuccessStatusCode)

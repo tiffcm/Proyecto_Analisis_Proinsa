@@ -39,4 +39,16 @@
         public long EMPLEADO_ID { get; set; }
         public string? NOMBRE { get; set; }
     }
+
+    public class IngresosDeduccionesDetalle
+    {
+        public long TIPO_ID { get; set; }
+        public string? TIPO { get; set; }
+        public string? NOMBRE_TIPO { get; set; }
+        public string? NOMBRE_EMPLEADO { get; set; }
+        public DateTime? FECHA_NOMINA { get; set; }
+        public decimal MONTO { get; set; }
+        public string? DETALLE { get; set; }
+        public int CANTIDAD { get; set; }
+    }
 }

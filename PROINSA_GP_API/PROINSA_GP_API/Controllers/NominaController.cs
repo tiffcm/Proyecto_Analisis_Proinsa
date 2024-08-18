@@ -310,7 +310,7 @@ namespace PROINSA_GP_API.Controllers
                 var parameters = new DynamicParameters();
                 parameters.Add("@EMPLEADO_ID", EMPLEADO_ID);
 
-                var request = (await contexto.QueryAsync<Nomina>("ObtenerNominaMensualEmpleado", parameters, commandType: System.Data.CommandType.StoredProcedure)).ToList();
+                var request = (await contexto.QueryAsync<IngresosDeduccionesDetalle>("ObtenerNominaMensualEmpleado", parameters, commandType: System.Data.CommandType.StoredProcedure)).ToList();
 
                 if (request != null && request.Count > 0)
                 {
@@ -366,7 +366,7 @@ namespace PROINSA_GP_API.Controllers
             {
                
                 var result = await context.ExecuteAsync("RevisionNomina",
-                    new { ent.OBSERVACIONES}, commandType: CommandType.StoredProcedure);
+                    new { ent.OBSERVACIONES }, commandType: CommandType.StoredProcedure);
 
                 if (result > 0)
                 {
@@ -383,9 +383,6 @@ namespace PROINSA_GP_API.Controllers
                     return Ok(resp);
                 }
             }
-
-
-
         }
 
 
@@ -399,7 +396,7 @@ namespace PROINSA_GP_API.Controllers
             {
 
                 var result = await context.ExecuteAsync("AprobarNominaPeriodo",
-                    new { ent.ID_EMPLEADO}, commandType: CommandType.StoredProcedure);
+                    new { ent.ID_EMPLEADO }, commandType: CommandType.StoredProcedure);
 
                 if (result > 0)
                 {

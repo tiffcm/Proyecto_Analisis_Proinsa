@@ -11,9 +11,10 @@
         public decimal MONTO { get; set; }
         public string? DETALLE { get; set; }
         public string? NOMBRE { get; set; }
+        public string? TIPO { get; set; }
         public int CANTIDAD { get; set; }
         public string? NOMINA { get; set; }
-        public string? FECHA_PAGO { get; set; }
+        public string? FECHA_PAGO { get; set; }        
         public string? EMPLEADO { get; set; }
         public long ID_EMPLEADO { get; set; }
         public long ID_INGRESO { get; set; }
@@ -49,5 +50,17 @@
         public long DEDUCCION_ID { get; set; }
         public long EMPLEADO_ID { get; set; }
         public string? NOMBRE { get; set; }
+    }
+
+    public class IngresosDeduccionesDetalle
+    {
+        public long TIPO_ID { get; set; }
+        public string? TIPO { get; set; }
+        public string? NOMBRE_TIPO { get; set; }
+        public string? NOMBRE_EMPLEADO { get; set; }
+        public DateTime? FECHA_NOMINA { get; set; }
+        public decimal MONTO { get; set; }
+        public string? DETALLE { get; set; }
+        public int CANTIDAD { get; set; }
     }
 }
