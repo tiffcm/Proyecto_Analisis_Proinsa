@@ -8559,7 +8559,7 @@ GO
 create OR ALTER PROCEDURE [dbo].[RegistrarNomina]
     @DESCRIPCION VARCHAR(100),
     @OBSERVACIONES VARCHAR(500),
-    @TipoNomina INT,
+    @ID_TIPONOMINA INT,
     @CreadorID BIGINT
 AS
 BEGIN
@@ -8621,7 +8621,7 @@ BEGIN
                    ,@Estado
                    ,@SalarioEmpleado
                    ,@EmpleadoID
-                   ,@TipoNomina
+                   ,@ID_TIPONOMINA
                    ,@CreadorID);
 
             FETCH NEXT FROM empleado_cursor INTO @EmpleadoID, @SalarioEmpleado;

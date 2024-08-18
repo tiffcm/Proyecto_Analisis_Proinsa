@@ -40,13 +40,13 @@
                                             <td>@item.CARGO</td>
                                             <td>@item.SALARIO</td>
                                             <td>
-                                                <a href="@Url.Action("ObtenerNominaEmpleado","Nomina")" class="btn btn-primary">Agregar ingresos</a>
+                                                <a href="@Url.Action("RegistrarIngresos","Nominas", new{ q = item.ID_EMPLEADO})" class="btn btn-primary">Agregar ingresos</a>
                                             </td>
                                             <td>
-                                                <a href="@Url.Action("ObtenerNominaEmpleado","Nomina")" class="btn btn-primary">Agregar deducciones</a>
+                                                <a href="@Url.Action("RegistrarDeduccion","Nominas", new{ q = item.ID_EMPLEADO})" class="btn btn-primary">Agregar deducciones</a>
                                             </td>
                                             <td>
-                                                <a href="@Url.Action("ObtenerNominaEmpleado","Nomina")" class="btn btn-primary">Detalle</a>
+                                                <a href="@Url.Action("ObtenerNominaEmpleado","Nominas")" class="btn btn-primary">Detalle</a>
                                             </td>
                                         </tr>
                                     }

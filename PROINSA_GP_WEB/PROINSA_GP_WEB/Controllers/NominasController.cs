@@ -5,6 +5,7 @@ using PROINSA_GP_WEB.Entidad;
 using PROINSA_GP_WEB.Models;
 using PROINSA_GP_WEB.Servicios;
 using System.Text.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PROINSA_GP_WEB.Controllers
 {
@@ -37,17 +38,95 @@ namespace PROINSA_GP_WEB.Controllers
         [Seguridad]
         [Administrador]
         [HttpGet]
-        public IActionResult RegistrarIngresos()
+        public IActionResult RegistrarIngresos(long q)
         {
-            return View();
+            var respuesta = iNominaModel.ConsultarNombreEmpleado(q);
+            if (respuesta!.CODIGO == 1)
+            {
+                var tiposIngresos = iNominaModel.ObtenerIngresos();
+                ViewBag.tiposIngresos = JsonSerializer.Deserialize<List<SelectListItem>>((JsonElement)tiposIngresos!.CONTENIDO!);
+                var datos = JsonSerializer.Deserialize<IngresoNominaDetalle>((JsonElement)respuesta.CONTENIDO!);
+                return View(datos);
+            }
+            else                            
+                return RedirectToAction("Principal", "Home");
+        }
+
+        [Seguridad]
+        [Administrador]
+        [HttpPost]
+        public IActionResult RegistrarIngresos(List<IngresoNominaDetalle> Ingresos, long empleadoId, string nombre)
+        {
+            if (Ingresos == null || !Ingresos.Any())
+            {
+                ViewBag.Mensaje = "No se recibieron ingresos para registrar.";
+                return View(Ingresos);
+            }
+
+            foreach (var ingreso in Ingresos)
+            {
+                ingreso.EMPLEADO_ID = empleadoId;
+            }
+            
+            var respuesta = iNominaModel.RegistrarIngresosNominaDetalle(Ingresos);
+
+            if (respuesta!.CODIGO != 1)
+            {
+                ViewBag.Mensaje = "Hubo un problema al registrar los ingresos.";
+                return View(Ingresos);
+            }
+            var fechaActual = DateTime.Now;
+            var ultimoDiaMes = new DateTime(fechaActual.Year, fechaActual.Month, 1).AddMonths(1).AddDays(-1);
+            var recalculo = iNominaModel.CalculoNominaFinal(ultimoDiaMes);
+
+            return RedirectToAction("Principal", "Home");
         }
 
         [Seguridad]
         [Administrador]
         [HttpGet]
-        public IActionResult RegistrarDeduccion()
+        public IActionResult RegistrarDeduccion(long q)
         {
-            return View();
+            var respuesta = iNominaModel.ConsultarNombreEmpleado(q);
+            if (respuesta!.CODIGO == 1)
+            {
+                var tiposDeducciones = iNominaModel.ObtenerDeducciones();
+                ViewBag.tiposDeducciones = JsonSerializer.Deserialize<List<SelectListItem>>((JsonElement)tiposDeducciones!.CONTENIDO!);
+                var datos = JsonSerializer.Deserialize<DeduccionNominaDetalle>((JsonElement)respuesta.CONTENIDO!);
+                return View(datos);
+            }
+            else
+                return RedirectToAction("Principal", "Home");
+        }
+
+        [Seguridad]
+        [Administrador]
+        [HttpPost]
+        public IActionResult RegistrarDeduccion(List<DeduccionNominaDetalle> Deducciones, long empleadoId, string nombre)
+        {
+            if (Deducciones == null || !Deducciones.Any())
+            {
+                ViewBag.Mensaje = "No se recibieron deducciones para registrar.";
+                return View(Deducciones);
+            }
+
+            foreach (var ingreso in Deducciones)
+            {
+                ingreso.EMPLEADO_ID = empleadoId;
+            }
+
+            var respuesta = iNominaModel.RegistrarDeduccionNominaDetalle(Deducciones);
+
+            if (respuesta!.CODIGO != 1)
+            {
+                ViewBag.Mensaje = "Hubo un problema al registrar las deducciones.";
+                return View(Deducciones);
+            }
+            var fechaActual = DateTime.Now;
+            var ultimoDiaMes = new DateTime(fechaActual.Year, fechaActual.Month, 1).AddMonths(1).AddDays(-1);
+            var recalculo = iNominaModel.CalculoNominaFinal(ultimoDiaMes);
+
+            return RedirectToAction("Principal", "Home");
         }
 
         [Seguridad]

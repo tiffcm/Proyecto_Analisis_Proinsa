@@ -20,7 +20,7 @@ namespace PROINSA_GP_API.Controllers
 
             using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
-                var result = await context.ExecuteAsync("RegistrarNomina", new { entidad.DESCRIPCION, entidad.OBSERVACIONES, entidad.TipoNomina, entidad.CreadorID }, commandType: CommandType.StoredProcedure);
+                var result = await context.ExecuteAsync("RegistrarNomina", new { entidad.DESCRIPCION, entidad.OBSERVACIONES, entidad.ID_TIPONOMINA, entidad.CreadorID }, commandType: CommandType.StoredProcedure);
 
                 if (result > 0)
                 {
@@ -40,16 +40,16 @@ namespace PROINSA_GP_API.Controllers
         }
 
         
-        [HttpPost]
+        [HttpGet]
         [Route("CalculoNominaInicial")]
-        public async Task<IActionResult> CalculoNominaInicial(Nomina ent )
+        public async Task<IActionResult> CalculoNominaInicial(DateTime Fecha)
         {
             Respuesta respuesta = new Respuesta();
 
             using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
                 var result = await context.ExecuteAsync("CalculoNominaInicial",
-                    new { ent.FECHA }, commandType: CommandType.StoredProcedure);
+                    new { Fecha }, commandType: CommandType.StoredProcedure);
 
 
                 if (result > 0)
@@ -70,16 +70,16 @@ namespace PROINSA_GP_API.Controllers
         }
 
         
-        [HttpPost]
+        [HttpGet]
         [Route("CalculoNominaFinal")]
-        public async Task<IActionResult> CalculoNominaFinal( Nomina ent)
+        public async Task<IActionResult> CalculoNominaFinal(DateTime Fecha)
         {
             Respuesta respuesta = new Respuesta();
 
             using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
                 var result = await context.ExecuteAsync("CalculoNominaFinal",
-                    new { ent.FECHA }, commandType: CommandType.StoredProcedure);
+                    new { Fecha }, commandType: CommandType.StoredProcedure);
 
                 if (result > 0)
                 {
@@ -125,6 +125,63 @@ namespace PROINSA_GP_API.Controllers
                 }
             }
         }
+
+        [HttpGet]
+        [Route("ObtenerIngresos")]
+        public async Task<IActionResult> ObtenerIngresos()
+        {
+            Respuesta respuesta = new Respuesta();
+
+            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+                var request = await contexto.QueryAsync<SelectListItem>("ObtenerIngresos",
+                    new { },
+                    commandType: System.Data.CommandType.StoredProcedure);
+
+                if (request != null)
+                {
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = request;
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CODIGO = 0;
+                    respuesta.MENSAJE = "No hay registros";
+                    return Ok(respuesta);
+                }
+            }
+        }
+
+        [HttpGet]
+        [Route("ObtenerDeducciones")]
+        public async Task<IActionResult> ObtenerDeducciones()
+        {
+            Respuesta respuesta = new Respuesta();
+
+            using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+                var request = await contexto.QueryAsync<SelectListItem>("ObtenerDeducciones",
+                    new { },
+                    commandType: System.Data.CommandType.StoredProcedure);
+
+                if (request != null)
+                {
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = request;
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CODIGO = 0;
+                    respuesta.MENSAJE = "No hay registros";
+                    return Ok(respuesta);
+                }
+            }
+        }
+
 
         [HttpPost]
         [Route("RegistrarIngresosNominaDetalle")]
