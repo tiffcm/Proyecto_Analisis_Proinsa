@@ -7790,7 +7790,7 @@ GO
 -- Create Date: 07/21/2024
 -- Description: Agrega nuevos proyectos.
 -- =============================================
-CREATE PROCEDURE dbo.AgregarProyecto
+CREATE OR ALTER PROCEDURE [dbo].[AgregarProyecto]
 (
     -- Add the parameters for the stored procedure here
 	@NOMBRE varchar (50),
@@ -7800,13 +7800,13 @@ CREATE PROCEDURE dbo.AgregarProyecto
 	@COD_PROYECTO varchar (50),
 	@COMENTARIO varchar (200),
 	@CONTACTO_ID bigint,
-	@CLIENTE_ID bigint
+	@ID_CLIENTE bigint
 )
 AS
 BEGIN
     -- SET NOCOUNT ON added to prevent extra result sets from
     -- interfering with SELECT statements.
-
+ 
     -- Insert statements for procedure here
 	INSERT INTO [dbo].[PROYECTO]
            ([NOMBRE]
@@ -7826,7 +7826,7 @@ BEGIN
             @COD_PROYECTO,
             @COMENTARIO,
             @CONTACTO_ID,
-            @CLIENTE_ID,
+            @ID_CLIENTE,
             1)
 END
 GO
@@ -8056,7 +8056,6 @@ CREATE PROCEDURE dbo.IngresorRegistroActividad
     @FECHA_FIN datetime,
 	@TOTALHORAS decimal(18,2),
 	@DETALLE varchar(500),
-	@ESTADO bit,
 	@PROYECTO_ID bigint,
 	@EMPLEADO_ID bigint
 )
@@ -9323,7 +9322,7 @@ BEGIN
     -- SET NOCOUNT ON
 
     -- Insert statements for procedure here
-    SELECT ID_EMPLEADO, NOMBRECOMPLETO AS NOMBRE
+    SELECT ID_EMPLEADO AS EMPLEADO_ID, NOMBRECOMPLETO AS NOMBRE
        FROM EMPLEADO;
 END
 GO

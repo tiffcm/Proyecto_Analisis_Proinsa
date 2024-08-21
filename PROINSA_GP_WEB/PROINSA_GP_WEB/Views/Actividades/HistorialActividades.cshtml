@@ -7,7 +7,7 @@
 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Actividades / </span> Clientes </h4>
 
 <!-- Content wrapper -->
-<div class="content-wrapper">
+<div class="content-wrapper m-4">
 	<!-- Content -->
 	<div class="container-xxl flex-grow-1 container-p-y">
 		<!-- Basic Bootstrap Table -->
@@ -16,8 +16,8 @@
 
 			@if (Model != null && Model.Any())
 			{
-				<div class="table-responsive text-nowrap">
-					<table class="table">
+				<div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+					<table id="dataTable" class="table table-bordered table-striped dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
 						<thead>
 							<tr>
 
@@ -100,7 +100,7 @@
 			}
 			else
 			{
-				<p>No hay proyectos registrados aun</p>
+				<p class="m-4">No hay proyectos registrados aun</p>
 				//<a class="btn btn-primary" asp-action="RegistrarProyecto">Registrar Proyecto <i class="bi bi-pen"></i></a>
 			}
 

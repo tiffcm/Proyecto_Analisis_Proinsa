@@ -18,7 +18,7 @@
         @using (Html.BeginForm("IngresoClientes", "Actividades", FormMethod.Post))
         {
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="mb-4">
                         @Html.Label("Nombre")
                         @Html.TextBoxFor(m => m.NOMBRE, new { @class = "form-control" })
@@ -42,7 +42,7 @@
             </div>
 
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="mb-4">
                         @Html.Label("Detalle")
                         @Html.TextAreaFor(m => m.DETALLE, new { @class = "form-control"})
