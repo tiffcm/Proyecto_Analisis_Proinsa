@@ -9173,6 +9173,7 @@ BEGIN
 
     ORDER BY ORDEN ASC, TIPO
 END
+GO
 
 create proc [dbo].[ObtenerNominaMensualEmpleados] 
 @fechapago datetime
