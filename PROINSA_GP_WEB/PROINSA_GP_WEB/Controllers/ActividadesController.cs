@@ -24,26 +24,37 @@ namespace PROINSA_GP_WEB.Controllers
             {
                 ProyectosEmpleadoLista(ID_EMPLEADO.Value);
             }
-            return View();
+            var viewModel = new Actividad
+            {
+                EMPLEADO_ID = ID_EMPLEADO.HasValue ? ID_EMPLEADO.Value : 0,  // Preasignar EMPLEADO_ID si es posible
+            };
+
+            return View(viewModel);
         }
 
         [Seguridad]
         [HttpPost]
         public IActionResult RegistroActividades(Actividad entidad)
         {
-            var respuesta = _iActividadModel.AgregarCliente(entidad);
+			long? ID_EMPLEADO = HttpContext.Session.GetInt32("ID_EMPLEADO");
+
+			if (!ID_EMPLEADO.HasValue)
+			{
+				// Manejar el caso en el que el ID de empleado no esté en la sesión
+				ViewBag.msj = "No se pudo obtener el ID del empleado de la sesión.";
+				return View();
+			}
+
+			entidad.EMPLEADO_ID = ID_EMPLEADO.Value;  // Asigna el ID del empleado al modelo
+
+			var respuesta = _iActividadModel.IngresorRegistroActividad(entidad);
 
             if (respuesta!.CODIGO == 1)
             {
                 return RedirectToAction("Principal", "Home");
             }
-            long? ID_EMPLEADO = HttpContext.Session.GetInt32("ID_EMPLEADO");
-            if (ID_EMPLEADO.HasValue)
-            {
-                ProyectosEmpleadoLista(ID_EMPLEADO.Value);
-            }
-            ViewBag.msj = respuesta.MENSAJE;
-            return View();
+			ViewBag.msj = respuesta.MENSAJE;
+			return View();
         }
 
         public IActionResult ProyectosEmpleadoLista(long ID_EMPLEADO)
@@ -61,40 +72,75 @@ namespace PROINSA_GP_WEB.Controllers
 
         [Seguridad]
         [HttpGet]
-        public IActionResult EditarActividades(long? ID_REGISTROACTIVIDAD)
+        public IActionResult EditarActividades(long? Id_REGISTROACTIVIDAD)
         {
-            if (ID_REGISTROACTIVIDAD != null)
+            if (Id_REGISTROACTIVIDAD != null)
             {
-                var respuesta = _iActividadModel.DetallarRegistroActividadPorID(ID_REGISTROACTIVIDAD);
+                long? ID_EMPLEADO = HttpContext.Session.GetInt32("ID_EMPLEADO");
+
+                ProyectosEmpleadoLista(ID_EMPLEADO.Value);
+
+                var respuesta = _iActividadModel.DetallarRegistroActividadPorID(Id_REGISTROACTIVIDAD);
                 if (respuesta!.CODIGO == 1)
                 {
                     var datos = JsonSerializer.Deserialize<Actividad>((JsonElement)respuesta.CONTENIDO!);
+
                     return View(datos);
                 }
             }
             return View(new Actividad());
         }
 
+        [Seguridad]
+        [HttpPost]
+        public IActionResult EditarActividades(Actividad entidad)
+        {
+            var respuesta = _iActividadModel.ModificarRegistroActividad(entidad);
+
+            if (respuesta!.CODIGO == 1)
+            {
+                return RedirectToAction("HistorialActividades", "Actividades");
+            }
+
+            ViewBag.msj = respuesta.MENSAJE;
+            return View(entidad);
+        }
+
+
         [Seguridad][HttpGet]
         public IActionResult HistorialActividades()
         {
-            // Falta el SP de ListarActividadesPorEmpleado para que funcione
-            //var respuesta = _iActividadModel.();
-            //if (respuesta!.CODIGO == 1)
-            //{
-            //    var datos = JsonSerializer.Deserialize<List<Actividad>>((JsonElement)respuesta.CONTENIDO!);
+			long? ID_EMPLEADO = HttpContext.Session.GetInt32("ID_EMPLEADO");
 
-            //    return View(datos);
-            //}
-            //return View(new List<Actividad>());
-            return View();
+			//Falta el SP de ListarActividadesPorEmpleado para que funcione
+			var respuesta = _iActividadModel.ListarActividadesPorEmpleado(ID_EMPLEADO);
+            if (respuesta!.CODIGO == 1)
+            {
+                var datos = JsonSerializer.Deserialize<List<Actividad>>((JsonElement)respuesta.CONTENIDO!);
+
+                return View(datos);
+            }
+            return View(new List<Actividad>());
         }
+		public IActionResult CambiarEstadoListaActividad(long Id_REGISTROACTIVIDAD) // en el view se agrega, este es para modificar en lista
+		{
+			var respuesta = _iActividadModel.CambiarEstadoRegistroActividad(Id_REGISTROACTIVIDAD);
 
-        /// <summary>
-        /// //// Admin
-        /// </summary>
-        /// <returns></returns>
-        [Administrador]
+			if (respuesta?.CODIGO == 1)
+			{
+				return RedirectToAction("HistorialActividades", "Actividades");
+			}
+			ViewBag.msj = respuesta.MENSAJE;
+			return RedirectToAction("HistorialActividades", "Actividades");
+
+		}
+
+
+		/// <summary>
+		/// //// Admin
+		/// </summary>
+		/// <returns></returns>
+		[Administrador]
         [Seguridad]
         [HttpGet]
         public IActionResult IngresoClientes()

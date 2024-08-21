@@ -303,9 +303,24 @@ namespace PROINSA_GP_WEB.Models
             return new List<SelectListItem>();
         }
 
-        //ListarActividadesPorEmpleado  se hace similar a la de ListarProyectosPorEmpleado, pero aun no funciona, cuando funcione se implementa esta
+      
 
-        public Respuesta? ModificarRegistroActividad(Actividad entidad)
+
+		public Respuesta? ListarActividadesPorEmpleado(long? ID_EMPLEADO)
+		{
+			string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Actividades/ListarActividadesPorEmpleado?iDEmpleado=" + ID_EMPLEADO;
+			var solicitud = _httpClient.GetAsync(url).Result;
+
+			if (solicitud.IsSuccessStatusCode)
+			{
+				return solicitud.Content.ReadFromJsonAsync<Respuesta>().Result;
+			}
+			else
+				return new Respuesta();
+		}
+
+
+		public Respuesta? ModificarRegistroActividad(Actividad entidad)
         {
             string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Actividades/ModificarRegistroActividad";
             JsonContent body = JsonContent.Create(entidad);
@@ -331,9 +346,9 @@ namespace PROINSA_GP_WEB.Models
 
         
 
-        public Respuesta? DetallarRegistroActividadPorID(long? ID_REGISTROACTIVIDAD)
+        public Respuesta? DetallarRegistroActividadPorID(long? Id_REGISTROACTIVIDAD)
         {
-            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Actividades/DetallarRegistroActividadPorID?ID_REGISTROACTIVIDAD=" + ID_REGISTROACTIVIDAD;
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Actividades/DetallarRegistroActividadPorID?ID_REGISTROACTIVIDAD=" + Id_REGISTROACTIVIDAD;
             var solicitud = _httpClient.GetAsync(url).Result;
 
             if (solicitud.IsSuccessStatusCode)
@@ -342,10 +357,10 @@ namespace PROINSA_GP_WEB.Models
                 return new Respuesta();
         }
 
-        public Respuesta? CambiarEstadoRegistroActividad(long? ID_REGISTROACTIVIDAD)
+        public Respuesta? CambiarEstadoRegistroActividad(long? Id_REGISTROACTIVIDAD)
         {
-            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Actividades/CambiarEstadoRegistroActividad?ID_REGISTROACTIVIDAD=" + ID_REGISTROACTIVIDAD;
-            JsonContent body = JsonContent.Create(ID_REGISTROACTIVIDAD);
+            string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Actividades/CambiarEstadoRegistroActividad?ID_REGISTROACTIVIDAD=" + Id_REGISTROACTIVIDAD;
+            JsonContent body = JsonContent.Create(Id_REGISTROACTIVIDAD);
             var solicitud = _httpClient.PutAsync(url, body).Result;
             if (solicitud.IsSuccessStatusCode)
                 return solicitud.Content.ReadFromJsonAsync<Respuesta>().Result;

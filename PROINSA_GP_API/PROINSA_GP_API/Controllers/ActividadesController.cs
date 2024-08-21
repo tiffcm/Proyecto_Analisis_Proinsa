@@ -549,7 +549,7 @@ namespace PROINSA_GP_API.Controllers
             using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
                 var result = await context.ExecuteAsync("IngresorRegistroActividad", new { entidad.FECHA_INICIO, entidad.FECHA_FIN, entidad.TOTALHORAS, entidad.DETALLE, entidad.EMPLEADO_ID, entidad.PROYECTO_ID}, commandType: CommandType.StoredProcedure);
-
+                // el total horas esta llegando vacio y el ID del proyecto xd
                 if (result > 0)
                 {
                     respuesta.CODIGO = 1;
@@ -629,7 +629,10 @@ namespace PROINSA_GP_API.Controllers
             Respuesta respuesta = new Respuesta();
             using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
-                var request = await contexto.QueryAsync("ListarActividadesPorEmpleado", new { },
+                var parametros = new DynamicParameters();
+                parametros.Add("@EMPLEADO_ID", IdEMPLEADO);
+
+                var request = await contexto.QueryAsync("ListarActividadesPorEmpleado", parametros,
                       commandType: System.Data.CommandType.StoredProcedure);
                 if (request != null)
                 {
@@ -641,7 +644,7 @@ namespace PROINSA_GP_API.Controllers
                 else
                 {
                     respuesta.CODIGO = 0;
-                    respuesta.MENSAJE = "No hay proyectos registrados";
+                    respuesta.MENSAJE = "No hay actividades registradas";
                     respuesta.CONTENIDO = false;
                     return Ok(respuesta);
                 }
@@ -656,14 +659,14 @@ namespace PROINSA_GP_API.Controllers
             using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
             {
                 var parametros = new DynamicParameters();
-                parametros.Add("@ID_REGISTROACTIVIDAD", entidad.ID_PROYECTO);
-                parametros.Add("@FECHA_INICIO", entidad.NOMBRE);
-                parametros.Add("@FECHA_FIN", entidad.TOTAL_HORAS);
-                parametros.Add("@TOTALHORAS", entidad.INICIO_FECHA);
-                parametros.Add("@DETALLE", entidad.FINAL_FECHA);
-                parametros.Add("@ESTADO", entidad.COD_PROYECTO);
-                parametros.Add("@EMPLEADO_ID", entidad.COMENTARIO);
-                
+                parametros.Add("@ID_REGISTROACTIVIDAD", entidad.ID_REGISTROACTIVIDAD);
+				parametros.Add("@ID_PROYECTO", entidad.ID_PROYECTO);
+				parametros.Add("@FECHA_INICIO", entidad.FECHA_INICIO);
+                parametros.Add("@FECHA_FINAL", entidad.FECHA_FINAL);
+                parametros.Add("@TOTALHORAS", entidad.TOTALHORAS);
+                parametros.Add("@DETALLE", entidad.DETALLE);
+                parametros.Add("@EMPLEADO_ID", entidad.EMPLEADO_ID);
+                // parametros.Add("@NOMBRE_EMPLEADO", entidad.NOMBRE_EMPLEADO);
 
                 var request = await contexto.ExecuteAsync("ModificarRegistroActividad", parametros,
                    commandType: System.Data.CommandType.StoredProcedure);

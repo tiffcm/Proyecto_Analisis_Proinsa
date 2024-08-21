@@ -22,7 +22,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-4">
-                        @Html.HiddenFor(m => m.EMPLEADO_ID)
+                        @Html.HiddenFor(m => m.ID_REGISTROACTIVIDAD)
                         @Html.Label("Proyecto")
                         @Html.DropDownListFor(m => m.ID_PROYECTO, new SelectList(ViewBag.proyectoEMList, "Value", "Text"), new { @class = "form-control" })
                     </div>
@@ -30,7 +30,7 @@
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Total horas")
-                        @Html.TextBoxFor(m => m.TOTAL_HORAS, new { @class = "form-control", @required = "True" })
+                        @Html.TextBoxFor(m => m.TOTALHORAS, new { @class = "form-control", @required = "True" })
                     </div>
                 </div>
             </div>
@@ -45,7 +45,7 @@
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Fecha Final")
-                        @Html.TextBoxFor(m => m.FECHA_FIN, new { @class = "form-control", @type = "date", @required = "True" })
+                        @Html.TextBoxFor(m => m.FECHA_FINAL, new { @class = "form-control", @type = "date", @required = "True" })
                     </div>
                 </div>
             </div>
@@ -58,23 +58,24 @@
                     </div>
                 </div>
                 
-                <div class="col-md-6">
+                 <div class="col-md-6">
                     <div class="mb-4">
-                        @Html.Label("Estado")
-                        @Html.TextBoxFor(m => m.ESTADO, new { @class = "form-control", @readonly = "true" })
+                        @Html.Label("Info empleado:")
+                        @Html.HiddenFor(m => m.EMPLEADO_ID)
+                        @Html.TextBoxFor(m => m.NOMBRE_EMPLEADO, new { @class = "form-control", @readonly = "true" })
                     </div>
-                </div>
+                </div> 
             </div>
 
             <div style="display:grid; place-items:center;">
                 <div class="mt-4">
-                    <button type="submit" class="btn btn-primary">Registrar Actividad </button>
+                    <button type="submit" class="btn btn-primary">Editar Actividad </button>
                 </div>
             </div>
 
 
         }
-        <!-- Botón para cambiar el estado del cliente -->
+        @* <!-- Botón para cambiar el estado del cliente -->
         @using (Html.BeginForm("CambiarEstadoRegistroActividad", "Actividades", new { ID_REGISTROACTIVIDAD = Model.ID_REGISTROACTIVIDAD }, FormMethod.Post))
         {
             <div class="mt-4" style="text-align:center;">
@@ -82,7 +83,7 @@
                     Cambiar Estado a @(Model.ESTADO == "Activo" ? "Inactivo" : "Activo")
                 </button>
             </div>
-        }
+        } *@
     </div>
 </div>
 

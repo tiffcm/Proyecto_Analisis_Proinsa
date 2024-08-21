@@ -20,16 +20,20 @@
 
         public string? NOMBRE_CONTACTO { get; set; }
         public string? NOMBRE_CLIENTE { get; set; }
+		public string? NOMBRE_EMPLEADO { get; set; }
 
 
 		////
 		///
-		    public string? FECHA_INICIO { get; set; }
+		public string? FECHA_INICIO { get; set; }
         public string? FECHA_FIN {  get; set; }
+        public string? FECHA_FINAL { get; set; }
+
         public decimal? TOTALHORAS { get; set; }
         public long EMPLEADO_ID { get; set; }
 
         public string? PROYECTO_NOMBRE { get; set; }
+        public string? NOMBRE_PROYECTO { get; set; }
 
 
         public long ID_REGISTROACTIVIDAD { get; set; }

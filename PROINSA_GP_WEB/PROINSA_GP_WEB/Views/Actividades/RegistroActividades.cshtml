@@ -17,17 +17,18 @@
         }
         @using (Html.BeginForm("RegistroActividades", "Actividades", FormMethod.Post))
         {
+            @Html.HiddenFor(m => m.EMPLEADO_ID)
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Proyecto")
-                        @Html.DropDownListFor(m => m.ID_PROYECTO, new SelectList(ViewBag.proyectoEMList, "Value", "Text"), "Selecciona un proyecto..", new { @class = "form-control" })
+                        @Html.DropDownListFor(m => m.PROYECTO_ID, new SelectList(ViewBag.proyectoEMList, "Value", "Text"), "Selecciona un proyecto..", new { @class = "form-control" })
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Total horas")
-                        @Html.TextBoxFor(m => m.TOTAL_HORAS, new { @class = "form-control", @required = "True" })
+                        @Html.TextBoxFor(m => m.TOTALHORAS, new { @class = "form-control", @required = "True" })
                     </div>
                 </div>
             </div>
@@ -54,8 +55,7 @@
                         @Html.TextAreaFor(m => m.DETALLE, new { @class = "form-control" })
                     </div>
                 </div>
-                @Html.HiddenFor(m => m.EMPLEADO_ID)
-                @Html.HiddenFor(m => m.ESTADO)
+                
             </div>
 
             <div style="display:grid; place-items:center;">

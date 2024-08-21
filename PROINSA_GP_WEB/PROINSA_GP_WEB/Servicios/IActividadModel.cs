@@ -32,7 +32,9 @@ namespace PROINSA_GP_WEB.Servicios
         ///
         Respuesta? IngresorRegistroActividad(Actividad entidad);
         List<SelectListItem> ListarProyectosPorEmpleado(long? ID_EMPLEADO);
-        Respuesta? ModificarRegistroActividad(Actividad entidad);
+        //List<SelectListItem> ListarActividadesPorEmpleado(long? ID_EMPLEADO);
+        Respuesta? ListarActividadesPorEmpleado(long? ID_EMPLEADO);
+		Respuesta? ModificarRegistroActividad(Actividad entidad);
         Respuesta? ListarTodasActividades();
         Respuesta? DetallarRegistroActividadPorID(long? ID_REGISTROACTIVIDAD);
         Respuesta? CambiarEstadoRegistroActividad(long? ID_REGISTROACTIVIDAD);
