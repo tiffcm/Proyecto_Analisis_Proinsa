@@ -7,43 +7,45 @@
 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Documentos y anuncios / Gestión de documentos / </span>  Ver mis documentos </h4>
 
 <div class="card-body">
-    <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Historial de documentos:</h5>
-    <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
-        <div class="item">
-            <div class="tab-content">
-                <div class="tab-pane show active" id="striped-items-preview">
-                    <div class="table-responsive-sm">
-                        <table id="dataTable" class="table table-bordered dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
-                            <thead>
-                                <tr>
-                                    <th>TIPO DE DOCUMENTO</th>
-                                    <th>NOMBRE DEL DOCUMENTO</th>
-                                    <th>COMENTARIO</th>
-                                    <th>ELIMINAR</th>
-                                    <th>ACTUALIZAR</th>
-                                    <th>DESCARGAR</th>
-                                </tr>
-                            </thead>
-                            <tbody class="align_dataTable_text">
-                                @foreach (var item in Model)
-                                {
+    <div class="card">
+        <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Historial de documentos:</h5>
+        <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4 m-4">
+            <div class="item">
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="striped-items-preview">                        
+                        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                            <table id="dataTable" class="table table-bordered table-striped dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
+                                <thead>
                                     <tr>
-                                        <td>@item.NOMBRE_TIPODOCUMENTO</td>
-                                        <td>@item.NOMBRE_DOCUMENTO</td>
-                                        <td>@item.COMENTARIO</td>
-                                        <td>
-                                            <a href="@Url.Action("EliminarDocumento","Documentos", new{ q = item.ID_EMPLEADODOCUMENTO})" class="btn btn-primary">Eliminar</a>
-                                        </td>
-                                        <td>
-                                            <a href="@Url.Action("ActualizarDocumento","Documentos", new{ q = item.ID_EMPLEADODOCUMENTO})" class="btn btn-primary">Actualizar</a>
-                                        </td>
-                                        <td>
-                                            <a href="@item.VER_DOCUMENTO" class="btn btn-primary" download>Descargar</a>
-                                        </td>                                        
+                                        <th>TIPO DE DOCUMENTO</th>
+                                        <th>NOMBRE DEL DOCUMENTO</th>
+                                        <th>COMENTARIO</th>
+                                        <th>ELIMINAR</th>
+                                        <th>ACTUALIZAR</th>
+                                        <th>DESCARGAR</th>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody class="align_dataTable_text">
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.NOMBRE_TIPODOCUMENTO</td>
+                                            <td>@item.NOMBRE_DOCUMENTO</td>
+                                            <td>@item.COMENTARIO</td>
+                                            <td>
+                                                <a href="@Url.Action("EliminarDocumento","Documentos", new{ q = item.ID_EMPLEADODOCUMENTO})" class="btn btn-primary">Eliminar</a>
+                                            </td>
+                                            <td>
+                                                <a href="@Url.Action("ActualizarDocumento","Documentos", new{ q = item.ID_EMPLEADODOCUMENTO})" class="btn btn-primary">Actualizar</a>
+                                            </td>
+                                            <td>
+                                                <a href="@item.VER_DOCUMENTO" class="btn btn-primary" download>Descargar</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

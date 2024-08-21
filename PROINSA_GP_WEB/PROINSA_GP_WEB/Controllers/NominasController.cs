@@ -204,7 +204,7 @@ namespace PROINSA_GP_WEB.Controllers
 
         [Seguridad]
         [Administrador]
-        [HttpPost]
+        [HttpGet]
         public IActionResult AprobacionNomina()
         {
             Nomina entidad = new Nomina();

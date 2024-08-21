@@ -7,49 +7,51 @@
 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Aprobaciones /</span> Aprobaciones</h4>
 
 <div class="card-body">
-    <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Historial solicitudes pendientes de organizar:</h5>
-    <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
-        <div class="row">
-            <div class="tab-content">
-                <div class="tab-pane show active" id="striped-rows-preview">
-                    <div class="table-responsive-sm">
-                        @if (Model != null)
-                        {
-                            <table id="dataTable" class="table table-bordered dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
-                                <thead>
-                                    <tr>
-                                        <th>ID SOLICITUD</th>
-                                        <th>FECHA SOLICITUD</th>
-                                        <th>IDENTIFICACION</th>
-                                        <th>SOLICITANTE</th>
-                                        <th>TIPO PERMISO</th>
-                                        <th>RESPUESTA SOLICITUD</th>
-                                        <th>ACCIONES</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model)
-                                    {
+    <div class="card">
+        <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Historial solicitudes pendientes de organizar:</h5>
+        <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4 m-4">
+            <div class="row">
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="striped-rows-preview">
+                        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                            @if (Model != null)
+                            {
+                                <table id="dataTable" class="table table-bordered table-striped dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
+                                    <thead>
                                         <tr>
-                                            <td>@item.ID_SOLICITUD</td>
-                                            <td>@item.FECHA_SOLICITUD</td>
-                                            <td>@item.IDENTIFICACION</td>
-                                            <td>@item.SOLICITANTE</td>
-                                            <td>@item.TIPOPERMISO</td>
-                                            <td>@item.RESPUESTASOLICITUD</td>
-                                            <td>
-                                                <a class="btn btn-primary" asp-action="ConsultarAprobDetalle" asp-route-ID_SOLICITUD="@item.ID_SOLICITUD" name="ID_SOLICITUD" id="ID_SOLICITUD">Ver solicitud</a>
-                                            </td>
+                                            <th>ID SOLICITUD</th>
+                                            <th>FECHA SOLICITUD</th>
+                                            <th>IDENTIFICACION</th>
+                                            <th>SOLICITANTE</th>
+                                            <th>TIPO PERMISO</th>
+                                            <th>RESPUESTA SOLICITUD</th>
+                                            <th>ACCIONES</th>
                                         </tr>
-                                    }
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>@item.ID_SOLICITUD</td>
+                                                <td>@item.FECHA_SOLICITUD</td>
+                                                <td>@item.IDENTIFICACION</td>
+                                                <td>@item.SOLICITANTE</td>
+                                                <td>@item.TIPOPERMISO</td>
+                                                <td>@item.RESPUESTASOLICITUD</td>
+                                                <td>
+                                                    <a class="btn btn-primary" asp-action="ConsultarAprobDetalle" asp-route-ID_SOLICITUD="@item.ID_SOLICITUD" name="ID_SOLICITUD" id="ID_SOLICITUD">Ver solicitud</a>
+                                                </td>
+                                            </tr>
+                                        }
 
-                                </tbody>
-                            </table>
-                        }
-                        else
-                        {
-                            <p>No hay solicitudes pendientes de aprobación</p>
-                        }
+                                    </tbody>
+                                </table>
+                            }
+                            else
+                            {
+                                <p>No hay solicitudes pendientes de aprobación</p>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>

@@ -9,31 +9,33 @@
 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Desarrollo personal / Solicitudes / </span> Historial solicitudes</h4>
 
 <div class="card-body">
-    <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Historial Solicitudes:</h5>
-    <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
-        <div class="row">
-            <div class="tab-content">
-                <div class="tab-pane show active" id="striped-rows-preview">
-                    <div class="table-responsive-sm">
-                        <table id="dataTable" class="table table-bordered dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
-                            <thead>
-                                <tr>
-                                    <th>FECHA SOLICITUD</th>
-                                    <th>TIPO SOLICITUD</th>
-                                    <th>ESTADO</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (DataRow row in Model.Rows)
-                                {
+    <div class="card">
+        <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Historial Solicitudes:</h5>
+        <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4 m-4">
+            <div class="row">
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="striped-rows-preview">
+                        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                            <table id="dataTable" class="table table-bordered table-striped dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
+                                <thead>
                                     <tr>
-                                        <td>@row["FECHA_SOLICITUD"]</td>
-                                        <td>@row["DESCRIPCION"]</td>
-                                        <td>@row["ESTADO"]</td>
+                                        <th>FECHA SOLICITUD</th>
+                                        <th>TIPO SOLICITUD</th>
+                                        <th>ESTADO</th>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach (DataRow row in Model.Rows)
+                                    {
+                                        <tr>
+                                            <td>@row["FECHA_SOLICITUD"]</td>
+                                            <td>@row["DESCRIPCION"]</td>
+                                            <td>@row["ESTADO"]</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

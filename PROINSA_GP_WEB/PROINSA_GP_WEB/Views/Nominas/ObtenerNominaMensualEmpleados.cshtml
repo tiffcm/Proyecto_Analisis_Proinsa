@@ -7,64 +7,66 @@
 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Administrativo / Nómina /</span> Obtener Nómina empleados</h4>
 
 <div class="card-body">
-    <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Salario de los empleados:</h5>
-    <div class="d-flex justify-content-end flex-wrap mb-3">
-        <button type="button" class="btn btn-primary mb-2 me-2" data-bs-toggle="modal" data-bs-target="#backDropModal">
-            Revisar nómina
-        </button>
-        <a class="btn btn-primary mb-2 me-2" href="@Url.Action("AprobacionNomina","Nominas")">
-            Aprobar nómina
-        </a>
-    </div>
-    <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
-        <div class="item">
-            <div class="tab-content">
-                <div class="tab-pane show active" id="striped-items-preview">
-                    <div class="table-responsive-sm">
-                        @if (Model != null && Model.Any())
-                        {
-                            <table id="dataTable" class="table table-bordered dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
-                                <thead>
-                                    <tr>
-                                        <th>IDENTIFICACION</th>
-                                        <th>EMPLEADO</th>
-                                        <th>NOMINA</th>
-                                        <th>FECHA_PAGO</th>
-                                        <th>CARGO</th>
-                                        <th>SALARIO</th>
-                                        <th>REGISTRAR INGRESOS</th>
-                                        <th>REGISTRAR DEDUCCIONES</th>
-                                        <th>VER DETALLE</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="align_dataTable_text">
-                                    @foreach (var item in Model)
-                                    {
+    <div class="card">
+        <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Salario de los empleados:</h5>
+        <div class="d-flex justify-content-end flex-wrap">
+            <button type="button" class="btn btn-primary mb-2 me-2" data-bs-toggle="modal" data-bs-target="#backDropModal">
+                Revisar nómina
+            </button>
+            <a class="btn btn-primary mb-2 me-2" href="@Url.Action("AprobacionNomina","Nominas")">
+                Aprobar nómina
+            </a>
+        </div>
+        <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4 m-4">
+            <div class="item">
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="striped-items-preview">
+                        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                            @if (Model != null && Model.Any())
+                            {
+                                <table id="dataTable" class="table table-bordered table-striped dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
+                                    <thead>
                                         <tr>
-                                            <td>@item.IDENTIFICACION</td>
-                                            <td>@item.EMPLEADO</td>
-                                            <td>@item.NOMINA</td>
-                                            <td>@item.FECHA_PAGO</td>
-                                            <td>@item.CARGO</td>
-                                            <td>@item.SALARIO</td>
-                                            <td>
-                                                <a href="@Url.Action("RegistrarIngresos","Nominas", new{ q = item.ID_EMPLEADO})" class="btn btn-primary">Agregar</a>
-                                            </td>
-                                            <td>
-                                                <a href="@Url.Action("RegistrarDeduccion","Nominas", new{ q = item.ID_EMPLEADO})" class="btn btn-primary">Agregar</a>
-                                            </td>
-                                            <td>
-                                                <a href="@Url.Action("ObtenerNominaEmpleado","Nominas", new{ q = item.ID_EMPLEADO})" class="btn btn-primary">Detalle</a>
-                                            </td>
+                                            <th>IDENTIFICACION</th>
+                                            <th>EMPLEADO</th>
+                                            <th>NOMINA</th>
+                                            <th>FECHA_PAGO</th>
+                                            <th>CARGO</th>
+                                            <th>SALARIO</th>
+                                            <th>REGISTRAR INGRESOS</th>
+                                            <th>REGISTRAR DEDUCCIONES</th>
+                                            <th>VER DETALLE</th>
                                         </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        }
-                        else
-                        {
-                            <p>No hay nóminas disponibles para mostrar.</p>
-                        }
+                                    </thead>
+                                    <tbody class="align_dataTable_text">
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>@item.IDENTIFICACION</td>
+                                                <td>@item.EMPLEADO</td>
+                                                <td>@item.NOMINA</td>
+                                                <td>@item.FECHA_PAGO</td>
+                                                <td>@item.CARGO</td>
+                                                <td>@item.SALARIO</td>
+                                                <td>
+                                                    <a href="@Url.Action("RegistrarIngresos","Nominas", new{ q = item.ID_EMPLEADO})" class="btn btn-primary">Agregar</a>
+                                                </td>
+                                                <td>
+                                                    <a href="@Url.Action("RegistrarDeduccion","Nominas", new{ q = item.ID_EMPLEADO})" class="btn btn-primary">Agregar</a>
+                                                </td>
+                                                <td>
+                                                    <a href="@Url.Action("ObtenerNominaEmpleado","Nominas", new{ q = item.ID_EMPLEADO})" class="btn btn-primary">Detalle</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                            else
+                            {
+                                <p>No hay nóminas disponibles para mostrar.</p>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
@@ -109,5 +111,4 @@
         </div>
     </div>
 </div>
-
 <script src="~/js/datatable.js"></script>

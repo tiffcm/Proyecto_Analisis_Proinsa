@@ -8133,13 +8133,13 @@ GO
 -- Create Date: 07/21/2024
 -- Description: Lista las actividades de un empleado específico
 -- =============================================
-CREATE PROCEDURE dbo.ListarActividadesPorEmpleado
+CREATE OR ALTER PROCEDURE [dbo].[ListarActividadesPorEmpleado]
 (
     @EMPLEADO_ID bigint
 )
 AS
 BEGIN
-
+ 
     SELECT 
         ra.[ID_REGISTROACTIVIDAD],
         ra.[FECHA_INICIO],
@@ -8149,7 +8149,8 @@ BEGIN
         e.[NOMBRECOMPLETO] AS NOMBRE_EMPLEADO,
         ra.[PROYECTO_ID],
         p.[NOMBRE] AS NOMBRE_PROYECTO,
-        p.[COD_PROYECTO]
+        p.[COD_PROYECTO],
+		CASE WHEN ra.[ESTADO] = 1 THEN 'Activo' ELSE 'Inactivo' END AS ESTADO
     FROM 
         [dbo].[REGISTROACTIVIDAD] ra
     LEFT JOIN 
@@ -8172,30 +8173,28 @@ GO
 -- Create Date: 07/21/2024
 -- Description: Permite modificar una actividad existente
 -- =============================================
-CREATE PROCEDURE dbo.ModificarRegistroActividad
+CREATE OR ALTER PROCEDURE [dbo].[ModificarRegistroActividad]
 (
 	-- Add the parameters for the stored procedure here
 	@ID_REGISTROACTIVIDAD bigint,
     @FECHA_INICIO datetime,
-    @FECHA_FIN datetime,
+    @FECHA_FINAL datetime,
 	@TOTALHORAS decimal(18,2),
 	@DETALLE varchar(500),
-	@ESTADO bit,
-	@PROYECTO_ID bigint,
+	@ID_PROYECTO bigint,
 	@EMPLEADO_ID bigint
 )
 AS
 BEGIN
-
+ 
     BEGIN 
 		UPDATE [dbo].[REGISTROACTIVIDAD]
-		SET [FECHA_INICIO] = @FECHA_INICIO,
-			[FECHA_FINAL] =  @FECHA_FIN,
-			[TOTALHORAS] = @TOTALHORAS,
-			[DETALLE] = @DETALLE,
-			[ESTADO] = @ESTADO,
-			[PROYECTO_ID] = @PROYECTO_ID,
-			[EMPLEADO_ID] = @EMPLEADO_ID
+		SET [FECHA_INICIO] = COALESCE(@FECHA_INICIO, [FECHA_INICIO]),
+			[FECHA_FINAL] =  COALESCE(@FECHA_FINAL, [FECHA_FINAL]),
+			[TOTALHORAS] = COALESCE(@TOTALHORAS, [TOTALHORAS]),
+			[DETALLE] = COALESCE(@DETALLE, [DETALLE]),
+			[PROYECTO_ID] = COALESCE(@ID_PROYECTO, [PROYECTO_ID]),
+			[EMPLEADO_ID] = COALESCE(@EMPLEADO_ID, [EMPLEADO_ID])
 		WHERE ID_REGISTROACTIVIDAD = @ID_REGISTROACTIVIDAD;
     END
 END
@@ -8212,14 +8211,14 @@ GO
 -- Create Date: 07/21/2024
 -- Description: Permite detallar un registro de actividad especifico por el ID
 -- =============================================
-CREATE PROCEDURE dbo.DetallarRegistroActividadPorID
+CREATE OR ALTER PROCEDURE [dbo].[DetallarRegistroActividadPorID]
 (
 	-- Add the parameters for the stored procedure here
 	@ID_REGISTROACTIVIDAD bigint
 )
 AS
 BEGIN
-
+ 
     SELECT 
         ra.[ID_REGISTROACTIVIDAD],
         ra.[FECHA_INICIO],
@@ -8228,10 +8227,7 @@ BEGIN
         ra.[DETALLE],
         ra.[EMPLEADO_ID],
         e.[NOMBRECOMPLETO] AS NOMBRE_EMPLEADO,
-        ra.[ESTADO],
-        ra.[PROYECTO_ID],
-        p.[NOMBRE] AS NOMBRE_PROYECTO,
-        p.[COD_PROYECTO]
+        ra.[PROYECTO_ID]
     FROM 
         [dbo].[REGISTROACTIVIDAD] ra
     LEFT JOIN 
