@@ -5,6 +5,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using PROINSA_GP_API.Entidad;
 using System.Data;
+using System.Numerics;
 
 namespace PROINSA_GP_API.Controllers
 {
@@ -414,5 +415,140 @@ namespace PROINSA_GP_API.Controllers
                 }
             }
         }
+
+
+        [HttpDelete]
+        [Route("EliminarIngresoEmpleado")]
+        public async Task<IActionResult> EliminarIngresoEmpleado(long ID_INGRESONOMINADETALLE)
+        {
+            Respuesta respuesta = new Respuesta();
+
+            
+                using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+                {
+                    var result = await context.ExecuteAsync("EliminarIngresoEmpleado",
+                        new { ID_INGRESONOMINADETALLE }, commandType: CommandType.StoredProcedure);
+
+                    if (result > 0)
+                    {
+                        respuesta.CODIGO = 1;
+                        respuesta.MENSAJE = "OK";
+                        respuesta.CONTENIDO = true;
+                        return Ok(respuesta);
+                    }
+                    else
+                    {
+                        respuesta.CODIGO = 0;
+                        respuesta.MENSAJE = "No es permitido eliminar";
+                        respuesta.CONTENIDO = false;
+                        return Ok(respuesta);
+                    }
+                }
+            }
+           
+        
+
+
+        [HttpDelete]
+        [Route("EliminarDeduccionEmpleado")]
+        public async Task<IActionResult> EliminarDeduccionEmpleado(long ID_DEDUCCION_NOMINADETALLE)
+        {
+            Respuesta respuesta = new Respuesta();
+
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+                var result = await context.ExecuteAsync("EliminarDeduccionEmpleado",
+                    new { @ID_DEDUCCION_NOMINADETALLE }, commandType: CommandType.StoredProcedure);
+
+
+                if (result > 0)
+                {
+                    respuesta.CODIGO = 1;
+                    respuesta.MENSAJE = "OK";
+                    respuesta.CONTENIDO = true;
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.CONTENIDO = 0;
+                    respuesta.MENSAJE = "No es permitido eliminar";
+                    respuesta.CONTENIDO = false;
+                    return Ok(respuesta);
+                }
+            }
+        }
+
+
+
+        [HttpPut]
+        [Route("ActualizarIngresoNomina")]
+        public async Task<IActionResult> ActualizarIngresoNomina(Nomina ent)
+        {
+            Respuesta resp = new Respuesta();
+
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+
+                var result = await context.ExecuteAsync("ActualizarIngresoEmpleado",
+                    new { ent.ID_INGRESONOMINADETALLE, ent.MONTO,
+                    ent.DETALLE, ent.CANTIDAD, ent.INGRESO_ID
+                    }, commandType: CommandType.StoredProcedure);
+
+                if (result > 0)
+                {
+                    resp.CODIGO = 1;
+                    resp.MENSAJE = "OK";
+                    resp.CONTENIDO = true;
+                    return Ok(resp);
+                }
+                else
+                {
+                    resp.CODIGO = 0;
+                    resp.MENSAJE = "Ha ocurrido un error al actualizar la nómina.";
+                    resp.CONTENIDO = false;
+                    return Ok(resp);
+                }
+            }
+        }
+
+
+        [HttpPut]
+        [Route("ActualizarDeduccionNomina")]
+        public async Task<IActionResult> ActualizarDeduccionNomin(Nomina ent)
+        {
+            Respuesta resp = new Respuesta();
+
+            using (var context = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
+            {
+
+                var result = await context.ExecuteAsync("ActualizarDeduccionEmpleado",
+                    new
+                    {
+                        ent.ID_DEDUCCIONNOMINADETALLE,
+                        ent.MONTO,
+                        ent.DETALLE,
+                        ent.DEDUCCION_ID
+                    }, commandType: CommandType.StoredProcedure);
+
+                if (result > 0)
+                {
+                    resp.CODIGO = 1;
+                    resp.MENSAJE = "OK";
+                    resp.CONTENIDO = true;
+                    return Ok(resp);
+                }
+                else
+                {
+                    resp.CODIGO = 0;
+                    resp.MENSAJE = "Ha ocurrido un error al actualizar la nómina.";
+                    resp.CONTENIDO = false;
+                    return Ok(resp);
+                }
+            }
+        }
+
+
+
     }
 }
+

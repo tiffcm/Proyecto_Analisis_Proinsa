@@ -19,6 +19,12 @@
         public string? CARGO { get; set; }
         public decimal SALARIO { get; set; }
         public DateTime FECHA { get; set; }
+        public long INGRESO_ID { get; set; }
+        public long ID_INGRESONOMINADETALLE { get; set; }
+
+        public long ID_DEDUCCIONNOMINADETALLE { get; set; }
+
+        public long DEDUCCION_ID { get; set; }
     }
 
     public class IngresoNominaDetalle
