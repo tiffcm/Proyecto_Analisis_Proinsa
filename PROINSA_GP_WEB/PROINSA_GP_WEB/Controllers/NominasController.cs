@@ -218,6 +218,88 @@ namespace PROINSA_GP_WEB.Controllers
             return RedirectToAction("ObtenerNominaMensualEmpleados");
         }
 
+        [Seguridad]
+        [Administrador]
+        [HttpGet]
+        public IActionResult ActualizarIngreso(int q)
+        {
+            var respuesta = iNominaModel.ObtenerIngresoDetalle(q);
+            if (respuesta!.CODIGO == 1)
+            {
+                var datos = JsonSerializer.Deserialize<IngresosDeduccionesDetalle>((JsonElement)respuesta.CONTENIDO!);
+                return View(datos);
+            }
+            else
+            {
+                return RedirectToAction("ObtenerNominaMensualEmpleados", "Nominas");
+            }
+        }
+
+        [Seguridad]
+        [Administrador]
+        [HttpPost]
+        public IActionResult ActualizarIngreso(IngresosDeduccionesDetalle entidad)
+        {            
+            var respuesta = iNominaModel.ActualizarIngresoNomina(entidad);
+            if (respuesta!.CODIGO == 1)
+                return RedirectToAction("ObtenerNominaMensualEmpleados");
+            else
+                return View();
+        }
+
+        [Seguridad]
+        [Administrador]
+        [HttpGet]
+        public IActionResult EliminarIngreso(int q)
+        {            
+            var respuesta = iNominaModel.EliminarIngresoEmpleado(q);
+            if (respuesta!.CODIGO == 1)
+                return RedirectToAction("ObtenerNominaMensualEmpleados");
+            else
+                return View();
+        }
+
+        [Seguridad]
+        [Administrador]
+        [HttpGet]
+        public IActionResult ActualizarDeduccion(int q)
+        {
+            var respuesta = iNominaModel.ObtenerDeduccionDetalle(q);
+            if (respuesta!.CODIGO == 1)
+            {
+                var datos = JsonSerializer.Deserialize<IngresosDeduccionesDetalle>((JsonElement)respuesta.CONTENIDO!);
+                return View(datos);
+            }
+            else
+            {
+                return RedirectToAction("ObtenerNominaMensualEmpleados", "Nominas");
+            }
+        }
+
+        [Seguridad]
+        [Administrador]
+        [HttpPost]
+        public IActionResult ActualizarDeduccion(IngresosDeduccionesDetalle entidad)
+        {
+            var respuesta = iNominaModel.ActualizarDeduccionNomina(entidad);
+            if (respuesta!.CODIGO == 1)
+                return RedirectToAction("ObtenerNominaMensualEmpleados");
+            else
+                return View();
+        }
+
+        [Seguridad]
+        [Administrador]
+        [HttpGet]
+        public IActionResult EliminarDeduccion(int q)
+        {
+            var respuesta = iNominaModel.EliminarDeduccionEmpleado(q);
+            if (respuesta!.CODIGO == 1)
+                return RedirectToAction("ObtenerNominaMensualEmpleados");
+            else
+                return View();
+        }
+
         private static DateTime UltimoDiaMesActual()
         {
             var fechaActual = DateTime.Now;

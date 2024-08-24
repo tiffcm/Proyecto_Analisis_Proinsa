@@ -33,8 +33,9 @@
                                             <th>FECHA_PAGO</th>
                                             <th>CARGO</th>
                                             <th>SALARIO</th>
+                                            <th>ESTADO</th>
                                             <th>REGISTRAR INGRESOS</th>
-                                            <th>REGISTRAR DEDUCCIONES</th>
+                                            <th>REGISTRAR DEDUCCIONES</th>                                            
                                             <th>VER DETALLE</th>
                                         </tr>
                                     </thead>
@@ -48,12 +49,14 @@
                                                 <td>@item.FECHA_PAGO</td>
                                                 <td>@item.CARGO</td>
                                                 <td>@item.SALARIO</td>
+                                                <td>@item.ESTADO</td>
                                                 <td>
                                                     <a href="@Url.Action("RegistrarIngresos","Nominas", new{ q = item.ID_EMPLEADO})" class="btn btn-primary">Agregar</a>
                                                 </td>
                                                 <td>
                                                     <a href="@Url.Action("RegistrarDeduccion","Nominas", new{ q = item.ID_EMPLEADO})" class="btn btn-primary">Agregar</a>
                                                 </td>
+                                                
                                                 <td>
                                                     <a href="@Url.Action("ObtenerNominaEmpleado","Nominas", new{ q = item.ID_EMPLEADO})" class="btn btn-primary">Detalle</a>
                                                 </td>
@@ -98,9 +101,9 @@
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                                            Close
+                                            Cerrar
                                         </button>
-                                        <button type="submit" class="btn btn-primary">Save</button>
+                                        <button type="submit" class="btn btn-primary">Enviar</button>
                                     </div>
                                 </div>
                             </div>

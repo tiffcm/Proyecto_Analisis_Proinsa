@@ -10,6 +10,7 @@
         public int CreadorID { get; set; }
         public decimal MONTO { get; set; }
         public string? DETALLE { get; set; }
+        public string? ESTADO { get; set; }
         public string? NOMBRE { get; set; }
         public int CANTIDAD{ get; set; }
         public string? NOMINA { get; set; }
@@ -20,10 +21,6 @@
         public decimal SALARIO { get; set; }
         public DateTime FECHA { get; set; }
         public long INGRESO_ID { get; set; }
-        public long ID_INGRESONOMINADETALLE { get; set; }
-
-        public long ID_DEDUCCIONNOMINADETALLE { get; set; }
-
         public long DEDUCCION_ID { get; set; }
     }
 
@@ -49,6 +46,7 @@
     public class IngresosDeduccionesDetalle
     {
         public long TIPO_ID { get; set; }
+        public long CONSECUTIVO { get; set; }
         public string? TIPO { get; set; }
         public string? NOMBRE_TIPO { get; set; }
         public string? NOMBRE_EMPLEADO { get; set; }

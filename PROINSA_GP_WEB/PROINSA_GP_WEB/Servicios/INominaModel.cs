@@ -4,18 +4,31 @@ namespace PROINSA_GP_WEB.Servicios
 {
     public interface INominaModel
     {
-        Respuesta? RegistrarNomina(Nomina entidad);
+		// CONFIGURACIONES GENERALES NÓMINA
+		Respuesta? RegistrarNomina(Nomina entidad);
         Respuesta? CalculoNominaInicial(DateTime Fecha);
         Respuesta? CalculoNominaFinal(DateTime Fecha);
-        Respuesta? ConsultarTiposNomina();
+		Respuesta? RevisionNomina(Nomina entidad);
+		Respuesta? AprobacionNomina(Nomina entidad);
+
+		// GESTIÓN DE INGRESOS		
         Respuesta? ObtenerIngresos();
-        Respuesta? ObtenerDeducciones();
+		Respuesta? ObtenerIngresoDetalle(long INGRESO_ID);
         Respuesta? RegistrarIngresosNominaDetalle(List<IngresoNominaDetalle> entidad);
+		Respuesta? ActualizarIngresoNomina(IngresosDeduccionesDetalle entidad);
+		Respuesta EliminarIngresoEmpleado(long ID_INGRESONOMINADETALLE);
+
+		// GESTIÓN DE DEDUCCIONES
+		Respuesta? ObtenerDeducciones();
+		Respuesta? ObtenerDeduccionDetalle(long DEDUCCION_ID);
         Respuesta? RegistrarDeduccionNominaDetalle(List<DeduccionNominaDetalle> entidad);
-        Respuesta? ObtenerNominaEmpleado(int EMPLEADO_ID);
+		Respuesta? ActualizarDeduccionNomina(IngresosDeduccionesDetalle entidad);
+		Respuesta EliminarDeduccionEmpleado(long ID_DEDUCCION_NOMINADETALLE);
+
+		// CONSULTAS GENERALES DE NÓMINA
+		Respuesta? ObtenerNominaEmpleado(int EMPLEADO_ID);
         Respuesta? ObtenerNominaMensualEmpleados(DateTime fechapago);
-        Respuesta? RevisionNomina(Nomina entidad);
-        Respuesta? AprobacionNomina(Nomina entidad);
         Respuesta? ConsultarNombreEmpleado(long ID_EMPLEADO);
-    }
+		Respuesta? ConsultarTiposNomina();
+	}
 }

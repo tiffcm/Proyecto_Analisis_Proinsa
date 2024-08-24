@@ -55,6 +55,7 @@
                                                                     <th>DETALLE</th>
                                                                     <th>CANTIDAD</th>
                                                                     <th>MONTO</th>
+                                                                    <th>ACCIONES</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody class="align_dataTable2_text">
@@ -71,6 +72,38 @@
                                                                             <td>N/A</td>
                                                                         }                                                                        
                                                                         <td>@item.MONTO</td>
+                                                                        @if (item.NOMBRE_TIPO == "INGRESO")
+                                                                        {
+                                                                            if (item.TIPO == "CCSS" || item.TIPO == "Salario")
+                                                                            {
+                                                                                <td><p>No aplica</p></td>
+                                                                            }else{
+                                                                                <td style="text-align:center;">
+                                                                                    <a href="@Url.Action("ActualizarIngreso", "Nominas", new { q = item.CONSECUTIVO })" class="btn btn-primary m-2">
+                                                                                        <i class="bi bi-pencil-square"></i>
+                                                                                    </a>
+                                                                                    <a href="@Url.Action("EliminarIngreso", "Nominas", new { q = item.CONSECUTIVO })" class="btn btn-primary">
+                                                                                        <i class="bi bi-trash3"></i>
+                                                                                    </a>
+                                                                                </td>
+                                                                            }
+                                                                        }
+                                                                        else if (item.NOMBRE_TIPO == "DEDUCCION")
+                                                                        {
+                                                                            if (item.TIPO == "CCSS" || item.TIPO == "Salario")
+                                                                            {
+                                                                                <td><p>No aplica</p></td>
+                                                                            }else{
+                                                                                <td style="text-align:center;">
+                                                                                    <a href="@Url.Action("ActualizarDeduccion", "Nominas", new { q = item.CONSECUTIVO })" class="btn btn-primary m-2">
+                                                                                        <i class="bi bi-pencil-square"></i>
+                                                                                    </a>
+                                                                                    <a href="@Url.Action("EliminarDeduccion", "Nominas", new { q = item.CONSECUTIVO })" class="btn btn-primary">
+                                                                                        <i class="bi bi-trash3"></i>
+                                                                                    </a>
+                                                                                </td>
+                                                                            }
+                                                                        }                                                                        
                                                                     </tr>
                                                                 }
                                                             </tbody>

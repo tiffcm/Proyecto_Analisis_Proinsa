@@ -1,11 +1,15 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using PROINSA_GP_WEB.Models;
 using PROINSA_GP_WEB.Servicios;
+using System.Globalization;
 
 
 var builder = WebApplication.CreateBuilder(args);
+var supportedCultures = new[] { new CultureInfo("es-ES"), new CultureInfo("en-US") };
+
 
 builder.Services.AddControllers().AddJsonOptions(opt => { opt.JsonSerializerOptions.PropertyNamingPolicy = null; });
 // Add services to the container.
@@ -50,6 +54,13 @@ builder.Services.PostConfigure<CookieAuthenticationOptions>(IdentityConstants.Ap
         opciones.LoginPath = "/usuarios/login";
         opciones.AccessDeniedPath = "/usuarios/login";
     });
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    options.DefaultRequestCulture = new RequestCulture("es-ES");
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+});
 
 var app = builder.Build();
 
