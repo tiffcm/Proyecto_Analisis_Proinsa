@@ -1,6 +1,6 @@
 ﻿namespace PROINSA_GP_WEB.Entidad
 {
-    public class Report
+    public class Reporte
     {
         public long? EMPLEADO_ID { get; set; }
         public string? FechaSeleccionada { get; set; }

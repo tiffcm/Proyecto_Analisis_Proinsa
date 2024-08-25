@@ -6,10 +6,9 @@ using System.Net.Http;
 
 namespace PROINSA_GP_WEB.Models
 {
-    public class ReportModel(HttpClient _httpClient, IConfiguration iConfiguration) : IReportModel)
+    public class ReporteModel(HttpClient _httpClient, IConfiguration iConfiguration) : IReporteModel
     {
         
-
         public Respuesta DatosEmpleadoNominaReporte(long EMPLEADO_ID)
         {
 
@@ -20,9 +19,8 @@ namespace PROINSA_GP_WEB.Models
             else
                 return new Respuesta();
         }
-        
-        
-        public Respuesta DatosNominaEmpleadoDeduccionesReporte(Report report)
+                
+        public Respuesta DatosNominaEmpleadoDeduccionesReporte(Reporte report)
         {
             string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Report/DatosNominaEmpleadoDeduccionesReporte";
             var result = _httpClient.PostAsJsonAsync(url, report).Result;
@@ -31,7 +29,8 @@ namespace PROINSA_GP_WEB.Models
             else
                 return new Respuesta();
         }
-        public Respuesta DatosNominaEmpleadoIngresosReporte(Report report)
+
+        public Respuesta DatosNominaEmpleadoIngresosReporte(Reporte report)
         {
             string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Report/DatosNominaEmpleadoIngresosReporte";
             var result = _httpClient.PostAsJsonAsync(url, report).Result;
@@ -40,7 +39,8 @@ namespace PROINSA_GP_WEB.Models
             else
                 return new Respuesta();
         }
-        public Respuesta DatosNominaEmpleadoReporte(Report report)
+
+        public Respuesta DatosNominaEmpleadoReporte(Reporte report)
         {
             string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Report/DatosNominaEmpleadoReporte";
             var result = _httpClient.PostAsJsonAsync(url, report).Result;
@@ -61,7 +61,6 @@ namespace PROINSA_GP_WEB.Models
                 return new Respuesta();
         }
 
-
         public Respuesta EmpleadosReporte()
         {
             string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Documentos/EmpleadosReporte";
@@ -80,6 +79,7 @@ namespace PROINSA_GP_WEB.Models
             else
                 return new Respuesta();
         }
+
         public Respuesta NominaGeneralReporte(string fechaSeleccionada)
         {
 
@@ -90,7 +90,8 @@ namespace PROINSA_GP_WEB.Models
             else
                 return new Respuesta();
         }
-        public Respuesta ObtenerSolicitudEmpleadoPeriodoReporte(Report report)
+
+        public Respuesta ObtenerSolicitudEmpleadoPeriodoReporte(Reporte report)
         {
             string url = iConfiguration.GetSection("Llaves:UrlApi").Value + "Report/ObtenerSolicitudEmpleadoPeriodoReporte";
             var result = _httpClient.PostAsJsonAsync(url, report).Result;
@@ -99,6 +100,7 @@ namespace PROINSA_GP_WEB.Models
             else
                 return new Respuesta();
         }
+
         public Respuesta ConsultarNombreEmpleado(long EMPLEADO_ID)
         {
 
@@ -109,6 +111,5 @@ namespace PROINSA_GP_WEB.Models
             else
                 return new Respuesta();
         }
-
     }
 }

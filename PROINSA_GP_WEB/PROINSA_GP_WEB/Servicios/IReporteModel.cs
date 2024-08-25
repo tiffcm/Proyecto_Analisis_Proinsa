@@ -3,19 +3,17 @@ using System.Data;
 
 namespace PROINSA_GP_WEB.Servicios
 {
-    public interface IReportModel
+    public interface IReporteModel
     {
-
         Respuesta DatosEmpleadoNominaReporte(long EMPLEADO_ID);
-        Respuesta DatosNominaEmpleadoDeduccionesReporte(Report report);
-        Respuesta DatosNominaEmpleadoIngresosReporte(Report report);
-        Respuesta DatosNominaEmpleadoReporte(Report report);
+        Respuesta DatosNominaEmpleadoDeduccionesReporte(Reporte report);
+        Respuesta DatosNominaEmpleadoIngresosReporte(Reporte report);
+        Respuesta DatosNominaEmpleadoReporte(Reporte report);
         Respuesta DatosNominaGeneralReporte(string fechaSeleccionada);
         Respuesta EmpleadosReporte();
         Respuesta ConsultarTiposDocumento();
         Respuesta NominaGeneralReporte(string fechaSeleccionada);
-        Respuesta ObtenerSolicitudEmpleadoPeriodoReporte(Report report);
+        Respuesta ObtenerSolicitudEmpleadoPeriodoReporte(Reporte report);
         Respuesta ConsultarNombreEmpleado(long EMPLEADO_ID);
-
     }
 }
