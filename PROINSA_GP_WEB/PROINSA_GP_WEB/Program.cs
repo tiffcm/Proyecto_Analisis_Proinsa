@@ -21,7 +21,7 @@ builder.Services.AddSingleton<IAprobacionModel, AprobacionModel>();
 builder.Services.AddSingleton<IDocumentoModel, DocumentoModel>();
 builder.Services.AddSingleton<IActividadModel, ActividadModel>();
 builder.Services.AddSingleton<INominaModel, NominaModel>();
-builder.Services.AddSingleton<IReportModel, ReportModel>();
+builder.Services.AddSingleton<IReporteModel, ReporteModel>();
 
 // Para autenticación con AZURE
 builder.Services.AddAuthentication().AddMicrosoftAccount(opciones =>
