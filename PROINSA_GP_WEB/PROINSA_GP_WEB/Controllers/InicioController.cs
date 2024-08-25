@@ -26,12 +26,6 @@ namespace PROINSA_GP_WEB.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult RecuperarContrasenna()
-        {
-            return View();
-        }
-
         private readonly SignInManager<IdentityUser> signInManager;
         private readonly UserManager<IdentityUser> userManager;
         private readonly IUsuarioModel iUsuarioModel;

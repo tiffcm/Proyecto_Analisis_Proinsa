@@ -97,12 +97,12 @@
                 button.setAttribute('data-toast-id', toastId);
             });
         });
-        
+
         toastButtons.forEach(button => {
             button.addEventListener('click', function () {
                 var toastId = this.getAttribute('data-toast-id');
                 localStorage.setItem('showToastId', toastId);
-                window.location.href = '/Home/Principal'; 
+                window.location.href = '/Home/Principal';
             });
         });
     });
