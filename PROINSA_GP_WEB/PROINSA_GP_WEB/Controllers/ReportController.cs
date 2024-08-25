@@ -1,25 +1,28 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PROINSA_GP_WEB.Entidad;
 using PROINSA_GP_WEB.Models;
+using PROINSA_GP_WEB.Servicios;
 using System.Net;
 
 namespace PROINSA_GP_WEB.Controllers
 {
-    public class ReportController : Controller
+    public class ReportController(IReportModel _iReportModel) : Controller
     {
-        private readonly HttpClient _httpClient;
-
-        public ReportController(HttpClient httpClient)
-        {
-            _httpClient = httpClient;
-        }
-
+        
 
         [Seguridad]
         [HttpGet]
         public IActionResult DownloadReport()
         {
-            
+
+            long? ID_EMPLEADO = HttpContext.Session.GetInt32("ID_EMPLEADO");
+            if (ID_EMPLEADO == null)
+            {
+                return RedirectToAction("Login"); // Redirige a login si el usuario no está autenticado
+            }
+
+            /// Se deben llamar los SPs para las vistas de reportes
+
             return View();
         }
 
