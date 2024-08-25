@@ -8,20 +8,20 @@
 
 <div class="card mb-4">
     <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Actualizar información de un usuario</h5>
-   <div class="card-body">
+    <div class="card-body">
         @using (Html.BeginForm("MantenimientoUsuario", "Usuarios", FormMethod.Post))
         {
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Identificacion del usuario")
-                        @Html.TextBoxFor(m => m.IDENTIFICACION, new { @class = "form-control"})
+                        @Html.TextBoxFor(m => m.IDENTIFICACION, new { @class = "form-control", onkeypress = "return ValidarNumeros(event)", @style = "text-align:center;", required = true })
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("ID empleado")
-                        @Html.TextBoxFor(m => m.ID_EMPLEADO, new { @class = "form-control", @readonly = "true" })
+                        @Html.TextBoxFor(m => m.ID_EMPLEADO, new { @class = "form-control", @readonly = "true", @style = "text-align:center;" })
                     </div>
                 </div>
             </div>
@@ -30,29 +30,28 @@
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Nombre del usuario")
-                        @Html.TextBoxFor(m => m.NOMBRECOMPLETO, new { @class = "form-control"})
+                        @Html.TextBoxFor(m => m.NOMBRECOMPLETO, new { @class = "form-control", @style = "text-align:center;", required = true })
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Salario")
-                        @Html.TextBoxFor(m => m.SALARIO, new { @class = "form-control" })
+                        @Html.TextBoxFor(m => m.SALARIO, new { @class = "form-control", onkeypress = "return ValidarNumeros(event)", @style = "text-align:center;", required = true })
                     </div>
                 </div>
             </div>
-
             <div class="row">
-				@* <div class="col-md-6">
-					<div class="mb-4">
-						@Html.Label("Foto")
-						@Html.TextBoxFor(m => m., new { @class = "form-control" })
-					</div>
-                </div> *@
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Correo Electrónico")
-                        @Html.TextBoxFor(m => m.CORREO, new { @class = "form-control"})
+                        @Html.TextBoxFor(m => m.CORREO, new { @class = "form-control", @style = "text-align:center;", required = true })
                         @Html.HiddenFor(m => m.CORREO_ID)
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        @Html.Label("Estado")
+                        @Html.TextBoxFor(m => m.ESTADO, new { @class = "form-control", @readonly = "true", @style = "text-align:center;" })
                     </div>
                 </div>
             </div>
@@ -61,30 +60,30 @@
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Cargo actual")
-                        @Html.TextBoxFor(m => m.CARGO, new { @class = "form-control", @readonly = "true" })
+                        @Html.TextBoxFor(m => m.CARGO, new { @class = "form-control", @readonly = "true", @style = "text-align:center;" })
                     </div>
                 </div>
-                 <div class="col-md-6">
+                <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Cargos disponibles")
-                        @Html.DropDownListFor(m => m.ID_CARGO, new SelectList(ViewBag.CargoList, "Value", "Text"), new { @class = "form-control" })
+                        @Html.DropDownListFor(m => m.ID_CARGO, new SelectList(ViewBag.CargoList, "Value", "Text"), new { @class = "form-control", @style = "text-align:center;" })
                     </div>
-                </div> 
+                </div>
             </div>
             <!-- Codigo HORARIO -->
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Horario actual")
-                        @Html.TextBoxFor(m => m.NOMBRE_HL, new { @class = "form-control", @readonly = "true" })
+                        @Html.TextBoxFor(m => m.NOMBRE_HL, new { @class = "form-control", @readonly = "true", @style = "text-align:center;" })
                     </div>
                 </div>
-                 <div class="col-md-6">
+                <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Horarios disponibles")
-                        @Html.DropDownListFor(m => m.ID_HORARIOLABORAL, new SelectList(ViewBag.HorarioList, "Value", "Text"), new { @class = "form-control" })
+                        @Html.DropDownListFor(m => m.ID_HORARIOLABORAL, new SelectList(ViewBag.HorarioList, "Value", "Text"), new { @class = "form-control", @style = "text-align:center;" })
                     </div>
-                </div> 
+                </div>
             </div>
 
             <!-- Codigo DEPARTAMENTO -->
@@ -92,29 +91,13 @@
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Departamento actual")
-                        @Html.TextBoxFor(m => m.DEPARTAMENTO, new { @class = "form-control", @readonly = "true" })
+                        @Html.TextBoxFor(m => m.DEPARTAMENTO, new { @class = "form-control", @readonly = "true", @style = "text-align:center;" })
                     </div>
                 </div>
-                 <div class="col-md-6">
+                <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Departamentos disponibles")
-                        @Html.DropDownListFor(m => m.ID_DEPARTAMENTO, new SelectList(ViewBag.DepartamentoList, "Value", "Text"), new { @class = "form-control" })
-                    </div>
-                </div>
-            </div> 
-
-            <!-- Codigo DIRECCION -->
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-4">
-                        @Html.Label("Direccion")
-                        @Html.TextBoxFor(m => m.DIRRECION, new { @class = "form-control"})
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-4">
-                        @Html.Label("Estado")
-                        @Html.TextBoxFor(m => m.ESTADO, new { @class = "form-control", @readonly = "true" })
+                        @Html.DropDownListFor(m => m.ID_DEPARTAMENTO, new SelectList(ViewBag.DepartamentoList, "Value", "Text"), new { @class = "form-control", @style = "text-align:center;" })
                     </div>
                 </div>
             </div>
@@ -129,7 +112,7 @@
                         <div class="mb-3 col-md-6">
                             @Html.HiddenFor(m => m.TELEFONOS![i].ID_TELEFONO, new { Name = $"TELEFONOS[{i}].ID_TELEFONO" })
                             @Html.Label("Telefono #" + (i + 1))
-                            @Html.TextBoxFor(m => m.TELEFONOS![i].TELEFONO, new { @class = "form-control", Name = $"TELEFONOS[{i}].TELEFONO" })
+                            @Html.TextBoxFor(m => m.TELEFONOS![i].TELEFONO, new { @class = "form-control", onkeypress = "return ValidarNumeros(event)", @style = "text-align:center;", required = true, Name = $"TELEFONOS[{i}].TELEFONO" })
                         </div>
                     }
                 }
@@ -144,25 +127,35 @@
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Rol actual")
-                        @Html.TextBoxFor(m => m.NOMBREROL, new { @class = "form-control", @readonly = "true" })
+                        @Html.TextBoxFor(m => m.NOMBREROL, new { @class = "form-control", @readonly = "true", @style = "text-align:center;" })
                     </div>
                 </div>
-                 <div class="col-md-6">
+                <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Roles disponibles")
-                        @Html.DropDownListFor(m => m.IDROL, new SelectList(ViewBag.RolesList, "Value", "Text"), new { @class = "form-control" })
+                        @Html.DropDownListFor(m => m.IDROL, new SelectList(ViewBag.RolesList, "Value", "Text"), new { @class = "form-control", @style = "text-align:center;" })
                     </div>
-                </div> 
+                </div>
 
-            </div> 
+            </div>
+
+            <!-- Codigo DIRECCION -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mb-4">
+                        @Html.Label("Direccion")
+                        @Html.TextAreaFor(m => m.DIRRECION, new { @class = "form-control", @style = "text-align:center;", required = true })
+                    </div>
+                </div>
+            </div>
 
             <!-- BOTTON ACTUALIZAR-->
             <div style="display:grid; place-items:center;">
                 <div class="mt-4">
-                    <button type="submit" class="btn btn-primary">Actualizar usuario</button>
+                    <button type="submit" class="btn btn-primary toastBtn" id="submitButton">Actualizar usuario</button>
                 </div>
-            </div> 
-            
+            </div>
+
         }
         <!-- Botón para cambiar el estado del cliente -->
         @using (Html.BeginForm("CambiarEstadoUsuarioVista", "Usuarios", new { IdEmpleado = Model.ID_EMPLEADO }, FormMethod.Post))
@@ -175,9 +168,7 @@
         }
     </div>
 </div>
-
-<!-- Bootstrap JS and Popper.js -->
+<script src="~/js/validacionesnumeros.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.5/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
-<
-      
+<script src="~/js/toastshow.js"></script>

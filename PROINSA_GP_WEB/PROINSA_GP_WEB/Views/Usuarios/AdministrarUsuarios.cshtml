@@ -1,107 +1,142 @@
 ﻿@model List<PROINSA_GP_WEB.Entidad.Usuario>
 @{
-	ViewBag.Title = "AdministrarUsuarios";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "AdministrarUsuarios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Administrativo / Administrar cuentas /</span> Usuarios</h4>
 
-<!-- Content wrapper -->
-<div class="content-wrapper">
-	<!-- Content -->
-	<div class="container-xxl flex-grow-1 container-p-y">
-		<!-- Basic Bootstrap Table -->
-		<div class="card">
-			<h5 class="card-header">Usuarios registrados</h5>
-			@using (Html.BeginForm("AdministrarUsuarios", "Usuarios", FormMethod.Post))
-			{
-				@if (Model != null && Model.Any())
-				{
-					<div class="table-responsive text-nowrap">
-						<table class="table">
-							<thead>
-								<tr>
-									<th>Nombre completo</th>
-									<th>Rol</th>
-									<th>Departamento</th>
-									<th>Puesto</th>
-									<th>Estado</th>
-									<th>Acciones</th>
-								</tr>
-							</thead>
-							<tbody class="table-border-bottom-0">
-								@foreach (var item in Model)
-								{
-									<tr>
 
-										<td>
-											@item.NOMBRECOMPLETO
-										</td>
-										<td>
-											@item.NOMBREROL
-										</td>
-										<td>
-											@item.DEPARTAMENTO
-										</td>
-										<td>
-											@item.CARGO
-										</td>
-										<td>
-											@item.ESTADO
-										</td>
-										<td>
-											<a class="btn btn-primary" asp-action="MantenimientoUsuario" asp-route-IDEmpleado="@item.ID_EMPLEADO" name="IDEmpleado" id="IDEmpleado">Editar <i class="bi bi-pen"></i></a>
-											@if (item.ESTADO != "Activo")
-											{
-											<a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalUsuario_@item.ID_EMPLEADO" asp-action="CambiarEstadoUsuario" asp-route-Id="@item.ID_EMPLEADO">Activar</a>
-											} else
-											{
-											<a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalUsuario_@item.ID_EMPLEADO" asp-action="CambiarEstadoUsuario" asp-route-Id="@item.ID_EMPLEADO">Desactivar</a>
-											}																						
-											<!-- Modal -->
-											<div class="modal fade" id="modalUsuario_@item.ID_EMPLEADO" tabindex="-1" aria-labelledby="modalUsuarioLabel_@item.ID_EMPLEADO" aria-hidden="true">
-												<div class="modal-dialog">
-													<div class="modal-content">
-														<div class="modal-header">
-															<h5 class="modal-title" id="modalUsuarioLabel">Usuario</h5>
-															<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-														</div>
-														<div class="modal-body">
-															<h6>¿Desea cambiar el estado del usuario?</h6>
-															<form asp-controller="Usuarios" asp-action="CambiarEstadoUsuario" method="POST">
-																<div class="form-group mb-3">
-																	<!-- Campo oculto para enviar el ID del usuario -->
-																	<input type="hidden" name="IdEmpleado" id="IdEmpleado" value="@item.ID_EMPLEADO" />
-																	<!-- Muestra el ID del usuario en un elemento de texto (solo para visualización) -->
-																	<label>ID del usuario:</label>
-																	<span>@item.ID_EMPLEADO</span>
-																</div>
-																<div class="form-group mb-3">
-																	<label>Nombre del usuario:</label>
-																	<span class="text-black">@item.NOMBRECOMPLETO</span>
-																</div>
-																<div class="modal-footer d-flex justify-content-center">
-																	<input type="submit" value="Confirmar" class="btn btn-danger" />
-																</div>
-															</form>
-														</div>
-													</div>
-												</div>
-											</div>
-										</td>
-									</tr>
-								}
-							</tbody>
-						</table>
-					</div>
-				}
-				else
-				{
-					<p>No hay usuarios registrados aun</p>
-				}
-			}
-		</div>
-		<!--/ Basic Bootstrap Table -->
-	</div>
+
+<div class="card-body">
+    <div class="card">
+        <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Usuarios registrados</h5>
+        <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4 m-4">
+            <div class="item">
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="striped-items-preview">
+                        @using (Html.BeginForm("AdministrarUsuarios", "Usuarios", FormMethod.Post))
+                        {
+                            @if (Model != null && Model.Any())
+                            {
+                                <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                                    <table id="dataTable" class="table table-bordered table-striped dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
+                                        <thead>
+                                            <tr>
+                                                <th>Nombre completo</th>
+                                                <th>Rol</th>
+                                                <th>Departamento</th>
+                                                <th>Puesto</th>
+                                                <th>Estado</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="table-border-bottom-0">
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr>
+
+                                                    <td>
+                                                        @item.NOMBRECOMPLETO
+                                                    </td>
+                                                    <td>
+                                                        @item.NOMBREROL
+                                                    </td>
+                                                    <td>
+                                                        @item.DEPARTAMENTO
+                                                    </td>
+                                                    <td>
+                                                        @item.CARGO
+                                                    </td>
+                                                    <td>
+                                                        @item.ESTADO
+                                                    </td>
+                                                    <td style="text-align:center;">
+                                                        <a class="btn btn-primary m-2" asp-action="MantenimientoUsuario" asp-route-IDEmpleado="@item.ID_EMPLEADO" name="IDEmpleado" id="IDEmpleado">
+                                                            <i class="bi bi-pencil-square"></i>
+                                                        </a>
+                                                        @if (item.ESTADO != "Activo")
+                                                        {
+                                                            <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalUsuario_@item.ID_EMPLEADO" asp-action="CambiarEstadoUsuario" asp-route-Id="@item.ID_EMPLEADO">Activar</a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalUsuario_@item.ID_EMPLEADO" asp-action="CambiarEstadoUsuario" asp-route-Id="@item.ID_EMPLEADO">Inactivar</a>
+                                                        }                                                        
+                                                        <div class="modal fade" id="modalUsuario_@item.ID_EMPLEADO" tabindex="-1" aria-labelledby="modalUsuarioLabel_@item.ID_EMPLEADO" aria-hidden="true">
+                                                            <div class="modal-dialog">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="modalUsuarioLabel">Usuario</h5>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <h6>¿Desea cambiar el estado del usuario?</h6>
+                                                                        <form asp-controller="Usuarios" asp-action="CambiarEstadoUsuario" method="POST">
+                                                                            <div class="form-group mb-3">                                                                                
+                                                                                <input type="hidden" name="IdEmpleado" id="IdEmpleado" value="@item.ID_EMPLEADO" />                                                                                
+                                                                                <label>ID del usuario:</label>
+                                                                                <span>@item.ID_EMPLEADO</span>
+                                                                            </div>
+                                                                            <div class="form-group mb-3">
+                                                                                <label>Nombre del usuario:</label>
+                                                                                <span class="text-black">@item.NOMBRECOMPLETO</span>
+                                                                            </div>
+                                                                            <div class="modal-footer d-flex justify-content-center">
+                                                                                <input type="submit" value="Confirmar" class="btn btn-danger" />
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            }
+                            else
+                            {
+                                <p>No hay usuarios registrados aún</p>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<!-- Content wrapper -->
+
+<script src="~/js/datatable.js"></script>
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div class="bs-toast toast fade hide bg-success" id="btnActualizaMante" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <i class="bi bi-bell me-3"></i>
+            <div class="me-auto fw-semibold">Notificación</div>
+            <small>Hace un segundo</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Se actualizó la información correctamente.
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS y Popper.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.5/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {        
+        var showToastId = localStorage.getItem('showToastId');
+        if (showToastId) {
+            var toastElement = document.getElementById(showToastId);
+            if (toastElement) {
+                var toast = new bootstrap.Toast(toastElement);
+                toast.show();
+            }            
+            localStorage.removeItem('showToastId');
+        }
+    });
+</script>

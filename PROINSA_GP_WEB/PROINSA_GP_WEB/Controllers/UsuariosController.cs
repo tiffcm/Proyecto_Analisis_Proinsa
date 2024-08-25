@@ -155,8 +155,6 @@ namespace PROINSA_GP_WEB.Controllers
         {
 			var respuesta = _iUsuarioModel.EditarDatosVistaAdmin(usuario);
 			return RedirectToAction("AdministrarUsuarios", "Usuarios");
-
-
         }
 
         [Administrador]

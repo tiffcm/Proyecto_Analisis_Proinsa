@@ -82,13 +82,6 @@ namespace PROINSA_GP_WEB.Controllers
 
         [Seguridad]
         [HttpGet]
-        public IActionResult Constancias()
-        {
-            return View();
-        }
-
-        [Seguridad]
-        [HttpGet]
         public IActionResult CambiosHorario()
         {            
             CargarHorariosDisponibles();
@@ -120,13 +113,6 @@ namespace PROINSA_GP_WEB.Controllers
                 return RedirectToAction("Principal", "Home");
             }               
             ViewBag.msj = resp.MENSAJE;
-            return View();
-        }
-
-        [Seguridad]
-        [HttpGet]
-        public IActionResult ReporteSolicitudAntiguedad()
-        {
             return View();
         }
 

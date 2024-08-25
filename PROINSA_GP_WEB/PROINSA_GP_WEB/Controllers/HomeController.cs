@@ -22,11 +22,5 @@ namespace PROINSA_GP_WEB.Controllers
         {
             return View();
         }
-
-        [HttpGet]
-        public IActionResult Privacy()
-        {
-            return View();
-        }
     }
 }
