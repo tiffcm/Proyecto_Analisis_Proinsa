@@ -7,36 +7,33 @@ using System.Net;
 namespace PROINSA_GP_WEB.Controllers
 {
     public class ReportesController(IReporteModel _iReporteModel) : Controller
-    {        
+    {
+        // Vista principal para los reportes
         [Seguridad]
         [HttpGet]
         public IActionResult DownloadReport()
         {
-
             long? ID_EMPLEADO = HttpContext.Session.GetInt32("ID_EMPLEADO");
             if (ID_EMPLEADO == null)
             {
-                return RedirectToAction("Login"); // Redirige a login si el usuario no está autenticado
+                return RedirectToAction("Login", "Usuarios"); // Redirige a login si el usuario no está autenticado
             }
 
-            /// Se deben llamar los SPs para las vistas de reportes
+            // Llamar a los procedimientos almacenados para obtener datos necesarios para la vista, si aplica
 
             return View();
         }
 
+        // Método para descargar el reporte en formato Excel
         [HttpGet]
         public async Task<IActionResult> DownloadReportExcel(string reportName)
         {
             var reportUrl = $"http://tc-hp-cnd2016fn/ReportServer?/GestionPersonal/{reportName}&rs:Command=Render&rs:Format=EXCELOPENXML";
-            //url del servidor de reportes 
 
             var handler = new HttpClientHandler
             {
-                Credentials = new NetworkCredential("", "", "")
-
-                // colocar aca nombre de usuario , contrasenna y dominio de la maquina
+                Credentials = new NetworkCredential("username", "password", "domain") // Reemplaza con tus credenciales
             };
-
 
             using (var client = new HttpClient(handler))
             {
@@ -46,7 +43,7 @@ namespace PROINSA_GP_WEB.Controllers
                     if (response.IsSuccessStatusCode)
                     {
                         var content = await response.Content.ReadAsByteArrayAsync();
-                        return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "ReporteEmpleados.xlsx");
+                        return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"{reportName}.xlsx");
                     }
                     else
                     {
@@ -61,6 +58,7 @@ namespace PROINSA_GP_WEB.Controllers
             }
         }
 
+        // Método para descargar el reporte en formato PDF
         [HttpGet]
         public async Task<IActionResult> DownloadReportPdf(string reportName)
         {
@@ -68,7 +66,7 @@ namespace PROINSA_GP_WEB.Controllers
 
             var handler = new HttpClientHandler
             {
-                Credentials = new NetworkCredential("", "", "")
+                Credentials = new NetworkCredential("username", "password", "domain") // Reemplaza con tus credenciales
             };
 
             using (var client = new HttpClient(handler))
@@ -94,7 +92,37 @@ namespace PROINSA_GP_WEB.Controllers
             }
         }
 
-        ///// SPs para la vista
-        ///
+        // Método para previsualizar los datos del reporte en un modal
+        [HttpGet]
+        public IActionResult PreviewReport(string reportName, long? empleadoId)
+        {
+            // Aquí se llamaría al IReporteModel para obtener los datos necesarios para la previsualización.
+            // Dependiendo del reporte, puedes realizar diferentes llamadas.
+
+            Respuesta respuesta;
+
+            switch (reportName)
+            {
+                case "ReporteEmpleados":
+                    respuesta = _iReporteModel.DatosEmpleadoNominaReporte(empleadoId ?? 0); // Aquí se utilizaría un método adecuado
+                    break;
+                case "ReporteProyectos":
+                    // Implementar la lógica de obtención de datos para el reporte de proyectos
+                    respuesta = new Respuesta(); // Reemplaza con la llamada correcta
+                    break;
+                default:
+                    respuesta = new Respuesta { CODIGO = 0, MENSAJE = "Reporte no encontrado" };
+                    break;
+            }
+
+            if (respuesta.CODIGO == 1)
+            {
+                return PartialView("_PreviewReport", respuesta.CONTENIDO); // Renderizar una vista parcial con los datos
+            }
+            else
+            {
+                return Content($"Error al obtener los datos para la previsualización: {respuesta.MENSAJE}");
+            }
+        }
     }
 }
