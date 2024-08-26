@@ -4,17 +4,17 @@
 
     if (submitButton && form) {
         submitButton.addEventListener('click', function (event) {
-            var toastId = 'btnActualizaMante';
+            var toastId = 'btnEliminar';
             localStorage.setItem('showToastId', toastId);
         });
     }
 
-    // Manejar enlaces con clase toastBtn
-    var toastLinks = document.querySelectorAll('.toastBtn');
+    // Manejar enlaces con clase toastBtnEliminar
+    var toastLinks = document.querySelectorAll('.toastBtnE');
 
     toastLinks.forEach(function (link) {
         link.addEventListener('click', function (event) {
-            var toastId = 'btnActualizaMante';
+            var toastId = 'btnEliminar';
             localStorage.setItem('showToastId', toastId);
         });
     });

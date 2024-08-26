@@ -32,7 +32,7 @@ namespace PROINSA_GP_WEB.Controllers
             entidad.VER_DOCUMENTO = $"data:image/pdf;base64,{base64}";
             entidad.EMPLEADO_ID = IdEmpleado;
             var respuesta = iDocumentoModel.RegistrarDocumento(entidad);
-            return RedirectToAction("Principal", "Home");
+            return RedirectToAction("HistorialDocumentos", "Documentos");
         }
 
         [Seguridad]
@@ -40,7 +40,7 @@ namespace PROINSA_GP_WEB.Controllers
         public IActionResult RegistrarDocumentoAdmin()
         {
             var tiposDocumentos = iDocumentoModel.ConsultarTiposDocumento();
-            ViewBag.tiposDocumentos = JsonSerializer.Deserialize<List<SelectListItem>>((JsonElement)tiposDocumentos.CONTENIDO!);            
+            ViewBag.tiposDocumentos = JsonSerializer.Deserialize<List<SelectListItem>>((JsonElement)tiposDocumentos.CONTENIDO!);
             var empleadosEmpresa = iDocumentoModel.ConsultarEmpleados();
             ViewBag.empleadosEmpresa = JsonSerializer.Deserialize<List<SelectListItem>>((JsonElement)empleadosEmpresa.CONTENIDO!);
             return View();
@@ -49,13 +49,13 @@ namespace PROINSA_GP_WEB.Controllers
         [Seguridad]
         [HttpPost]
         public IActionResult RegistrarDocumentoAdmin(Documento entidad)
-        {            
+        {
             IFormFile archivo = Request.Form.Files["subirDocumento"]!;
             entidad.DOCUMENTO = ConvertirPDFBytes(archivo);
             string base64 = Convert.ToBase64String(entidad!.DOCUMENTO!);
-            entidad.VER_DOCUMENTO = $"data:image/pdf;base64,{base64}";            
+            entidad.VER_DOCUMENTO = $"data:image/pdf;base64,{base64}";
             var respuesta = iDocumentoModel.RegistrarDocumento(entidad);
-            return RedirectToAction("Principal", "Home");
+            return RedirectToAction("ConsultarDocumentos", "Documentos");
         }
 
         [Seguridad]
@@ -106,6 +106,7 @@ namespace PROINSA_GP_WEB.Controllers
                         }
                         viewModel.Documentos = datos!;
                     }
+                    viewModel.BusquedaRealizada = true;
                 }
 
                 return View(viewModel);
@@ -125,15 +126,24 @@ namespace PROINSA_GP_WEB.Controllers
             return RedirectToAction("ConsultarDocumentos");
         }
 
-
-
         [Seguridad]
         [HttpGet]
         public IActionResult EliminarDocumento(long q)
         {
             var respuesta = iDocumentoModel.EliminarDocumento(q);
             if (respuesta.CODIGO == 1)
-                return RedirectToAction("Principal", "Home");
+                return RedirectToAction("HistorialDocumentos", "Documentos");
+            else
+                return View();
+        }
+
+        [Seguridad]
+        [HttpGet]
+        public IActionResult EliminarDocumentoAdmin(long q)
+        {
+            var respuesta = iDocumentoModel.EliminarDocumento(q);
+            if (respuesta.CODIGO == 1)
+                return RedirectToAction("ConsultarDocumentos", "Documentos");
             else
                 return View();
         }
@@ -151,8 +161,8 @@ namespace PROINSA_GP_WEB.Controllers
                 string base64 = Convert.ToBase64String(documento!.DOCUMENTO!);
                 documento.VER_DOCUMENTO = $"data:application/pdf;base64,{base64}";
                 return View(documento);
-            }            
-            return RedirectToAction("Principal", "Home");
+            }
+            return RedirectToAction("HistorialDocumentos", "Documentos");
         }
 
         [Seguridad]
@@ -160,20 +170,61 @@ namespace PROINSA_GP_WEB.Controllers
         public IActionResult ActualizarDocumento(Documento entidad)
         {
             IFormFile archivo = Request.Form.Files["subirDocumento"]!;
-            if (archivo !=null)
+            if (archivo != null)
             {
                 entidad.DOCUMENTO = ConvertirPDFBytes(archivo);
                 string base64 = Convert.ToBase64String(entidad!.DOCUMENTO!);
                 entidad.VER_DOCUMENTO = $"data:image/pdf;base64,{base64}";
                 var respuesta = iDocumentoModel.ActualizarDocumento(entidad);
                 if (respuesta!.CODIGO == 1)
-                    return RedirectToAction("Principal", "Home");
+                    return RedirectToAction("HistorialDocumentos", "Documentos");
             }
             else
             {
                 var respuesta = iDocumentoModel.ActualizarDocumento(entidad);
                 if (respuesta!.CODIGO == 1)
-                    return RedirectToAction("Principal", "Home");
+                    return RedirectToAction("HistorialDocumentos", "Documentos");
+            }
+            return View();
+        }
+
+        [Seguridad]
+        [HttpGet]
+        public IActionResult ActualizarDocumentoAdmin(long q)
+        {
+            var tiposDocumentos = iDocumentoModel.ConsultarTiposDocumento();
+            ViewBag.tiposDocumentos = JsonSerializer.Deserialize<List<SelectListItem>>((JsonElement)tiposDocumentos.CONTENIDO!);
+            var resultado = iDocumentoModel.ConsultarDocumentoEmpleado(q);
+            if (resultado.CODIGO == 1)
+            {
+                var documento = JsonSerializer.Deserialize<Documento>((JsonElement)resultado.CONTENIDO!);
+                string base64 = Convert.ToBase64String(documento!.DOCUMENTO!);
+                documento.VER_DOCUMENTO = $"data:application/pdf;base64,{base64}";
+                return View(documento);
+            }
+            return RedirectToAction("ConsultarDocumentos", "Documentos");
+        }
+
+
+        [Seguridad]
+        [HttpPost]
+        public IActionResult ActualizarDocumentoAdmin(Documento entidad)
+        {
+            IFormFile archivo = Request.Form.Files["subirDocumento"]!;
+            if (archivo != null)
+            {
+                entidad.DOCUMENTO = ConvertirPDFBytes(archivo);
+                string base64 = Convert.ToBase64String(entidad!.DOCUMENTO!);
+                entidad.VER_DOCUMENTO = $"data:image/pdf;base64,{base64}";
+                var respuesta = iDocumentoModel.ActualizarDocumento(entidad);
+                if (respuesta!.CODIGO == 1)
+                    return RedirectToAction("ConsultarDocumentos", "Documentos");
+            }
+            else
+            {
+                var respuesta = iDocumentoModel.ActualizarDocumento(entidad);
+                if (respuesta!.CODIGO == 1)
+                    return RedirectToAction("ConsultarDocumentos", "Documentos");
             }
             return View();
         }
