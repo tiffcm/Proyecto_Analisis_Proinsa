@@ -22,59 +22,106 @@
                 </div>
             }
         </div>
-        @if (Model.Documentos != null && Model.Documentos.Any())
+        @if (Model.BusquedaRealizada)
         {
-            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4 m-4">
-                <div class="item">
-                    <div class="tab-content">
-                        <div class="tab-pane show active" id="striped-items-preview">
-                            <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-                                <table id="dataTable" class="table table-bordered table-striped dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
-                                    <thead>
-                                        <tr>
-                                            <th>TIPO DE DOCUMENTO</th>
-                                            <th>NOMBRE DEL DOCUMENTO</th>
-                                            <th>COMENTARIO</th>
-                                            <th>ELIMINAR</th>
-                                            <th>ACTUALIZAR</th>
-                                            <th>DESCARGAR</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="align_dataTable_text">
-                                        @foreach (var item in Model.Documentos)
-                                        {
+            @if (Model.Documentos != null && Model.Documentos.Any())
+            {
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4 m-4">
+                    <div class="item">
+                        <div class="tab-content">
+                            <div class="tab-pane show active" id="striped-items-preview">
+                                <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                                    <table id="dataTable" class="table table-bordered table-striped dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
+                                        <thead>
                                             <tr>
-                                                <td>@item.NOMBRE_TIPODOCUMENTO</td>
-                                                <td>@item.NOMBRE_DOCUMENTO</td>
-                                                <td>@item.COMENTARIO</td>
-                                                <td>
-                                                    <a href="@Url.Action("EliminarDocumento", "Documentos", new { q = item.ID_EMPLEADODOCUMENTO })" class="btn btn-primary">Eliminar</a>
-                                                </td>
-                                                <td>
-                                                    <a href="@Url.Action("ActualizarDocumento", "Documentos", new { q = item.ID_EMPLEADODOCUMENTO })" class="btn btn-primary">Actualizar</a>
-                                                </td>
-                                                <td>
-                                                    <a href="@item.VER_DOCUMENTO" class="btn btn-primary" download>Descargar</a>
-                                                </td>
+                                                <th>TIPO DE DOCUMENTO</th>
+                                                <th>NOMBRE DEL DOCUMENTO</th>
+                                                <th>COMENTARIO</th>
+                                                <th>ELIMINAR</th>
+                                                <th>ACTUALIZAR</th>
+                                                <th>DESCARGAR</th>
                                             </tr>
-                                        }
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody class="align_dataTable_text">
+                                            @foreach (var item in Model.Documentos)
+                                            {
+                                                <tr>
+                                                    <td>@item.NOMBRE_TIPODOCUMENTO</td>
+                                                    <td>@item.NOMBRE_DOCUMENTO</td>
+                                                    <td>@item.COMENTARIO</td>
+                                                    <td>
+                                                        <a href="@Url.Action("EliminarDocumentoAdmin", "Documentos", new { q = item.ID_EMPLEADODOCUMENTO })" class="btn btn-primary toastBtnE" id="submitButton">Eliminar</a>
+                                                    </td>
+                                                    <td>
+                                                        <a href="@Url.Action("ActualizarDocumentoAdmin", "Documentos", new { q = item.ID_EMPLEADODOCUMENTO })" class="btn btn-primary">Actualizar</a>
+                                                    </td>
+                                                    <td>
+                                                        <a href="@item.VER_DOCUMENTO" class="btn btn-primary" download="@item.NOMBRE_DOCUMENTO">Descargar</a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            }
+            else
+            {
+                <div class="alert alert-success m-4" role="alert" style="text-align:center;">
+                    No hay documentos disponibles para este empleado.
+                </div>
+            }
         }
         else
         {
-            <div class="alert alert-warning m-4" role="alert">
-                No hay documentos disponibles para este empleado.
+            <div class="alert alert-info m-4" role="alert" style="text-align:center;">
+                Por favor seleccione un empleado para realizar la búsqueda de documentos.
             </div>
         }
     </div>
 </div>
 <script src="~/js/datatable.js"></script>
+<script src="~/js/toasteliminar.js"></script>
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div class="bs-toast toast fade hide bg-success" id="btnActualizaMante" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <i class="bi bi-bell me-3"></i>
+            <div class="me-auto fw-semibold">Notificación</div>
+            <small>Hace un segundo</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Se registró la información correctamente.
+        </div>
+    </div>
+    <div class="bs-toast toast fade hide bg-success" id="btnEliminar" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <i class="bi bi-bell me-3"></i>
+            <div class="me-auto fw-semibold">Notificación</div>
+            <small>Hace un segundo</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            El dato se eliminó con éxito.
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const showToastId = localStorage.getItem('showToastId');
+        if (showToastId) {
+            const toastElement = document.getElementById(showToastId);
+            if (toastElement) {
+                const toast = new bootstrap.Toast(toastElement);
+                toast.show();
+            }
+            localStorage.removeItem('showToastId');
+        }
+    });
+</script>
 <script>
     document.getElementById('empleadoDropdown').addEventListener('change', function () {
         var empleadoId = this.value;

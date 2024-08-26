@@ -41,7 +41,7 @@
                             <div class="col-md-12">
                                 <div class="mb-3">
                                     @Html.Label("Comentario:")
-                                    @Html.TextAreaFor(m => m.COMENTARIO, new { @class = "form-control", @required = "true" })
+                                    @Html.TextAreaFor(m => m.COMENTARIO, new { @class = "form-control", @style = "text-align:center;", @required = "true" })
                                 </div>
                             </div>
                         </div>
@@ -52,7 +52,7 @@
                                     @if (Model.VER_DOCUMENTO != null)
                                     {
                                         <div>
-                                            <a href="@Model.VER_DOCUMENTO" class="btn btn-primary mt-2 col-md-12" download>Descargar</a>
+                                            <a href="@Model.VER_DOCUMENTO" class="btn btn-primary mt-2 col-md-12" download="@Model.NOMBRE_DOCUMENTO">Descargar</a>
                                         </div>
                                     }                                    
                                 </div>
@@ -64,7 +64,8 @@
                                         <span class="d-none d-sm-block">Subir archivo</span>
                                         <i class="bx bx-subirDocumento d-block d-sm-none"></i>
                                         <input type="file" id="subirDocumento" name="subirDocumento" class="account-file-input" hidden accept=".pdf" />
-                                    </label>                                    
+                                    </label>
+                                    <div id="fileInfo" style="text-align:center; margin-top:10px;"></div>
                                 </div>
                             </div>
                         </div>
@@ -77,3 +78,23 @@
         </div>
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.5/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+<script src="~/js/toastshow.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const fileInput = document.getElementById('subirDocumento');
+        const fileInfo = document.getElementById('fileInfo');
+
+        fileInput.addEventListener('change', function () {
+            const file = fileInput.files[0];
+            if (file) {
+                const fileName = file.name;
+                const fileSize = (file.size / 1024 / 1024).toFixed(2);
+                fileInfo.textContent = `Nombre del archivo: ${fileName}, Tamaño: ${fileSize} MB`;
+            } else {
+                fileInfo.textContent = '';
+            }
+        });
+    });
+</script>
