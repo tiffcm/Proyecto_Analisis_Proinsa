@@ -22,7 +22,7 @@
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Proyecto")
-                        @Html.DropDownListFor(m => m.PROYECTO_ID, new SelectList(ViewBag.proyectoEMList, "Value", "Text"), "Selecciona un proyecto..", new { @class = "form-control" })
+                        @Html.DropDownListFor(m => m.PROYECTO_ID, new SelectList(ViewBag.proyectoEMList, "Value", "Text"), "Selecciona un proyecto..", new { @class = "form-control", @required = "True" })
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -52,7 +52,7 @@
                 <div class="col-md-12">
                     <div class="mb-4">
                         @Html.Label("Detalle")
-                        @Html.TextAreaFor(m => m.DETALLE, new { @class = "form-control" })
+                        @Html.TextAreaFor(m => m.DETALLE, new { @class = "form-control", @required = "True" })
                     </div>
                 </div>
 

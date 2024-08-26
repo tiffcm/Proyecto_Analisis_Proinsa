@@ -21,7 +21,7 @@
                 <div class="col-md-12">
                     <div class="mb-4">
                         @Html.Label("Nombre")
-                        @Html.TextBoxFor(m => m.NOMBRE, new { @class = "form-control" })
+                        @Html.TextBoxFor(m => m.NOMBRE, new { @class = "form-control", @required = "True" })
                     </div>
                 </div>
             </div>
@@ -30,13 +30,13 @@
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Pais")
-                        @Html.TextBoxFor(m => m.PAIS, new { @class = "form-control"})
+                        @Html.TextBoxFor(m => m.PAIS, new { @class = "form-control", @required = "True" })
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Sector")
-                        @Html.TextBoxFor(m => m.SECTOR, new { @class = "form-control"})
+                        @Html.TextBoxFor(m => m.SECTOR, new { @class = "form-control", @required = "True" })
                     </div>
                 </div>
             </div>
@@ -45,7 +45,7 @@
                 <div class="col-md-12">
                     <div class="mb-4">
                         @Html.Label("Detalle")
-                        @Html.TextAreaFor(m => m.DETALLE, new { @class = "form-control"})
+                        @Html.TextAreaFor(m => m.DETALLE, new { @class = "form-control", @required = "True" })
                     </div>
                 </div>
             </div>

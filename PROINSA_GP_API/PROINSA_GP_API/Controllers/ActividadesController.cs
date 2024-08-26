@@ -268,7 +268,7 @@ namespace PROINSA_GP_API.Controllers
                 else
                 {
                     respuesta.CONTENIDO = 0;
-                    respuesta.MENSAJE = "No se logro agregar el cliente";
+                    respuesta.MENSAJE = "No se logro agregar el proyecto";
                     respuesta.CONTENIDO = false;
                     return Ok(respuesta);
                 }
@@ -496,7 +496,7 @@ namespace PROINSA_GP_API.Controllers
                 else
                 {
                     respuesta.CONTENIDO = 0;
-                    respuesta.MENSAJE = "No se logro agregar el cliente";
+                    respuesta.MENSAJE = "No se logro asignar el proyecto al empleado seleccionado";
                     respuesta.CONTENIDO = false;
                     return Ok(respuesta);
                 }
