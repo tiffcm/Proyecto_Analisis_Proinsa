@@ -235,8 +235,7 @@ namespace PROINSA_GP_API.Controllers
                     parametros.Add("@ID_EMPLEADO", usuario.ID_EMPLEADO);
                     parametros.Add("@IDENTIFICACION", usuario.IDENTIFICACION);
                     parametros.Add("@NOMBRECOMPLETO", usuario.NOMBRECOMPLETO);
-                    parametros.Add("@SALARIO", usuario.SALARIO);
-                    
+                    parametros.Add("@SALARIO", usuario.SALARIO);                    
                     parametros.Add("@CORREO_ID", usuario.CORREO_ID);
                     parametros.Add("@CARGO_ID", usuario.ID_CARGO);
                     parametros.Add("@HORARIOLABORAL_ID", usuario.ID_HORARIOLABORAL);
