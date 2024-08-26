@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PROINSA_GP_WEB.Entidad;
-using PROINSA_GP_WEB.Models;
 using PROINSA_GP_WEB.Servicios;
 using System.Net;
 
@@ -19,8 +18,7 @@ namespace PROINSA_GP_WEB.Controllers
                 return RedirectToAction("Login", "Usuarios"); // Redirige a login si el usuario no está autenticado
             }
 
-            // Llamar a los procedimientos almacenados para obtener datos necesarios para la vista, si aplica
-
+            // Preparar datos para la vista, si es necesario
             return View();
         }
 
@@ -96,19 +94,16 @@ namespace PROINSA_GP_WEB.Controllers
         [HttpGet]
         public IActionResult PreviewReport(string reportName, long? empleadoId)
         {
-            // Aquí se llamaría al IReporteModel para obtener los datos necesarios para la previsualización.
-            // Dependiendo del reporte, puedes realizar diferentes llamadas.
-
             Respuesta respuesta;
 
             switch (reportName)
             {
                 case "ReporteEmpleados":
-                    respuesta = _iReporteModel.DatosEmpleadoNominaReporte(empleadoId ?? 0); // Aquí se utilizaría un método adecuado
+                    respuesta = _iReporteModel.DatosEmpleadoNominaReporte(empleadoId ?? 0); // Llamada al SP adecuado
                     break;
                 case "ReporteProyectos":
-                    // Implementar la lógica de obtención de datos para el reporte de proyectos
-                    respuesta = new Respuesta(); // Reemplaza con la llamada correcta
+                    // Aquí se implementaría la lógica específica para el reporte de proyectos
+                    respuesta = new Respuesta { CODIGO = 0, MENSAJE = "Lógica para ReporteProyectos no implementada" };
                     break;
                 default:
                     respuesta = new Respuesta { CODIGO = 0, MENSAJE = "Reporte no encontrado" };
@@ -117,7 +112,8 @@ namespace PROINSA_GP_WEB.Controllers
 
             if (respuesta.CODIGO == 1)
             {
-                return PartialView("_PreviewReport", respuesta.CONTENIDO); // Renderizar una vista parcial con los datos
+                var reporteData = respuesta.CONTENIDO as Reporte;
+                return PartialView("_PreviewReport", reporteData); // Renderiza la vista parcial con los datos
             }
             else
             {
