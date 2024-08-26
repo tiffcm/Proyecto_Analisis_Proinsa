@@ -22,13 +22,13 @@
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Proyecto")
-                        @Html.DropDownListFor(m => m.PROYECTO_ID, new SelectList(ViewBag.proyectoEMList, "Value", "Text"), "Selecciona un proyecto..", new { @class = "form-control", @required = "True" })
+                        @Html.DropDownListFor(m => m.PROYECTO_ID, new SelectList(ViewBag.proyectoEMList, "Value", "Text"), "Selecciona un proyecto..", new { @class = "form-control", @style = "text-align:center;" })
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Total horas")
-                        @Html.TextBoxFor(m => m.TOTALHORAS, new { @class = "form-control", onkeypress = "return ValidarNumeros(event)", @required = "True" })
+                        @Html.TextBoxFor(m => m.TOTALHORAS, new { @class = "form-control", onkeypress = "return ValidarNumeros(event)", @required = "True", @style = "text-align:center;" })
                     </div>
                 </div>
             </div>
@@ -37,13 +37,13 @@
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Fecha Inicio")
-                        @Html.TextBoxFor(m => m.FECHA_INICIO, new { @class = "form-control", @type = "date", @required = "True", @id = "fechaInicioPicker" })
+                        @Html.TextBoxFor(m => m.FECHA_INICIO, new { @class = "form-control", @type = "date", @required = "True", @style = "text-align:center;", @id = "fechaInicioPicker" })
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Fecha Final")
-                        @Html.TextBoxFor(m => m.FECHA_FIN, new { @class = "form-control", @type = "date", @required = "True", @id = "fechaFinPicker" })
+                        @Html.TextBoxFor(m => m.FECHA_FIN, new { @class = "form-control", @type = "date", @required = "True", @style = "text-align:center;", @id = "fechaFinPicker" })
                     </div>
                 </div>
             </div>
@@ -52,7 +52,7 @@
                 <div class="col-md-12">
                     <div class="mb-4">
                         @Html.Label("Detalle")
-                        @Html.TextAreaFor(m => m.DETALLE, new { @class = "form-control", @required = "True" })
+                        @Html.TextAreaFor(m => m.DETALLE, new { @class = "form-control", @style = "text-align:center;", required = "True" })
                     </div>
                 </div>
 
@@ -60,13 +60,14 @@
 
             <div style="display:grid; place-items:center;">
                 <div class="mt-4">
-                    <button type="submit" class="btn btn-primary">Registrar Actividad </button>
+                    <button type="submit" class="btn btn-primary toastBtn" id="submitButton">Registrar Actividad </button>
                 </div>
             </div>
         }
     </div>
 </div>
 <script src="~/js/validacionesnumeros.js"></script>
+<script src="~/js/toastshow.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var today = new Date();

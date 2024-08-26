@@ -49,7 +49,7 @@ namespace PROINSA_GP_WEB.Controllers
 
 			if (respuesta!.CODIGO == 1)
 			{
-				return RedirectToAction("Principal", "Home");
+				return RedirectToAction("HistorialActividades", "Actividades");
 			}
 			ViewBag.msj = respuesta.MENSAJE;
 			return View();
@@ -268,7 +268,7 @@ namespace PROINSA_GP_WEB.Controllers
 
 			if (respuesta!.CODIGO == 1)
 			{
-				return RedirectToAction("Principal", "Home");
+				return RedirectToAction("ListaProyectos", "Actividades");
 			}
 
 			AsignacionEmpleadosContactoLista();

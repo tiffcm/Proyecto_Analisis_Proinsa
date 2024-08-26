@@ -21,24 +21,22 @@
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Proyecto:")
-                        @Html.DropDownListFor(m => m.PROYECTO_ID, new SelectList(ViewBag.ProyectoList, "Value", "Text"), "Selecciona un proyecto.." , new { @class = "form-control" })
+                        @Html.DropDownListFor(m => m.PROYECTO_ID, new SelectList(ViewBag.ProyectoList, "Value", "Text"), "Selecciona un proyecto..", new { @class = "form-control", @style = "text-align:center;" })
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Empleados")
-                        @Html.DropDownListFor(m => m.EMPLEADO_ID, new SelectList(ViewBag.EmpleadoList, "Value", "Text"), "Selecciona un empleado..", new { @class = "form-control" })
+                        @Html.DropDownListFor(m => m.EMPLEADO_ID, new SelectList(ViewBag.EmpleadoList, "Value", "Text"), "Selecciona un empleado..", new { @class = "form-control", @style = "text-align:center;" })
                     </div>
                 </div>
             </div>
 
             <div style="display:grid; place-items:center;">
                 <div class="mt-4">
-                    <button type="submit" class="btn btn-primary">Asignar Proyecto </button>
+                    <button type="submit" class="btn btn-primary toastBtn" id="submitButton">Asignar Proyecto </button>
                 </div>
             </div>
-
-
         }
     </div>
 </div>
@@ -46,4 +44,4 @@
 <!-- Bootstrap JS and Popper.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.5/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
-
+<script src="~/js/toastshow.js"></script>

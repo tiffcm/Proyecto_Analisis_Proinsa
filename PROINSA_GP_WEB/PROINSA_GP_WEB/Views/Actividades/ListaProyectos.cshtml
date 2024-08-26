@@ -1,75 +1,101 @@
 ﻿@model List<PROINSA_GP_WEB.Entidad.Actividad>
 @{
-	ViewBag.Title = "ListaProyectos";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "ListaProyectos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Actividades / </span> Clientes </h4>
 
-<!-- Content wrapper -->
-<div class="content-wrapper">
-	<!-- Content -->
-	<div class="container-xxl flex-grow-1 container-p-y">
-		<!-- Basic Bootstrap Table -->
-		<div class="card">
-			<h5 class="card-header">Clientes registrados</h5>
+<div class="card-body">
+    <div class="card">
+        <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Lista de proyectos:</h5>
+        <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4 m-4">
+            <div class="item">
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="striped-items-preview">
+                        @if (Model != null && Model.Any())
+                        {
+                            <div class="table-responsive text-nowrap">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
 
-			@if (Model != null && Model.Any())
-			{
-				<div class="table-responsive text-nowrap">
-					<table class="table">
-						<thead>
-							<tr>
+                                            <th>Nombre</th>
+                                            <th>Total Horas</th>
+                                            <th>Codigo Proyecto</th>
+                                            <th>Contacto</th>
+                                            <th>Cliente</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-border-bottom-0">
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
 
-								<th>Nombre</th>
-								<th>Total Horas</th>
-								<th>Codigo Proyecto</th>
-								<th>Contacto</th>
-								<th>Cliente</th>
-								<th>Acciones</th>
-							</tr>
-						</thead>
-						<tbody class="table-border-bottom-0">
-							@foreach (var item in Model)
-							{
-								<tr>
+                                                <td>
+                                                    @item.NOMBRE
+                                                </td>
+                                                <td>
+                                                    @item.TOTAL_HORAS
+                                                </td>
+                                                <td>
+                                                    @item.COD_PROYECTO
+                                                </td>
+                                                <td>
+                                                    @Html.HiddenFor(modelItem => @item.CONTACTO_ID)
+                                                    @item.NOMBRE_CONTACTO
+                                                </td>
+                                                <td>
+                                                    @Html.HiddenFor(modelItem => @item.ID_CLIENTE)
+                                                    @item.NOMBRE_CLIENTE
+                                                </td>
+                                                <td>
+                                                    <a class="btn btn-primary" asp-action="EditarProyecto" asp-route-IdPROYECTO="@item.ID_PROYECTO" name="IdPROYECTO" id="IdPROYECTO">Editar <i class="bi bi-pen"></i></a>
 
-									<td>
-										@item.NOMBRE
-									</td>
-									<td>
-										@item.TOTAL_HORAS
-									</td>
-									<td>
-										@item.COD_PROYECTO
-									</td>
-									<td>
-										@Html.HiddenFor(modelItem => @item.CONTACTO_ID)
-										@item.NOMBRE_CONTACTO
-									</td>
-									<td>
-										@Html.HiddenFor(modelItem => @item.ID_CLIENTE)
-										@item.NOMBRE_CLIENTE
-									</td>
-									<td>
-										<a class="btn btn-primary" asp-action="EditarProyecto" asp-route-IdPROYECTO="@item.ID_PROYECTO" name="IdPROYECTO" id="IdPROYECTO">Editar <i class="bi bi-pen"></i></a>
 
-										
-									</td>
-								</tr>
-							}
-						</tbody>
-					</table>
-				</div>
-			}
-			else
-			{
-				<p class="m-4">No hay proyectos registrados aun</p>
-				<a class="btn btn-primary m-4" asp-action="RegistrarProyecto">Registrar Proyecto <i class="bi bi-pen"></i></a>
-			}
-
-		</div>
-		<!--/ Basic Bootstrap Table -->
-	</div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="m-4">No hay proyectos registrados aun</p>
+                            <a class="btn btn-primary m-4" asp-action="RegistrarProyecto">Registrar Proyecto <i class="bi bi-pen"></i></a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<!-- Content wrapper -->
+<script src="~/js/datatable.js"></script>
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div class="bs-toast toast fade hide bg-success" id="btnActualizaMante" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <i class="bi bi-bell me-3"></i>
+            <div class="me-auto fw-semibold">Notificación</div>
+            <small>Hace un segundo</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Se registró la información correctamente.
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const showToastId = localStorage.getItem('showToastId');
+        if (showToastId) {
+            const toastElement = document.getElementById(showToastId);
+            if (toastElement) {
+                const toast = new bootstrap.Toast(toastElement);
+                toast.show();
+            }
+            localStorage.removeItem('showToastId');
+        }
+    });
+</script>

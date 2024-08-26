@@ -22,46 +22,41 @@
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Nombre")
-                        @Html.TextBoxFor(m => m.NOMBRE, new { @class = "form-control" })
+                        @Html.TextBoxFor(m => m.NOMBRE, new { @class = "form-control", @style = "text-align:center;", @required = "true" })
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Estado")
-                        @Html.TextBoxFor(m => m.ESTADO, new { @class = "form-control", @readonly = "true" })
+                        @Html.TextBoxFor(m => m.ESTADO, new { @class = "form-control", @style = "text-align:center;", @readonly = "true" })
                     </div>
                 </div>
             </div>
-
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Pais")
-                        @Html.TextBoxFor(m => m.PAIS, new { @class = "form-control" })
+                        @Html.TextBoxFor(m => m.PAIS, new { @class = "form-control", @style = "text-align:center;", @required = "true" })
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Sector")
-                        @Html.TextBoxFor(m => m.SECTOR, new { @class = "form-control" })
+                        @Html.TextBoxFor(m => m.SECTOR, new { @class = "form-control", @style = "text-align:center;", @required = "true" })
                     </div>
                 </div>
             </div>
-
             <div class="row">
                 <div class="col-md-12">
                     <div class="mb-4">
                         @Html.Label("Detalle")
-                        @Html.TextAreaFor(m => m.DETALLE, new { @class = "form-control" })
+                        @Html.TextAreaFor(m => m.DETALLE, new { @class = "form-control", @style = "text-align:center;", @required = "true" })
                     </div>
                 </div>
-            </div>
-
-            
-
+            </div>          
             <div style="display:grid; place-items:center;">
                 <div class="mt-4">
-                    <button type="submit" class="btn btn-primary">Actualizar Cliente </button>
+                    <button type="submit" class="btn btn-primary toastBtn" id="submitButton">Actualizar Cliente </button>
                 </div>
             </div>
         }
@@ -76,8 +71,33 @@
         }
     </div>
 </div>
-
-<!-- Bootstrap JS and Popper.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.5/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
-
+<script src="~/js/datatable.js"></script>
+<script src="~/js/toastshow.js"></script>
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div class="bs-toast toast fade hide bg-success" id="btnActualizaMante" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <i class="bi bi-bell me-3"></i>
+            <div class="me-auto fw-semibold">Notificación</div>
+            <small>Hace un segundo</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Se registró la información correctamente.
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const showToastId = localStorage.getItem('showToastId');
+        if (showToastId) {
+            const toastElement = document.getElementById(showToastId);
+            if (toastElement) {
+                const toast = new bootstrap.Toast(toastElement);
+                toast.show();
+            }
+            localStorage.removeItem('showToastId');
+        }
+    });
+</script>

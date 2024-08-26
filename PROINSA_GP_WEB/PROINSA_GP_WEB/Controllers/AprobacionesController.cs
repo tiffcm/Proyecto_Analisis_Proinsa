@@ -19,13 +19,13 @@ namespace PROINSA_GP_WEB.Controllers
         {
             long? idEmpleado = HttpContext.Session.GetInt32("ID_EMPLEADO");
             var datos = iAprobacionModel.ObtenerSolicitudesEmpleado(idEmpleado);
-            if (datos != null)
+            if (datos!.CODIGO == 1)
             {
                 var aprobaciones = JsonSerializer.Deserialize<List<Aprobacion>>((JsonElement)datos.CONTENIDO!);
                 return View(aprobaciones);
             }
             else
-            return View();
+            return View(new List<Aprobacion>());
         }
 
         [Seguridad]
@@ -54,17 +54,12 @@ namespace PROINSA_GP_WEB.Controllers
                         ViewBag.Mensaje = "Error al actualizar la aprobación para la solicitud ID: " + detalle.ID_SOLICITUD;
                         return View(viewModel);
                     }
-                }
-
-                // Si todas las aprobaciones se actualizaron correctamente
+                }                
                 return RedirectToAction("Aprobaciones", "Aprobaciones");
-            }
-
-            // Si no hay detalles de aprobaciones
+            }            
             ViewBag.Mensaje = "No hay aprobaciones para procesar.";
             return View(viewModel);
         }
-
 
         [Seguridad]
         [Administrador]

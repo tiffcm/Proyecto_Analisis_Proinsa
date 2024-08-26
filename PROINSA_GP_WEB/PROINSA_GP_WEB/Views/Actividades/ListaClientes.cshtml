@@ -1,103 +1,128 @@
 ﻿@model List<PROINSA_GP_WEB.Entidad.Actividad>
 @{
-	ViewBag.Title = "ListaClientes";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "ListaClientes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Actividades / </span> Clientes </h4>
 
-<!-- Content wrapper -->
-<div class="content-wrapper">
-	<!-- Content -->
-	<div class="container-xxl flex-grow-1 container-p-y">
-		<!-- Basic Bootstrap Table -->
-		<div class="card">
-			<h5 class="card-header">Clientes registrados</h5>
-			
-				@if (Model != null && Model.Any())
-				{
-					<div class="table-responsive text-nowrap">
-						<table class="table">
-							<thead>
-								<tr>
-									
-									<th>Nombre</th>
-									<th>Pais</th>
-									<th>Sector</th>
-									<th>Estado</th>
-									<th>Acciones</th>
-								</tr>
-							</thead>
-							<tbody class="table-border-bottom-0">
-								@foreach (var item in Model)
-								{
-									<tr>
-										
-										<td>
-											@item.NOMBRE
-										</td>
-										<td>
-											@item.PAIS
-										</td>
-										<td>
-											@item.SECTOR
-										</td>
-										<td>
-											@item.ESTADO
-										</td>
-										<td>
-											<a class="btn btn-primary" asp-action="EditarCliente" asp-route-IdCLIENTE="@item.ID_CLIENTE" name="IdCLIENTE" id="IdCLIENTE">Editar <i class="bi bi-pen"></i></a>
-											@if (item.ESTADO != "Activo")
-											{
-												<a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalCliente_@item.ID_CLIENTE" asp-action="CambiarEstadoLista" asp-route-Id="@item.ID_CLIENTE">Activar</a>
-											}
-											else
-											{
-												<a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalCliente_@item.ID_CLIENTE" asp-action="CambiarEstadoLista" asp-route-Id="@item.ID_CLIENTE">Desactivar</a>
-											}
-											<!-- Modal -->
-											<div class="modal fade" id="modalCliente_@item.ID_CLIENTE" tabindex="-1" aria-labelledby="modalClienteLabel_@item.ID_CLIENTE" aria-hidden="true">
-												<div class="modal-dialog">
-													<div class="modal-content">
-														<div class="modal-header">
-															<h5 class="modal-title" id="modalClienteLabel">Usuario</h5>
-															<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-														</div>
-														<div class="modal-body">
-															<h6>¿Desea cambiar el estado del cliente?</h6>
-															@using (Html.BeginForm("CambiarEstadoLista", "Actividades", FormMethod.Post))
-															{
-																<div class="form-group mb-3">
-																	<input type="hidden" name="Id_CLIENTE" id="Id_CLIENTE" value="@item.ID_CLIENTE" />
-																	<label>ID del cliente:</label>
-																	<span>@item.ID_CLIENTE</span>
-																</div>
-																<div class="form-group mb-3">
-																	<label>Nombre del cliente:</label>
-																	<span class="text-black">@item.NOMBRE</span>
-																</div>
-																<div class="modal-footer d-flex justify-content-center">
-																	<input type="submit" value="Confirmar" class="btn btn-danger" />
-																</div>
-															}
-														</div>
-													</div>
-												</div>
-											</div>
-										</td>
-									</tr>
-								}
-							</tbody>
-						</table>
-					</div>
-				}
-				else
-				{
-					<p class="m-4">No hay clientes registrados aun</p>
-				}
-			
-		</div>
-		<!--/ Basic Bootstrap Table -->
-	</div>
+<div class="card-body">
+    <div class="card">
+        <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Clientes registrados:</h5>
+        <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4 m-4">
+            <div class="item">
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="striped-items-preview">
+                        @if (Model != null && Model.Any())
+                        {
+                            <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                                <table id="dataTable" class="table table-bordered table-striped dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Pais</th>
+                                            <th>Sector</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-border-bottom-0">
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @item.NOMBRE
+                                                </td>
+                                                <td>
+                                                    @item.PAIS
+                                                </td>
+                                                <td>
+                                                    @item.SECTOR
+                                                </td>
+                                                <td>
+                                                    @item.ESTADO
+                                                </td>
+                                                <td style="text-align:center;">
+                                                    <a class="btn btn-primary" asp-action="EditarCliente" asp-route-IdCLIENTE="@item.ID_CLIENTE" name="IdCLIENTE" id="IdCLIENTE">Editar <i class="bi bi-pen"></i></a>
+                                                    @if (item.ESTADO != "Activo")
+                                                    {
+                                                        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCliente_@item.ID_CLIENTE" asp-action="CambiarEstadoLista" asp-route-Id="@item.ID_CLIENTE">Activar</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCliente_@item.ID_CLIENTE" asp-action="CambiarEstadoLista" asp-route-Id="@item.ID_CLIENTE">Desactivar</a>
+                                                    }
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="modalCliente_@item.ID_CLIENTE" tabindex="-1" aria-labelledby="modalClienteLabel_@item.ID_CLIENTE" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="modalClienteLabel">Usuario</h5>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <h6>¿Desea cambiar el estado del cliente?</h6>
+                                                                    @using (Html.BeginForm("CambiarEstadoLista", "Actividades", FormMethod.Post))
+                                                                    {
+                                                                        <div class="form-group mb-3">
+                                                                            <input type="hidden" name="Id_CLIENTE" id="Id_CLIENTE" value="@item.ID_CLIENTE" />
+                                                                            <label>ID del cliente:</label>
+                                                                            <span>@item.ID_CLIENTE</span>
+                                                                        </div>
+                                                                        <div class="form-group mb-3">
+                                                                            <label>Nombre del cliente:</label>
+                                                                            <span class="text-black">@item.NOMBRE</span>
+                                                                        </div>
+                                                                        <div class="modal-footer toastBtn d-flex justify-content-center">
+                                                                            <input type="submit" value="Confirmar" id="submitButton" class="btn btn-primary" />
+                                                                        </div>
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="m-4">No hay clientes registrados aún</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<!-- Content wrapper -->
+<script src="~/js/datatable.js"></script>
+<script src="~/js/toastshow.js"></script>
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div class="bs-toast toast fade hide bg-success" id="btnActualizaMante" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <i class="bi bi-bell me-3"></i>
+            <div class="me-auto fw-semibold">Notificación</div>
+            <small>Hace un segundo</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Se registró la información correctamente.
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const showToastId = localStorage.getItem('showToastId');
+        if (showToastId) {
+            const toastElement = document.getElementById(showToastId);
+            if (toastElement) {
+                const toast = new bootstrap.Toast(toastElement);
+                toast.show();
+            }
+            localStorage.removeItem('showToastId');
+        }
+    });
+</script>

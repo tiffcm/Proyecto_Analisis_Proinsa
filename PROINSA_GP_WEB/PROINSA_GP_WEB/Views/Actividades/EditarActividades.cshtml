@@ -24,70 +24,82 @@
                     <div class="mb-4">
                         @Html.HiddenFor(m => m.ID_REGISTROACTIVIDAD)
                         @Html.Label("Proyecto")
-                        @Html.DropDownListFor(m => m.ID_PROYECTO, new SelectList(ViewBag.proyectoEMList, "Value", "Text"), new { @class = "form-control" })
+                        @Html.DropDownListFor(m => m.ID_PROYECTO, new SelectList(ViewBag.proyectoEMList, "Value", "Text"), new { @class = "form-control", @style = "text-align:center;" })
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Total horas")
-                        @Html.TextBoxFor(m => m.TOTALHORAS, new { @class = "form-control", @required = "True" })
+                        @Html.TextBoxFor(m => m.TOTALHORAS, new { @class = "form-control", @style = "text-align:center;", onkeypress = "return ValidarNumeros(event)", @required = "True" })
                     </div>
                 </div>
             </div>
-
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Fecha Inicio")
-                        @Html.TextBoxFor(m => m.FECHA_INICIO, new { @class = "form-control", @type = "date", @required = "True" })
+                        @Html.TextBoxFor(m => m.FECHA_INICIO, new { @class = "form-control", @type = "date", @style = "text-align:center;", @required = "True", @id = "fechaInicioPicker" })
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Fecha Final")
-                        @Html.TextBoxFor(m => m.FECHA_FINAL, new { @class = "form-control", @type = "date", @required = "True" })
+                        @Html.TextBoxFor(m => m.FECHA_FINAL, new { @class = "form-control", @type = "date", @style = "text-align:center;", @required = "True", @id = "fechaInicioPicker" })
                     </div>
                 </div>
             </div>
-
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Detalle")
-                        @Html.TextAreaFor(m => m.DETALLE, new { @class = "form-control" })
+                        @Html.TextAreaFor(m => m.DETALLE, new { @class = "form-control", @style = "text-align:center;", @required = "True" })
                     </div>
-                </div>
-                
+                </div>                
                  <div class="col-md-6">
                     <div class="mb-4">
                         @Html.Label("Info empleado:")
                         @Html.HiddenFor(m => m.EMPLEADO_ID)
-                        @Html.TextBoxFor(m => m.NOMBRE_EMPLEADO, new { @class = "form-control", @readonly = "true" })
+                        @Html.TextBoxFor(m => m.NOMBRE_EMPLEADO, new { @class = "form-control", @style = "text-align:center;", @readonly = "true" })
                     </div>
                 </div> 
             </div>
-
             <div style="display:grid; place-items:center;">
                 <div class="mt-4">
-                    <button type="submit" class="btn btn-primary">Editar Actividad </button>
+                    <button type="submit" class="btn btn-primary toastBtn" id="submitButton">Editar Actividad </button>
                 </div>
             </div>
-
-
         }
-        @* <!-- Botón para cambiar el estado del cliente -->
-        @using (Html.BeginForm("CambiarEstadoRegistroActividad", "Actividades", new { ID_REGISTROACTIVIDAD = Model.ID_REGISTROACTIVIDAD }, FormMethod.Post))
-        {
-            <div class="mt-4" style="text-align:center;">
-                <button type="submit" class="btn btn-secondary">
-                    Cambiar Estado a @(Model.ESTADO == "Activo" ? "Inactivo" : "Activo")
-                </button>
-            </div>
-        } *@
     </div>
 </div>
-
 <!-- Bootstrap JS and Popper.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.5/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+<script src="~/js/validacionesnumeros.js"></script>
+<script src="~/js/toastshow.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var today = new Date();
+        var maxDate = new Date();
+        maxDate.setMonth(maxDate.getMonth() + 3); // Fecha máxima (3 meses en el futuro)
 
+        // Formatear las fechas en el formato yyyy-mm-dd
+        var formattedToday = today.toISOString().split('T')[0];
+        var formattedMaxDate = maxDate.toISOString().split('T')[0];
+
+        // Obtener los elementos de los inputs de fecha
+        var fechaInicioPicker = document.getElementById('fechaInicioPicker');
+        var fechaFinPicker = document.getElementById('fechaFinPicker');
+
+        // Establecer el atributo min y max para fecha de inicio
+        if (fechaInicioPicker) {
+            fechaInicioPicker.setAttribute('min', formattedToday); // Incluye el día de ayer
+            fechaInicioPicker.setAttribute('max', formattedMaxDate); // Máximo 3 meses en el futuro
+        }
+
+        // Establecer el atributo min y max para fecha de fin
+        if (fechaFinPicker) {
+            fechaFinPicker.setAttribute('min', formattedToday); // Incluye el día de ayer
+            fechaFinPicker.setAttribute('max', formattedMaxDate); // Máximo 3 meses en el futuro
+        }
+    });
+</script>
