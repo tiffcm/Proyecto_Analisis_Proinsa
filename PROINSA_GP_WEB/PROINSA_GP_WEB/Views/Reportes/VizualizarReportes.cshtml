@@ -1,0 +1,173 @@
+﻿@{
+    ViewBag.Title = "DownloadReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"> Reportes / </span> Descargar reportes </h4>
+
+<div class="tabsNav">
+    <ul class="nav nav-tabs" id="reportTabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="reporte1-tab" data-bs-toggle="tab" href="#reporte1" role="tab" aria-controls="reporte1" aria-selected="true">Reporte de Empleados</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="reporte2-tab" data-bs-toggle="tab" href="#reporte2" role="tab" aria-controls="reporte2" aria-selected="false">Reporte de Proyectos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="reporte3-tab" data-bs-toggle="tab" href="#reporte3" role="tab" aria-controls="reporte3" aria-selected="false">Otro Reporte</a>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="reportTabsContent">
+        <!-- Tab Content for Reporte 1 -->
+        <div class="tab-pane fade show active" id="reporte1" role="tabpanel" aria-labelledby="reporte1-tab">
+            <h5 class="mt-4">Reporte de Empleados</h5>
+            <div class="table-responsive text-nowrap">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nombre del Reporte</th>
+                            <th>Acciones</th>
+                            <th>Descargar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Reporte de Empleados</td>
+                            <td>
+                                <!-- Button trigger modal for preview -->
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#previewModalEmpleado">
+                                    Previsualizar
+                                </button>
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Descargar
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <form asp-controller="Reportes" asp-action="DownloadReportPdf" method="get" style="display:inline;">
+                                                <button type="submit" name="reportName" value="ReporteEmpleados" class="dropdown-item">PDF</button>
+                                            </form>
+                                        </li>
+                                        <li>
+                                            <form asp-controller="Reportes" asp-action="DownloadReportExcel" method="get" style="display:inline;">
+                                                <button type="submit" name="reportName" value="ReporteEmpleados" class="dropdown-item">Excel</button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Tab Content for Reporte 2 -->
+        <div class="tab-pane fade" id="reporte2" role="tabpanel" aria-labelledby="reporte2-tab">
+            <h5 class="mt-4">Reporte de Proyectos</h5>
+            <div class="table-responsive text-nowrap">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nombre del Reporte</th>
+                            <th>Acciones</th>
+                            <th>Descargar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Reporte de Proyectos</td>
+                            <td>
+                                <!-- Button trigger modal for preview -->
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#previewModalProyecto">
+                                    Previsualizar
+                                </button>
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Descargar
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <form asp-controller="Reportes" asp-action="DownloadReportPdf" method="get" style="display:inline;">
+                                                <button type="submit" name="reportName" value="ReporteProyectos" class="dropdown-item">PDF</button>
+                                            </form>
+                                        </li>
+                                        <li>
+                                            <form asp-controller="Reportes" asp-action="DownloadReportExcel" method="get" style="display:inline;">
+                                                <button type="submit" name="reportName" value="ReporteProyectos" class="dropdown-item">Excel</button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Tab Content for Reporte 3 -->
+        <div class="tab-pane fade" id="reporte3" role="tabpanel" aria-labelledby="reporte3-tab">
+            <h5 class="mt-4">Otro Reporte</h5>
+            <p>Contenido para otro reporte.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Reporte Empleados Preview -->
+<div class="modal fade" id="previewModalEmpleado" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="previewModalLabel">Previsualización del Reporte de Empleados</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @* Aquí irían los datos del reporte previsualizados *@
+                <p>Contenido de previsualización...</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Reporte Proyectos Preview -->
+<div class="modal fade" id="previewModalProyecto" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="previewModalLabel">Previsualización del Reporte de Proyectos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @* Aquí irían los datos del reporte previsualizados *@
+                <p>Contenido de previsualización...</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.table').DataTable();
+    });
+</script>
