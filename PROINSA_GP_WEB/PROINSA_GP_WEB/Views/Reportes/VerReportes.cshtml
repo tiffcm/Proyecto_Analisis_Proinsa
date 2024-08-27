@@ -1,0 +1,118 @@
+﻿@model PROINSA_GP_WEB.Entidad.Reporte
+@{
+    ViewBag.Title = "VerReportes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"> Reportes / </span> Descargar reportes </h4>
+
+
+@* VISTA ACTUAL 
+ *@
+<div class="table-responsive text-nowrap">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre del Reporte</th>
+@*                 <th>Acciones</th>
+ *@                <th>Descargar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Reporte Sueldo Empleado</td>
+                
+                <td>
+                    <form asp-controller="Report" asp-action="DownloadReportPdf" method="get" style="display:inline;">
+                        <button type="submit" name="reportName" value="ReporteEmpleados" class="btn btn-primary">PDF</button>
+                    </form>
+                    <form asp-controller="Report" asp-action="DownloadReportExcel" method="get" style="display:inline;">
+                        <button type="submit" name="reportName" value="ReporteEmpleados" class="btn btn-success">Excel</button>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td>Reporte Lista de empleados </td>
+                
+                <td>
+                    <form asp-controller="Reportes" asp-action="DownloadReportPdf" method="get" style="display:inline;">
+                        <button type="submit" name="reportName" value="ReporteProyectos" class="btn btn-primary">PDF</button>
+                    </form>
+                    <form asp-controller="Reportes" asp-action="DownloadReportExcel" method="get" style="display:inline;">
+                        <button type="submit" name="reportName" value="ReporteProyectos" class="btn btn-success">Excel</button>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td>Reporte Permisos Solicitados </td>
+
+                <td>
+                    <form asp-controller="Reportes" asp-action="DownloadReportPdf" method="get" style="display:inline;">
+                        <button type="submit" name="reportName" value="ReporteProyectos" class="btn btn-primary">PDF</button>
+                    </form>
+                    <form asp-controller="Reportes" asp-action="DownloadReportExcel" method="get" style="display:inline;">
+                        <button type="submit" name="reportName" value="ReporteProyectos" class="btn btn-success">Excel</button>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td>Reporte Vacaciones acumuladas empleados </td>
+
+                <td>
+                    <form asp-controller="Reportes" asp-action="DownloadReportPdf" method="get" style="display:inline;">
+                        <button type="submit" name="reportName" value="ReporteProyectos" class="btn btn-primary">PDF</button>
+                    </form>
+                    <form asp-controller="Reportes" asp-action="DownloadReportExcel" method="get" style="display:inline;">
+                        <button type="submit" name="reportName" value="ReporteProyectos" class="btn btn-success">Excel</button>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td>Reporte revision de Nomina </td>
+                
+                <td>
+                    <form asp-controller="Reportes" asp-action="DownloadReportPdf" method="get" style="display:inline;">
+                        <button type="submit" name="reportName" value="ReporteProyectos" class="btn btn-primary">PDF</button>
+                    </form>
+                    <form asp-controller="Reportes" asp-action="DownloadReportExcel" method="get" style="display:inline;">
+                        <button type="submit" name="reportName" value="ReporteProyectos" class="btn btn-success">Excel</button>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td>Reporte Actividades diarias empleados </td>
+                
+                <td>
+                    <form asp-controller="Reportes" asp-action="DownloadReportPdf" method="get" style="display:inline;">
+                        <button type="submit" name="reportName" value="ReporteProyectos" class="btn btn-primary">PDF</button>
+                    </form>
+                    <form asp-controller="Reportes" asp-action="DownloadReportExcel" method="get" style="display:inline;">
+                        <button type="submit" name="reportName" value="ReporteProyectos" class="btn btn-success">Excel</button>
+                    </form>
+                </td>
+            <tr>
+                <td>Reporte Nomina (por periodo) </td>
+
+                <td>
+                    <form asp-controller="Reportes" asp-action="DownloadReportPdf" method="get" style="display:inline;">
+                        <button type="submit" name="reportName" value="ReporteProyectos" class="btn btn-primary">PDF</button>
+                    </form>
+                    <form asp-controller="Reportes" asp-action="DownloadReportExcel" method="get" style="display:inline;">
+                        <button type="submit" name="reportName" value="ReporteProyectos" class="btn btn-success">Excel</button>
+                    </form>
+                </td>
+            </tr>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+

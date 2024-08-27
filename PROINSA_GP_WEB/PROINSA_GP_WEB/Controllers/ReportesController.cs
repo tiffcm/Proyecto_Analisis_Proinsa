@@ -8,9 +8,9 @@ namespace PROINSA_GP_WEB.Controllers
     public class ReportesController(IReporteModel _iReporteModel) : Controller
     {
         // Vista principal para los reportes
-        [Seguridad]
+        //[Seguridad]
         [HttpGet]
-        public IActionResult DownloadReport()
+        public IActionResult VerReportes()
         {
             long? ID_EMPLEADO = HttpContext.Session.GetInt32("ID_EMPLEADO");
             if (ID_EMPLEADO == null)
@@ -21,6 +21,22 @@ namespace PROINSA_GP_WEB.Controllers
             // Preparar datos para la vista, si es necesario
             return View();
         }
+
+        [HttpGet]
+        public IActionResult FuncionDatosEmpleadoNomina(long empleadoId)
+        {
+            var reporte = _iReporteModel.DatosEmpleadoNominaReporte(empleadoId);
+
+            if (reporte != null && reporte.CODIGO == 1)
+            {
+                return Json(new { success = true, data = reporte.CONTENIDO });
+            }
+            else
+            {
+                return Json(new { success = false, message = "No se encontraron datos para el reporte de nómina." });
+            }
+        }
+
 
         // Método para descargar el reporte en formato Excel
         [HttpGet]
