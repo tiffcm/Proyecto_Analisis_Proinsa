@@ -5,7 +5,7 @@ using System.Net;
 
 namespace PROINSA_GP_WEB.Controllers
 {
-    public class ReportesController(IReporteModel _iReporteModel) : Controller
+    public class ReportesController(IReporteModel _iReporteModel, IConfiguration iconfiguration) : Controller
     {
         // Vista principal para los reportes
         //[Seguridad]
@@ -42,11 +42,11 @@ namespace PROINSA_GP_WEB.Controllers
         [HttpGet]
         public async Task<IActionResult> DownloadReportExcel(string reportName)
         {
-            var reportUrl = $"http://tc-hp-cnd2016fn/ReportServer?/GestionPersonal/{reportName}&rs:Command=Render&rs:Format=EXCELOPENXML";
+            var reportUrl = $"http://willtower/ReportServer/{reportName}&rs:Command=Render&rs:Format=EXCELOPENXML";
 
             var handler = new HttpClientHandler
             {
-                Credentials = new NetworkCredential("username", "password", "domain") // Reemplaza con tus credenciales
+                Credentials = new NetworkCredential(iconfiguration.GetSection("Llaves:usuario").Value, iconfiguration.GetSection("Llaves:contrasenna").Value, iconfiguration.GetSection("Llaves:domain").Value) // Reemplaza con tus credenciales
             };
 
             using (var client = new HttpClient(handler))
