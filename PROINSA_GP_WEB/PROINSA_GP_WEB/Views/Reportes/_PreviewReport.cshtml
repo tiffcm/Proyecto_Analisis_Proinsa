@@ -1,0 +1,30 @@
+﻿@model PROINSA_GP_WEB.Entidad.Reporte
+
+<div class="modal-header">
+    <h5 class="modal-title">Previsualización del Reporte de Empleados</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <div>
+        <h5>Datos del Reporte</h5>
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Identificación:</strong> @Model.IDENTIFICACION</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Nombre:</strong> @Model.Nombre</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Cargo:</strong> @Model.Cargo</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Saldo de Vacaciones:</strong> @Model.SALDO_VACACIONES</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+</div>
