@@ -157,15 +157,7 @@
             </div>
 
         }
-        <!-- Botón para cambiar el estado del cliente -->
-        @using (Html.BeginForm("CambiarEstadoUsuarioVista", "Usuarios", new { IdEmpleado = Model.ID_EMPLEADO }, FormMethod.Post))
-        {
-            <div class="mt-4" style="text-align:center;">
-                <button type="submit" class="btn btn-secondary">
-                    Cambiar Estado a @(Model.ESTADO == "Activo" ? "Inactivo" : "Activo")
-                </button>
-            </div>
-        }
+        
     </div>
 </div>
 <script src="~/js/validacionesnumeros.js"></script>
