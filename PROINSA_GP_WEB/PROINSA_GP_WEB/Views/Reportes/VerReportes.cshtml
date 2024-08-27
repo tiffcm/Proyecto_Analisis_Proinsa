@@ -20,7 +20,7 @@
         </thead>
         <tbody>
             <tr>
-                <td>Reporte Sueldo Empleado</td>
+                <td>Reporte Empleados</td>
                 
                 <td>
                     <form asp-controller="Reportes" asp-action="DownloadReportPdf" method="get" style="display:inline;">
@@ -32,77 +32,65 @@
                 </td>
             </tr>
             <tr>
-                <td>Reporte Lista de empleados </td>
+                <td>Reporte Solicitudes Empleado</td>
                 
                 <td>
                     <form asp-controller="Reportes" asp-action="DownloadReportPdf" method="get" style="display:inline;">
-                        <button type="submit" name="reportName" value="ReporteProyectos" class="btn btn-primary">PDF</button>
+                        <button type="submit" name="reportName" value="ReporteSolicitudesEmpleado" class="btn btn-primary">PDF</button>
                     </form>
                     <form asp-controller="Reportes" asp-action="DownloadReportExcel" method="get" style="display:inline;">
-                        <button type="submit" name="reportName" value="ReporteProyectos" class="btn btn-success">Excel</button>
+                        <button type="submit" name="reportName" value="ReporteSolicitudesEmpleado" class="btn btn-success">Excel</button>
                     </form>
                 </td>
             </tr>
             <tr>
-                <td>Reporte Permisos Solicitados </td>
+                <td>Reporte saldo Vacaciones</td>
 
                 <td>
                     <form asp-controller="Reportes" asp-action="DownloadReportPdf" method="get" style="display:inline;">
-                        <button type="submit" name="reportName" value="ReporteProyectos" class="btn btn-primary">PDF</button>
+                        <button type="submit" name="reportName" value="SaldoVacaciones" class="btn btn-primary">PDF</button>
                     </form>
                     <form asp-controller="Reportes" asp-action="DownloadReportExcel" method="get" style="display:inline;">
-                        <button type="submit" name="reportName" value="ReporteProyectos" class="btn btn-success">Excel</button>
+                        <button type="submit" name="reportName" value="SaldoVacaciones" class="btn btn-success">Excel</button>
                     </form>
                 </td>
             </tr>
             <tr>
-                <td>Reporte Vacaciones acumuladas empleados </td>
+                <td>Reporte Nomina Mensual</td>
 
                 <td>
                     <form asp-controller="Reportes" asp-action="DownloadReportPdf" method="get" style="display:inline;">
-                        <button type="submit" name="reportName" value="ReporteProyectos" class="btn btn-primary">PDF</button>
+                        <button type="submit" name="reportName" value="NominaMensual" class="btn btn-primary">PDF</button>
                     </form>
                     <form asp-controller="Reportes" asp-action="DownloadReportExcel" method="get" style="display:inline;">
-                        <button type="submit" name="reportName" value="ReporteProyectos" class="btn btn-success">Excel</button>
+                        <button type="submit" name="reportName" value="NominaMensual" class="btn btn-success">Excel</button>
                     </form>
                 </td>
             </tr>
             <tr>
-                <td>Reporte revision de Nomina </td>
+                <td>Reporte Nomina General</td>
                 
                 <td>
                     <form asp-controller="Reportes" asp-action="DownloadReportPdf" method="get" style="display:inline;">
-                        <button type="submit" name="reportName" value="ReporteProyectos" class="btn btn-primary">PDF</button>
+                        <button type="submit" name="reportName" value="ReporteNominaGeneral" class="btn btn-primary">PDF</button>
                     </form>
                     <form asp-controller="Reportes" asp-action="DownloadReportExcel" method="get" style="display:inline;">
-                        <button type="submit" name="reportName" value="ReporteProyectos" class="btn btn-success">Excel</button>
+                        <button type="submit" name="reportName" value="ReporteNominaGeneral" class="btn btn-success">Excel</button>
                     </form>
                 </td>
             </tr>
             <tr>
-                <td>Reporte Actividades diarias empleados </td>
+                <td>Reporte Revision Nomina</td>
                 
                 <td>
                     <form asp-controller="Reportes" asp-action="DownloadReportPdf" method="get" style="display:inline;">
-                        <button type="submit" name="reportName" value="ReporteProyectos" class="btn btn-primary">PDF</button>
+                        <button type="submit" name="reportName" value="RevisionNomina" class="btn btn-primary">PDF</button>
                     </form>
                     <form asp-controller="Reportes" asp-action="DownloadReportExcel" method="get" style="display:inline;">
-                        <button type="submit" name="reportName" value="ReporteProyectos" class="btn btn-success">Excel</button>
+                        <button type="submit" name="reportName" value="RevisionNomina" class="btn btn-success">Excel</button>
                     </form>
                 </td>
             <tr>
-                <td>Reporte Nomina (por periodo) </td>
-
-                <td>
-                    <form asp-controller="Reportes" asp-action="DownloadReportPdf" method="get" style="display:inline;">
-                        <button type="submit" name="reportName" value="ReporteProyectos" class="btn btn-primary">PDF</button>
-                    </form>
-                    <form asp-controller="Reportes" asp-action="DownloadReportExcel" method="get" style="display:inline;">
-                        <button type="submit" name="reportName" value="ReporteProyectos" class="btn btn-success">Excel</button>
-                    </form>
-                </td>
-            </tr>
-            </tr>
         </tbody>
     </table>
 </div>
