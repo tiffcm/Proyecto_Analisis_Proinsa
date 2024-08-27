@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using PROINSA_GP_WEB.Entidad;
 using PROINSA_GP_WEB.Servicios;
 using System.Net;
 
 namespace PROINSA_GP_WEB.Controllers
 {
-    public class ReportesController(IReporteModel _iReporteModel, IConfiguration iconfiguration) : Controller
+    public class ReportesController(IReporteModel _iReporteModel, IConfiguration iConfiguration) : Controller
     {
         // Vista principal para los reportes
         //[Seguridad]
@@ -42,11 +43,15 @@ namespace PROINSA_GP_WEB.Controllers
         [HttpGet]
         public async Task<IActionResult> DownloadReportExcel(string reportName)
         {
-            var reportUrl = $"http://willtower/ReportServer/{reportName}&rs:Command=Render&rs:Format=EXCELOPENXML";
+            var reportUrl = iConfiguration.GetSection("Reportes:UrlReportes").Value + $"Pages/ReportViewer.aspx?%2f{reportName}&rs:Command=Render&rs:Format=EXCELOPENXML";
+
+            var usuario = iConfiguration.GetSection("Reportes:Usuario").Value;
+            var password = iConfiguration.GetSection("Reportes:Contrasenna").Value;
+            var domain = iConfiguration.GetSection("Reportes:Domain").Value;
 
             var handler = new HttpClientHandler
             {
-                Credentials = new NetworkCredential(iconfiguration.GetSection("Llaves:usuario").Value, iconfiguration.GetSection("Llaves:contrasenna").Value, iconfiguration.GetSection("Llaves:domain").Value) // Reemplaza con tus credenciales
+                Credentials = new NetworkCredential(usuario, password, domain) // Reemplaza con tus credenciales
             };
 
             using (var client = new HttpClient(handler))
@@ -76,11 +81,15 @@ namespace PROINSA_GP_WEB.Controllers
         [HttpGet]
         public async Task<IActionResult> DownloadReportPdf(string reportName)
         {
-            var reportUrl = $"http://tc-hp-cnd2016fn/ReportServer?/GestionPersonal/{reportName}&rs:Command=Render&rs:Format=PDF";
+            var reportUrl = iConfiguration.GetSection("Reportes:UrlReportes").Value + $"Pages/ReportViewer.aspx?%2f{reportName}&rs:Command=Render&rs:Format=PDF";
+
+            var usuario = iConfiguration.GetSection("Reportes:Usuario").Value;
+            var password = iConfiguration.GetSection("Reportes:Contrasenna").Value;
+            var domain = iConfiguration.GetSection("Reportes:Domain").Value;
 
             var handler = new HttpClientHandler
             {
-                Credentials = new NetworkCredential("username", "password", "domain") // Reemplaza con tus credenciales
+                Credentials = new NetworkCredential(usuario, password, domain) // Reemplaza con tus credenciales
             };
 
             using (var client = new HttpClient(handler))
