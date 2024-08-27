@@ -18,6 +18,12 @@ namespace PROINSA_GP_WEB.Controllers
             {
                 return RedirectToAction("Login", "Usuarios"); // Redirige a login si el usuario no está autenticado
             }
+            long? ID_ROL = HttpContext.Session.GetInt32("IdRol");
+
+            if (ID_ROL != 1 && ID_ROL != 2)
+            {
+                return RedirectToAction("Login", "Usuarios"); // Redirige a login si el usuario no está autenticado
+            }
 
             // Preparar datos para la vista, si es necesario
             return View();
