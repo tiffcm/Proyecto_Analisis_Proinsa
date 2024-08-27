@@ -11,7 +11,7 @@ namespace PROINSA_GP_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ReportController(IConfiguration iConfiguration) : ControllerBase
+    public class ReportesController(IConfiguration iConfiguration) : ControllerBase
     {
         [HttpGet]
         [Route("DatosEmpleadoNominaReporte")]
@@ -43,7 +43,7 @@ namespace PROINSA_GP_API.Controllers
 
         [HttpGet]
         [Route("DatosNominaEmpleadoDeduccionesReporte")]
-        public async Task<IActionResult> DatosNominaEmpleadoDeduccionesReporte(Report report)
+        public async Task<IActionResult> DatosNominaEmpleadoDeduccionesReporte(Reporte report)
         {
             Respuesta respuesta = new Respuesta();
             using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
@@ -72,7 +72,7 @@ namespace PROINSA_GP_API.Controllers
 
         [HttpGet]
         [Route("DatosNominaEmpleadoIngresosReporte")]
-        public async Task<IActionResult> DatosNominaEmpleadoIngresosReporte(Report report)
+        public async Task<IActionResult> DatosNominaEmpleadoIngresosReporte(Reporte report)
         {
             Respuesta respuesta = new Respuesta();
             using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
@@ -103,7 +103,7 @@ namespace PROINSA_GP_API.Controllers
 
         [HttpGet]
         [Route("DatosNominaEmpleadoReporte")]
-        public async Task<IActionResult> DatosNominaEmpleadoReporte(Report report)
+        public async Task<IActionResult> DatosNominaEmpleadoReporte(Reporte report)
         {
             Respuesta respuesta = new Respuesta();
             using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))
@@ -240,7 +240,7 @@ namespace PROINSA_GP_API.Controllers
         }
         [HttpGet]
         [Route("ObtenerSolicitudEmpleadoPeriodoReporte")]
-        public async Task<IActionResult> ObtenerSolicitudEmpleadoPeriodoReporte(Report report)
+        public async Task<IActionResult> ObtenerSolicitudEmpleadoPeriodoReporte(Reporte report)
         {
             Respuesta respuesta = new Respuesta();
             using (var contexto = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:Db_Connection").Value))

@@ -1,6 +1,6 @@
 ﻿namespace PROINSA_GP_API.Entidad
 {
-    public class Report
+    public class Reporte
     {
         // usados para la validacion
         public long? EMPLEADO_ID { get; set; }
