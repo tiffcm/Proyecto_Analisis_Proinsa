@@ -15,12 +15,12 @@
             <tr>
                 <th>Nombre del Reporte</th>
 @*                 <th>Acciones</th>
- *@                <th>Descargar</th>
+ *@                <th>Datos/Descarga</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>Reporte Empleados</td>
+                <td>Reporte Empleados</td> <!-- FUNCIONAL EN EL WEB -->
                 
                 <td>
                     <form asp-controller="Reportes" asp-action="DownloadReportPdf" method="get" style="display:inline;">
@@ -33,18 +33,39 @@
             </tr>
             <tr>
                 <td>Reporte Solicitudes Empleado</td>
-                
                 <td>
+                    <form asp-controller="Reportes" asp-action="SolicitudesEmpleadoPDF" method="get" style="display:inline;">
+                        <input type="text" name="employeeId" placeholder="ID Empleado" class="form-control mb-2" />
+                        <input type="text" name="identificacion" placeholder="Identificacion" class="form-control mb-2" />
+                        <input type="text" name="nombre" placeholder="Nombre" class="form-control mb-2" />
+                        <input type="text" name="cargo" placeholder="Cargo" class="form-control mb-2" />
+                        <input type="text" name="saldovacaciones" placeholder="Saldo vacaciones" class="form-control mb-2" />
+                        <input type="datetime" name="FInicio" placeholder="Fecha Inicio" class="form-control mb-2" />
+                        <input type="datetime" name="FFinal" placeholder="Fecha Final" class="form-control mb-2" />
+                        <button type="submit" name="reportName" value="ReporteSolicitudesEmpleado" class="btn btn-primary">PDF</button>
+                    </form>
+                    <form asp-controller="Reportes" asp-action="SolicitudesEmpleadoEXCEL" method="get" style="display:inline;">
+                        <input type="text" name="employeeId" placeholder="ID Empleado" class="form-control mb-2" />
+                        <input type="text" name="identificacion" placeholder="Identificacion" class="form-control mb-2" />
+                        <input type="text" name="nombre" placeholder="Nombre" class="form-control mb-2" />
+                        <input type="text" name="cargo" placeholder="Cargo" class="form-control mb-2" />
+                        <input type="text" name="saldovacaciones" placeholder="Saldo vacaciones" class="form-control mb-2" />
+                        <input type="datetime" name="FInicio" placeholder="Fecha Inicio" class="form-control mb-2" />
+                        <input type="datetime" name="FFinal" placeholder="Fecha Final" class="form-control mb-2" />
+                        <button type="submit" name="reportName" value="ReporteSolicitudesEmpleado" class="btn btn-success">Excel</button>
+                    </form>
+                </td>
+                @* <td>
                     <form asp-controller="Reportes" asp-action="DownloadReportPdf" method="get" style="display:inline;">
                         <button type="submit" name="reportName" value="ReporteSolicitudesEmpleado" class="btn btn-primary">PDF</button>
                     </form>
                     <form asp-controller="Reportes" asp-action="DownloadReportExcel" method="get" style="display:inline;">
                         <button type="submit" name="reportName" value="ReporteSolicitudesEmpleado" class="btn btn-success">Excel</button>
                     </form>
-                </td>
+                </td> *@
             </tr>
             <tr>
-                <td>Reporte saldo Vacaciones</td>
+                <td>Reporte saldo Vacaciones</td> <!-- NO FUNCIONA A NIVEL DE REPORTING QUEDA POR TERMINAR-->
 
                 <td>
                     <form asp-controller="Reportes" asp-action="DownloadReportPdf" method="get" style="display:inline;">
@@ -57,30 +78,50 @@
             </tr>
             <tr>
                 <td>Reporte Nomina Mensual</td>
-
                 <td>
+                    <form asp-controller="Reportes" asp-action="NominaMensualPDF" method="get" style="display:inline;">
+                        <input type="text" name="employeeId" placeholder="ID Empleado" class="form-control mb-2" />
+                        <input type="datetime" name="fecha" placeholder="Fecha seleccionada" class="form-control mb-2" />
+                        <button type="submit" name="reportName" value="NominaMensual" class="btn btn-primary">PDF</button>
+                    </form>
+                    <form asp-controller="Reportes" asp-action="NominaMensualEXCEL" method="get" style="display:inline;">
+                        <input type="text" name="employeeId" placeholder="ID Empleado" class="form-control mb-2" />
+                        <input type="datetime" name="fecha" placeholder="Fecha seleccionada" class="form-control mb-2" />
+                        <button type="submit" name="reportName" value="NominaMensual" class="btn btn-success">Excel</button>
+                    </form>
+                </td>
+                @* <td>
                     <form asp-controller="Reportes" asp-action="DownloadReportPdf" method="get" style="display:inline;">
                         <button type="submit" name="reportName" value="NominaMensual" class="btn btn-primary">PDF</button>
                     </form>
                     <form asp-controller="Reportes" asp-action="DownloadReportExcel" method="get" style="display:inline;">
                         <button type="submit" name="reportName" value="NominaMensual" class="btn btn-success">Excel</button>
                     </form>
-                </td>
+                </td> *@
             </tr>
             <tr>
                 <td>Reporte Nomina General</td>
-                
                 <td>
+                    <form asp-controller="Reportes" asp-action="NominaGeneralPDF" method="get" style="display:inline;">
+                        <input type="datetime" name="fecha" placeholder="Fecha seleccionada" class="form-control mb-2" />
+                        <button type="submit" name="reportName" value="ReporteNominaGeneral" class="btn btn-primary">PDF</button>
+                    </form>
+                    <form asp-controller="Reportes" asp-action="NominaGeneralEXCEL" method="get" style="display:inline;">
+                        <input type="datetime" name="fecha" placeholder="Fecha seleccionada" class="form-control mb-2" />
+                        <button type="submit" name="reportName" value="ReporteNominaGeneral" class="btn btn-success">Excel</button>
+                    </form>
+                </td>
+                @* <td>
                     <form asp-controller="Reportes" asp-action="DownloadReportPdf" method="get" style="display:inline;">
                         <button type="submit" name="reportName" value="ReporteNominaGeneral" class="btn btn-primary">PDF</button>
                     </form>
                     <form asp-controller="Reportes" asp-action="DownloadReportExcel" method="get" style="display:inline;">
                         <button type="submit" name="reportName" value="ReporteNominaGeneral" class="btn btn-success">Excel</button>
                     </form>
-                </td>
+                </td> *@
             </tr>
             <tr>
-                <td>Reporte Revision Nomina</td>
+                <td>Reporte Revision Nomina</td> <!-- NO FUNCIONA A NIVEL DE REPORTING QUEDA POR TERMINAR-->
                 
                 <td>
                     <form asp-controller="Reportes" asp-action="DownloadReportPdf" method="get" style="display:inline;">

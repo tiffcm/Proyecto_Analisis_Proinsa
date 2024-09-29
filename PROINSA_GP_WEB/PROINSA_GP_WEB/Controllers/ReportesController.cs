@@ -87,6 +87,7 @@ namespace PROINSA_GP_WEB.Controllers
         [HttpGet]
         public async Task<IActionResult> DownloadReportPdf(string reportName)
         {
+
             var reportUrl = iConfiguration.GetSection("Reportes:UrlReportes").Value + $"Pages/ReportViewer.aspx?%2f{reportName}&rs:Command=Render&rs:Format=PDF";
 
             var usuario = iConfiguration.GetSection("Reportes:Usuario").Value;
@@ -151,5 +152,166 @@ namespace PROINSA_GP_WEB.Controllers
                 return Content($"Error al obtener los datos para la previsualización: {respuesta.MENSAJE}");
             }
         }
+
+        //////////////// PRUEBAS DE DESCARGAS REPORTES CON INGRESO DE DATOS 
+        
+        
+        ///// Nomina mensual: fecha seleccionada y empleado ID
+        ///
+
+        [HttpGet]
+        public async Task<IActionResult> NominaMensualPDF(string reportName, int employeeId, DateTime fecha)
+        {
+            // Base URL del Report Server y formato del reporte (PDF en este caso)
+            var reportUrl = iConfiguration.GetSection("Reportes:UrlReportes").Value +
+                            $"Pages/ReportViewer.aspx?%2f{reportName}&rs:Command=Render&rs:Format=PDF" +
+                            $"&EMPLEADO_ID={employeeId}&FechaSeleccionada={fecha}";
+
+            /// Usualmente el value se envia en fecha como 2024-07-30
+
+            // Credenciales del Report Server
+            var usuario = iConfiguration.GetSection("Reportes:Usuario").Value;
+            var password = iConfiguration.GetSection("Reportes:Contrasenna").Value;
+            var domain = iConfiguration.GetSection("Reportes:Domain").Value;
+
+            var handler = new HttpClientHandler
+            {
+                Credentials = new NetworkCredential(usuario, password, domain) // Credenciales de autenticación
+            };
+
+            using (var client = new HttpClient(handler))
+            {
+                try
+                {
+                    // Realizamos la petición GET al Report Server
+                    var response = await client.GetAsync(reportUrl);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Descargamos el contenido del reporte en bytes y lo retornamos como archivo PDF
+                        var content = await response.Content.ReadAsByteArrayAsync();
+                        return File(content, "application/pdf", $"{reportName}.pdf");
+                    }
+                    else
+                    {
+                        // Manejo de errores si la respuesta no es exitosa
+                        var errorContent = await response.Content.ReadAsStringAsync();
+                        return Content($"Error al obtener el reporte: {response.StatusCode} - {errorContent}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Captura y retorno de cualquier excepción
+                    return Content($"Error al intentar obtener el reporte: {ex.Message}");
+                }
+            }
+        }
+
+        ///// reporte nomina general: fecha seleccionada
+        ///
+        [HttpGet]
+        public async Task<IActionResult> NominaGeneralPDF(string reportName, DateTime fecha)
+        {
+            // Base URL del Report Server y formato del reporte (PDF en este caso)
+            var reportUrl = iConfiguration.GetSection("Reportes:UrlReportes").Value +
+                            $"Pages/ReportViewer.aspx?%2f{reportName}&rs:Command=Render&rs:Format=PDF" +
+                            $"&FechaSeleccionada={fecha}";
+
+            /// Usualmente el value se envia en fecha como 2024-07-30 pero por el date time se agrega junto con la fecha sino da error en el reporting 
+
+            // Credenciales del Report Server
+            var usuario = iConfiguration.GetSection("Reportes:Usuario").Value;
+            var password = iConfiguration.GetSection("Reportes:Contrasenna").Value;
+            var domain = iConfiguration.GetSection("Reportes:Domain").Value;
+
+            var handler = new HttpClientHandler
+            {
+                Credentials = new NetworkCredential(usuario, password, domain) // Credenciales de autenticación
+            };
+
+            using (var client = new HttpClient(handler))
+            {
+                try
+                {
+                    // Realizamos la petición GET al Report Server
+                    var response = await client.GetAsync(reportUrl);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Descargamos el contenido del reporte en bytes y lo retornamos como archivo PDF
+                        var content = await response.Content.ReadAsByteArrayAsync();
+                        return File(content, "application/pdf", $"{reportName}.pdf");
+                    }
+                    else
+                    {
+                        // Manejo de errores si la respuesta no es exitosa
+                        var errorContent = await response.Content.ReadAsStringAsync();
+                        return Content($"Error al obtener el reporte: {response.StatusCode} - {errorContent}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Captura y retorno de cualquier excepción
+                    return Content($"Error al intentar obtener el reporte: {ex.Message}");
+                }
+            }
+        }
+
+        ///// reporte solicitudes empleado: empleado id, identificacion, nombre, cargo, saldo vacaciones, fecha inicio, fecha final
+        ///
+        [HttpGet]
+        public async Task<IActionResult> SolicitudesEmpleadoPDF(string reportName, int employeeId, string identificacion, string nombre, string cargo, string saldovacaciones, DateTime FInicio, DateTime FFinal)
+        {
+            // Base URL del Report Server y formato del reporte (PDF en este caso)
+            var reportUrl = iConfiguration.GetSection("Reportes:UrlReportes").Value +
+                            $"Pages/ReportViewer.aspx?%2f{reportName}&rs:Command=Render&rs:Format=PDF" +
+                            $"&EMPLEADO_ID={employeeId}" +
+                            $"&identificacion={identificacion}" +
+                            $"&nombre={nombre}" +
+                            $"&Cargo={cargo}" +
+                            $"&saldovacaciones={saldovacaciones}" +
+                            $"&FECHA_INICIO={FInicio}" +
+                            $"$&FECHA_FINAL={FFinal}";
+
+            /// Usualmente el value se envia en fecha como 2024-07-30 pero por el date time se agrega junto con la fecha sino da error en el reporting 
+
+            // Credenciales del Report Server
+            var usuario = iConfiguration.GetSection("Reportes:Usuario").Value;
+            var password = iConfiguration.GetSection("Reportes:Contrasenna").Value;
+            var domain = iConfiguration.GetSection("Reportes:Domain").Value;
+
+            var handler = new HttpClientHandler
+            {
+                Credentials = new NetworkCredential(usuario, password, domain) // Credenciales de autenticación
+            };
+
+            using (var client = new HttpClient(handler))
+            {
+                try
+                {
+                    // Realizamos la petición GET al Report Server
+                    var response = await client.GetAsync(reportUrl);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Descargamos el contenido del reporte en bytes y lo retornamos como archivo PDF
+                        var content = await response.Content.ReadAsByteArrayAsync();
+                        return File(content, "application/pdf", $"{reportName}.pdf");
+                    }
+                    else
+                    {
+                        // Manejo de errores si la respuesta no es exitosa
+                        var errorContent = await response.Content.ReadAsStringAsync();
+                        return Content($"Error al obtener el reporte: {response.StatusCode} - {errorContent}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Captura y retorno de cualquier excepción
+                    return Content($"Error al intentar obtener el reporte: {ex.Message}");
+                }
+            }
+        }
+
     }
 }
