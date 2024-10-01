@@ -33,10 +33,6 @@
           <DataField>SALARIO</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="FOTO">
-          <DataField>FOTO</DataField>
-          <rd:TypeName>System.Byte[]</rd:TypeName>
-        </Field>
         <Field Name="CARGO">
           <DataField>CARGO</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -44,6 +40,10 @@
         <Field Name="SALDO_VACACIONES">
           <DataField>SALDO_VACACIONES</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="ESTADO">
+          <DataField>ESTADO</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -482,7 +482,7 @@
             <Top>1.28in</Top>
             <Left>0.07167in</Left>
             <Height>0.5625in</Height>
-            <Width>6.64124in</Width>
+            <Width>6.64125in</Width>
             <ZIndex>4</ZIndex>
             <Style>
               <Border>
