@@ -107,7 +107,7 @@ namespace PROINSA_GP_WEB.Controllers
                         HttpContext.Session.SetString("RolUsuario", datosUsuario!.NOMBREROL!);
                         HttpContext.Session.Set("BLOB", datosUsuario!.FOTO!);                        
                         string base64 = Convert.ToBase64String(datosUsuario!.FOTO!);
-                        string extension = datosUsuario.TIPO_FOTO ?? "image/png";
+                        string extension = datosUsuario.TIPO_FOTO ?? "NoFoto";
                         datosUsuario.FOTO_VISTA = $"data:{extension};base64,{base64}";
                         HttpContext.Session.SetString("FOTO", datosUsuario!.FOTO_VISTA!);
                         HttpContext.Session.SetString("EXTENSION", extension);

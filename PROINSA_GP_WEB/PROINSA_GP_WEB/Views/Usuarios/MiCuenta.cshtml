@@ -17,7 +17,7 @@
                         <div class="card-body">
                             <div class="d-flex align-items-start align-items-sm-center gap-4">
                                 <img id="imgSeleccionada" class="rounded float-left" height="100" width="100" hidden alt="Imagen seleccionada" />
-                                @if (extension != null)
+                                @if (!extension.Contains("NoFoto"))
                                 {
                                     <img src="@Model.FOTO_VISTA" alt="user-avatar" class="rounded float-left" height="100" width="100" id="uploadedAvatar" />
                                 }
