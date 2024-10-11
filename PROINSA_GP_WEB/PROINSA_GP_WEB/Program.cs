@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
@@ -10,12 +9,14 @@ using System.Globalization;
 var builder = WebApplication.CreateBuilder(args);
 var supportedCultures = new[] { new CultureInfo("es-ES"), new CultureInfo("en-US") };
 
-// Configuración de servicios
+// Configuración de JSON para evitar la conversión de nombres en camelCase
 builder.Services.AddControllers().AddJsonOptions(opt => { opt.JsonSerializerOptions.PropertyNamingPolicy = null; });
+
+// Servicios para la inyección de dependencias
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
 
-// Inyección de dependencias
+// Servicios Singleton
 builder.Services.AddSingleton<IUsuarioModel, UsuarioModel>();
 builder.Services.AddSingleton<ISolicitudModel, SolicitudModel>();
 builder.Services.AddSingleton<IAprobacionModel, AprobacionModel>();
@@ -24,61 +25,48 @@ builder.Services.AddSingleton<IActividadModel, ActividadModel>();
 builder.Services.AddSingleton<INominaModel, NominaModel>();
 builder.Services.AddSingleton<IReporteModel, ReporteModel>();
 
-// Configuración de autenticación con OpenID Connect
-builder.Services.AddAuthentication(options =>
+// Configuración para autenticación con Microsoft Account (Azure)
+builder.Services.AddAuthentication().AddMicrosoftAccount(opciones =>
 {
-    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-})
-.AddCookie() // Para gestionar las cookies de autenticación
-.AddOpenIdConnect(options =>
-{
-    options.ClientId = builder.Configuration["MicrosoftClientId"];
-    options.ClientSecret = builder.Configuration["MicrosoftSecretId"];
-    options.Authority = "https://login.microsoftonline.com/common/v2.0"; // Reemplaza {tenant-id} por tu Tenant ID
-    options.ResponseType = "code"; // Flujo de código para mayor seguridad
-    options.SaveTokens = true; // Guardar los tokens
-    options.UsePkce = true; // Habilita PKCE para mayor seguridad
-
-    // Solo pedir el correo electrónico
-    options.Scope.Add("openid");
-    options.Scope.Add("email");
-
-    options.CallbackPath = "/signin-oidc"; // Callback predeterminado
+    opciones.ClientId = builder.Configuration["MicrosoftClientId"]!;
+    opciones.ClientSecret = builder.Configuration["MicrosoftSecretId"]!;
+    opciones.CallbackPath = "/signin-microsoft"; // Asegúrate que coincide con el Redirect URI en Azure
 });
 
-// Configuración de cookies de autenticación
-builder.Services.PostConfigure<CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme, opciones =>
-{
-    opciones.Cookie.SameSite = SameSiteMode.None;
-    opciones.Cookie.SecurePolicy = CookieSecurePolicy.Always; // Cookies solo por HTTPS
-    opciones.Cookie.HttpOnly = true;
-    opciones.LoginPath = "/usuarios/login";
-    opciones.AccessDeniedPath = "/usuarios/login";
-});
-
-// Configuración de sesión
-builder.Services.AddDistributedMemoryCache();
+// Configuración de sesión (tiempo de vida y cookies)
+builder.Services.AddDistributedMemoryCache(); // Almacén de sesión en memoria (en un entorno de producción puedes usar Redis u otro)
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30);
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Tiempo de expiración de la sesión
+    options.Cookie.HttpOnly = true; // Las cookies solo serán accesibles vía HTTP
+    options.Cookie.IsEssential = true; // Esencial para el funcionamiento de la sesión
+    options.Cookie.SameSite = SameSiteMode.None; // SameSite deshabilitado para evitar problemas en la autenticación cruzada
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // Asegúrate de que las cookies solo se envían vía HTTPS
 });
 
-// Configuración de base de datos
+// Configuración de la base de datos
 builder.Services.AddDbContext<ApplicationDbContext>(opciones =>
     opciones.UseSqlServer("name=DefaultConnection"));
 
-// Configuración de Identity
+// Configuración de Identity (con autenticación de cuentas no confirmadas)
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(opciones =>
 {
     opciones.SignIn.RequireConfirmedAccount = false;
 })
-.AddEntityFrameworkStores<ApplicationDbContext>()
-.AddDefaultTokenProviders();
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
-// Configuración de localización
+// Configuración de cookies de autenticación (ruta de login y acceso denegado)
+builder.Services.PostConfigure<CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme,
+    opciones =>
+    {
+        opciones.LoginPath = "/usuarios/login";
+        opciones.AccessDeniedPath = "/usuarios/login";
+        opciones.Cookie.SameSite = SameSiteMode.None; // Configuración para evitar problemas con autenticación cruzada
+        opciones.Cookie.SecurePolicy = CookieSecurePolicy.Always; // Asegúrate de que las cookies se transmiten vía HTTPS
+    });
+
+// Configuración de localización (idiomas soportados)
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
     options.DefaultRequestCulture = new RequestCulture("es-ES");
@@ -88,24 +76,26 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 
 var app = builder.Build();
 
-// Middleware de la aplicación
+// Configuración del pipeline HTTP
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
 
+// Usar redirección a HTTPS
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseSession(); // Debe ir antes de Authentication para que las sesiones estén habilitadas
+// Configuración del middleware en el orden correcto
+app.UseSession(); // Habilitar sesiones
 
-app.UseAuthentication();
+app.UseAuthentication(); // Siempre va antes que Authorization
 app.UseAuthorization();
 
-// Configuración de rutas
+// Definición de las rutas del controlador
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Inicio}/{action=IniciarSesion}/{id?}");
