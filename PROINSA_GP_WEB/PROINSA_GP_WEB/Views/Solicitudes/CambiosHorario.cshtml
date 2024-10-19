@@ -51,7 +51,9 @@
                             </div>
                         </div>
                         <div style="display:grid; place-items:center;">
-                            <button class="btn btn-primary mt-4 toastBtn" style="width:300px" type="submit" data-toast-id="btnCambioHorario">Registrar</button>
+                            <div class="mt-4">
+                                <button class="btn btn-primary mt-4 toastBtn" style="width:300px" type="submit" data-toast-id="btnCambioHorario">Registrar</button>
+                            </div>
                         </div>
                     }
                 </div>
@@ -66,10 +68,10 @@
     document.addEventListener('DOMContentLoaded', (event) => {
         var toastButtons = document.querySelectorAll('.toastBtn');
         toastButtons.forEach(button => {
-            button.addEventListener('click', function () {                
+            button.addEventListener('click', function () {
                 var toastId = this.getAttribute('data-toast-id');
-                localStorage.setItem('showToastId', toastId);                
-                window.location.href = '/Home/Principal'; 
+                localStorage.setItem('showToastId', toastId);
+                window.location.href = '/Home/Principal';
             });
         });
     });

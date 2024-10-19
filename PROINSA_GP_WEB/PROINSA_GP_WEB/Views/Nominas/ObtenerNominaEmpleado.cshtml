@@ -18,13 +18,13 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 @Html.Label("Nombre del empleado:")
-                                @Html.TextBoxFor(m => m.NOMBRE_EMPLEADO, new { @class = "form-control" })
+                                @Html.TextBoxFor(m => m.NOMBRE_EMPLEADO, new { @class = "form-control", @readonly = "readonly" })
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 @Html.Label("Fecha:")
-                                @Html.TextBoxFor(m => m.FECHA_NOMINA, new { @class = "form-control" })
+                                @Html.TextBoxFor(m => m.FECHA_NOMINA, new { @class = "form-control", @readonly = "readonly" })
                             </div>
                         </div>
                     </div>
