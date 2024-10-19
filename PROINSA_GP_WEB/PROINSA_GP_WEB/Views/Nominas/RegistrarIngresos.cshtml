@@ -6,63 +6,73 @@
 }
 
 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Administrativo / Nómina /</span> Registrar ingresos Nómina</h4>
+<div class="content-wrapper">
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="row">
+            <div class="card mb-4">
+                <h5 class="card-header" style="color: #DD3333; text-transform:uppercase;">Actualizar datos de la nómina de este mes:</h5>
+                <div class="card-body">
+                    @using (Html.BeginForm("RegistrarIngresos", "Nominas", FormMethod.Post))
+                    {
+                        <!-- Campos ocultos para EMPLEADO_ID y NOMBRE -->
+                        <input type="hidden" id="empleado-id" name="empleadoId" value="@Model.EMPLEADO_ID" />
+                        <input type="hidden" id="empleado-nombre" name="nombre" value="@Model.NOMBRE" />
 
-@using (Html.BeginForm("RegistrarIngresos", "Nominas", FormMethod.Post))
-{
-    <!-- Campos ocultos para EMPLEADO_ID y NOMBRE -->
-    <input type="hidden" id="empleado-id" name="empleadoId" value="@Model.EMPLEADO_ID" />
-    <input type="hidden" id="empleado-nombre" name="nombre" value="@Model.NOMBRE" />
+                        <div id="ingresos-container">
+                            <!-- Formulario inicial -->
+                            <div class="ingreso-form" data-index="0">
+                                <h4>Ingreso #1 de @Html.DisplayTextFor(m => m.NOMBRE)</h4>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            @Html.Label("Ingreso ID:")
+                                            @Html.DropDownList("Ingresos[0].INGRESO_ID", (List<SelectListItem>)ViewBag.tiposIngresos, "Por favor, elija el tipo de nómina", new { @class = "form-control", @style = "text-align:center;", @required = "true" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            @Html.Label("Monto:")
+                                            @Html.TextBox("Ingresos[0].MONTO", null, new { @class = "form-control", @type = "number", @required = "true" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            @Html.Label("Cantidad:")
+                                            @Html.TextBox("Ingresos[0].CANTIDAD", null, new { @class = "form-control", @type = "number", @required = "true" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            @Html.Label("Detalle:")
+                                            @Html.TextBox("Ingresos[0].DETALLE", null, new { @class = "form-control", @type = "text", @required = "true" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-    <div id="ingresos-container">
-        <!-- Formulario inicial -->
-        <div class="ingreso-form" data-index="0">
-            <h4>Ingreso #1 de @Html.DisplayTextFor(m => m.NOMBRE)</h4>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="mb-3">
-                        @Html.Label("Ingreso ID:")
-                        @Html.DropDownList("Ingresos[0].INGRESO_ID", (List<SelectListItem>)ViewBag.tiposIngresos, "Por favor, elija el tipo de nómina", new { @class = "form-control", @style = "text-align:center;", @required = "true" })
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="mb-3">
-                        @Html.Label("Monto:")
-                        @Html.TextBox("Ingresos[0].MONTO", null, new { @class = "form-control", @type = "number", @required = "true" })
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="mb-3">
-                        @Html.Label("Cantidad:")
-                        @Html.TextBox("Ingresos[0].CANTIDAD", null, new { @class = "form-control", @type = "number", @required = "true" })
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="mb-3">
-                        @Html.Label("Detalle:")
-                        @Html.TextBox("Ingresos[0].DETALLE", null, new { @class = "form-control", @type = "text", @required = "true" })
-                    </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="button" id="add-more" class="btn btn-primary mb-3">Agregar Otro Ingreso</button>
+                            </div>
+                        </div>
+
+                        <div style="display:grid; place-items:center;">
+                            <button class="btn btn-success mt-4" style="width:300px" type="submit">Registrar Todos los Ingresos</button>
+                        </div>
+
+                    }
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <button type="button" id="add-more" class="btn btn-primary mb-3">Agregar Otro Ingreso</button>
-        </div>
-    </div>
-
-    <div style="display:grid; place-items:center;">
-        <button class="btn btn-success mt-4" style="width:300px" type="submit">Registrar Todos los Ingresos</button>
-    </div>
-}
-
+</div>
 @section Scripts {
     <script>
         $(document).ready(function () {
@@ -73,49 +83,49 @@
                 var empleadoNombre = $('#empleado-nombre').val(); // Get NOMBRE value
 
                 var newIngresoForm = `
-                            <div class="ingreso-form mt-3" data-index="${index}">
-                                <h4>Ingreso #${index + 1}</h4>
-                                <input type="hidden" name="empleadoId" value="${empleadoId}" />
-                                <input type="hidden" name="nombre" value="${empleadoNombre}" />
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="mb-3">
-                                            <label for="Ingresos_${index}__INGRESO_ID" class="form-label">Ingreso ID:</label>
-                                            <select name="Ingresos[${index}].INGRESO_ID" class="form-control" required style="text-align:center;">
+                                    <div class="ingreso-form mt-3" data-index="${index}">
+                                        <h4>Ingreso #${index + 1}</h4>
+                                        <input type="hidden" name="empleadoId" value="${empleadoId}" />
+                                        <input type="hidden" name="nombre" value="${empleadoNombre}" />
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="mb-3">
+                                                    <label for="Ingresos_${index}__INGRESO_ID" class="form-label">Ingreso ID:</label>
+                                                    <select name="Ingresos[${index}].INGRESO_ID" class="form-control" required style="text-align:center;">
         @foreach (var item in (List<SelectListItem>)ViewBag.tiposIngresos)
         {
-                                                        <option value="@item.Value">@item.Text</option>
+                                                                    <option value="@item.Value">@item.Text</option>
         }
-                                            </select>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Monto:</label>
+                                                    <input type="number" name="Ingresos[${index}].MONTO" class="form-control" required />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Cantidad:</label>
+                                                    <input type="number" name="Ingresos[${index}].CANTIDAD" class="form-control" required />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Detalle:</label>
+                                                    <input type="text" name="Ingresos[${index}].DETALLE" class="form-control" required />
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="mb-3">
-                                            <label class="form-label">Monto:</label>
-                                            <input type="number" name="Ingresos[${index}].MONTO" class="form-control" required />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="mb-3">
-                                            <label class="form-label">Cantidad:</label>
-                                            <input type="number" name="Ingresos[${index}].CANTIDAD" class="form-control" required />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="mb-3">
-                                            <label class="form-label">Detalle:</label>
-                                            <input type="text" name="Ingresos[${index}].DETALLE" class="form-control" required />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
+                                `;
 
                 $('#ingresos-container').append(newIngresoForm);
                 index++;

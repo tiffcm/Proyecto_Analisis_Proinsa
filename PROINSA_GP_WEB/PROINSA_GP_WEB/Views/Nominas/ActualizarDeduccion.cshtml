@@ -21,13 +21,13 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     @Html.Label("Nombre empleado:")
-                                    @Html.TextBoxFor(m => m.NOMBRE_EMPLEADO, new { @class = "form-control", @type = "text", @required = "true", @style = "text-align:center;" })
+                                    @Html.TextBoxFor(m => m.NOMBRE_EMPLEADO, new { @class = "form-control", @type = "text", @required = "true", @style = "text-align:center;", @readonly = "readonly" })
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     @Html.Label("Nombre tipo:")
-                                    @Html.TextBoxFor(m => m.NOMBRE_TIPO, new { @class = "form-control", @type = "text", @required = "true", @style = "text-align:center;" })
+                                    @Html.TextBoxFor(m => m.NOMBRE_TIPO, new { @class = "form-control", @type = "text", @required = "true", @style = "text-align:center;", @readonly = "readonly" })
                                 </div>
                             </div>
                         </div>
