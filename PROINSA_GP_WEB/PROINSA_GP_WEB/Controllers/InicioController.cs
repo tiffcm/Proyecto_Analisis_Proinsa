@@ -29,15 +29,17 @@ namespace PROINSA_GP_WEB.Controllers
         private readonly SignInManager<IdentityUser> signInManager;
         private readonly UserManager<IdentityUser> userManager;
         private readonly IUsuarioModel iUsuarioModel;
+        private readonly IConfiguration iConfiguration;
 
-        public InicioController(
-            SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager,
-            IUsuarioModel _iUsuarioModel)
+        public InicioController(SignInManager<IdentityUser> signInManager,
+                                UserManager<IdentityUser> userManager,
+                                IUsuarioModel _iUsuarioModel,
+                                IConfiguration iConfiguration)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
             iUsuarioModel = _iUsuarioModel;
+            iConfiguration = iConfiguration;
         }
 
 
@@ -160,8 +162,17 @@ namespace PROINSA_GP_WEB.Controllers
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
+            // Cerrar sesión a nivel de la aplicación
             await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
-            return RedirectToAction("IniciarSesion", "Inicio");
+
+            // Redirigir al endpoint de cierre de sesión de Entra ID
+            var callbackUrl = Url.Action("IniciarSesion", "Inicio", null, Request.Scheme);
+            var tenantId = iConfiguration.GetSection("MicrosoftTenantID").Value;
+            var logoutUrl = $"https://login.microsoftonline.com/{tenantId}/oauth2/v2.0/logout?post_logout_redirect_uri={callbackUrl}";
+
+            // Redirigir a la página de cierre de sesión de Entra ID
+            return Redirect(logoutUrl);
         }
+
     }
 }

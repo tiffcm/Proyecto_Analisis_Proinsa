@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using PROINSA_GP_WEB.Entidad;
 using PROINSA_GP_WEB.Servicios;
@@ -6,6 +7,8 @@ using System.Net;
 
 namespace PROINSA_GP_WEB.Controllers
 {
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    [Authorize]
     public class ReportesController(IReporteModel _iReporteModel, IConfiguration iConfiguration) : Controller
     {
         // Vista principal para los reportes

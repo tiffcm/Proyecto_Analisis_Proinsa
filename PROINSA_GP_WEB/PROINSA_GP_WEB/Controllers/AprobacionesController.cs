@@ -1,4 +1,5 @@
 ﻿using Azure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using P_WebMartes.Models;
 using PROINSA_GP_WEB.Entidad;
@@ -8,8 +9,8 @@ using System.Data;
 using System.Text.Json;
 
 namespace PROINSA_GP_WEB.Controllers
-{
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+{   
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)][Authorize]
     public class AprobacionesController (IAprobacionModel iAprobacionModel) : Controller
     {
         [Seguridad]

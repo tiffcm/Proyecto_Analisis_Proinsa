@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using P_WebMartes.Models;
 using PROINSA_GP_WEB.Entidad;
@@ -10,6 +11,7 @@ using System.Text.Json;
 namespace PROINSA_GP_WEB.Controllers
 {
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    [Authorize]
     public class DocumentosController(IDocumentoModel iDocumentoModel) : Controller
     {
         [Seguridad]

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PROINSA_GP_WEB.Models;
 
@@ -9,6 +10,7 @@ namespace PROINSA_GP_WEB.Controllers
     /// <param name="_iUsuarioModel">Es para manejar interfaces en lugar del modelo directo</param>
     /// <version>1.2</version>
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    [Authorize]
     public class HomeController : Controller
     {
         /// <summary>

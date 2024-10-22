@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using P_WebMartes.Models;
 using PROINSA_GP_WEB.Entidad;
 using PROINSA_GP_WEB.Models;
@@ -7,8 +8,8 @@ using System.Text.Json;
 
 namespace PROINSA_GP_WEB.Controllers
 {
-	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-	public class ActividadesController(IActividadModel _iActividadModel) : Controller
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)][Authorize]
+    public class ActividadesController(IActividadModel _iActividadModel) : Controller
 	{
 		/// <summary>
 		/// /// USUARIO
