@@ -18,28 +18,12 @@ namespace PROINSA_GP_WEB.Controllers
     /// </summary>
     /// <author>Tiffany Camacho Monge, Brandon Ruiz Miranda</author>
     /// <version>1.3</version>
-    public class InicioController : Controller 
+    public class InicioController(SignInManager<IdentityUser> signInManager, IUsuarioModel _iUsuarioModel, IConfiguration iConfiguration, UserManager<IdentityUser> userManager) : Controller
     {
         [HttpGet]
         public IActionResult IniciarSesion()
         {
             return View();
-        }
-
-        private readonly SignInManager<IdentityUser> signInManager;
-        private readonly UserManager<IdentityUser> userManager;
-        private readonly IUsuarioModel iUsuarioModel;
-        private readonly IConfiguration iConfiguration;
-
-        public InicioController(SignInManager<IdentityUser> signInManager,
-                                UserManager<IdentityUser> userManager,
-                                IUsuarioModel _iUsuarioModel,
-                                IConfiguration iConfiguration)
-        {
-            this.signInManager = signInManager;
-            this.userManager = userManager;
-            iUsuarioModel = _iUsuarioModel;
-            iConfiguration = iConfiguration;
         }
 
 
@@ -98,7 +82,7 @@ namespace PROINSA_GP_WEB.Controllers
                 var correoEmpleado = User.Identity?.Name;
                 if (correoEmpleado != null)
                 {
-                    var respuesta = iUsuarioModel.ConsultarDatosEmpleado(correoEmpleado);
+                    var respuesta = _iUsuarioModel.ConsultarDatosEmpleado(correoEmpleado);
                     if (respuesta!.CODIGO == 1)
                     {
                         var datosUsuario = JsonSerializer.Deserialize<Usuario>((JsonElement)respuesta.CONTENIDO!);
@@ -107,7 +91,7 @@ namespace PROINSA_GP_WEB.Controllers
                         HttpContext.Session.SetString("NombreUsuario", datosUsuario!.NOMBRECOMPLETO!);
                         HttpContext.Session.SetInt32("IdRol", datosUsuario!.IDROL!);
                         HttpContext.Session.SetString("RolUsuario", datosUsuario!.NOMBREROL!);
-                        HttpContext.Session.Set("BLOB", datosUsuario!.FOTO!);                        
+                        HttpContext.Session.Set("BLOB", datosUsuario!.FOTO!);
                         string base64 = Convert.ToBase64String(datosUsuario!.FOTO!);
                         string extension = datosUsuario.TIPO_FOTO ?? "NoFoto";
                         datosUsuario.FOTO_VISTA = $"data:{extension};base64,{base64}";
@@ -117,14 +101,14 @@ namespace PROINSA_GP_WEB.Controllers
                     else
                     {
                         ViewBag.MensajePantalla = respuesta.MENSAJE;
-                        return RedirectToAction("IniciarSesion","Inicio");
+                        return RedirectToAction("IniciarSesion", "Inicio");
                     }
                 }
                 return RedirectToAction("Principal", "Home");
             }
 
             string email = "";
-         
+
 
             if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
             {
@@ -150,7 +134,7 @@ namespace PROINSA_GP_WEB.Controllers
             if (resultadoAgregarLogin.Succeeded)
             {
                 await signInManager.SignInAsync(usuario, isPersistent: false, info.LoginProvider);
-               
+
                 return RedirectToAction("Principal", "Home");
             }
 
