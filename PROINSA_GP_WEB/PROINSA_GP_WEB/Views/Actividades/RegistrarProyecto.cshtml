@@ -103,15 +103,23 @@
 
         // Establecer el atributo min y max para fecha de inicio
         if (fechaInicioPicker) {
-            fechaInicioPicker.setAttribute('min', formattedToday); // Incluye el día de ayer
-            fechaInicioPicker.setAttribute('max', formattedMaxDate); // Máximo 3 meses en el futuro
+            fechaInicioPicker.setAttribute('min', formattedToday); // Mínimo: hoy
+            fechaInicioPicker.setAttribute('max', formattedMaxDate); // Máximo: 3 meses en el futuro
         }
 
-        // Establecer el atributo min y max para fecha de fin
-        if (fechaFinPicker) {
-            fechaFinPicker.setAttribute('min', formattedToday); // Incluye el día de ayer
-            fechaFinPicker.setAttribute('max', formattedMaxDate); // Máximo 3 meses en el futuro
+        // Ajustar restricciones para fecha de fin al seleccionar fecha de inicio
+        if (fechaInicioPicker && fechaFinPicker) {
+            // Establece un mínimo inicial para fecha de fin como el día de hoy
+            fechaFinPicker.setAttribute('min', formattedToday);
+            fechaFinPicker.setAttribute('max', formattedMaxDate); // Máximo: 3 meses en el futuro
+
+            fechaInicioPicker.addEventListener('change', function () {
+                var selectedStartDate = fechaInicioPicker.value;
+
+                // Actualiza el mínimo de fechaFinPicker basado en la fecha seleccionada en fechaInicioPicker
+                fechaFinPicker.setAttribute('min', selectedStartDate);
+                fechaFinPicker.value = ''; // Resetea el valor de fechaFinPicker
+            });
         }
     });
 </script>
-

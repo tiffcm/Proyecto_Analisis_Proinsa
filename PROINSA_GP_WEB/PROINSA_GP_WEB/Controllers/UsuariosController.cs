@@ -62,7 +62,7 @@ namespace PROINSA_GP_WEB.Controllers
         public IActionResult MiCuenta(Usuario entidad)
         {
             IFormFile archivo = Request.Form.Files["upload"]!;
-            if (archivo != null)
+            if (archivo != null && archivo.Length > 0)
             {
                 var extension = archivo.ContentType;
                 entidad.FOTO = ConvertirIMGBytes(archivo);
