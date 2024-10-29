@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using P_WebMartes.Models;
 using PROINSA_GP_WEB.Entidad;
@@ -72,10 +73,12 @@ namespace PROINSA_GP_WEB.Controllers
                 entidad.FOTO_VISTA = $"data:{tipoarchivo};base64,{base64}";
                 HttpContext.Session.SetString("FOTO", entidad!.FOTO_VISTA!);
                 HttpContext.Session.SetString("EXTENSION", tipoarchivo);
+                HttpContext.Session.Set("BLOB", entidad!.FOTO);
             }
             else
             {
                 entidad.FOTO = HttpContext.Session.Get("BLOB");
+                entidad.FOTO_VISTA = HttpContext.Session.GetString("FOTO");
                 entidad.TIPO_FOTO = HttpContext.Session.GetString("EXTENSION");
             }
             var respuesta = _iUsuarioModel.ActualizarDatosUsuario(entidad);
