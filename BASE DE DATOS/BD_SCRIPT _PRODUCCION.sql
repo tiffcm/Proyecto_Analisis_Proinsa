@@ -1436,7 +1436,7 @@ GO
 /****** Object:  StoredProcedure [dbo].[ConsultarDatosEmpleado]    Script Date: 20/7/2024 11:19:04 p. m. ******/
 
 
-CREATE OR ALTER  PROCEDURE [dbo].[ConsultarDatosEmpleado]  
+CREATE OR ALTER   PROCEDURE [dbo].[ConsultarDatosEmpleado]  
 @CORREO NVARCHAR(255)
 AS
 BEGIN
@@ -1465,8 +1465,7 @@ BEGIN
     left JOIN DIRRECCION DI ON DI.ID_DIRECCION = ED.DIRRECION_ID    
     WHERE C.CORREO = @CORREO;
 END
-
-go
+GO
 
 /****** Object:  StoredProcedure [dbo].[EditarDatosVistaAdmin]    Script Date: 20/7/2024 11:19:04 p. m. ******/
 
