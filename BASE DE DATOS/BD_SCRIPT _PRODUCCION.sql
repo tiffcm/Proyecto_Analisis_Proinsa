@@ -9544,7 +9544,7 @@ BEGIN
 END
 GO
 
-create PROCEDURE [dbo].[EliminarDeduccionEmpleado] 
+CREATE PROCEDURE [dbo].[EliminarDeduccionEmpleado] 
     @ID_DEDUCCION_NOMINADETALLE BIGINT
 AS
 BEGIN
@@ -9595,9 +9595,9 @@ BEGIN
         THROW;
     END CATCH
 END;
-go
+GO
 
-create PROCEDURE [dbo].[EliminarIngresoEmpleado] 
+CREATE PROCEDURE [dbo].[EliminarIngresoEmpleado] 
     @ID_INGRESONOMINADETALLE BIGINT
 AS
 BEGIN
@@ -9656,12 +9656,13 @@ BEGIN
         THROW;
     END CATCH
 END;
-go
-create OR ALTER PROCEDURE [dbo].[ActualizarDeduccionEmpleado]
-    @CONSECUTIVO BIGINT,
+GO
+
+CREATE PROCEDURE [dbo].[ActualizarDeduccionEmpleado]
+    @ID_DEDUCCIONNOMINADETALLE BIGINT,
     @MONTO DECIMAL(10,2),
     @DETALLE VARCHAR(100),
-    @TIPO_ID BIGINT
+    @DEDUCCION_ID BIGINT
 AS
 BEGIN
     DECLARE @FECHA DATETIME;
@@ -9672,22 +9673,22 @@ BEGIN
     SET 
         MONTO = @MONTO,
         DETALLE = @DETALLE,
-        DEDUCCION_ID = @TIPO_ID
+        DEDUCCION_ID = @DEDUCCION_ID
     WHERE 
-        ID_DEDUCCIONNOMINADETALLE = @CONSECUTIVO
+        ID_DEDUCCIONNOMINADETALLE = @ID_DEDUCCIONNOMINADETALLE
         AND (DEDUCCION_ID <> 1 AND DEDUCCION_ID <> 2);
 
     
     EXEC [dbo].[CalculoNominaFinal] @FECHA;
 END;
-go
+GO
 
-create or ALTER PROCEDURE [dbo].[ActualizarIngresoEmpleado] 
-    @CONSECUTIVO BIGINT,
+CREATE PROCEDURE [dbo].[ActualizarIngresoEmpleado] 
+    @ID_INGRESONOMINADETALLE BIGINT,
     @MONTO DECIMAL(10,2),
     @DETALLE VARCHAR(100),
     @CANTIDAD INT,
-    @TIPO_ID BIGINT
+    @INGRESO_ID BIGINT
 AS
 BEGIN
 
@@ -9699,16 +9700,14 @@ DECLARE @FECHA DATETIME
         MONTO = @MONTO,
         DETALLE = @DETALLE,
         CANTIDAD = @CANTIDAD,
-        INGRESO_ID = @TIPO_ID
+        INGRESO_ID = @INGRESO_ID
     WHERE 
-        ID_INGRESONOMINADETALLE = @CONSECUTIVO
+        ID_INGRESONOMINADETALLE = @ID_INGRESONOMINADETALLE
         AND INGRESO_ID <> 1;  
 
 		exec [dbo].[CalculoNominaFinal] @FECHA
-
-
 END;
-go
+GO
 
 CREATE OR ALTER   PROCEDURE [dbo].[ObtenerIngresoDetalle]
 @INGRESO_ID BIGINT
